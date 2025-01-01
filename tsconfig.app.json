@@ -7,6 +7,21 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    /* alias */
+    "baseUrl": "./",
+    "paths": {
+      "@apis/*": ["src/apis/*"],
+      "@assets/*": ["/image/*"],
+      "@components": ["src/components/common"],
+      "@constants": ["src/constants"],
+      "@hooks": ["src/hooks"],
+      "@pages/*": ["src/pages/*"],
+      "@routes": ["src/routes"],
+      "@styles/*": ["src/styles/*"],
+      "@types": ["src/types"],
+      "@utils": ["src/utils"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
