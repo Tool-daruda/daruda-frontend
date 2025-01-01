@@ -11,8 +11,8 @@
     "baseUrl": "./",
     "paths": {
       "@apis/*": ["src/apis/*"],
-      "@assets/*": ["/image/*"],
-      "@components": ["src/components/common"],
+      "@assets/*": ["src/assets/*"],
+      "@components": ["src/components"],
       "@constants": ["src/constants"],
       "@hooks": ["src/hooks"],
       "@pages/*": ["src/pages/*"],
