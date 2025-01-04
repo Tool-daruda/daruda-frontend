@@ -111,7 +111,7 @@ const useInput = (defaultValue: string) => {
   return [input, handleInputChange] as const;
 };
 
-export const Default = () => {
+export const Introduction = () => {
   const [text, handleTextChange] = useInput("대학생활에 필요한 툴을 다루다");
 
   return (
