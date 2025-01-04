@@ -9,6 +9,14 @@ const preview: Preview = {
       },
     },
   },
+  // decorators: [
+  //   (Story) => (
+  //     <ThemeProvider theme={theme}>
+  //       <GlobalStyle />
+  //       <Story />
+  //     </ThemeProvider>
+  //   ),
+  // ],
 };
 
 export default preview;
