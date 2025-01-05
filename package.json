@@ -11,7 +11,8 @@
     "lint:styled": "stylelint './src/**/*.{ts,tsx,js,jsx}' --fix",
     "postinstall": "husky install",
     "lint-front": "lint-staged",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "svgr": "npx @svgr/cli --out-dir src/assets/svgs --typescript -- public/svgs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -25,6 +26,8 @@
   },
   "devDependencies": {
     "@stylelint/postcss-css-in-js": "^0.38.0",
+    "@svgr/cli": "^8.1.0",
+    "@svgr/webpack": "^8.1.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "@typescript-eslint/eslint-plugin": "^8.19.0",

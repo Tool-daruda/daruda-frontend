@@ -1,4 +1,4 @@
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 
 const Reset = css`
   html,
@@ -84,9 +84,11 @@ const Reset = css`
   video {
     margin: 0;
     padding: 0;
+
     font: inherit;
     font-size: 100%;
     vertical-align: baseline;
+
     border: 0;
   }
 
@@ -127,7 +129,7 @@ const Reset = css`
   blockquote::after,
   q::before,
   q::after {
-    content: "";
+    content: '';
     content: none;
   }
 
@@ -143,18 +145,20 @@ const Reset = css`
   }
 
   button {
-    background: none;
-    border: none;
     padding: 0;
+
+    background: none;
     cursor: pointer;
+    border: none;
   }
 
   input,
   textarea {
-    font: inherit;
     color: inherit;
-    border: none;
+    font: inherit;
+
     outline: none;
+    border: none;
   }
 `;
 
