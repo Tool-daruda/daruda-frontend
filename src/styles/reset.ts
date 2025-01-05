@@ -84,15 +84,16 @@ const Reset = css`
   video {
     margin: 0;
     padding: 0;
-
     font: inherit;
     font-size: 100%;
     vertical-align: baseline;
-
     border: 0;
   }
 
-  /* HTML5 display-role reset for older browsers */
+  * {
+    box-sizing: border-box;
+  }
+
   article,
   aside,
   details,
@@ -112,7 +113,8 @@ const Reset = css`
   }
 
   ol,
-  ul {
+  ul,
+  li {
     list-style: none;
   }
 
@@ -132,6 +134,27 @@ const Reset = css`
   table {
     border-collapse: collapse;
     border-spacing: 0;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  input,
+  textarea {
+    font: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
   }
 `;
 
