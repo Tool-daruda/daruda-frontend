@@ -1,0 +1,66 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import", "jsx-a11y"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:import/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser", // TypeScript 코드를 분석하기 위한 파서 지정
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "ignorePatterns": ["build", "dist", "public"], // ESLint가 무시할 디렉
+  "rules": {
+    "react/self-closing-comp": [
+      // 닫는 태그가 필요 없는 경우, 셀프 클로징을 강제
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+    "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }], // JSX는 .tsx 파일에서만 허용
+    "react/react-in-jsx-scope": "off", // React 17 이상에서 React를 import하지 않아도 되므로 규칙 비활성화
+    "react/jsx-uses-react": "off", // React를 사용하지 않는 JSX 파일에서 에러 방지
+    "no-duplicate-imports": "error", // 동일한 모듈의 중복 import 금지
+    "no-console": ["warn", { "allow": ["warn", "error", "info"] }], // console.warn, console.error, console.info만 허용
+    "@typescript-eslint/no-unused-vars": "error", // 사용되지 않는 변수는 오류 처리
+    "no-multiple-empty-lines": "error", // 연속된 빈 줄 금지
+    "no-undef": "error", // 정의되지 않은 변수 사용 금지
+    "indent": "off", // Prettier 충돌을 방지
+    "no-trailing-spaces": "error", // 불필요한 공백 금지
+    "import/newline-after-import": ["warn", { "count": 1 }], // import 구문 뒤에 한 줄 개행
+    "react-hooks/rules-of-hooks": "error", // React Hooks 사용 규칙 강제
+    "arrow-parens": ["error", "always"], // 화살표 함수 매개변수에 항상 괄호 사용
+    "no-multi-spaces": "error", // 여러 개의 연속된 공백 금지
+    "import/no-unresolved": "off", // 모듈 경로를 확인 X (TypeScript로 해결 가능)
+    "import/order": [
+      // import 구문 정렬 순서
+      "error",
+      {
+        "groups": [["builtin", "external"], "internal", ["parent", "sibling"], "index"], // 순서: 내장 → 외부 → 내부 → 부모 → 형제 → 인덱스
+        "pathGroups": [
+          { "pattern": "./**", "group": "internal" }, // './'로 시작하는 파일은 internal로 간주
+          { "pattern": "../**", "group": "parent", "position": "before" } // '../'로 시작하는 파일은 parent로 간주
+        ],
+        "pathGroupsExcludedImportTypes": ["react", "react-dom"], // 특정 패턴은 그룹 제외 -> 걍 젤 위에
+        "alphabetize": {
+          "order": "asc", // 알파벳 오름차순 정렬
+          "caseInsensitive": true // 대소문자 구분 없음
+        },
+        "newlines-between": "always" // 그룹 사이에 항상 개행
+      }
+    ]
+  }
+}
