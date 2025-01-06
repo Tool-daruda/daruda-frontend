@@ -113,10 +113,6 @@ const TextField = ({
   />
 );
 
-export default {
-  title: 'fonts/Fonts',
-};
-
 type FontName = keyof typeof fontsObject;
 
 const useInput = (defaultValue: string) => {
@@ -185,4 +181,9 @@ export const Introduction = () => {
       })}
     </div>
   );
+};
+
+export default {
+  title: 'fonts/Fonts',
+  component: Introduction,
 };
