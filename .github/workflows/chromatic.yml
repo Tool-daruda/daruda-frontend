@@ -1,4 +1,4 @@
-name: "Chromatic Deployment"
+name: 'Chromatic Deployment'
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
         id: cache
         uses: actions/cache@v3
         with:
-          path: "**/node_modules"
+          path: '**/node_modules'
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}-storybook
 
       - name: Install Dependencies
@@ -40,4 +40,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          message: "🚀 Storybook: ${{ steps.chromatic.outputs.storybookUrl }}"
+          message: '🚀 Storybook 배포가 완료되었습니다! 🔗 ${{ steps.chromatic.outputs.storybookUrl }}'
+
+      - name: Discord Webhook
+        uses: tsickert/discord-webhook@v5.3.0
+        continue-on-error: true
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK}}
+          content: '🚀 Storybook 배포가 완료되었습니다! 🔗 ${{ steps.chromatic.outputs.storybookUrl }}'
