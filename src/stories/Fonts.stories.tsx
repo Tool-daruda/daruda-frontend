@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
 
-export const fontsObject = {
+const fontsObject = {
   title_48_b: {
     fontFamily: "'AppleSDGothicNeoB00', sans-serif",
     fontSize: '48px',
@@ -185,5 +185,4 @@ export const Introduction = () => {
 
 export default {
   title: 'fonts/Fonts',
-  component: Introduction,
 };

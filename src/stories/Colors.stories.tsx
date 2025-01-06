@@ -1,5 +1,3 @@
-import { fontsObject } from './Fonts.stories';
-
 export default {
   title: 'colors/Colors',
 };
@@ -81,15 +79,15 @@ export const Introduction = {
           color: '#FFFFFF',
         }}
       >
-        <h2 style={{ ...fontsObject.head_32_b }}>📣 마우스를 올려서 이름과 코드를 확인하세요</h2>
+        <h2 style={{ fontSize: '32px', marginBottom: '20px' }}>📣 마우스를 올려서 이름과 코드를 확인하세요</h2>
 
-        <h4 style={{ ...fontsObject.head_28_m }}>Primary Colors</h4>
+        <h4 style={{ fontSize: '24px' }}>Primary Colors</h4>
         <div className="colors-group">{renderColorChips(colorGroups.primary)}</div>
 
-        <h4 style={{ ...fontsObject.head_28_m }}>Neutral Colors</h4>
+        <h4 style={{ fontSize: '24px' }}>Neutral Colors</h4>
         <div className="colors-group">{renderColorChips(colorGroups.neutral)}</div>
 
-        <h4 style={{ ...fontsObject.head_28_m }}>Gray Scale</h4>
+        <h4 style={{ fontSize: '24px' }}>Gray Scale</h4>
         <div className="colors-group">{renderColorChips(colorGroups.grayscale)}</div>
       </div>
     );
