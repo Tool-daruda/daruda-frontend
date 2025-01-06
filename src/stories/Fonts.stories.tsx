@@ -14,7 +14,7 @@ export const fontsObject = {
     lineHeight: '60px',
   },
   head_32_b: {
-    fontFamily: "AppleSDGothicNeoB00', sans-serif",
+    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
     fontSize: '32px',
     fontWeight: 700,
     lineHeight: '48px',
@@ -32,7 +32,7 @@ export const fontsObject = {
     lineHeight: '48px',
   },
   body_24_sb: {
-    fontFamily: "AppleSDGothicNeoSB00', sans-serif",
+    fontFamily: "'AppleSDGothicNeoSB00', sans-serif",
     fontSize: '24px',
     fontWeight: 600,
     lineHeight: '48px',
