@@ -5,17 +5,19 @@ import Intro from '@pages/intro/Intro';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
 import { createBrowserRouter } from 'react-router';
-import Layout from 'src/components/common/layout/Layout';
-import MyPageLayout from 'src/components/common/layout/MyPageLayout';
 
 import MYPAGE_ROUTES from './MyPageRoutes';
+
+import Layout from '../components/layout/Layout';
+import MyPageLayout from '../components/layout/MyPageLayout';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      { index: true, element: <ToolList /> }, // 홈: 툴 리스트
+      { index: true, element: <Intro /> }, // 홈: 온보딩 페이지
+      { path: 'intro', element: <Intro /> }, // 온보딩 페이지
       { path: 'toollist', element: <ToolList /> }, // 툴 리스트
       { path: 'toollist/:id', element: <ToolDetail /> }, // 툴 상세
       { path: 'community', element: <Community /> }, // 커뮤니티
@@ -27,10 +29,6 @@ const router = createBrowserRouter([
     path: '/mypage',
     element: <MyPageLayout />,
     children: [...MYPAGE_ROUTES],
-  },
-  {
-    path: '/intro',
-    element: <Intro />, // 온보딩 페이지
   },
 ]);
 
