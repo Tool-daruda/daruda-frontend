@@ -6,14 +6,23 @@ import DropDown from './DropDown';
 const meta = {
   title: 'Components/DropDown',
   component: DropDown,
-
+  parameters: {
+    layout: 'centered',
+  },
+  argTypes: {
+    children: { table: { disable: true } },
+  },
   tags: ['autodocs'],
 } satisfies Meta<typeof DropDown>;
 
 export default meta;
 
 const DropDownTemplate: StoryFn<typeof DropDown> = (args) => {
-  return <DropDown {...args} />;
+  return (
+    <div style={{ width: '180px' }}>
+      <DropDown {...args} />
+    </div>
+  );
 };
 
 export const Single = DropDownTemplate.bind({});
