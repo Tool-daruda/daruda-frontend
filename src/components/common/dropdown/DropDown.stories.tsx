@@ -19,7 +19,7 @@ export default meta;
 
 const DropDownTemplate: StoryFn<typeof DropDown> = (args) => {
   return (
-    <div style={{ width: '180px' }}>
+    <div style={{ width: '180px', height: '150px' }}>
       <DropDown {...args} />
     </div>
   );
