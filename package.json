@@ -12,7 +12,7 @@
     "postinstall": "husky install",
     "lint-front": "lint-staged",
     "preview": "vite preview",
-    "svgr": "npx @svgr/cli --out-dir src/assets/svgs --typescript -- public/svgs",
+    "svgr": "npx @svgr/cli --out-dir src/assets/svgs --typescript --ignore-existing public/svgs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },

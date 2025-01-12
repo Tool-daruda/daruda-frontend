@@ -6,4 +6,5 @@ export { default as ImgModalcheck } from './ImgModalcheck';
 export { default as ImgModalexit } from './ImgModalexit';
 export { default as ImgModalexit2 } from './ImgModalexit2';
 export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
-
+export { default as IcOverflowGray24 } from './IcOverflowGray24';
+export { default as IcOverflowGray44 } from './IcOverflowGray44';
