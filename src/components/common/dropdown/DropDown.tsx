@@ -1,4 +1,5 @@
-import { ReactNode, useState, createContext, useContext } from 'react';
+import { useComponentContext } from '@hooks/index';
+import { ReactNode, useState, createContext } from 'react';
 
 import * as S from './DropDown.styled';
 
@@ -20,14 +21,6 @@ interface DropDownItemPropType {
 
 const DropDownContext = createContext<DropDownContextType | undefined>(undefined);
 
-const useDropDownContext = () => {
-  const context = useContext(DropDownContext);
-  if (!context) {
-    throw new Error('DropDown 컴포넌트 안에서 사용해주세요');
-  }
-  return context;
-};
-
 const DropDown = ({ position = 'start', children }: DropDownPropType) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -39,7 +32,7 @@ const DropDown = ({ position = 'start', children }: DropDownPropType) => {
 };
 
 const ToggleBtn = ({ children }: { children: ReactNode }) => {
-  const { isOpen, setIsOpen } = useDropDownContext();
+  const { isOpen, setIsOpen } = useComponentContext(DropDownContext, 'DropDown');
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -49,7 +42,7 @@ const ToggleBtn = ({ children }: { children: ReactNode }) => {
 };
 
 const Content = ({ children }: { children: ReactNode }) => {
-  const { isOpen } = useDropDownContext();
+  const { isOpen } = useComponentContext(DropDownContext, 'DropDown');
 
   if (!isOpen) return;
 
