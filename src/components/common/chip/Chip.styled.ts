@@ -116,6 +116,8 @@ export const ChipRectContainer = styled.button<{
         `;
     }
   }}
+  white-space: nowrap;
+
   cursor: pointer;
   border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray3 : 'transparent')};
   border-radius: 8px;
