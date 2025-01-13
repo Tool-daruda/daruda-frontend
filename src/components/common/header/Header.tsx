@@ -70,9 +70,7 @@ const Auth = ({ headerState }: AuthProps) => {
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>
           <S.NotificationButton aria-label="알림 확인">
-            <Link to="/mypage">
-              <IcAlarmBlack24 />
-            </Link>
+            <IcAlarmBlack24 />
           </S.NotificationButton>
           <S.StyledLink to="/mypage">{HEADER_TEXTS.mypage}</S.StyledLink>
         </S.MyPageSection>
