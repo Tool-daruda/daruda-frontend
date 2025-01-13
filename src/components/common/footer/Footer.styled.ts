@@ -48,7 +48,7 @@ export const FooterDetail = styled.div`
 export const FooterContact = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.5rem;
 
   color: ${({ theme }) => theme.colors.gray2};
   ${({ theme }) => theme.fonts.caption_14_m};
@@ -76,7 +76,7 @@ export const FooterTeam = styled.div`
   display: grid;
   grid-template-rows: repeat(2, auto);
   grid-template-columns: repeat(3, auto);
-  gap: 0 3.1rem;
+  gap: 0.5rem 3.1rem;
   width: 54.8rem;
   height: 4rem;
 
@@ -93,7 +93,7 @@ export const TeamWrapper = styled.div`
 `;
 
 export const TeamTitle = styled.div`
-  min-width: 3.3rem;
+  width: 3.3rem;
 
   color: ${({ theme }) => theme.colors.gray2};
 `;
