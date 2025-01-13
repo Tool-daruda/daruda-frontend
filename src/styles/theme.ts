@@ -14,8 +14,10 @@ const colors = {
   white1_hover: 'rgba(255, 255, 255, 0.4)',
   gray1: '#565959',
   gray2: '#848688',
-  gray3: '#CCCCCC',
-  gray4: '#F0F2F2',
+  gray3: '#ACACAC',
+  gray4: '#CCCCCC',
+  gray5: '#EBEBEB',
+  gray6: '#F0F2F2',
 };
 
 const fonts = {
@@ -73,11 +75,17 @@ const fonts = {
     font-family: 'AppleSDGothicNeoR00', sans-serif;
     line-height: 4rem;
   `,
-  body_16_b: css`
+  body_16_b_1: css`
     font-weight: 700;
     font-size: 1.6rem;
     font-family: 'AppleSDGothicNeoB00', sans-serif;
     line-height: 3.2rem;
+  `,
+  ody_16_b_2: css`
+    font-weight: 700;
+    font-size: 1.6rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 2rem;
   `,
   body_16_m: css`
     font-weight: 500;

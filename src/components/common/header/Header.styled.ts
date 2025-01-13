@@ -10,7 +10,7 @@ export const HeaderWrapper = styled.header`
   padding: 1.6rem 16rem;
 
   background-color: ${({ theme }) => theme.colors.white1};
-  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray3};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray4};
 `;
 
 export const HeaderContainer = styled.section`
@@ -45,7 +45,7 @@ export const CategorySection = styled.button`
   height: 100%;
 
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.fonts.body_16_b};
+  ${({ theme }) => theme.fonts.body_16_b_1};
 `;
 
 export const CommunityNav = styled.nav`
@@ -74,12 +74,12 @@ export const NotificationButton = styled.button`
 export const StyledLink = styled(Link)`
   color: ${({ theme }) => theme.colors.black};
   text-decoration: none;
-  ${({ theme }) => theme.fonts.body_16_b};
+  ${({ theme }) => theme.fonts.body_16_b_1};
 `;
 
 export const AuthDivider = styled.span`
   margin: 0 0.8rem;
 
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.fonts.body_16_b};
+  ${({ theme }) => theme.fonts.body_16_b_1};
 `;

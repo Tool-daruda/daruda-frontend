@@ -35,7 +35,7 @@ export const FooterDivider = styled.div`
   width: 91.8rem;
   height: 0.1rem;
 
-  background-color: ${({ theme }) => theme.colors.gray3};
+  background-color: ${({ theme }) => theme.colors.gray4};
 `;
 
 export const FooterDetail = styled.section`
