@@ -1,6 +1,7 @@
 import { Global, css } from '@emotion/react';
 
 import Reset from './reset';
+import theme from './theme';
 
 const globalStyles = css`
   ${Reset}
@@ -68,6 +69,8 @@ const globalStyles = css`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizelegibility;
+
+    background-color: ${theme.colors.white2};
   }
 
   #root {
