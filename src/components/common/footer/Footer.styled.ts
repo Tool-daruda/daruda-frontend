@@ -14,7 +14,7 @@ export const FooterWrapper = styled.footer`
   background-color: ${({ theme }) => theme.colors.white1};
 `;
 
-export const FooterContents = styled.div`
+export const FooterContents = styled.nav`
   display: flex;
   gap: 4.8rem;
   justify-content: center;
@@ -38,14 +38,14 @@ export const FooterDivider = styled.div`
   background-color: ${({ theme }) => theme.colors.gray3};
 `;
 
-export const FooterDetail = styled.div`
+export const FooterDetail = styled.section`
   display: flex;
   gap: 10rem;
   width: 92.9rem;
   height: 4.5rem;
 `;
 
-export const FooterContact = styled.div`
+export const FooterContact = styled.section`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -72,7 +72,7 @@ export const InstagramLink = styled.a`
   ${({ theme }) => theme.fonts.caption_14_m};
 `;
 
-export const FooterTeam = styled.div`
+export const FooterTeam = styled.section`
   display: grid;
   grid-template-rows: repeat(2, auto);
   grid-template-columns: repeat(3, auto);
@@ -84,7 +84,7 @@ export const FooterTeam = styled.div`
   ${({ theme }) => theme.fonts.caption_14_m};
 `;
 
-export const TeamWrapper = styled.div`
+export const TeamWrapper = styled.section`
   display: flex;
   gap: 1.2rem;
   align-items: center;
@@ -92,13 +92,13 @@ export const TeamWrapper = styled.div`
   color: ${({ theme }) => theme.colors.gray2};
 `;
 
-export const TeamTitle = styled.div`
+export const TeamTitle = styled.h4`
   width: 3.3rem;
 
   color: ${({ theme }) => theme.colors.gray2};
 `;
 
-export const TeamContent = styled.div`
+export const TeamContent = styled.h6`
   color: ${({ theme }) => theme.colors.gray2};
   text-align: left;
 `;

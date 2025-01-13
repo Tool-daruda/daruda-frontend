@@ -13,7 +13,7 @@ export const HeaderWrapper = styled.header`
   border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray3};
 `;
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.section`
   display: flex;
   gap: 5.6rem;
   align-items: center;
@@ -23,7 +23,7 @@ export const HeaderContainer = styled.div`
   margin: 0 auto;
 `;
 
-export const LogoSection = styled.div`
+export const LogoSection = styled.section`
   display: flex;
   width: 11.2rem;
   height: 3.3rem;
@@ -48,16 +48,16 @@ export const CategorySection = styled.button`
   ${({ theme }) => theme.fonts.body_16_b};
 `;
 
-export const CommunityNav = styled.div`
+export const CommunityNav = styled.nav`
   margin-right: auto;
 `;
 
-export const AuthSection = styled.div`
+export const AuthSection = styled.nav`
   display: flex;
   align-items: center;
 `;
 
-export const MyPageSection = styled.div`
+export const MyPageSection = styled.section`
   display: flex;
   gap: 2.4rem;
   align-items: center;
