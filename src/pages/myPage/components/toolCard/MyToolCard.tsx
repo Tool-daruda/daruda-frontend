@@ -1,4 +1,4 @@
-import Chip from '@components/common/chips/Chip';
+import Chip from '@components/chip/Chip';
 import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
 
 import * as S from './MyToolCard.styled';
