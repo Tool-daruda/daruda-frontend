@@ -30,7 +30,7 @@ export const CardLogo = styled.img`
 
 export const CardTitle = styled.h2<{ $lineCount: number }>`
   color: ${({ theme }) => theme.colors.black};
-  ${({ $lineCount, theme }) => ($lineCount === 1 ? theme.fonts.body_20_b : `theme.fonts.body16_b_2`)};
+  ${({ $lineCount, theme }) => ($lineCount === 1 ? theme.fonts.body_20_b : theme.fonts.body_16_b_2)};
   white-space: pre;
 `;
 
