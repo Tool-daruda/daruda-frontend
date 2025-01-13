@@ -36,6 +36,9 @@ const globalStyles = css`
   html {
     font-size: 62.5%;
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
   }
 
   body,
@@ -62,6 +65,9 @@ const globalStyles = css`
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizelegibility;
   }
 
   #root {
