@@ -76,7 +76,7 @@ export const ChipRectContainer = styled.button<{
 
           background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
 
-          ${theme.fonts.body_16_b};
+          ${theme.fonts.body_16_b_1};
         `;
       case 'medium':
         // tool Chip
@@ -101,7 +101,7 @@ export const ChipRectContainer = styled.button<{
           color: ${$active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2};
 
           background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
-          ${theme.fonts.body_16_b};
+          ${theme.fonts.body_16_b_1};
         `;
       default:
         return css`

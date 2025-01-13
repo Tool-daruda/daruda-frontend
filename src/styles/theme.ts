@@ -14,8 +14,10 @@ const colors = {
   white1_hover: 'rgba(255, 255, 255, 0.4)',
   gray1: '#565959',
   gray2: '#848688',
-  gray3: '#CCCCCC',
-  gray4: '#F0F2F2',
+  gray3: '#ACACAC',
+  gray4: '#CCCCCC',
+  gray5: '#EBEBEB',
+  gray6: '#F0F2F2',
   iris_hover: '#595AE8',
   iris_click: '#4243B6',
   shadow1: 'rgba(211, 211, 211, 0.63)',
@@ -42,15 +44,20 @@ const fonts = {
     font-family: 'AppleSDGothicNeoM00', sans-serif;
     line-height: 5.6rem;
   `,
+  head_28_b: css`
+    font-size: 2.8rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 3.2rem;
+  `,
   body_24_b: css`
     font-size: 2.4rem;
     font-family: 'AppleSDGothicNeoB00', sans-serif;
-    line-height: 3.2rem;
+    line-height: 4.8rem;
   `,
   body_24_sb: css`
     font-size: 2.4rem;
     font-family: 'AppleSDGothicNeoSB00', sans-serif;
-    line-height: 3.2rem;
+    line-height: 4.8rem;
   `,
   body_20_b: css`
     font-size: 2rem;
@@ -67,15 +74,20 @@ const fonts = {
     font-family: 'AppleSDGothicNeoR00', sans-serif;
     line-height: 4rem;
   `,
-  body_16_b: css`
+  body_16_b_1: css`
     font-size: 1.6rem;
     font-family: 'AppleSDGothicNeoB00', sans-serif;
     line-height: 3.2rem;
   `,
+  body_16_b_2: css`
+    font-size: 1.6rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 2rem;
+  `,
   body_16_m: css`
     font-size: 1.6rem;
-    font-family: 'AppleSDGothicNeoM00', sans-serif;
-    line-height: 2.8rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 3.2rem;
   `,
   caption_14_m: css`
     font-size: 1.4rem;
