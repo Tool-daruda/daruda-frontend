@@ -140,7 +140,7 @@ export const CloseIcon = styled(SvgBtnWritingChipxIcon)<{ $width?: number; $heig
   ${({ theme }) => css`
     ${ChipRectContainer}:hover & {
       fill: ${theme.colors.gray4};
-      stroke: ${theme.colors.gray5};
+      stroke: ${theme.colors.gray6};
     }
   `}
 
