@@ -40,7 +40,7 @@ export const ChipRoundContainer = styled.button<{
   background-color: ${({ theme, $active }) =>
     $active ? theme.colors[chipColors.roundChip.backgroundColor] : theme.colors.white1};
   cursor: pointer;
-  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray3 : 'transparent')};
+  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
 `;
 
 export const ChipRectContainer = styled.button<{
@@ -76,7 +76,7 @@ export const ChipRectContainer = styled.button<{
 
           background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
 
-          ${theme.fonts.body_16_b};
+          ${theme.fonts.body_16_b_1};
         `;
       case 'medium':
         // tool Chip
@@ -101,7 +101,7 @@ export const ChipRectContainer = styled.button<{
           color: ${$active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2};
 
           background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
-          ${theme.fonts.body_16_b};
+          ${theme.fonts.body_16_b_1};
         `;
       default:
         return css`
@@ -119,7 +119,7 @@ export const ChipRectContainer = styled.button<{
   white-space: nowrap;
 
   cursor: pointer;
-  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray3 : 'transparent')};
+  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
   border-radius: 8px;
 `;
 
@@ -139,14 +139,14 @@ export const CloseIcon = styled(SvgBtnWritingChipxIcon)<{ $width?: number; $heig
 
   ${({ theme }) => css`
     ${ChipRectContainer}:hover & {
-      fill: ${theme.colors.gray3};
-      stroke: ${theme.colors.gray4};
+      fill: ${theme.colors.gray4};
+      stroke: ${theme.colors.gray5};
     }
   `}
 
   ${({ theme }) => css`
     ${ChipRectContainer}:active & {
-      fill: ${theme.colors.gray3};
+      fill: ${theme.colors.gray4};
       stroke: ${theme.colors.gray2};
     }
   `}
