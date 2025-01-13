@@ -5,11 +5,10 @@ import Intro from '@pages/intro/Intro';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
 import { createBrowserRouter } from 'react-router';
+import Layout from 'src/components/layout/Layout';
+import MyPageLayout from 'src/components/layout/MyPageLayout';
 
 import MYPAGE_ROUTES from './MyPageRoutes';
-
-import Layout from '../components/layout/Layout';
-import MyPageLayout from '../components/layout/MyPageLayout';
 
 const router = createBrowserRouter([
   {
