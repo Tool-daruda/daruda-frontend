@@ -14,7 +14,7 @@ export class ApiError extends Error {
 }
 
 // accessToken 가져오기
-const cachedToken: string | null = null;
+let cachedToken: string | null = null;
 
 const getAccessToken = (): string | null => {
   if (!cachedToken) {
@@ -23,7 +23,7 @@ const getAccessToken = (): string | null => {
     if (user) {
       try {
         const userObj = JSON.parse(user);
-        return userObj.accessToken || null;
+        cachedToken = userObj.accessToken || null;
       } catch (error) {
         console.error('유저의 토큰 정보를 가져올 수 없습니다', error);
         return null;
