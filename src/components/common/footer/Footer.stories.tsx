@@ -1,27 +1,17 @@
-import { ThemeProvider } from '@emotion/react';
-import type { Meta, StoryFn } from '@storybook/react';
-import theme from '@styles/theme';
-import { BrowserRouter } from 'react-router-dom';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Footer from './Footer';
 
-export default {
+const meta = {
   title: 'Components/Footer',
   component: Footer,
-  decorators: [
-    (Story) => (
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Story />
-        </BrowserRouter>
-      </ThemeProvider>
-    ),
-  ],
   parameters: {
     layout: 'fullscreen',
   },
-} as Meta<typeof Footer>;
+} satisfies Meta<typeof Footer>;
 
-const Template: StoryFn<typeof Footer> = () => <Footer />;
+export default meta;
 
-export const Default = Template.bind({});
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
