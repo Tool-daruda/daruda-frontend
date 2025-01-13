@@ -9,7 +9,7 @@
     "skipLibCheck": true,
 
     /* alias */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@apis/*": ["src/apis/*"],
       "@assets/*": ["src/assets/*"],

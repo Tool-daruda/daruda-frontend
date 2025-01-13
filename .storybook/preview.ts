@@ -10,6 +10,9 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      panelPosition: 'right',
+    },
   },
   decorators: [withThemeProvider(Provider)],
 };

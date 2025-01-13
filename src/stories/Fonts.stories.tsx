@@ -29,13 +29,13 @@ const fontsObject = {
     fontFamily: "'AppleSDGothicNeoB00', sans-serif",
     fontSize: '24px',
     fontWeight: 700,
-    lineHeight: '48px',
+    lineHeight: '32px',
   },
   body_24_sb: {
     fontFamily: "'AppleSDGothicNeoSB00', sans-serif",
     fontSize: '24px',
     fontWeight: 600,
-    lineHeight: '48px',
+    lineHeight: '32px',
   },
   body_20_b: {
     fontFamily: "'AppleSDGothicNeoB00', sans-serif",
@@ -84,6 +84,12 @@ const fontsObject = {
     fontSize: '12px',
     fontWeight: 400,
     lineHeight: '16px',
+  },
+  caption_8_b: {
+    fontFamily: "'AppleSDGothicNeoR00', sans-serif",
+    fontSize: '8px',
+    fontWeight: 400,
+    lineHeight: '11px',
   },
 };
 
