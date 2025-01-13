@@ -70,11 +70,6 @@ export const InstagramLink = styled.a`
 
   color: ${({ theme }) => theme.colors.gray2};
   ${({ theme }) => theme.fonts.caption_14_m};
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-  }
 `;
 
 export const FooterTeam = styled.div`

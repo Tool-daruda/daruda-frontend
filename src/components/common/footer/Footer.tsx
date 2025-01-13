@@ -2,6 +2,15 @@ import { IcInstaGray20 } from '@assets/svgs';
 
 import * as S from './Footer.styled';
 
+const FOOTER_INFO = [
+  { title: 'Team', content: '파베르(faber)' },
+  { title: 'Plan', content: '| 김용기 김소영' },
+  { title: 'Client', content: '| 노찬영 김고은 김채현 최 민' },
+  { title: '', content: '' },
+  { title: 'Design', content: '| 이은제 이재영' },
+  { title: 'Server', content: '| 박지원 곽재민' },
+];
+
 const Footer = () => {
   return (
     <S.FooterWrapper>
@@ -18,32 +27,17 @@ const Footer = () => {
             고객센터 : <a href="mailto:daruda241221@gmail.com">daruda241221@gmail.com</a>
           </span>
           <S.InstagramLink href="https://www.instagram.com/daruda.official/" target="_blank" rel="noopener noreferrer">
-            <IcInstaGray20 />
+            <IcInstaGray20 width="2rem" height="2rem" />
             <span>https://www.instagram.com/daruda.official/</span>
           </S.InstagramLink>
         </S.FooterContact>
         <S.FooterTeam>
-          <S.TeamWrapper>
-            <S.TeamTitle>Team</S.TeamTitle>
-            <S.TeamContent>파베르(faber)</S.TeamContent>
-          </S.TeamWrapper>
-          <S.TeamWrapper>
-            <S.TeamTitle>Plan</S.TeamTitle>
-            <S.TeamContent>| 김용기 김소영</S.TeamContent>
-          </S.TeamWrapper>
-          <S.TeamWrapper>
-            <S.TeamTitle>Client</S.TeamTitle>
-            <S.TeamContent>| 노찬영 김고은 김채현 최 민</S.TeamContent>
-          </S.TeamWrapper>
-          <div />
-          <S.TeamWrapper>
-            <S.TeamTitle>Design</S.TeamTitle>
-            <S.TeamContent>| 이은제 이재영</S.TeamContent>
-          </S.TeamWrapper>
-          <S.TeamWrapper>
-            <S.TeamTitle>Server</S.TeamTitle>
-            <S.TeamContent>| 박지원 곽재민</S.TeamContent>
-          </S.TeamWrapper>
+          {FOOTER_INFO.map((item, index) => (
+            <S.TeamWrapper key={index}>
+              <S.TeamTitle>{item.title}</S.TeamTitle>
+              <S.TeamContent>{item.content}</S.TeamContent>
+            </S.TeamWrapper>
+          ))}
         </S.FooterTeam>
       </S.FooterDetail>
     </S.FooterWrapper>

@@ -27,11 +27,6 @@ export const LogoSection = styled.div`
   display: flex;
   width: 11.2rem;
   height: 3.3rem;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export const CategoryNav = styled.nav`
@@ -74,11 +69,6 @@ export const NotificationButton = styled.button`
   justify-content: center;
   width: 2.4rem;
   height: 2.4rem;
-
-  svg {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 export const StyledLink = styled(Link)`
