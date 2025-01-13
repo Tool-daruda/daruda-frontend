@@ -53,12 +53,12 @@ const fonts = {
   body_24_b: css`
     font-size: 2.4rem;
     font-family: 'AppleSDGothicNeoB00', sans-serif;
-    line-height: 4.8rem;
+    line-height: 3.2rem;
   `,
   body_24_sb: css`
     font-size: 2.4rem;
     font-family: 'AppleSDGothicNeoSB00', sans-serif;
-    line-height: 4.8rem;
+    line-height: 3.2rem;
   `,
   body_20_b: css`
     font-size: 2rem;
