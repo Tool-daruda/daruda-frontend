@@ -57,7 +57,7 @@ instance.interceptors.response.use(
     const httpStatus = error.response?.status; // HTTP 상태 코드
     const customStatus = error.response?.data?.status; // 응답의 상태 코드
 
-    if (httpStatus === 401 && customStatus === 401001) {
+    if (httpStatus === 401 && customStatus === 'E401001') {
       // 인증 오류 처리 (재로그인)
       localStorage.removeItem('user');
       window.location.href = '/login';
