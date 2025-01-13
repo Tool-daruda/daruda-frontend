@@ -1,4 +1,3 @@
-// src/constants/headerState.ts
 export const HEADER_STATE = {
   LOGGED_IN: 'loggedIn',
   LOGGED_OUT: 'loggedOut',

@@ -1,4 +1,5 @@
 import { IcAlarmBlack24, IcArrowDownBlack24, ImgDarudalogo40 } from '@assets/svgs';
+import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import { Link } from 'react-router-dom';
 
 import * as S from './Header.styled';
@@ -12,17 +13,17 @@ const HEADER_TEXTS = {
 } as const;
 
 interface HeaderProps {
-  isLoggedIn: boolean;
+  headerState: HeaderState;
 }
 
-const Header = ({ isLoggedIn = false }: HeaderProps) => {
+const Header = ({ headerState }: HeaderProps) => {
   return (
     <S.HeaderWrapper>
       <S.HeaderContainer>
-        <Header.Logo />
-        <Header.Category />
-        <Header.Community />
-        <Header.Auth isLoggedIn={isLoggedIn} />
+        <Logo />
+        <Category />
+        <Community />
+        <Auth headerState={headerState} />
       </S.HeaderContainer>
     </S.HeaderWrapper>
   );
@@ -60,11 +61,11 @@ const Community = () => {
 };
 
 interface AuthProps {
-  isLoggedIn: boolean;
+  headerState: HeaderState;
 }
 
-const Auth = ({ isLoggedIn }: AuthProps) => {
-  if (isLoggedIn) {
+const Auth = ({ headerState }: AuthProps) => {
+  if (headerState === HEADER_STATE.LOGGED_IN) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>
@@ -87,10 +88,5 @@ const Auth = ({ isLoggedIn }: AuthProps) => {
     </S.AuthSection>
   );
 };
-
-Header.Logo = Logo;
-Header.Category = Category;
-Header.Community = Community;
-Header.Auth = Auth;
 
 export default Header;
