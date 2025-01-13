@@ -1,18 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { BrowserRouter } from 'react-router-dom';
 
 import MyPageLayout from './MyPageLayout';
 
 const meta: Meta<typeof MyPageLayout> = {
   title: 'Components/MyPageLayout',
   component: MyPageLayout,
-  decorators: [
-    (Story) => (
-      <BrowserRouter>
-        <Story />
-      </BrowserRouter>
-    ),
-  ],
+
   parameters: {
     layout: 'fullscreen',
   },
