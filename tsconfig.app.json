@@ -9,15 +9,15 @@
     "skipLibCheck": true,
 
     /* alias */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@apis/*": ["src/apis/*"],
       "@assets/*": ["src/assets/*"],
-      "@components": ["src/components"],
-      "@constants": ["src/constants"],
-      "@hooks": ["src/hooks"],
+      "@components/*": ["src/components/common/*"],
+      "@constants/*": ["src/constants/*"],
+      "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/pages/*"],
-      "@routes": ["src/routes"],
+      "@routes/*": ["src/routes/*"],
       "@styles/*": ["src/styles/*"],
       "@types": ["src/types"],
       "@utils": ["src/utils"]
@@ -35,7 +35,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": ["src"]
 }

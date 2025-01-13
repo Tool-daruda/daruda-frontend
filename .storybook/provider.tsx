@@ -2,6 +2,7 @@ import { ThemeProvider } from '@emotion/react';
 import theme from '../src/styles/theme';
 import GlobalStyle from '../src/styles/GlobalStyles';
 import React, { ReactNode } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 interface ProviderProps {
   children?: ReactNode;
@@ -12,7 +13,7 @@ export const Provider = ({ children }: ProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {children}
+      <BrowserRouter>{children}</BrowserRouter>
     </ThemeProvider>
   );
 };

@@ -12,6 +12,7 @@ const colors = {
   white1: '#FFFFFF',
   white2: '#F5F5F5',
   white1_hover: 'rgba(255, 255, 255, 0.4)',
+  black_toast: ' rgba(33, 33, 33, 0.40)',
   gray1: '#565959',
   gray2: '#848688',
   gray3: '#ACACAC',
