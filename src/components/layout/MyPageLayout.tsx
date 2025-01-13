@@ -1,3 +1,4 @@
+import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
 import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import { Outlet } from 'react-router';
@@ -10,6 +11,7 @@ const MyPageLayout = () => {
     <>
       <Header headerState={headerState} />
       <Outlet />
+      <Footer />
     </>
   );
 };
