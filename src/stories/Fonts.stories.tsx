@@ -61,6 +61,12 @@ const fontsObject = {
     fontWeight: 700,
     lineHeight: '32px',
   },
+  body_16_b_2: {
+    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
+    fontSize: '16px',
+    fontWeight: 700,
+    lineHeight: '20px',
+  },
   body_16_m: {
     fontFamily: "'AppleSDGothicNeoM00', sans-serif",
     fontSize: '16px',

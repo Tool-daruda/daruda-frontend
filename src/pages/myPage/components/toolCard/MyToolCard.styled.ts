@@ -30,13 +30,7 @@ export const CardLogo = styled.img`
 
 export const CardTitle = styled.h2<{ $lineCount: number }>`
   color: ${({ theme }) => theme.colors.black};
-  ${({ $lineCount, theme }) =>
-    $lineCount === 1
-      ? theme.fonts.body_20_b
-      : `font-family: "Apple SD Gothic Neo";
-    font-size: 1.6rem;
-    font-weight: 700;
-    line-height: 2rem;`};
+  ${({ $lineCount, theme }) => ($lineCount === 1 ? theme.fonts.body_20_b : `theme.fonts.body16_b_2`)};
   white-space: pre;
 `;
 
