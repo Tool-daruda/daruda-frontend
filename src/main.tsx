@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <App />
-        <div style={{ fontSize: '16px' }}>
+        <div style={{ fontSize: '1.6rem' }}>
           <ReactQueryDevtools initialIsOpen={false} />
         </div>
       </QueryClientProvider>
