@@ -6,12 +6,19 @@ interface ModalBtnsProps {
   secondaryBtnContent?: string;
   singleBtnContent?: string;
   handleClose: () => void;
+  handleSecondClose?: () => void;
 }
 
-const DobbleBtns = ({ isPrimaryRight, primaryBtnContent, secondaryBtnContent, handleClose }: ModalBtnsProps) => {
+const DoubleBtns = ({
+  isPrimaryRight,
+  primaryBtnContent,
+  secondaryBtnContent,
+  handleClose,
+  handleSecondClose,
+}: ModalBtnsProps) => {
   return (
     <S.ModalBtns>
-      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleClose}>
+      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleSecondClose}>
         {primaryBtnContent}
       </S.ModalBtn>
       <S.ModalBtn $isPrimary={true} order={isPrimaryRight ? 1 : 0} onClick={handleClose}>
@@ -25,7 +32,7 @@ const SingleBtn = ({ singleBtnContent, handleClose }: ModalBtnsProps) => {
   return <S.SingleBtn onClick={handleClose}>{singleBtnContent}</S.SingleBtn>;
 };
 
-export { DobbleBtns, SingleBtn };
+export { DoubleBtns, SingleBtn };
 
 const Button = styled.button`
   ${({ theme }) => theme.fonts.body_16_b_1};

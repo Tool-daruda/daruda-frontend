@@ -1,7 +1,7 @@
 import { SVGProps, FunctionComponent } from 'react';
 
 import * as S from './AlterModal.styled';
-import { SingleBtn, DobbleBtns, SingleBtnModal, DobbleBtnModal, ModalWrapper } from './component';
+import { SingleBtn, DoubleBtns, SingleBtnModal, DoubleBtnModal, ModalWrapper } from './component';
 
 interface AlertModalProps {
   modalTitle: string;
@@ -17,6 +17,7 @@ interface AlertModalProps {
     isPrimaryRight: boolean;
     primaryBtnContent: string;
     secondaryBtnContent: string;
+    handleSecondClose?: () => void;
   };
 }
 
@@ -27,14 +28,14 @@ const AlterModal = (props: AlertModalProps) => {
     isSingleModal ? (
       <SingleBtnModal modalTitle={modalTitle} ImgPopupModal={ImgPopupModal} />
     ) : (
-      <DobbleBtnModal modalTitle={modalTitle} modalContent={props.modalContent} ImgPopupModal={ImgPopupModal} />
+      <DoubleBtnModal modalTitle={modalTitle} modalContent={props.modalContent} ImgPopupModal={ImgPopupModal} />
     );
 
   const renderModalButtons = () =>
     isSingleModal ? (
       <SingleBtn singleBtnContent={props.singleBtnContent} handleClose={handleClose} />
     ) : (
-      <DobbleBtns {...props.DobblebtnProps} handleClose={handleClose} />
+      <DoubleBtns {...props.DoublebtnProps} handleClose={handleClose} />
     );
 
   return (
