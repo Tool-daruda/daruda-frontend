@@ -1,6 +1,26 @@
+import Footer from '@components/footer/Footer';
+import Header from '@components/header/Header';
+import { HEADER_STATE, HeaderState } from '@constants/headerState';
+import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import MyPageLayout from './MyPageLayout';
+
+const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const Content = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  background-color: ${({ theme }) => theme.colors.white2};
+`;
 
 const meta: Meta<typeof MyPageLayout> = {
   title: 'Components/MyPageLayout',
@@ -28,4 +48,16 @@ export const Default: Story = {
       },
     },
   },
+  decorators: [
+    () => {
+      const headerState: HeaderState = HEADER_STATE.LOGGED_IN;
+      return (
+        <Layout>
+          <Header headerState={headerState} />
+          <Content />
+          <Footer />
+        </Layout>
+      );
+    },
+  ],
 };
