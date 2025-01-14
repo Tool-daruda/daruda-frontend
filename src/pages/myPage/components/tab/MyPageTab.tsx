@@ -10,19 +10,13 @@ import * as S from './MyPageTab.styled';
 
 interface MyPageTabPropsType {
   activeMenu: number;
-  handleActiveMenu: (id: number) => void;
 }
 
-const MyPageTab = ({ activeMenu, handleActiveMenu }: MyPageTabPropsType) => {
-  const [menuList, setMenuList] = useState(MENU_LIST);
+const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleMenuClick = (id: number, url: string) => {
-    setMenuList((prev) =>
-      prev.map((menu) => (menu.id === id ? { ...menu, isActive: true } : { ...menu, isActive: false })),
-    );
-    handleActiveMenu(id);
+  const handleMenuClick = (url: string) => {
     navigate(url);
   };
 
@@ -34,17 +28,17 @@ const MyPageTab = ({ activeMenu, handleActiveMenu }: MyPageTabPropsType) => {
     <>
       <S.ContentTab>
         <S.MenuWrapper>
-          {menuList.map((menu) => (
+          {MENU_LIST.map((menu) => (
             <Menu
               key={menu.id}
-              isActive={menu.isActive}
+              isActive={menu.id === activeMenu}
               isWarning={menu.isWarning}
-              onClick={() => handleMenuClick(menu.id, menu.url)}
+              onClick={() => handleMenuClick(menu.url)}
             >
               {menu.label}
             </Menu>
           ))}
-          <S.MenuIndicator $activeMenu={activeMenu} />
+          <S.MenuIndicator $activeMenu={MENU_LIST.findIndex((menu) => menu.id === activeMenu) + 1} />
         </S.MenuWrapper>
         <Spacing size="6.4" />
         <Menu isWarning={true} onClick={handleLogoutModal}>

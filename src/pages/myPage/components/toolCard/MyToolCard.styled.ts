@@ -5,7 +5,6 @@ export const CardWrapper = styled.article`
   position: relative;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0;
   gap: 0.9rem;
   width: 20rem;
   height: 20rem;
