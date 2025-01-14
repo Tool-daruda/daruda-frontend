@@ -22,6 +22,8 @@ const colors = {
   iris_hover: '#595AE8',
   iris_click: '#4243B6',
   shadow1: 'rgba(211, 211, 211, 0.63)',
+  kakao_yellow: ' #FEE500',
+  kakao_black: 'rgba(0, 0, 0, 0.85) ',
 };
 
 const fonts = {
