@@ -27,7 +27,7 @@ const ChipTemplate: StoryFn<typeof Chip> = (args) => {
 export const Default = ChipTemplate.bind({});
 Default.args = {
   stroke: false,
-  size: 'large',
+  size: 'small',
   active: false,
 
   children: (
@@ -66,7 +66,7 @@ export const ToolKeyword = ChipTemplate.bind({});
 ToolKeyword.args = {
   stroke: false,
   size: 'xsmall',
-  active: false,
+  active: true,
 
   children: (
     <Chip.RectContainer>
@@ -78,25 +78,11 @@ ToolKeyword.args = {
 export const Category = ChipTemplate.bind({});
 Category.args = {
   stroke: false,
-  size: 'small',
-  active: false,
-  children: (
-    <Chip.RectContainer>
-      <Chip.Label>카테고리</Chip.Label>
-    </Chip.RectContainer>
-  ),
-};
-
-export const LargeCategory = ChipTemplate.bind({});
-LargeCategory.args = {
-  stroke: false,
   size: 'large',
   active: false,
-
   children: (
-    <Chip.RectContainer>
-      <Chip.Icon src="https://via.placeholder.com/20" alt="Custom Icon" height={1} />
+    <Chip.RoundContainer>
       <Chip.Label>카테고리</Chip.Label>
-    </Chip.RectContainer>
+    </Chip.RoundContainer>
   ),
 };
