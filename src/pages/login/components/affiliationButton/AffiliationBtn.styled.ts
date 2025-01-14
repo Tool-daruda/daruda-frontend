@@ -8,13 +8,13 @@ export const ButtonWrapper = styled.button<{ isActive: boolean }>`
 
   color: ${({ isActive, theme }) => (isActive ? theme.colors.iris1 : theme.colors.gray1)};
 
-  background: ${({ theme }) => theme.colors.white1};
+  background-color: ${({ theme }) => theme.colors.white1};
   border: ${({ isActive, theme }) =>
-    isActive ? `2px solid ${theme.colors.iris1}` : `1px solid ${theme.colors.gray4}`};
-  border-radius: 12px;
+    isActive ? `0.2rem solid ${theme.colors.iris1}` : `0.1rem solid ${theme.colors.gray4}`};
+  border-radius: 1.2rem;
 
   &:active {
-    border: 2px solid ${({ theme }) => theme.colors.iris1};
+    border: 0.2rem solid ${({ theme }) => theme.colors.iris1};
   }
 `;
 
@@ -26,7 +26,6 @@ export const ToggleBtn = styled.div<{ isActive: boolean }>`
   svg {
     fill: ${({ isActive, theme }) => (isActive ? theme.colors.iris1 : theme.colors.white2)};
     stroke: ${({ isActive, theme }) => (isActive ? theme.colors.iris2 : theme.colors.gray4)};
-    stroke-width: 4px;
   }
 `;
 
