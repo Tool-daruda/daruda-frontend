@@ -66,7 +66,7 @@ export const ToolKeyword = ChipTemplate.bind({});
 ToolKeyword.args = {
   stroke: false,
   size: 'xsmall',
-  active: false,
+  active: true,
 
   children: (
     <Chip.RectContainer>
@@ -79,23 +79,9 @@ export const Category = ChipTemplate.bind({});
 Category.args = {
   stroke: false,
   size: 'small',
-  active: false,
+  active: true,
   children: (
     <Chip.RectContainer>
-      <Chip.Label>카테고리</Chip.Label>
-    </Chip.RectContainer>
-  ),
-};
-
-export const LargeCategory = ChipTemplate.bind({});
-LargeCategory.args = {
-  stroke: false,
-  size: 'large',
-  active: false,
-
-  children: (
-    <Chip.RectContainer>
-      <Chip.Icon src="https://via.placeholder.com/20" alt="Custom Icon" height={1} />
       <Chip.Label>카테고리</Chip.Label>
     </Chip.RectContainer>
   ),

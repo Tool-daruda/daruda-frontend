@@ -38,7 +38,9 @@ export const ChipRoundContainer = styled.button<{
   color: ${({ theme, $active }) => ($active ? theme.colors[chipColors.roundChip.color] : theme.colors.gray2)};
 
   background-color: ${({ theme, $active }) =>
-    $active ? theme.colors[chipColors.roundChip.backgroundColor] : theme.colors.white1};
+    $active
+      ? chipColors.roundChip.backgroundColor && theme.colors[chipColors.roundChip.backgroundColor]
+      : theme.colors.white1};
   cursor: pointer;
   border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
 `;
@@ -53,6 +55,12 @@ export const ChipRectContainer = styled.button<{
   grid-auto-flow: column;
   gap: 0.6rem;
 
+  white-space: nowrap;
+
+  cursor: pointer;
+  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
+  border-radius: 8px;
+
   ${({ $size, theme, $active }) => {
     switch ($size) {
       case 'xsmall':
@@ -62,9 +70,13 @@ export const ChipRectContainer = styled.button<{
           padding: 0.4rem 1rem;
 
           ${theme.fonts.caption_12_b};
-          color: ${$active ? theme.colors[chipColors.roundChip.color] : theme.colors.gray2};
+          color: ${$active ? theme.colors[chipColors.rectChip.color] : theme.colors.gray2};
 
-          background-color: ${$active ? theme.colors[chipColors.roundChip.backgroundColor] : theme.colors.white1};
+          background-color: ${theme.colors.white1};
+          border: 1px solid
+            ${$active
+              ? chipColors.rectChip.borderColor && theme.colors[chipColors.rectChip.borderColor]
+              : theme.colors.gray4};
         `;
       case 'small':
         // 카테고리 Chip (아이콘 X)
@@ -74,8 +86,9 @@ export const ChipRectContainer = styled.button<{
 
           color: ${$active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2};
 
-          background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
-
+          background-color: ${$active
+            ? chipColors.categoryChip.backgroundColor && theme.colors[chipColors.categoryChip.backgroundColor]
+            : theme.colors.white1};
           ${theme.fonts.body_16_b_1};
         `;
       case 'medium':
@@ -87,7 +100,6 @@ export const ChipRectContainer = styled.button<{
           color: ${theme.colors.black};
 
           background-color: ${theme.colors.white1};
-
           ${theme.fonts.caption_14_m};
         `;
       case 'large':
@@ -100,7 +112,9 @@ export const ChipRectContainer = styled.button<{
 
           color: ${$active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2};
 
-          background-color: ${$active ? theme.colors[chipColors.categoryChip.backgroundColor] : theme.colors.white1};
+          background-color: ${$active
+            ? chipColors.categoryChip.backgroundColor && theme.colors[chipColors.categoryChip.backgroundColor]
+            : theme.colors.white1};
           ${theme.fonts.body_16_b_1};
         `;
       default:
@@ -111,16 +125,10 @@ export const ChipRectContainer = styled.button<{
           color: ${theme.colors.black};
 
           background-color: ${theme.colors.white1};
-
           ${theme.fonts.caption_14_m};
         `;
     }
   }}
-  white-space: nowrap;
-
-  cursor: pointer;
-  border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
-  border-radius: 8px;
 `;
 
 export const ChipIcon = styled.img<{ $width?: number; $height?: number }>`
