@@ -27,7 +27,7 @@ const ChipTemplate: StoryFn<typeof Chip> = (args) => {
 export const Default = ChipTemplate.bind({});
 Default.args = {
   stroke: false,
-  size: 'large',
+  size: 'small',
   active: false,
 
   children: (
@@ -78,11 +78,11 @@ ToolKeyword.args = {
 export const Category = ChipTemplate.bind({});
 Category.args = {
   stroke: false,
-  size: 'small',
+  size: 'large',
   active: true,
   children: (
-    <Chip.RectContainer>
+    <Chip.RoundContainer>
       <Chip.Label>카테고리</Chip.Label>
-    </Chip.RectContainer>
+    </Chip.RoundContainer>
   ),
 };

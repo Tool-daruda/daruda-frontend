@@ -14,8 +14,7 @@ export const ChipRoundContainer = styled.button<{
 
   ${({ theme, $size }) => {
     switch ($size) {
-      case 'large':
-        // height 큰 버전
+      case 'small':
         return css`
           height: 2.6rem;
           padding: 0.4rem 1rem;
@@ -24,23 +23,23 @@ export const ChipRoundContainer = styled.button<{
           ${theme.fonts.caption_12_b};
         `;
       default:
-        // height 작은 버전
+        // 카테고리 Chip
         return css`
-          height: 1.8rem;
-          padding: 0.4rem 0.7rem;
+          height: 4rem;
+          padding: 0.4rem 1.6rem;
 
-          border-radius: 16px;
-          ${theme.fonts.caption_8_b};
+          border-radius: 3.9rem;
+          ${theme.fonts.body_16_b_1};
         `;
     }
   }}
 
-  color: ${({ theme, $active }) => ($active ? theme.colors[chipColors.roundChip.color] : theme.colors.gray2)};
+  color: ${({ theme, $active }) => ($active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2)};
 
   background-color: ${({ theme, $active }) =>
     $active
-      ? chipColors.roundChip.backgroundColor && theme.colors[chipColors.roundChip.backgroundColor]
-      : theme.colors.white1};
+      ? chipColors.categoryChip.backgroundColor && theme.colors[chipColors.categoryChip.backgroundColor]
+      : theme.colors.white2};
   cursor: pointer;
   border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
 `;
@@ -79,10 +78,9 @@ export const ChipRectContainer = styled.button<{
               : theme.colors.gray4};
         `;
       case 'small':
-        // 카테고리 Chip (아이콘 X)
         return css`
           height: 3.6rem;
-          padding: 0.2rem 1.4rem;
+          padding: 0.4rem 1.4rem;
 
           color: ${$active ? theme.colors[chipColors.categoryChip.color] : theme.colors.gray2};
 
