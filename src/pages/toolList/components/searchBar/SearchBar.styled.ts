@@ -2,19 +2,23 @@ import styled from '@emotion/styled';
 
 export const SearchBarWrapper = styled.div`
   display: flex;
+  justify-content: center;
+`;
+
+export const SearchBarContainer = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 2.8rem;
   align-items: center;
   width: 104.6rem;
   padding: 3.2rem 13.3rem 3.6rem;
 
-  background: ${({ theme }) => theme.colors.iris1};
+  background: ${({ theme }) => theme.colors.white1};
   border-bottom: 2px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
 `;
-//백그라운드 색 수정하기
 
-export const SearchBarContainer = styled.div`
+export const SearchBarBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
