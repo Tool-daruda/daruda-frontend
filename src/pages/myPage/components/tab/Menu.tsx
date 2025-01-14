@@ -28,6 +28,7 @@ const S = {
     color: ${({ theme, $isActive }) => ($isActive ? theme.colors.iris1 : theme.colors.gray4)};
     text-align: left;
 
+    ${({ theme }) => theme.fonts.body_16_b_1};
     background-color: ${({ theme }) => theme.colors.white1};
     border-right: 1px solid ${({ theme }) => theme.colors.gray6};
 
