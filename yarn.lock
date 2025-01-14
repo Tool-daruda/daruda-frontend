@@ -1782,17 +1782,29 @@
     "@svgr/plugin-jsx" "8.1.0"
     "@svgr/plugin-svgo" "8.1.0"
 
-"@tanstack/query-core@5.62.9":
-  version "5.62.9"
-  resolved "https://registry.npmjs.org/@tanstack/query-core/-/query-core-5.62.9.tgz"
-  integrity sha512-lwePd8hNYhyQ4nM/iRQ+Wz2cDtspGeZZHFZmCzHJ7mfKXt+9S301fULiY2IR2byJYY6Z03T427E5PoVfMexHjw==
+"@tanstack/query-core@5.64.0":
+  version "5.64.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.64.0.tgz#8b0bbb8432a94fe6a67c3227751c23181634918e"
+  integrity sha512-/MPJt/AaaMzdWJZTafgMyYhEX/lGjQrNz8+NDQSk8fNoU5PHqh05FhQaBrEQafW2PeBHsRbefEf//qKMiSAbQQ==
 
-"@tanstack/react-query@^5.62.11":
-  version "5.62.11"
-  resolved "https://registry.npmjs.org/@tanstack/react-query/-/react-query-5.62.11.tgz"
-  integrity sha512-Xb1nw0cYMdtFmwkvH9+y5yYFhXvLRCnXoqlzSw7UkqtCVFq3cG8q+rHZ2Yz1XrC+/ysUaTqbLKJqk95mCgC1oQ==
+"@tanstack/query-devtools@5.62.16":
+  version "5.62.16"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-devtools/-/query-devtools-5.62.16.tgz#a4b71c6b5bbf7575861437ef9a9f232333569255"
+  integrity sha512-3ff6UBJr0H3nIhfLSl9911rvKqXf0u4B58jl0uYdDWLqPk9pCvYIbxC35cGxK2+8INl4IaFVUHb/IdgWrNkg3Q==
+
+"@tanstack/react-query-devtools@^5.64.0":
+  version "5.64.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-5.64.0.tgz#dcf65075d55c703c9ceab9c9933290edb6635eb0"
+  integrity sha512-XORJjlbcBwPJaNbWBfZudaVVMi5TtlN1lYkHYU71hlG2c/jYpceO2yfAhZfgeyTNtqmTJ7jXOitgoGqtunsBAA==
   dependencies:
-    "@tanstack/query-core" "5.62.9"
+    "@tanstack/query-devtools" "5.62.16"
+
+"@tanstack/react-query@^5.64.0":
+  version "5.64.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-5.64.0.tgz#d90883fb71e562c1058fed747d5cceff0f9e1368"
+  integrity sha512-tBMzlROROUcTDMpDt1NC3n9ndKnJHPB3RCpa6Bf9f31TFvqhLz879x8jldtKU+6IwMSw1Pn4K1AKA+2SYyA6TA==
+  dependencies:
+    "@tanstack/query-core" "5.64.0"
 
 "@testing-library/dom@10.4.0":
   version "10.4.0"
@@ -2296,7 +2308,7 @@ axe-core@^4.10.0:
 
 axios@^1.7.9:
   version "1.7.9"
-  resolved "https://registry.npmjs.org/axios/-/axios-1.7.9.tgz"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.7.9.tgz#d7d071380c132a24accda1b2cfc1535b79ec650a"
   integrity sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==
   dependencies:
     follow-redirects "^1.15.6"

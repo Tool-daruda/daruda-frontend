@@ -11,6 +11,7 @@ const meta = {
   },
   argTypes: {
     active: { table: { disable: true } },
+    children: { table: { disable: true } },
   },
   tags: ['autodocs'],
 } satisfies Meta<typeof Chip>;

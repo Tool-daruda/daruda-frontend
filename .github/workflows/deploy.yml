@@ -1,0 +1,29 @@
+name: Auto Sync
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    name: Sync forked repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
+
+      - name: Add remote URL
+        run: |
+          git remote add forked_repo https://imddoy:${{ secrets.DEPLOY_TOKEN }}@github.com/imddoy/35-APPJAM-WEB-DARUDA
+          git config user.name imddoy
+          git config user.email imddoy@duksung.ac.kr
+
+      - name: Push Changes to forked_repo
+        run: |
+          git push -f forked_repo main
+
+      - name: Clean up
+        run: |
+          git remote remove forked_repo

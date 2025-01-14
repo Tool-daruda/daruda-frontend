@@ -1,4 +1,5 @@
-import { ReactNode, createContext, useContext } from 'react';
+import { useComponentContext } from '@hooks/index';
+import { ReactNode, createContext } from 'react';
 
 import * as S from './Chip.styled';
 
@@ -17,61 +18,46 @@ interface ChipPropType {
   onClick?: () => void;
 }
 
-const ChipContext = createContext<ChipContextType | null>(null);
+const ChipContext = createContext<ChipContextType | undefined>(undefined);
 
 const Chip = ({ stroke, size, active, children, onClick }: ChipPropType) => {
   return <ChipContext.Provider value={{ stroke, size, active, onClick }}>{children}</ChipContext.Provider>;
 };
 
 const RoundContainer = ({ children }: Omit<ChipPropType, 'stroke' | 'size' | 'active'>) => {
-  const context = useContext(ChipContext);
-  if (!context) throw new Error('Chip 컴포넌트 안에서 사용해주세요');
+  const { onClick, stroke, size, active } = useComponentContext(ChipContext, 'Chip');
 
   return (
-    <S.ChipRoundContainer
-      onClick={context.onClick}
-      $stroke={context.stroke}
-      $size={context.size}
-      $active={context.active}
-    >
+    <S.ChipRoundContainer onClick={onClick} $stroke={stroke} $size={size} $active={active}>
       {children}
     </S.ChipRoundContainer>
   );
 };
 
 const RectContainer = ({ children }: Omit<ChipPropType, 'stroke' | 'size' | 'active'>) => {
-  const context = useContext(ChipContext);
-  if (!context) throw new Error('Chip 컴포넌트 안에서 사용해주세요');
+  const { onClick, stroke, size, active } = useComponentContext(ChipContext, 'Chip');
 
   return (
-    <S.ChipRectContainer
-      onClick={context.onClick}
-      $stroke={context.stroke}
-      $size={context.size}
-      $active={context.active}
-    >
+    <S.ChipRectContainer onClick={onClick} $stroke={stroke} $size={size} $active={active}>
       {children}
     </S.ChipRectContainer>
   );
 };
 
 const Icon = ({ src, alt, width, height }: { src: string; alt?: string; width?: number; height?: number }) => {
-  const context = useContext(ChipContext);
-  if (!context) throw new Error('Chip 컴포넌트 안에서 사용해주세요');
+  useComponentContext(ChipContext, 'Chip');
 
   return <S.ChipIcon src={src} alt={alt} $width={width} $height={height} />;
 };
 
 const CloseIcon = ({ width = 20, height = 20 }: { width?: number; height?: number }) => {
-  const context = useContext(ChipContext);
-  if (!context) throw new Error('Chip 컴포넌트 안에서 사용해주세요');
+  useComponentContext(ChipContext, 'Chip');
 
   return <S.CloseIcon width={width} height={height} />;
 };
 
 const Label = ({ children }: { children: ReactNode }) => {
-  const context = useContext(ChipContext);
-  if (!context) throw new Error('Chip 컵포넌트 안에서 사용해주세요');
+  useComponentContext(ChipContext, 'Chip');
 
   return <S.ChipLabel>{children}</S.ChipLabel>;
 };
