@@ -12,7 +12,7 @@ export const ChipRoundContainer = styled.button<{
   display: grid;
   place-items: center;
 
-  ${({ theme, $size }) => {
+  ${({ theme, $size, $active }) => {
     switch ($size) {
       case 'small':
         return css`
@@ -30,6 +30,10 @@ export const ChipRoundContainer = styled.button<{
 
           border-radius: 3.9rem;
           ${theme.fonts.body_16_b_1};
+
+          &:hover {
+            ${$active || `color: ${theme.colors.white1}; background-color: ${theme.colors.iris2};`};
+          }
         `;
     }
   }}

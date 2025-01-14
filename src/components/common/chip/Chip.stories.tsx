@@ -79,7 +79,7 @@ export const Category = ChipTemplate.bind({});
 Category.args = {
   stroke: false,
   size: 'large',
-  active: true,
+  active: false,
   children: (
     <Chip.RoundContainer>
       <Chip.Label>카테고리</Chip.Label>
