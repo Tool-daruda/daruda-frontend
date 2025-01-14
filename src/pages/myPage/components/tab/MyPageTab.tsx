@@ -3,6 +3,7 @@ import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Menu from './Menu';
 import * as S from './MyPageTab.styled';
@@ -15,12 +16,14 @@ interface MyPageTabPropsType {
 const MyPageTab = ({ activeMenu, handleActiveMenu }: MyPageTabPropsType) => {
   const [menuList, setMenuList] = useState(MENU_LIST);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleMenuClick = (id: number) => {
+  const handleMenuClick = (id: number, url: string) => {
     setMenuList((prev) =>
       prev.map((menu) => (menu.id === id ? { ...menu, isActive: true } : { ...menu, isActive: false })),
     );
     handleActiveMenu(id);
+    navigate(url);
   };
 
   const handleLogoutModal = () => {
@@ -36,7 +39,7 @@ const MyPageTab = ({ activeMenu, handleActiveMenu }: MyPageTabPropsType) => {
               key={menu.id}
               isActive={menu.isActive}
               isWarning={menu.isWarning}
-              onClick={() => handleMenuClick(menu.id)}
+              onClick={() => handleMenuClick(menu.id, menu.url)}
             >
               {menu.label}
             </Menu>
