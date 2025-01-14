@@ -21,7 +21,7 @@ const Content = styled.div`
 `;
 
 const meta: Meta<typeof Layout> = {
-  title: 'Components/Layout',
+  title: 'Components/Layout/Layout',
   component: Layout,
 
   parameters: {

@@ -23,7 +23,7 @@ const Content = styled.div`
 `;
 
 const meta: Meta<typeof MyPageLayout> = {
-  title: 'Components/MyPageLayout',
+  title: 'Components/Layout/MyPageLayout',
   component: MyPageLayout,
 
   parameters: {
