@@ -2,16 +2,12 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const ButtonWrapper = styled.button<{
-  variant: 'default' | 'hover' | 'click' | 'dact';
   shadow: boolean;
-  size: 'large' | 'medium' | 'small';
+  size: 'large' | 'medium' | 'small' | 'mini';
 }>`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  cursor: pointer;
-  border: none;
 
   ${({ size, theme }) => {
     const sizeStyles = {
@@ -20,7 +16,6 @@ export const ButtonWrapper = styled.button<{
 
         background-color: ${theme.colors.gray4};
         border-radius: 5.3rem;
-
         ${theme.fonts.head_28_b};
       `,
       medium: css`
@@ -37,41 +32,37 @@ export const ButtonWrapper = styled.button<{
         ${theme.fonts.body_20_b};
         border-radius: 3.2rem;
       `,
+      mini: css`
+        gap: 2rem;
+        padding: 1.6rem 3.6rem;
+
+        ${theme.fonts.body_20_b};
+        border-radius: 5.6rem;
+      `,
     };
     return sizeStyles[size];
   }}
 
-  ${({ variant, theme }) =>
-    variant === 'default' &&
-    css`
-      color: ${theme.colors.white1};
+  color: ${({ theme }) => theme.colors.white1};
 
-      background-color: ${theme.colors.iris1};
-    `}
+  background-color: ${({ theme }) => theme.colors.iris1};
+  cursor: pointer;
 
-  ${({ variant, theme }) =>
-    variant === 'hover' &&
-    css`
-      color: ${theme.colors.white1};
+  transition: background-color 0.3s ease;
 
-      background-color: ${theme.colors.iris_hover};
-    `}
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.iris_hover};
+  }
 
-  ${({ variant, theme }) =>
-    variant === 'dact' &&
-    css`
-      color: ${theme.colors.gray4};
+  &:active {
+    background-color: ${({ theme }) => theme.colors.iris_click};
+  }
 
-      background-color: ${theme.colors.gray2};
-    `}
+  &:disabled {
+    color: ${({ theme }) => theme.colors.gray4};
 
-  ${({ variant, theme }) =>
-    variant === 'click' &&
-    css`
-      color: ${theme.colors.white1};
-
-      background-color: ${theme.colors.iris_click};
-    `}
+    background-color: ${({ theme }) => theme.colors.gray2};
+  }
 
   ${({ shadow, theme }) =>
     shadow &&

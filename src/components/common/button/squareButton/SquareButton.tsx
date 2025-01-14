@@ -1,23 +1,21 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 
 import * as S from './SquareButton.styled';
 
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   icon?: ReactNode;
-  onClick?: () => void;
-  variant?: 'default' | 'hover' | 'dact';
   size?: 'large' | 'small';
   stroke?: boolean;
-};
+}
 
-const Button = ({ children, icon, onClick, variant = 'default', stroke = false, size = 'large' }: ButtonProps) => {
+const SquareButton = ({ children, icon, size = 'large', stroke = false, ...rest }: ButtonProps) => {
   return (
-    <S.ButtonWrapper onClick={onClick} variant={variant} stroke={stroke} size={size}>
+    <S.ButtonWrapper size={size} stroke={stroke} {...rest}>
       {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
       <span>{children}</span>
     </S.ButtonWrapper>
   );
 };
 
-export default Button;
+export default SquareButton;

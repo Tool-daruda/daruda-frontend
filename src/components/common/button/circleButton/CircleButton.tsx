@@ -1,26 +1,17 @@
-import { ReactNode } from 'react';
+import { ReactNode, ButtonHTMLAttributes } from 'react';
 
 import * as S from './CircleButton.styled';
 
 type ButtonProps = {
   children: ReactNode;
   icon?: ReactNode;
-  onClick?: () => void;
-  variant?: 'default' | 'hover' | 'click' | 'dact';
-  size?: 'large' | 'medium' | 'small';
   shadow?: boolean;
-};
+  size?: 'large' | 'medium' | 'small' | 'mini';
+} & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const CircleButton = ({
-  children,
-  icon,
-  onClick,
-  variant = 'default',
-  shadow = false,
-  size = 'large',
-}: ButtonProps) => {
+const CircleButton = ({ children, icon, shadow = false, size = 'large', ...props }: ButtonProps) => {
   return (
-    <S.ButtonWrapper onClick={onClick} variant={variant} shadow={shadow} size={size}>
+    <S.ButtonWrapper shadow={shadow} size={size} disabled={props.disabled} {...props}>
       {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
       <span>{children}</span>
     </S.ButtonWrapper>

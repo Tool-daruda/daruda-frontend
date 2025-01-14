@@ -1,5 +1,5 @@
-import { IcBookmarkGray24Dact } from '@assets/svgs';
-import type { Meta, StoryFn } from '@storybook/react';
+import { IcBookmarkGray24Dact, IcCmtimgGray24 } from '@assets/svgs';
+import type { StoryFn, Meta } from '@storybook/react';
 
 import Button from './SquareButton';
 
@@ -7,52 +7,41 @@ export default {
   title: 'Components/Button/SquareButton',
   component: Button,
   argTypes: {
-    onClick: { action: 'clicked' },
-    variant: {
-      control: {
-        type: 'radio',
-        options: ['default', 'hover', 'dact'],
-      },
-    },
     size: {
-      control: {
-        type: 'radio',
-        options: ['large', 'small'],
-      },
+      control: { type: 'select' },
+      options: ['large', 'small'],
     },
     stroke: {
-      control: 'boolean',
+      control: { type: 'boolean' },
+    },
+    disabled: {
+      control: { type: 'boolean' },
     },
   },
 } as Meta<typeof Button>;
 
-const Template: StoryFn<typeof Button> = (args) => <Button {...args}>버튼</Button>;
+const Template: StoryFn<typeof Button> = (args) => <Button {...args} />;
 
-export const DefaultButton = Template.bind({});
-DefaultButton.args = {
-  variant: 'default',
+export const Large = Template.bind({});
+Large.args = {
+  children: '이미지 첨부',
   size: 'large',
   stroke: false,
+  icon: <IcCmtimgGray24 />,
 };
 
-export const HoverButton = Template.bind({});
-HoverButton.args = {
-  variant: 'hover',
-  size: 'small',
-  stroke: false,
-};
-
-export const DactButton = Template.bind({});
-DactButton.args = {
-  variant: 'dact',
-  size: 'large',
-  stroke: true,
-};
-
-export const IconButton = Template.bind({});
-IconButton.args = {
-  variant: 'default',
+export const Small = Template.bind({});
+Small.args = {
+  children: '북마크',
   size: 'small',
   stroke: true,
   icon: <IcBookmarkGray24Dact />,
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  children: 'Disabled',
+  size: 'large',
+  stroke: false,
+  disabled: true,
 };
