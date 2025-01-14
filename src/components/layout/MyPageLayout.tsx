@@ -3,7 +3,8 @@ import Header from '@components/header/Header';
 import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import styled from '@emotion/styled';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
-import { ReactNode } from 'react';
+import { MENU_LIST } from '@pages/myPage/constants/menuList';
+import { ReactNode, useState } from 'react';
 import { Outlet } from 'react-router';
 
 const MyPageLayout = () => {
@@ -23,14 +24,30 @@ const MyPageLayout = () => {
 export default MyPageLayout;
 
 const MyPageContainer = ({ children }: { children: ReactNode }) => {
+  const [activeMenu, setActiveMenu] = useState(1);
+
+  const handleActiveMenu = (id: number) => {
+    setActiveMenu(id);
+  };
+
   return (
     <S.LayoutWrapper>
       <h1>마이페이지</h1>
       <S.ContentWrapper>
-        <MyPageTab />
-        {children}
+        <MyPageTab activeMenu={activeMenu} handleActiveMenu={handleActiveMenu} />
+        <MyPageContent activeMenu={activeMenu}>{children}</MyPageContent>
       </S.ContentWrapper>
     </S.LayoutWrapper>
+  );
+};
+
+const MyPageContent = ({ activeMenu, children }: { activeMenu: number; children: ReactNode }) => {
+  const activeLabel = MENU_LIST.find((menu) => menu.id === activeMenu)?.label;
+  return (
+    <S.ContentBox>
+      <h2>{activeLabel}</h2>
+      {children}
+    </S.ContentBox>
   );
 };
 
@@ -56,5 +73,15 @@ const S = {
 
     background-color: ${({ theme }) => theme.colors.white1};
     border-radius: 2rem;
+  `,
+  ContentBox: styled.section`
+    padding-top: 2.8rem;
+    padding-left: 3.6rem;
+
+    h2 {
+      color: ${({ theme }) => theme.colors.black};
+
+      ${({ theme }) => theme.fonts.body_20_b};
+    }
   `,
 };

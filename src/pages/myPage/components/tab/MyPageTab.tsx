@@ -7,8 +7,12 @@ import { useState } from 'react';
 import Menu from './Menu';
 import * as S from './MyPageTab.styled';
 
-const MyPageTab = () => {
-  const [activeMenu, setActiveMenu] = useState(1);
+interface MyPageTabPropsType {
+  activeMenu: number;
+  handleActiveMenu: (id: number) => void;
+}
+
+const MyPageTab = ({ activeMenu, handleActiveMenu }: MyPageTabPropsType) => {
   const [menuList, setMenuList] = useState(MENU_LIST);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
@@ -16,7 +20,7 @@ const MyPageTab = () => {
     setMenuList((prev) =>
       prev.map((menu) => (menu.id === id ? { ...menu, isActive: true } : { ...menu, isActive: false })),
     );
-    setActiveMenu(id);
+    handleActiveMenu(id);
   };
 
   const handleLogoutModal = () => {
