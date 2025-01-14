@@ -22,7 +22,7 @@ interface AlertModalProps {
 }
 
 const AlterModal = (props: AlertModalProps) => {
-  const { isSingleModal, modalTitle, ImgPopupModal, isOpen, handleClose } = props;
+  const { isSingleModal, modalTitle, ImgPopupModal, isOpen, handleClose, DoublebtnProps } = props;
 
   const renderModalContent = () =>
     isSingleModal ? (
@@ -40,8 +40,12 @@ const AlterModal = (props: AlertModalProps) => {
 
   return (
     <ModalWrapper isOpen={isOpen} $isSingleModal={isSingleModal}>
-      <S.ModalContainer $isSingleModal={isSingleModal}>{renderModalContent()}</S.ModalContainer>
-      {renderModalButtons()}
+      <>
+        <S.ModalContainer $isSingleModal={isSingleModal} $isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
+          {renderModalContent()}
+        </S.ModalContainer>
+        {renderModalButtons()}
+      </>
     </ModalWrapper>
   );
 };

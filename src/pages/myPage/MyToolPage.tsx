@@ -31,7 +31,6 @@ const MyToolPage = () => {
 
 export default MyToolPage;
 
-// MyPage 스타일
 const S = {
   MyToolWrapper: styled.div`
     width: calc(91.3rem - 1.7rem);
