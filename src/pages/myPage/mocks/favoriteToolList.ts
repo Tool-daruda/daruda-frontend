@@ -1,4 +1,4 @@
-export const favoriteToolList = [
+export const FAVORITE_TOOLS = [
   {
     toolId: 1,
     toolNameMain: 'ChatGPT',

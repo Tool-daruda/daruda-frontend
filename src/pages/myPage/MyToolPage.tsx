@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
 
 import MyToolCard from './components/toolCard/MyToolCard';
-import { favoriteToolList } from './constants/favoriteToolList';
+import { FAVORITE_TOOLS } from './mocks/favoriteToolList';
 
 interface keyWord {
   keyWordId: number;
@@ -18,7 +18,7 @@ interface Tool {
 }
 
 const MyToolPage = () => {
-  const [toolList, setToolList] = useState<Tool[]>(favoriteToolList);
+  const [toolList, setToolList] = useState<Tool[]>(FAVORITE_TOOLS);
 
   // 추후에 API 연결을 위해 useState를 사용하기 위해 set함수를 임의로 넣었습니다!!!
   // API 연결할 때 삭제하겠습니다.
