@@ -22,7 +22,7 @@ const Community = () => {
       <S.CommunityContainer>
         <S.CardList>
           {POST_DATA.map((post) => (
-            <Link to={`/toollist/${post.boardId}`} key={post.boardId}>
+            <Link to={`/community/${post.boardId}`} key={post.boardId}>
               <Card post={post} />
             </Link>
           ))}

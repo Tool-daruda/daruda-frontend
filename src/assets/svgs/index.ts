@@ -8,6 +8,7 @@ export { default as IcBookmarkGray24Dact } from './IcBookmarkGray24Dact';
 export { default as IcChevron } from './IcChevron';
 export { default as IcCmtimgGray24 } from './IcCmtimgGray24';
 export { default as IcCommentGray24 } from './IcCommentGray24';
+export { default as IcImgdeleteGray40 } from './IcImgdeleteGray40';
 export { default as IcInstaGray20 } from './IcInstaGray20';
 export { default as IcOverflowGray24 } from './IcOverflowGray24';
 export { default as IcOverflowGray44 } from './IcOverflowGray44';

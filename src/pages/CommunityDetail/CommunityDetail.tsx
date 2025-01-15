@@ -1,5 +1,11 @@
+import CommnetInput from './components/commentInput/CommentInput';
+
 const CommunityDetail = () => {
-  return <div>CommunityDetail</div>;
+  return (
+    <div>
+      <CommnetInput />
+    </div>
+  );
 };
 
 export default CommunityDetail;
