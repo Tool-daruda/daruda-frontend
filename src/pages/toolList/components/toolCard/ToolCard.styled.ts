@@ -114,6 +114,7 @@ export const ToolNameBack = styled.h2`
 export const Description = styled.p`
   display: -webkit-box;
   width: 16rem;
+  height: 3.2rem;
   overflow: hidden;
 
   ${({ theme }) => theme.fonts.caption_12_r};

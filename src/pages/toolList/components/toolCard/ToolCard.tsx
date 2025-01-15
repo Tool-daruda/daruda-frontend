@@ -14,14 +14,13 @@ interface Tool {
   keywords: string[];
   backgroundColor: string;
   textColor: boolean;
+  bookmarked: boolean;
 }
 
 const ToolCard = () => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
-  const [bookmarked, setBookmarked] = useState<boolean>(false);
 
   const mockData = () => {
     return {
@@ -32,11 +31,12 @@ const ToolCard = () => {
             toolId: 1,
             toolName: 'ElevenLabs',
             toolLogo: './svgs/img_modalexit2.svg',
-            description: 'AI 오디오 플ssssssssssssssss랫폼으로 가장 현실적인 음성을 만들어보세요',
+            description: 'AI 오디오 플ssssssssssssssssatform으로 가장 현실적인 음성을 만들어보세요',
             license: 'PAID',
             keywords: ['AI', '음성', '생산성'],
             backgroundColor: '#fed687',
             textColor: true,
+            bookmarked: false,
           },
           {
             toolId: 2,
@@ -47,6 +47,7 @@ const ToolCard = () => {
             keywords: ['그래픽 제작', '디자인', '3D'],
             backgroundColor: '#badcf9',
             textColor: false,
+            bookmarked: false,
           },
           {
             toolId: 3,
@@ -57,6 +58,7 @@ const ToolCard = () => {
             keywords: ['AI', '음성', '생산성'],
             backgroundColor: '#c3f9c7',
             textColor: true,
+            bookmarked: false,
           },
         ],
       },
@@ -69,8 +71,13 @@ const ToolCard = () => {
 
     const data = mockData();
 
-    setTools((prevTools) => [...prevTools, ...data.data.tools]);
-    setHasMore(data.data.tools.length > 0);
+    if (data.status === 200 && data.data.tools.length > 0) {
+      setTools((prevTools) => [...prevTools, ...data.data.tools]);
+      setHasMore(true);
+    } else {
+      setHasMore(false);
+    }
+
     setIsLoading(false);
   };
 
@@ -92,8 +99,10 @@ const ToolCard = () => {
     };
   }, [handleScroll]);
 
-  const toggleBookmark = () => {
-    setBookmarked((prev) => !prev);
+  const toggleBookmark = (toolId: number) => {
+    setTools((prevTools) =>
+      prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, bookmarked: !tool.bookmarked } : tool)),
+    );
   };
 
   return (
@@ -118,7 +127,7 @@ const ToolCard = () => {
               <S.CardBackBox>
                 <S.ToolNameBack>
                   {tool.toolName}
-                  <S.BookMark onClick={toggleBookmark} bookmarked={bookmarked} />
+                  <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.bookmarked} />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
                 <S.LicenseBadge>
