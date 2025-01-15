@@ -1,5 +1,6 @@
 import { IcPlusWhite20, IcChevron } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import { Link } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
@@ -21,7 +22,9 @@ const Community = () => {
       <S.CommunityContainer>
         <S.CardList>
           {POST_DATA.map((post) => (
-            <Card key={post.boardId} post={post} />
+            <Link to={`/toollist/${post.boardId}`} key={post.boardId}>
+              <Card post={post} />
+            </Link>
           ))}
         </S.CardList>
       </S.CommunityContainer>
