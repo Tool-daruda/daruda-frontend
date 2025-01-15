@@ -73,7 +73,12 @@ const ToolListBanner = () => {
   const { selectedCategory, selectedTool, isFreeChecked } = toolState;
 
   const clearSelectedTool = () => {
-    setToolState((prev) => ({ ...prev, selectedTool: null }));
+    setToolState((prev) => ({
+      ...prev,
+      selectedTool: null,
+      isFreeChecked: false,
+      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
+    }));
   };
 
   const handleCategoryClick = (category: string) => {
@@ -113,8 +118,8 @@ const ToolListBanner = () => {
                   <IcInstaGray20 width={20} height={20} />
                 ) : (
                   <Chip.Icon
-                    src={tools.find((tool) => tool.toolName === selectedTool)?.toolLogo || '/svgs/default_logo.svg'}
-                    alt="Custom Icon"
+                    src={tools.find((tool) => tool.toolName === selectedTool)?.toolLogo || '/svgs/'}
+                    alt="logo"
                     width={2}
                     height={2}
                   />
