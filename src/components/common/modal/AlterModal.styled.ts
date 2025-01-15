@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 export const ModalContainer = styled.section<{ $isSingleModal: boolean; $isPrimaryRight?: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
   gap: ${({ $isSingleModal }) => ($isSingleModal ? '3.7rem' : '1.6rem')};
   align-items: center;
   width: 30.2rem;

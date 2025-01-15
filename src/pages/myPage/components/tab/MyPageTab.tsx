@@ -24,6 +24,24 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
     setIsLogoutOpen((prev) => !prev);
   };
 
+  const logoutModalProps = {
+    modalTitle: '로그아웃하시겠어요?',
+    isOpen: isLogoutOpen,
+    handleClose: () => {
+      alert('로그아웃');
+      handleLogoutModal();
+    }, // TODO: 로그아웃 로직 구현하기
+    ImgPopupModal: ImgModalcheck,
+    isSingleModal: false,
+    modalContent: '재로그인하면 다루다를 다시 이용할 수 있어요',
+    DoublebtnProps: {
+      isPrimaryRight: true,
+      primaryBtnContent: '한 번 더 생각할게요',
+      secondaryBtnContent: '로그아웃',
+      handleSecondClose: handleLogoutModal,
+    },
+  };
+
   return (
     <>
       <S.ContentTab>
@@ -45,23 +63,7 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
           로그아웃
         </Menu>
       </S.ContentTab>
-      <AlterModal
-        modalTitle="로그아웃하시겠어요?"
-        isOpen={isLogoutOpen}
-        handleClose={() => {
-          alert('로그아웃');
-          handleLogoutModal();
-        }} // TODO: 로그아웃 로직 구현하기
-        ImgPopupModal={ImgModalcheck}
-        isSingleModal={false}
-        modalContent="재로그인하면 다루다를 다시 이용할 수 있어요"
-        DoublebtnProps={{
-          isPrimaryRight: true,
-          primaryBtnContent: '한 번 더 생각할게요',
-          secondaryBtnContent: '로그아웃',
-          handleSecondClose: handleLogoutModal,
-        }}
-      />
+      <AlterModal {...logoutModalProps} />
     </>
   );
 };
