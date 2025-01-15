@@ -1,4 +1,4 @@
-import { IcChevronDownBlack16 } from '@assets/svgs';
+import { IcChevronDownBlack16, IcInstaGray20, Union } from '@assets/svgs';
 import React, { useState } from 'react';
 
 import * as S from './ToolListBanner.styled';
@@ -36,10 +36,6 @@ type ToolSelectState = {
   isFreeChecked: boolean;
 };
 
-type HandleCategoryClick = (category: string) => void;
-type HandleToolClick = (toolName: string) => void;
-type HandleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => void;
-
 const tools: Tool[] = [
   {
     toolId: 1,
@@ -67,31 +63,42 @@ const tools: Tool[] = [
   },
 ];
 
-const ToolSelect = () => {
-  const [state, setState] = useState<ToolSelectState>({
+const ToolListBanner = () => {
+  const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
     isFreeChecked: false,
   });
 
+  const { selectedCategory, selectedTool, isFreeChecked } = toolState;
+
   const clearSelectedTool = () => {
-    setState((prev) => ({ ...prev, selectedTool: null }));
+    setToolState((prev) => ({ ...prev, selectedTool: null }));
   };
 
-  const handleCategoryClick: HandleCategoryClick = (category) => {
-    setState((prev) => ({
+  const handleCategoryClick = (category: string) => {
+    setToolState((prev) => ({
       ...prev,
       selectedCategory: prev.selectedCategory === category ? null : category,
     }));
   };
 
-  const handleToolClick: HandleToolClick = (toolName) => {
-    setState((prev) => ({ ...prev, selectedTool: toolName }));
-    // fetchPostList();
+  const handleToolClick = (toolName: string) => {
+    setToolState((prev) => ({
+      ...prev,
+      selectedTool: toolName,
+      isFreeChecked: toolName === '자유' ? true : false,
+    }));
   };
 
-  const handleFreeCheck: HandleFreeCheck = (event) => {
-    setState((prev) => ({ ...prev, isFreeChecked: event.target.checked }));
+  const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setToolState((prev) => ({
+      ...prev,
+      isFreeChecked: isChecked,
+      selectedTool: isChecked ? '자유' : null,
+      selectedCategory: isChecked ? '자유' : null,
+    }));
   };
 
   return (
@@ -99,16 +106,20 @@ const ToolSelect = () => {
       <S.TitleBox>
         <S.Title>툴 선택</S.Title>
         <S.Subtitle>
-          {state.selectedTool ? (
+          {selectedTool ? (
             <Chip size="medium" stroke={true}>
               <Chip.RectContainer>
-                <Chip.Icon
-                  src={tools.find((tool) => tool.toolName === state.selectedTool)?.toolLogo || '/svgs/default_logo.svg'}
-                  alt="Custom Icon"
-                  width={2}
-                  height={2}
-                />
-                <Chip.Label>{state.selectedTool}</Chip.Label>
+                {selectedTool === '자유' ? (
+                  <IcInstaGray20 width={20} height={20} />
+                ) : (
+                  <Chip.Icon
+                    src={tools.find((tool) => tool.toolName === selectedTool)?.toolLogo || '/svgs/default_logo.svg'}
+                    alt="Custom Icon"
+                    width={2}
+                    height={2}
+                  />
+                )}
+                <Chip.Label>{selectedTool}</Chip.Label>
                 <button onClick={clearSelectedTool} style={{ display: 'flex', cursor: 'pointer' }}>
                   <Chip.CloseIcon width={20} height={20} />
                 </button>
@@ -126,7 +137,19 @@ const ToolSelect = () => {
               <S.CategoryHeader>
                 <S.CheckboxLabel>
                   <span>{category}</span>
-                  <S.CheckboxInput type="checkbox" checked={state.isFreeChecked} onChange={handleFreeCheck} />
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <S.CheckboxInput type="checkbox" checked={isFreeChecked} onChange={handleFreeCheck} />
+                    {isFreeChecked && (
+                      <Union
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                        }}
+                      />
+                    )}
+                  </div>
                 </S.CheckboxLabel>
               </S.CategoryHeader>
             ) : (
@@ -134,17 +157,17 @@ const ToolSelect = () => {
                 <span>{category}</span>
                 <IcChevronDownBlack16
                   style={{
-                    transform: state.selectedCategory === category ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transform: selectedCategory === category ? 'rotate(180deg)' : 'rotate(0deg)',
                   }}
                 />
               </S.CategoryHeader>
             )}
-            {state.selectedCategory === category && (
+            {selectedCategory === category && category !== '자유' && (
               <S.ToolList>
                 {tools.map((tool) => (
                   <S.ToolItem
                     key={tool.toolId}
-                    isSelected={state.selectedTool === tool.toolName}
+                    isSelected={selectedTool === tool.toolName}
                     onClick={() => handleToolClick(tool.toolName)}
                   >
                     <img src={tool.toolLogo} alt={tool.toolName} style={{ width: '2rem', height: '2rem' }} />
@@ -160,4 +183,4 @@ const ToolSelect = () => {
   );
 };
 
-export default ToolSelect;
+export default ToolListBanner;

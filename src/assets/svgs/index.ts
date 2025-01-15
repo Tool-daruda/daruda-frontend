@@ -16,3 +16,4 @@ export { default as ImgModalcheck } from './ImgModalcheck';
 export { default as ImgModalexit } from './ImgModalexit';
 export { default as ImgModalexit2 } from './ImgModalexit2';
 export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
+export { default as Union } from './Union';

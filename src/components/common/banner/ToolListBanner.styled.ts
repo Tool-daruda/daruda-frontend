@@ -111,8 +111,8 @@ export const CheckboxLabel = styled.label`
 
 export const CheckboxInput = styled.input`
   position: relative;
-  width: 1.8rem;
-  height: 1.8rem;
+  width: 2rem;
+  height: 2rem;
   margin: 0;
 
   cursor: pointer;
@@ -125,20 +125,6 @@ export const CheckboxInput = styled.input`
     background-color: ${({ theme }) => theme.colors.iris1};
     border: 1px solid ${({ theme }) => theme.colors.iris1};
   }
-
-  &:checked::before {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.8178rem;
-    height: 0.7344rem;
-
-    background-image: url('/public/svgs/union.svg');
-    background-position: center;
-    transform: translate(-50%, -50%);
-
-    content: '';
-  }
 `;
 
 export const IconContainer = styled.div`
@@ -147,7 +133,6 @@ export const IconContainer = styled.div`
   justify-content: center;
   width: 2.4rem;
   height: 2.4rem;
-  overflow: hidden;
 
   border-radius: 0.4rem;
 `;
