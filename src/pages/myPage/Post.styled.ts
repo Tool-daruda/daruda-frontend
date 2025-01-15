@@ -48,3 +48,11 @@ export const NonTool = styled.div`
     ${({ theme }) => theme.fonts.caption_14_m};
   }
 `;
+
+export const ToastWrapper = styled.div`
+  position: absolute;
+  top: 9.2rem;
+  left: 50%;
+
+  transform: translateX(-50%);
+`;
