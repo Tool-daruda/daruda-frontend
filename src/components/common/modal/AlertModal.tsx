@@ -13,7 +13,7 @@ interface AlertModalProps {
   singleBtnContent?: string;
 
   modalContent?: string;
-  DobblebtnProps?: {
+  DoublebtnProps?: {
     isPrimaryRight: boolean;
     primaryBtnContent: string;
     secondaryBtnContent: string;
