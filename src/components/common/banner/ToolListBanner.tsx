@@ -1,4 +1,4 @@
-import { IcChevronDownBlack16, IcInstaGray20, Union } from '@assets/svgs';
+import { IcChevron, IcInstaGray20, Union } from '@assets/svgs';
 import React, { useState } from 'react';
 
 import * as S from './ToolListBanner.styled';
@@ -109,7 +109,7 @@ const ToolListBanner = () => {
   return (
     <S.Container>
       <S.TitleBox>
-        <S.Title>툴 선택</S.Title>
+        <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
           {selectedTool ? (
             <Chip size="medium" stroke={true}>
@@ -160,9 +160,9 @@ const ToolListBanner = () => {
             ) : (
               <S.CategoryHeader onClick={() => handleCategoryClick(category)}>
                 <span>{category}</span>
-                <IcChevronDownBlack16
+                <IcChevron
                   style={{
-                    transform: selectedCategory === category ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transform: selectedCategory === category ? 'rotate(0deg)' : 'rotate(180deg)',
                   }}
                 />
               </S.CategoryHeader>

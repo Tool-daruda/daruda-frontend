@@ -13,7 +13,6 @@ export const Container = styled.div`
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray4};
   border-radius: 2rem;
-
   -ms-overflow-style: none;
   scrollbar-width: none;
 
@@ -34,14 +33,14 @@ export const TitleBox = styled.div`
   height: 10rem;
   padding: 1.6rem 2.4rem;
 
-  background: var(--white1, #fff);
+  background: ${({ theme }) => theme.colors.white1};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray2};
   border-radius: 2rem 2rem 0 0;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h1<{ isSelected: boolean }>`
   ${({ theme }) => theme.fonts.body_20_b};
-  margin-bottom: 0.6rem;
+  margin-bottom: ${({ isSelected }) => (isSelected ? '0.8rem' : '0.6rem')};
 `;
 
 export const Subtitle = styled.p`
