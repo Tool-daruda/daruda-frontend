@@ -1,12 +1,12 @@
-import { CardListAppcard, CardListAppcard1, ImgTextlogo } from '@assets/svgs';
+import { ImgTextlogo } from '@assets/svgs';
 
 import * as S from './TopBanner.styled';
 
 const TopBanner = () => {
   return (
     <S.BannerWrapper>
-      <CardListAppcard style={{ position: 'absolute', right: '16rem' }} />
-      <CardListAppcard1 style={{ position: 'absolute', bottom: 0, right: 0 }} />
+      <S.CardListAppcardStyled />
+      <S.CardListAppcard1Styled />
       <S.BannerContainer>
         <S.BannerTitle>
           대학생활에 필요한 툴을 다루다, <ImgTextlogo />{' '}

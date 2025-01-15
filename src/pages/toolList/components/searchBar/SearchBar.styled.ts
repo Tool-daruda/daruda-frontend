@@ -31,21 +31,26 @@ export const SearchBarTitle = styled.p`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-export const Search = styled.div`
+export const SearchBar = styled.div`
   display: flex;
   gap: 1.6rem;
   align-items: center;
-  align-self: stretch;
   width: 78rem;
   height: 6.4rem;
   padding-left: 2.4rem;
-
-  color: ${({ theme }) => theme.colors.gray2};
 
   background: ${({ theme }) => theme.colors.white2};
   border: 1.5px solid ${({ theme }) => theme.colors.gray5};
   border-radius: 6rem;
   ${({ theme }) => theme.fonts.body_16_m};
+`;
+
+export const Search = styled.input`
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.gray2};
+    ${({ theme }) => theme.fonts.body_16_m};
+  }
+  background: ${({ theme }) => theme.colors.white2};
 `;
 
 export const SearchChip = styled.div`
@@ -56,6 +61,19 @@ export const SearchChip = styled.div`
   align-items: flex-start;
   width: 74.4rem;
 
+  ${({ theme }) => theme.fonts.body_16_b_1};
+  color: ${({ theme }) => theme.colors.gray2};
+`;
+
+export const RoundContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 1.6rem;
+`;
+
+export const Label = styled.span`
   ${({ theme }) => theme.fonts.body_16_b_1};
   color: ${({ theme }) => theme.colors.gray2};
 `;
