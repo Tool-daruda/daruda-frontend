@@ -10,7 +10,7 @@ import MyToolPage from '../MyToolPage';
 const headerState: HeaderState = HEADER_STATE.LOGGED_IN;
 
 const meta: Meta<typeof MyToolPage> = {
-  title: 'Pages/MyToolPage',
+  title: 'Pages/MyPage/MyToolPage',
   component: MyToolPage,
   parameters: {
     layout: 'fullscreen',
