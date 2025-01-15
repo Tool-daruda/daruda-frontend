@@ -7,6 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const ConfirmBtn = ({ isActive = false, ...rest }: ButtonProps) => {
+  // props로 전달된 isActive에 따라 상태 설정
   const state = isActive ? 'act' : 'dact';
 
   return (

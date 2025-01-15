@@ -3,15 +3,29 @@ import styled from '@emotion/styled';
 export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  width: 30.1rem;
+  width: 40.8rem;
 `;
 
 export const Label = styled.label`
   width: 100%;
+  margin-bottom: 1.2rem;
 
   ${({ theme }) => theme.fonts.body_16_b_1};
   color: ${({ theme }) => theme.colors.black};
+`;
+
+export const InputBox = styled.div`
+  display: flex;
+  gap: 1.6rem;
+  width: 100%;
+  height: 4.8rem;
+`;
+
+export const DescriptionBox = styled.div`
+  display: flex;
+  gap: 1.6rem;
+  width: 100%;
+  height: 3.2rem;
 `;
 
 export const Input = styled.input<{ state: 'default' | 'act' | 'error' | 'success' }>`
@@ -49,6 +63,15 @@ export const Description = styled.span<{ state: 'default' | 'act' | 'error' | 's
         return null;
     }
   }};
+`;
+
+export const LetterCount = styled.pre`
+  display: flex;
+  justify-content: flex-end;
+  width: 30.1rem;
+
+  ${({ theme }) => theme.fonts.caption_14_m};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export const InputRestrictions = styled.pre`

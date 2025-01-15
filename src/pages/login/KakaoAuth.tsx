@@ -12,7 +12,7 @@ const KakaoAuth = () => {
         </S.LogoSection>
         <pre>모든 대학생이 찾는 솔루션, 다루다에서 만나보세요.</pre>
         <S.LoginButtonContainer>
-          <S.LoginButton>
+          <S.LoginButton aria-label="카카오 로그인">
             <S.LoginButtonInput>
               <SvgKakaoVector />
               <p>카카오 로그인</p>
