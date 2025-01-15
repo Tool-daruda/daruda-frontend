@@ -8,16 +8,17 @@ interface PostCardPropsType {
   title: string;
   updatedAt: string;
   toolLogo: string;
+  toolName: string; // TODO: tool 이름 필드명 맞추기
   onClick: () => void;
 }
 
-const PostCard = ({ isMine, title, updatedAt, toolLogo, onClick }: PostCardPropsType) => {
+const PostCard = ({ isMine, title, updatedAt, toolLogo, toolName, onClick }: PostCardPropsType) => {
   return (
     <S.CardWrapper>
       <Chip stroke={true} size="medium">
         <Chip.RectContainer>
           <Chip.Icon src={toolLogo} alt="Custom Icon" />
-          <Chip.Label>ChatGPT</Chip.Label>
+          <Chip.Label>{toolName}</Chip.Label>
         </Chip.RectContainer>
       </Chip>
       <S.Title>{title}</S.Title>
