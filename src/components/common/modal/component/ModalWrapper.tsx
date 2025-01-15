@@ -24,13 +24,15 @@ export default ModalWrapper;
 
 const S = {
   ModalWrapper: styled.dialog`
+    position: fixed;
     top: 0;
+    left: 0;
     z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     padding-top: 3.1rem;
     overflow: auto;
 
@@ -44,7 +46,7 @@ const S = {
     align-items: center;
     justify-content: flex-end;
     width: 40rem;
-    height: auto;
+    margin: auto;
     padding: ${({ $isSingleModal }) => ($isSingleModal ? '4.4rem 4.8rem 2.8rem 4.8rem' : '3.1rem 0 0 0')};
 
     background: ${({ theme }) => theme.colors.white1};

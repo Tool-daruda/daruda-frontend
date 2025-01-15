@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
 
-export const ModalContainer = styled.section<{ $isSingleModal: boolean }>`
+export const ModalContainer = styled.section<{ $isSingleModal: boolean; $isPrimaryRight?: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
-  gap: ${({ $isSingleModal }) => ($isSingleModal ? '3.4rem' : '1.6rem')};
+  gap: ${({ $isSingleModal }) => ($isSingleModal ? '3.7rem' : '1.6rem')};
   align-items: center;
   width: 30.2rem;
-  padding-bottom: ${({ $isSingleModal }) => !$isSingleModal && ' 3.4rem'};
+  padding-bottom: ${({ $isSingleModal, $isPrimaryRight }) =>
+    !$isSingleModal && $isPrimaryRight ? '2.8rem' : !$isSingleModal && '2.5rem'};
 `;
 
 export const ModalTitle = styled.h1`
@@ -18,7 +18,7 @@ export const ModalTitle = styled.h1`
 
 export const ModalContent = styled.p`
   ${({ theme }) => theme.fonts.caption_12_r};
-  padding-bottom: 2.3rem;
+  margin-top: -0.8rem;
 
   color: ${({ theme }) => theme.colors.gray2};
   text-align: center;

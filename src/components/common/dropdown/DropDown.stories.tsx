@@ -107,7 +107,7 @@ export const TopList = DropDownTemplate.bind({});
 TopList.args = {
   children: (
     <>
-      <DropDown.Content>
+      <DropDown.Content $display="top">
         <DropDown.Item
           onClick={() => {
             alert('첫번째 클릭!');
