@@ -19,13 +19,16 @@ export const InputBox = styled.div`
   gap: 1.6rem;
   width: 100%;
   height: 4.8rem;
+  margin-bottom: 0.6rem;
 `;
 
 export const DescriptionBox = styled.div`
   display: flex;
-  gap: 1.6rem;
-  width: 100%;
-  height: 3.2rem;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  width: 30.1rem;
+  height: 1.8rem;
+  margin-bottom: 0.6rem;
 `;
 
 export const Input = styled.input<{ state: 'default' | 'act' | 'error' | 'success' }>`
@@ -50,7 +53,10 @@ export const Input = styled.input<{ state: 'default' | 'act' | 'error' | 'succes
 `;
 
 export const Description = styled.span<{ state: 'default' | 'act' | 'error' | 'success' }>`
-  ${({ theme }) => theme.fonts.caption_14_m};
+  display: flex;
+  align-items: center;
+
+  ${({ theme }) => theme.fonts.caption_12_m};
   color: ${({ state, theme }) => {
     switch (state) {
       case 'act':
@@ -67,8 +73,6 @@ export const Description = styled.span<{ state: 'default' | 'act' | 'error' | 's
 
 export const LetterCount = styled.pre`
   display: flex;
-  justify-content: flex-end;
-  width: 30.1rem;
 
   ${({ theme }) => theme.fonts.caption_14_m};
   color: ${({ theme }) => theme.colors.black};

@@ -2,35 +2,62 @@ import type { Meta, StoryFn } from '@storybook/react';
 
 import AffiliationBtn from './AffiliationBtn';
 
-const meta = {
+const meta: Meta<typeof AffiliationBtn> = {
   title: 'Components/AffiliationBtn',
   component: AffiliationBtn,
   parameters: {
     layout: 'centered',
   },
   argTypes: {
-    onToggle: { table: { disable: true } },
+    onClick: { action: 'clicked' },
+    isSelected: {
+      control: 'boolean',
+      description: '버튼이 선택되었는지 여부를 나타냅니다.',
+    },
+    label: {
+      control: 'text',
+      description: '버튼에 표시되는 텍스트입니다.',
+    },
   },
   tags: ['autodocs'],
-} satisfies Meta<typeof AffiliationBtn>;
+};
 
 export default meta;
 
-const AffiliationBtnTemplate: StoryFn<typeof AffiliationBtn> = (args) => {
-  return <AffiliationBtn {...args} />;
-};
+const Template: StoryFn<typeof AffiliationBtn> = (args) => <AffiliationBtn {...args} />;
 
-export const DefaultStudent = AffiliationBtnTemplate.bind({});
+export const DefaultStudent = Template.bind({});
 DefaultStudent.args = {
   label: '학생',
+  isSelected: false,
 };
 
-export const DefaultWorker = AffiliationBtnTemplate.bind({});
+export const SelectedStudent = Template.bind({});
+SelectedStudent.args = {
+  label: '학생',
+  isSelected: true,
+};
+
+export const DefaultWorker = Template.bind({});
 DefaultWorker.args = {
   label: '직장인',
+  isSelected: false,
 };
 
-export const DefaultPerson = AffiliationBtnTemplate.bind({});
+export const SelectedWorker = Template.bind({});
+SelectedWorker.args = {
+  label: '직장인',
+  isSelected: true,
+};
+
+export const DefaultPerson = Template.bind({});
 DefaultPerson.args = {
   label: '일반인',
+  isSelected: false,
+};
+
+export const SelectedPerson = Template.bind({});
+SelectedPerson.args = {
+  label: '일반인',
+  isSelected: true,
 };

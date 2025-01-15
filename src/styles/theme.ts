@@ -102,11 +102,17 @@ const fonts = {
     font-family: 'AppleSDGothicNeoB00', sans-serif;
     line-height: 1.8rem;
   `,
+  caption_12_m: css`
+    font-size: 1.2rem;
+    font-family: 'AppleSDGothicNeoM00', sans-serif;
+    line-height: 1.8rem;
+  `,
   caption_12_r: css`
     font-size: 1.2rem;
     font-family: 'AppleSDGothicNeoR00', sans-serif;
     line-height: 1.6rem;
   `,
+
   // Todo: 디자인 폰트 작업 다 끝나면 그때 수정하기 -> 일단 임의로 만든 값
   caption_8_b: css`
     font-size: 0.8rem;

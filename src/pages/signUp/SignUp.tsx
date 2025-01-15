@@ -19,7 +19,6 @@ const SignUp = () => {
   const handleCircleBtnClick = () => {
     setIsModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
