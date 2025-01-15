@@ -1,5 +1,6 @@
-import { IcAlarmBlack24, IcArrowDownBlack24, ImgDarudalogo40 } from '@assets/svgs';
+import { IcAlarmBlack24, IcArrowDownBlack24, IcArrowDownBlack24Copy, ImgDarudalogo40 } from '@assets/svgs';
 import { HEADER_STATE, HeaderState } from '@constants/headerState';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as S from './Header.styled';
@@ -11,6 +12,20 @@ const HEADER_TEXTS = {
   signup: '회원가입',
   mypage: '마이페이지',
 } as const;
+
+const CATAGORY_TEXTS = [
+  'AI',
+  '협업&커뮤니케이션',
+  '영상&음악',
+  '커리어&자기개발',
+  '문서 작성&편집',
+  '데이터',
+  '생활',
+  '그래픽&디자인',
+  '프레젠테이션',
+  '코딩&개발',
+  '설계&모델링',
+] as const;
 
 interface HeaderProps {
   headerState: HeaderState;
@@ -40,12 +55,42 @@ const Logo = () => {
 };
 
 const Category = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isHover, setIsHover] = useState(false);
+
+  const toggleCategory = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
+  // isHover와 isOpen을 병합해서 메뉴 표시 여부 결정
+  const shouldDisplayDropdown = isHover || isOpen;
+
   return (
-    <S.CategoryNav>
-      <S.CategorySection aria-label="카테고리 열기">
+    <S.CategoryNav onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <S.CategorySection onClick={toggleCategory} aria-label="카테고리 열기">
         {HEADER_TEXTS.category}
         <IcArrowDownBlack24 width="2.4rem" height="2.4rem" />
       </S.CategorySection>
+      {shouldDisplayDropdown && (
+        <S.OpenedCategoryWrapper>
+          <S.OpenedCategory onClick={toggleCategory}>
+            카테고리 <IcArrowDownBlack24Copy width="2.4rem" height="2.4rem" />
+          </S.OpenedCategory>
+          <S.CategoryDropdown>
+            {CATAGORY_TEXTS.map((category, index) => (
+              <S.CategoryItem key={index}>{category}</S.CategoryItem>
+            ))}
+          </S.CategoryDropdown>
+        </S.OpenedCategoryWrapper>
+      )}
     </S.CategoryNav>
   );
 };
