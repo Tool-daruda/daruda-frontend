@@ -56,7 +56,7 @@ export const CardInput = styled.textarea`
   display: flex;
   width: 100%;
   height: auto;
-  max-height: 11.2rem;
+  max-height: 13.5rem;
   ${({ theme }) => theme.fonts.body_16_m};
   overflow-y: auto;
 
@@ -127,4 +127,12 @@ export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
     color: ${({ $imageSelected, theme }) => ($imageSelected ? theme.colors.iris1 : theme.colors.gray2)};
     text-decoration: ${({ $imageSelected }) => ($imageSelected ? 'underline' : 'none')};
   }
+`;
+
+export const ToastWrapper = styled.div`
+  position: absolute;
+  top: 9.2rem;
+  left: 50%;
+
+  transform: translateX(-50%);
 `;

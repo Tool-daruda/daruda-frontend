@@ -6,12 +6,14 @@ interface InputButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
   children?: ReactNode;
   icon?: ReactNode;
   stroke?: boolean;
-  disabled: boolean;
+  status: boolean;
   onImageSelect?: (isSelected: boolean, fileName: string) => void;
+  // handleClick: () => void;
 }
 
-const InputButton = ({ children, icon, disabled, onImageSelect, ...rest }: InputButtonProps) => {
+const InputButton = ({ children, icon, status, onImageSelect, ...rest }: InputButtonProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (status) return;
     const file = e.target.files ? e.target.files[0] : null;
     if (file && onImageSelect) {
       onImageSelect(true, file.name);
@@ -21,9 +23,9 @@ const InputButton = ({ children, icon, disabled, onImageSelect, ...rest }: Input
   };
 
   return (
-    <S.ButtonWrapper $disabled={disabled}>
-      <input type="file" id="file-input" {...rest} onChange={handleFileChange} />
-      <S.Label htmlFor="file-input" $disabled={disabled}>
+    <S.ButtonWrapper $disabled={status}>
+      <input type="file" id="file-input" {...rest} onChange={handleFileChange} disabled={status} />
+      <S.Label htmlFor="file-input" $disabled={status}>
         {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
         <span>{children}</span>
       </S.Label>

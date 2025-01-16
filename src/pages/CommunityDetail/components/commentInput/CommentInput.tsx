@@ -1,43 +1,45 @@
 import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
-import React, { useState, useRef } from 'react';
+import SquareButton from '@components/button/squareButton/SquareButton';
+import Toast from '@components/toast/Toast';
+import useCommnetPost from '@pages/CommunityDetail/hooks/useCommentPost';
 
 import * as S from './CommentInput.styled';
 
 import InputButton from '../inputButton/InputButton';
 
 const CommnetInput = () => {
-  const [text, setText] = useState('');
-  const [isOverflowed, setIsOverflowed] = useState<boolean>(false);
-  const [imageSelected, setImageSelected] = useState<boolean>(false);
-  const [imageName, setImageName] = useState<string>('');
-  const maxChars = 1000;
+  const {
+    maxChars,
+    text,
+    isOverflowed,
+    imageSelected,
+    textareaRef,
+    imageName,
+    isToastOpen,
+    handleTextChange,
+    handleInput,
+    handleImageChange,
+    handleImgReSubmit,
+    handleImageRemove,
+  } = useCommnetPost();
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const value = e.target.value;
-    setText(value);
-    setIsOverflowed(value.length > maxChars);
-  };
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  const handleInput = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 112)}px`;
-    }
-  };
-
-  const handleImageChange = (isSelected: boolean, fileName: string) => {
-    setImageSelected(isSelected);
-    setImageName(fileName);
-  };
-
-  const handleImageRemove = () => {
-    setImageSelected(false);
-    setImageName('');
-    console.log(imageSelected);
-  };
+  const imageButton = !imageSelected ? (
+    <InputButton
+      icon={<IcCmtimgGray24 />}
+      stroke={true}
+      type="file"
+      accept="image/*"
+      onImageSelect={handleImageChange}
+      status={imageSelected}
+    >
+      이미지 첨부
+    </InputButton>
+  ) : (
+    <SquareButton type="button" icon={<IcCmtimgGray24 />} size="large" stroke={true} handleClick={handleImgReSubmit}>
+      이미지 첨부
+    </SquareButton>
+  );
 
   return (
     <S.CardWrapper>
@@ -59,16 +61,7 @@ const CommnetInput = () => {
         </CircleButton>
       </S.CardSendContainer>
       <S.CardBottom>
-        <InputButton
-          icon={<IcCmtimgGray24 />}
-          stroke={true}
-          type="file"
-          accept="image/*"
-          onImageSelect={handleImageChange}
-          disabled={imageSelected}
-        >
-          이미지 첨부
-        </InputButton>
+        {imageButton}
         <S.ImgNameItem $imageSelected={imageSelected}>
           <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
           {imageSelected && (
@@ -78,6 +71,11 @@ const CommnetInput = () => {
           )}
         </S.ImgNameItem>
       </S.CardBottom>
+      <S.ToastWrapper>
+        <Toast isVisible={isToastOpen} isWarning={false}>
+          댓글에는 1개의 이미지만 첨부할 수 있어요.
+        </Toast>
+      </S.ToastWrapper>
     </S.CardWrapper>
   );
 };
