@@ -3,16 +3,14 @@ import React from 'react';
 import * as S from './ConfirmBtn.styled';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  onClick?: () => void;
   isActive?: boolean;
 }
 
-const ConfirmBtn = ({ isActive = false, ...rest }: ButtonProps) => {
-  // props로 전달된 isActive에 따라 상태 설정
-  const state = isActive ? 'act' : 'dact';
-
+const ConfirmBtn = ({ isActive = false, onClick, ...rest }: ButtonProps) => {
   return (
-    <S.ButtonWrapper state={state} {...rest}>
-      <S.TextWrapper>중복확인</S.TextWrapper>
+    <S.ButtonWrapper disabled={!isActive} {...rest} onClick={onClick}>
+      중복확인
     </S.ButtonWrapper>
   );
 };

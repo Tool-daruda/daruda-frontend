@@ -1,5 +1,5 @@
 import ConfirmBtn from '@pages/login/components/confirmButton/ConfirmBtn';
-import React, { InputHTMLAttributes, useState } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 import * as S from './NamingInput.styled';
 
@@ -25,30 +25,27 @@ const NamingInput = ({
   onChange,
   ...props
 }: NamingInputPropTypes) => {
-  const [isConfirmActive, setIsConfirmActive] = useState(false);
   const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
   const count = value.length;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (inputValue.length <= 10) {
+    if (e.target.value.length <= 10) {
       onChange?.(e);
-      // 입력값이 있으면 중복확인 버튼 활성화
-      setIsConfirmActive(inputValue.length > 0);
     }
   };
+
+  const isActive = count > 0; // 입력값이 1글자 이상일 때만 active
 
   return (
     <S.InputWrapper>
       {label && <S.Label>{label}</S.Label>}
       <S.InputBox>
         <S.Input state={state} value={value} onChange={handleInputChange} placeholder={placeholder} {...props} />
-        <ConfirmBtn isActive={isConfirmActive} />
+        <ConfirmBtn isActive={isActive} />
       </S.InputBox>
       <S.DescriptionBox>
-        <S.LetterCount>{count}/10</S.LetterCount>
-
         {description && <S.Description state={state}>{description}</S.Description>}
+        <S.LetterCount>{count}/10</S.LetterCount>
       </S.DescriptionBox>
       {inputRestrictions.length > 0 && (
         <S.InputRestrictions>

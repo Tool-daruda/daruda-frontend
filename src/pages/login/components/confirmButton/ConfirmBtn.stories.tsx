@@ -6,22 +6,32 @@ export default {
   title: 'Components/ConfirmBtn',
   component: ConfirmBtn,
   argTypes: {
-    isActive: {
+    disabled: {
       control: { type: 'boolean' },
-      description: 'Button 상태: act or dact)',
+      description: 'Button 비활성화 상태',
     },
     onClick: { action: 'clicked' },
   },
+  tags: ['autodocs'],
 } as Meta<typeof ConfirmBtn>;
 
-const Template: StoryFn<typeof ConfirmBtn> = (args) => <ConfirmBtn {...args} />;
+const Template: StoryFn<typeof ConfirmBtn> = (args) => (
+  <ConfirmBtn
+    {...args}
+    onClick={() => {
+      if (!args.disabled) {
+        alert('버튼이 클릭되었습니다!'); // 클릭 시 alert 표시
+      }
+    }}
+  />
+);
 
-export const Act = Template.bind({});
-Act.args = {
-  isActive: true,
+export const Enabled = Template.bind({});
+Enabled.args = {
+  disabled: false,
 };
 
-export const Dact = Template.bind({});
-Dact.args = {
-  isActive: false,
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
 };

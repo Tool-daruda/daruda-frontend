@@ -1,24 +1,22 @@
 import styled from '@emotion/styled';
 
-export const ButtonWrapper = styled.button<{ state: 'act' | 'dact' }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 9.1rem;
-  padding: 1.2rem 2.1rem;
+export const ButtonWrapper = styled.button`
+  min-width: 9.1rem;
+  padding: 1.2rem 0;
 
-  color: ${({ state, theme }) => (state === 'act' ? theme.colors.white1 : theme.colors.gray2)};
+  color: ${({ theme }) => theme.colors.white1};
+  white-space: nowrap;
 
-  background-color: ${({ state, theme }) => (state === 'act' ? theme.colors.gray1 : theme.colors.gray4)};
+  background-color: ${({ theme }) => theme.colors.gray1};
+  cursor: pointer;
+  border: none;
   border-radius: 1.2rem;
-`;
-
-export const TextWrapper = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 4.9rem;
-  height: 2rem;
-
   ${({ theme }) => theme.fonts.caption_14_m};
+
+  &:disabled {
+    color: ${({ theme }) => theme.colors.gray2};
+
+    background-color: ${({ theme }) => theme.colors.gray4};
+    cursor: not-allowed;
+  }
 `;
