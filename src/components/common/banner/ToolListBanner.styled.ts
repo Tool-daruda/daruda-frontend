@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div<{ $forCommunity: boolean }>`
-  display: display;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 24.6rem;
-  height: ${({ $forCommunity }) => ($forCommunity ? '100%' : '67.1rem')};
+  height: ${({ $forCommunity }) => ($forCommunity ? '100vh' : '67.1rem')};
   margin: 2rem;
   overflow: ${({ $forCommunity }) => ($forCommunity ? 'auto' : 'hidden auto')};
 
@@ -19,6 +19,10 @@ export const Container = styled.div<{ $forCommunity: boolean }>`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  ${({ $forCommunity }) =>
+    $forCommunity &&
+    'height: auto; align-self: stretch; margin-bottom: 0rem; border-bottom-left-radius: 0; border-bottom-right-radius: 0;'}
 `;
 
 export const TitleBox = styled.div`

@@ -9,11 +9,11 @@ export const CommunityWrapper = styled.section`
 `;
 
 export const CommunityContainer = styled.section`
-  display: inline-flex;
+  display: flex;
   gap: 1.4rem;
   align-items: flex-start;
   justify-content: center;
-  height: 100%;
+  height: max-content;
 `;
 
 export const CardList = styled.ul`
