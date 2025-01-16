@@ -98,7 +98,6 @@ export const ToolNameFront = styled.h2<{ textColor: boolean }>`
   color: ${({ textColor, theme }) => (textColor ? theme.colors.black : theme.colors.white1)};
   font-size: 3.6rem;
 `;
-//폰트는 임시로
 
 export const ToolNameBack = styled.h2`
   display: flex;
