@@ -28,7 +28,12 @@ const AlterModal = (props: AlertModalProps) => {
     isSingleModal ? (
       <SingleBtnModal modalTitle={modalTitle} ImgPopupModal={ImgPopupModal} />
     ) : (
-      <DoubleBtnModal modalTitle={modalTitle} modalContent={props.modalContent} ImgPopupModal={ImgPopupModal} />
+      <DoubleBtnModal
+        modalTitle={modalTitle}
+        modalContent={props.modalContent}
+        ImgPopupModal={ImgPopupModal}
+        isPrimaryRight={DoublebtnProps?.isPrimaryRight}
+      />
     );
 
   const renderModalButtons = () =>
@@ -39,7 +44,7 @@ const AlterModal = (props: AlertModalProps) => {
     );
 
   return (
-    <ModalWrapper isOpen={isOpen} $isSingleModal={isSingleModal}>
+    <ModalWrapper isOpen={isOpen} $isSingleModal={isSingleModal} isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
       <>
         <S.ModalContainer $isSingleModal={isSingleModal} $isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
           {renderModalContent()}
