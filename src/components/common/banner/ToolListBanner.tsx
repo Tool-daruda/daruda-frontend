@@ -36,6 +36,10 @@ type ToolSelectState = {
   isFreeChecked: boolean;
 };
 
+interface ToolProp {
+  forCommunity?: boolean;
+}
+
 const tools: Tool[] = [
   {
     toolId: 1,
@@ -63,7 +67,7 @@ const tools: Tool[] = [
   },
 ];
 
-const ToolListBanner = () => {
+const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
@@ -107,7 +111,7 @@ const ToolListBanner = () => {
   };
 
   return (
-    <S.Container>
+    <S.Container $forCommunity={forCommunity}>
       <S.TitleBox>
         <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
         <S.Subtitle>

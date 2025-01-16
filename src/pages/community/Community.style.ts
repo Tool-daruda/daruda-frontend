@@ -4,7 +4,6 @@ export const CommunityWrapper = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 
   background-color: ${({ theme }) => theme.colors.white2};
 `;
@@ -14,6 +13,7 @@ export const CommunityContainer = styled.section`
   gap: 1.4rem;
   align-items: flex-start;
   justify-content: center;
+  height: 100%;
 `;
 
 export const CardList = styled.ul`

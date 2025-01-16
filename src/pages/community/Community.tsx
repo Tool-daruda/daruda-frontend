@@ -20,7 +20,7 @@ const Community = () => {
     <S.CommunityWrapper>
       <Banner />
       <S.CommunityContainer>
-        <ToolListBanner />
+        <ToolListBanner forCommunity={true} />
         <S.CardList>
           {POST_DATA.map((post) => (
             <Card key={post.boardId} post={post} />

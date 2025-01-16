@@ -1,17 +1,17 @@
 import styled from '@emotion/styled';
 
-export const Container = styled.div`
-  display: flex;
+export const Container = styled.div<{ $forCommunity: boolean }>`
+  display: display;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 24.6rem;
-  height: 67.1rem;
+  height: ${({ $forCommunity }) => ($forCommunity ? '100%' : '67.1rem')};
   margin: 2rem;
-  overflow: hidden auto;
+  overflow: ${({ $forCommunity }) => ($forCommunity ? 'auto' : 'hidden auto')};
 
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border: 1px solid ${({ theme, $forCommunity }) => ($forCommunity ? 'none' : theme.colors.gray4)};
   border-radius: 2rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -51,10 +51,12 @@ export const Subtitle = styled.p`
 export const CategoryList = styled.ul`
   ${({ theme }) => theme.fonts.body_16_b_2};
   width: 24.6rem;
+  height: 100%;
   margin: 0;
   padding: 0;
 
   list-style: none;
+  background-color: ${({ theme }) => theme.colors.white1};
 `;
 
 export const CategoryItem = styled.li`
@@ -73,6 +75,10 @@ export const CategoryHeader = styled.div`
 
   cursor: pointer;
   border-top: 1px solid ${({ theme }) => theme.colors.gray4};
+
+  & svg path {
+    fill: ${({ theme }) => theme.colors.black};
+  }
 `;
 
 export const ToolList = styled.ul`
