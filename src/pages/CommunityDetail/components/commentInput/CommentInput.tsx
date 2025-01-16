@@ -8,10 +8,22 @@ import * as S from './CommentInput.styled';
 
 import InputButton from '../inputButton/InputButton';
 
+import { MODAL_ERR } from '../../constants';
+
 const CommnetInput = () => {
   const { text, isOverflowed, textareaRef, handleTextChange, handleInput } = useTextInput(1000);
-  const { imageSelected, imageName, imageFile, isToastOpen, handleImageChange, handleImgReSubmit, handleImageRemove } =
-    useImageUpload();
+  const {
+    toastType,
+    imageSelected,
+    imageName,
+    imageFile,
+    isToastOpen,
+    handleImageChange,
+    handleImgReSubmit,
+    handleImageRemove,
+    handleSizeError,
+    handleModalOpen,
+  } = useImageUpload();
 
   const handleCommentPost = () => {
     const formData = new FormData();
@@ -28,8 +40,10 @@ const CommnetInput = () => {
       icon={<IcCmtimgGray24 />}
       stroke={true}
       type="file"
-      accept="image/*"
+      accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
       onImageSelect={handleImageChange}
+      handleSizeError={handleSizeError}
+      handleModalOpen={handleModalOpen}
       status={imageSelected}
     >
       이미지 첨부
@@ -75,9 +89,12 @@ const CommnetInput = () => {
           )}
         </S.ImgNameItem>
       </S.CardBottom>
+      <S.CautionWrpper>
+        <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
+      </S.CautionWrpper>
       <S.ToastWrapper>
         <Toast isVisible={isToastOpen} isWarning={false}>
-          댓글에는 1개의 이미지만 첨부할 수 있어요.
+          {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
       </S.ToastWrapper>
     </S.CardWrapper>

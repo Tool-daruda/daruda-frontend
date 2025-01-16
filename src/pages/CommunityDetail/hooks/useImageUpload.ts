@@ -5,6 +5,7 @@ const useImageUpload = () => {
   const [imageName, setImageName] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [isToastOpen, setIsToastOpen] = useState<boolean>(false);
+  const [toastType, setToastType] = useState<'sizeErr' | 'ResubmitErr' | null>(null);
 
   const handleImageChange = (isSelected: boolean, fileName: string, file: File | null) => {
     setImageSelected(isSelected);
@@ -14,8 +15,8 @@ const useImageUpload = () => {
 
   const handleImgReSubmit = () => {
     if (!imageSelected) return;
-    setIsToastOpen(true);
-    setTimeout(() => setIsToastOpen(false), 3000);
+    handleResubmitError();
+    handleModalOpen();
   };
 
   const handleImageRemove = () => {
@@ -24,7 +25,21 @@ const useImageUpload = () => {
     setImageFile(null);
   };
 
+  const handleSizeError = () => {
+    setToastType('sizeErr');
+  };
+
+  const handleResubmitError = () => {
+    setToastType('ResubmitErr');
+  };
+
+  const handleModalOpen = () => {
+    setIsToastOpen(true);
+    setTimeout(() => setIsToastOpen(false), 3000);
+  };
+
   return {
+    toastType,
     imageSelected,
     imageName,
     imageFile,
@@ -32,6 +47,9 @@ const useImageUpload = () => {
     handleImageChange,
     handleImgReSubmit,
     handleImageRemove,
+    handleSizeError,
+    handleResubmitError,
+    handleModalOpen,
   };
 };
 

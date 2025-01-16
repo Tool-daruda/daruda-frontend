@@ -136,3 +136,14 @@ export const ToastWrapper = styled.div`
 
   transform: translateX(-50%);
 `;
+
+export const CautionWrpper = styled.div`
+  display: flex;
+  width: 100%;
+
+  & > p {
+    ${({ theme }) => theme.fonts.caption_12_m};
+    color: ${({ theme }) => theme.colors.gray2};
+    text-align: center;
+  }
+`;
