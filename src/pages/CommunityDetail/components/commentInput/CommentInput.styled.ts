@@ -26,16 +26,16 @@ const errAnimation = `
       transform: translateX(0);
     }
     25% {
-      transform: translateX(-4px);
+      transform: translateX(-0.4rem);
     }
     50% {
-      transform: translateX(4px);
+      transform: translateX(0.4rem);
     }
     75% {
-      transform: translateX(-4px);
+      transform: translateX(-0.4rem);
     }
     100% {
-      transform: translateX(4px);
+      transform: translateX(0.4rem);
     }
   }
 `;
@@ -48,7 +48,7 @@ export const CardInputWrapper = styled.section<{ $isOverflowed: boolean }>`
   border: 1px solid ${({ theme, $isOverflowed }) => ($isOverflowed ? theme.colors.sys_red : theme.colors.gray4)};
   border-radius: 1.6rem;
 
-  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s ease-in-out' : 'none')};
+  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
   ${errAnimation}
 `;
 
