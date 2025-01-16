@@ -69,14 +69,14 @@ const CommnetInput = () => {
         >
           이미지 첨부
         </InputButton>
-        <div>
+        <S.ImgNameItem $imageSelected={imageSelected}>
           <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
           {imageSelected && (
             <button onClick={handleImageRemove}>
               <IcImgdeleteGray40 />
             </button>
           )}
-        </div>
+        </S.ImgNameItem>
       </S.CardBottom>
     </S.CardWrapper>
   );

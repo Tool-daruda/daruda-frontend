@@ -8,6 +8,7 @@ export const ButtonWrapper = styled.button<{
   display: flex;
   align-items: center;
   justify-content: center;
+  width: max-content;
 
   ${({ size, theme }) => {
     const sizeStyles = {

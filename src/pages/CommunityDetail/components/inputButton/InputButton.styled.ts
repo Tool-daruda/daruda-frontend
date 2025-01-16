@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
 
-export const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div<{ $disabled: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: max-content;
-  padding: 10px 18px;
+  padding: 1rem 1.8rem;
 
   cursor: pointer;
   border: 1px solid ${({ theme }) => theme.colors.gray4};
@@ -18,18 +18,17 @@ export const ButtonWrapper = styled.div`
     stroke: ${({ theme }) => theme.colors.white1};
   }
 
+  ${({ $disabled }) =>
+    $disabled &&
+    `
+    cursor: not-allowed;
+  `}
+
   &:hover,
-  &:hover label p {
+  &:hover label span {
     color: ${({ theme }) => theme.colors.white1};
 
     background-color: ${({ theme }) => theme.colors.iris1};
-  }
-
-  &:disabled,
-  &:disabled label p {
-    color: ${({ theme }) => theme.colors.gray2};
-
-    background-color: ${({ theme }) => theme.colors.white1};
   }
 
   input[type='file'] {
@@ -44,7 +43,7 @@ export const ButtonWrapper = styled.div`
   }
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{ $disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,11 +56,11 @@ export const Label = styled.label`
     color: ${({ theme }) => theme.colors.white1};
   }
 
-  &:disabled span {
-    color: ${({ theme }) => theme.colors.gray2};
-
-    background-color: ${({ theme }) => theme.colors.white1};
-  }
+  ${({ theme, $disabled }) =>
+    $disabled &&
+    `
+    color: ${theme.colors.gray2};
+  `}
 `;
 
 export const IconWrapper = styled.span`

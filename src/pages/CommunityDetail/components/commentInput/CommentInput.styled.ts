@@ -20,8 +20,8 @@ export const CardSendContainer = styled.div`
   align-items: flex-start;
 `;
 
-const shakeAnimation = `
-  @keyframes shake {
+const errAnimation = `
+  @keyframes err {
     0% {
       transform: translateX(0);
     }
@@ -48,8 +48,8 @@ export const CardInputWrapper = styled.section<{ $isOverflowed: boolean }>`
   border: 1px solid ${({ theme, $isOverflowed }) => ($isOverflowed ? theme.colors.sys_red : theme.colors.gray4)};
   border-radius: 1.6rem;
 
-  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'shake 0.5s ease-in-out' : 'none')};
-  ${shakeAnimation}
+  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s ease-in-out' : 'none')};
+  ${errAnimation}
 `;
 
 export const CardInput = styled.textarea`
@@ -109,5 +109,22 @@ export const CardBottom = styled.section`
 
   p {
     color: ${({ theme }) => theme.colors.gray2};
+  }
+`;
+
+export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
+  display: flex;
+  align-items: center;
+
+  p {
+    ${({ $imageSelected, theme }) => ($imageSelected ? theme.fonts.caption_14_m : theme.fonts.caption_12_r)};
+    ${({ $imageSelected }) =>
+      $imageSelected &&
+      `
+      margin-right: -0.7rem;
+      padding-bottom: 0.7rem;
+    `}
+    color: ${({ $imageSelected, theme }) => ($imageSelected ? theme.colors.iris1 : theme.colors.gray2)};
+    text-decoration: ${({ $imageSelected }) => ($imageSelected ? 'underline' : 'none')};
   }
 `;
