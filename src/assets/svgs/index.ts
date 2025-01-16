@@ -13,7 +13,6 @@ export { default as IcCommentGray24 } from './IcCommentGray24';
 export { default as IcInstaGray20 } from './IcInstaGray20';
 export { default as IcOverflowGray24 } from './IcOverflowGray24';
 export { default as IcOverflowGray44 } from './IcOverflowGray44';
-
 export { default as IcPlusWhite20 } from './IcPlusWhite20';
 export { default as IcSearchGray32 } from './IcSearchGray32';
 export { default as IcShareGray24 } from './IcShareGray24';
@@ -23,6 +22,6 @@ export { default as ImgModalcheck } from './ImgModalcheck';
 export { default as ImgModalexit } from './ImgModalexit';
 export { default as ImgModalexit2 } from './ImgModalexit2';
 export { default as ImgTextlogo } from './ImgTextlogo';
-
 export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
+export { default as Rectangle161126186 } from './Rectangle161126186';
 export { default as Union } from './Union';

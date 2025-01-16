@@ -1,8 +1,7 @@
-import router from '@routes/Router';
-import { RouterProvider } from 'react-router';
+import K from './pages/toolList/components/toolTip/ToolTip';
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return <K />;
 };
 
 export default App;
