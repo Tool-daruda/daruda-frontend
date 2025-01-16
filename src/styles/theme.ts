@@ -24,11 +24,11 @@ const colors = {
   gray5: '#EBEBEB',
   gray6: '#F0F2F2',
 
-  kakao_yellow: '#FEE500',
-  kakao_black: '#000000',
-
   linear1: 'linear-gradient(270deg, #FFF 77.78%, rgba(255, 255, 255, 0.00) 100%)',
   shadow1: 'rgba(211, 211, 211, 0.63)',
+
+  kakao_yellow: ' #FEE500',
+  kakao_black: 'rgba(0, 0, 0, 0.85) ',
 };
 
 const fonts = {
