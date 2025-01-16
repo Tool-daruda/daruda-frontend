@@ -9,6 +9,13 @@ interface HeaderProps {
   headerState: HeaderState;
 }
 
+const HEADER_TEXTS = {
+  community: '커뮤니티',
+  login: '로그인',
+  signup: '회원가입',
+  mypage: '마이페이지',
+} as const;
+
 const Header = ({ headerState }: HeaderProps) => {
   return (
     <S.HeaderWrapper>
@@ -33,7 +40,7 @@ const Logo = () => (
 const Community = () => (
   <S.CommunityNav>
     <S.StyledLink to="/community" aria-label="커뮤니티로 이동">
-      커뮤니티
+      {HEADER_TEXTS.community}
     </S.StyledLink>
   </S.CommunityNav>
 );
@@ -50,7 +57,7 @@ const Auth = ({ headerState }: AuthProps) => {
           <S.NotificationButton aria-label="알림 확인">
             <IcAlarmBlack24 width="2.4rem" height="2.4rem" />
           </S.NotificationButton>
-          <S.StyledLink to="/mypage">마이페이지</S.StyledLink>
+          <S.StyledLink to="/mypage"> {HEADER_TEXTS.mypage}</S.StyledLink>
         </S.MyPageSection>
       </S.AuthSection>
     );
@@ -58,9 +65,9 @@ const Auth = ({ headerState }: AuthProps) => {
 
   return (
     <S.AuthSection aria-label="로그인/회원가입">
-      <S.StyledLink to="/login">로그인</S.StyledLink>
+      <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
       <S.AuthDivider>/</S.AuthDivider>
-      <S.StyledLink to="/login">회원가입</S.StyledLink>
+      <S.StyledLink to="/login"> {HEADER_TEXTS.signup}</S.StyledLink>
     </S.AuthSection>
   );
 };
