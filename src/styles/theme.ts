@@ -3,24 +3,30 @@ import { css } from '@emotion/react';
 
 const colors = {
   iris1: '#4D4ECD',
+  iris1_hover: '#595AE8',
+  iris1_click: '#4243B6',
   iris2: '#B9B9F6',
+  iris2_hover: 'rgba(185, 185, 246, 0.40)',
   orange1: '#F77B1B',
   orange2: '#FFD3B1',
   sys_red: '#F21C00',
   sys_green: '#40C927',
   black: '#212121',
+  black_toast: ' rgba(33, 33, 33, 0.40)',
   white1: '#FFFFFF',
   white2: '#F5F5F5',
   white1_hover: 'rgba(255, 255, 255, 0.4)',
-  black_toast: ' rgba(33, 33, 33, 0.40)',
   gray1: '#565959',
   gray2: '#848688',
   gray3: '#ACACAC',
   gray4: '#CCCCCC',
   gray5: '#EBEBEB',
   gray6: '#F0F2F2',
-  iris_hover: '#595AE8',
-  iris_click: '#4243B6',
+
+  kakao_yellow: '#FEE500',
+  kakao_black: '#000000',
+
+  linear1: 'linear-gradient(270deg, #FFF 77.78%, rgba(255, 255, 255, 0.00) 100%)',
   shadow1: 'rgba(211, 211, 211, 0.63)',
 };
 
