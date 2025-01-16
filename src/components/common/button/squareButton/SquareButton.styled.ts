@@ -10,7 +10,7 @@ export const ButtonWrapper = styled.button<{
   justify-content: center;
 
   ${({ theme }) => theme.fonts.body_16_m};
-  color: ${({ theme }) => theme.colors.gray2};
+  color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
 
   background-color: ${({ theme }) => theme.colors.white1};
   cursor: pointer;
