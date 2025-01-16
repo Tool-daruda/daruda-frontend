@@ -5,8 +5,11 @@ export const ButtonWrapper = styled.div<{ $disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: max-content;
+  width: 14rem;
+  height: 4.8rem;
   padding: 1rem 1.8rem;
+
+  white-space: nowrap;
 
   cursor: pointer;
   border: 1px solid ${({ theme }) => theme.colors.gray4};

@@ -5,7 +5,7 @@ export const ButtonWrapper = styled.button<{
   stroke: boolean;
 }>`
   display: flex;
-  gap: 0.6rem;
+  gap: 0.8rem;
   align-items: center;
   justify-content: center;
 
@@ -43,7 +43,7 @@ export const ButtonWrapper = styled.button<{
     }
   }}
 
-  &:hover span svg path {
+  &:hover svg path {
     stroke: ${({ theme }) => theme.colors.white1};
   }
 
@@ -51,6 +51,10 @@ export const ButtonWrapper = styled.button<{
     color: ${({ theme }) => theme.colors.white1};
 
     background-color: ${({ theme }) => theme.colors.iris1};
+  }
+
+  &:hover span svg path {
+    stroke: ${({ theme }) => theme.colors.white1};
   }
 
   &:active span svg path {
