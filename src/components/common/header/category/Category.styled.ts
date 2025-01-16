@@ -69,12 +69,12 @@ export const CategoryDropdown = styled.div`
   border-radius: 0 1.6rem 1.6rem;
 `;
 
-export const CategoryItem = styled.div<{ isClicked: boolean }>`
+export const CategoryItem = styled.div`
   padding: 0.2rem 0 0.2rem 1rem;
 
-  color: ${({ theme, isClicked }) => (isClicked ? theme.colors.iris_click : theme.colors.black)};
+  color: ${({ theme }) => theme.colors.black};
 
-  background-color: ${({ theme, isClicked }) => (isClicked ? theme.colors.gray5 : 'transparent')};
+  background-color: transparent;
   cursor: pointer;
   border-radius: 0.8rem;
   ${({ theme }) => theme.fonts.body_16_m};
@@ -83,5 +83,11 @@ export const CategoryItem = styled.div<{ isClicked: boolean }>`
     color: ${({ theme }) => theme.colors.iris_click};
 
     background-color: ${({ theme }) => theme.colors.white2};
+  }
+
+  &:active {
+    color: ${({ theme }) => theme.colors.iris_click};
+
+    background-color: ${({ theme }) => theme.colors.gray5};
   }
 `;

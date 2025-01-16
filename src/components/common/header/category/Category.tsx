@@ -24,15 +24,14 @@ const CATAGORY_TEXTS = [
 export const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
-  const [isClicked, setIsClicked] = useState<number | null>(null);
 
   const toggleCategory = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleCategoryClick = (index: number) => {
-    setIsClicked(index); // 클릭된 항목의 index를 상태로 저장
-
+  const handleCategoryClick = () => {
+    // 카테고리 index number로 넘겨주기
+    setIsOpen(false);
     // TODO: 카테고리 클릭 시 '툴리스트' 페이지에서 해당 카테고리가 선택되어 보이도록 구현
   };
 
@@ -55,16 +54,12 @@ export const Category = () => {
       {shouldDisplayDropdown && (
         <S.OpenedCategoryWrapper>
           <S.OpenedCategory onClick={toggleCategory}>
-            카테고리 <IcArrowDownBlack24Copy width="2.4rem" height="2.4rem" />
+            {HEADER_TEXTS.category}
+            <IcArrowDownBlack24Copy width="2.4rem" height="2.4rem" />
           </S.OpenedCategory>
           <S.CategoryDropdown>
             {CATAGORY_TEXTS.map((category, index) => (
-              <CategoryItem
-                key={index}
-                category={category}
-                isClicked={isClicked === index}
-                onClick={() => handleCategoryClick(index)}
-              />
+              <CategoryItem key={index} category={category} onClick={() => handleCategoryClick()} />
             ))}
           </S.CategoryDropdown>
         </S.OpenedCategoryWrapper>
@@ -76,14 +71,9 @@ export const Category = () => {
 // 카테고리 아이템
 interface CategoryItemProps {
   category: string;
-  isClicked: boolean;
   onClick: () => void;
 }
 
-const CategoryItem = ({ category, isClicked, onClick }: CategoryItemProps) => {
-  return (
-    <S.CategoryItem isClicked={isClicked} onClick={onClick}>
-      {category}
-    </S.CategoryItem>
-  );
+const CategoryItem = ({ category, onClick }: CategoryItemProps) => {
+  return <S.CategoryItem onClick={onClick}>{category}</S.CategoryItem>;
 };
