@@ -26,7 +26,7 @@ interface CardDataProp {
 const Card = ({ post }: CardDataProp) => {
   const { toolName, toolLogo, title, content, images, updatedAt, nickName, commentCount } = post;
 
-  const { isOpen, handleModalOpen, handleModalClose } = useModal();
+  const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
   return (
     <S.CardWrapper>
@@ -54,7 +54,7 @@ const Card = ({ post }: CardDataProp) => {
           </S.ImageGrid>
         </S.CardTopContent>
         <S.CardDivider />
-        <S.CardBottomBar>
+        <S.CardBottomBar onClick={preventPropogation}>
           <S.BottomBarLeft>
             <SquareButton icon={<IcCommentGray24 />} size="small" stroke={false}>{`${commentCount}개`}</SquareButton>
             <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
