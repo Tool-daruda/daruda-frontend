@@ -1,5 +1,5 @@
 import Chip from '@components/chip/Chip';
-import LoadingLottie from '@components/lottie/LoadingLottie';
+import LoadingLottie from '@components/lottie/Loading';
 import { toolMockData, Tool } from '@pages/toolList/mocks/toolCard/ToolMockData';
 import { useEffect, useState, useCallback } from 'react';
 
