@@ -51,11 +51,11 @@ export const ButtonWrapper = styled.button<{
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.iris_hover};
+    background-color: ${({ theme }) => theme.colors.iris1_hover};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.iris_click};
+    background-color: ${({ theme }) => theme.colors.iris1_click};
   }
 
   &:disabled {
