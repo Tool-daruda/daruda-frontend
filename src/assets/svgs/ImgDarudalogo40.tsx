@@ -1,8 +1,7 @@
-import * as React from 'react';
 import type { SVGProps } from 'react';
 
 const SvgImgDarudalogo40 = (props: SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width={113} height={33} fill="none" {...props}>
+  <svg xmlns="http://www.w3.org/2000/svg" width={113} height={33} viewBox="0 0 113 33" fill="none" {...props}>
     <g filter="url(#img_darudalogo_40_svg__a)">
       <path
         fill="#4D4ECD"
