@@ -22,9 +22,7 @@ export const Container = styled.div`
 `;
 
 export const LogoSection = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 12rem;
   margin: 14rem 33.9rem 2.5rem 30rem;
 `;
 
@@ -37,24 +35,11 @@ export const LoginButtonContainer = styled.div`
 
 export const LoginButton = styled.button`
   display: flex;
+  gap: 1.2rem;
   align-items: center;
   justify-content: center;
   width: 40rem;
   height: 6rem;
-
-  color: ${({ theme }) => theme.colors.kakao_black};
-
-  background-color: ${({ theme }) => theme.colors.kakao_yellow};
-  border-radius: 0.8rem;
-`;
-
-export const LoginButtonInput = styled.div`
-  display: flex;
-  gap: 1.2rem;
-  align-items: center;
-  justify-content: center;
-  width: 14.6rem;
-  height: 3rem;
 
   color: ${({ theme }) => theme.colors.kakao_black};
 
