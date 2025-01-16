@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import NamingInput from './components/namingInput/NamingInput';
+import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 import * as S from './SignUp.styled';
 
 const SignUp = () => {
@@ -19,11 +20,27 @@ const SignUp = () => {
   const handleCircleBtnClick = () => {
     setIsModalOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
   const isCircleBtnActive = nickname.length >= 1;
+
+  const modalProps = {
+    modalTitle: '회원가입이 완료되었어요.',
+    isOpen: isModalOpen,
+    handleClose: handleCloseModal,
+    ImgPopupModal: ImgModalcheck,
+    isSingleModal: true,
+    singleBtnContent: '툴 다루러 가기',
+    modalContent: '',
+    DobblebtnProps: {
+      isPrimaryRight: false,
+      primaryBtnContent: '',
+      secondaryBtnContent: '',
+    },
+  };
 
   return (
     <S.SignUpWrapper>
@@ -44,9 +61,9 @@ const SignUp = () => {
         <S.RightContainer>
           <h1>회원가입</h1>
           <S.AffiliationBox>
-            <h3>소속을 선택해주세요.</h3>
+            <h2>소속을 선택해주세요.</h2>
             <S.AffiliationBtnBox>
-              {['학생', '직장인', '일반인'].map((label) => (
+              {AFFILIATION_OPTIONS.map((label) => (
                 <AffiliationBtn
                   key={label}
                   label={label}
@@ -67,20 +84,7 @@ const SignUp = () => {
             </CircleButton>
           </S.SignUpBtn>
         </S.RightContainer>
-        <AlterModal
-          modalTitle={'회원가입이 완료되었어요.'}
-          isOpen={isModalOpen}
-          handleClose={handleCloseModal}
-          ImgPopupModal={ImgModalcheck}
-          isSingleModal={true}
-          singleBtnContent={'툴 다루러 가기'}
-          modalContent={''}
-          DobblebtnProps={{
-            isPrimaryRight: false,
-            primaryBtnContent: '',
-            secondaryBtnContent: '',
-          }}
-        />
+        <AlterModal {...modalProps} />
       </S.Container>
     </S.SignUpWrapper>
   );

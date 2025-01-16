@@ -77,7 +77,7 @@ export const AffiliationBox = styled.div`
   width: 45.6rem;
   margin-bottom: 4rem;
 
-  h3 {
+  h2 {
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.fonts.body_16_b_1};
   }
