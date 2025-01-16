@@ -21,6 +21,7 @@ const colors = {
   gray6: '#F0F2F2',
   iris_hover: '#595AE8',
   iris_click: '#4243B6',
+  iris2_hover: 'rgba(185, 185, 246, 0.40)',
   shadow1: 'rgba(211, 211, 211, 0.63)',
   kakao_yellow: ' #FEE500',
   kakao_black: 'rgba(0, 0, 0, 0.85) ',
@@ -40,6 +41,11 @@ const fonts = {
   head_32_b: css`
     font-size: 3.2rem;
     font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 4.8rem;
+  `,
+  head_28_b_48: css`
+    font-size: 2.8rem;
+    font-family: 'AppleSDGothicNeoM00', sans-serif;
     line-height: 4.8rem;
   `,
   head_28_m: css`
@@ -91,6 +97,11 @@ const fonts = {
     font-size: 1.6rem;
     font-family: 'AppleSDGothicNeoM00', sans-serif;
     line-height: 2.8rem;
+  `,
+  caption_14_b: css`
+    font-size: 1.4rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 2rem;
   `,
   caption_14_m: css`
     font-size: 1.4rem;
