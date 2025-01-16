@@ -10,6 +10,7 @@ interface InputButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onImageSelect?: (isSelected: boolean, fileName: string) => void;
 }
 
+// 이미지를 업로드할 수 있는 Input Button 입니다.
 const InputButton = ({ children, icon, status, onImageSelect, ...rest }: InputButtonProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (status) return;
