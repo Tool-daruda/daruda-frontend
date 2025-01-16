@@ -87,7 +87,7 @@ const fonts = {
   `,
   body_16_m: css`
     font-size: 1.6rem;
-    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    font-family: 'AppleSDGothicNeoM00', sans-serif;
     line-height: 2.8rem;
   `,
   caption_14_m: css`
