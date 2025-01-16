@@ -16,7 +16,7 @@ export const CardWrapper = styled.form`
 
 export const CardSendContainer = styled.div`
   display: flex;
-  gap: 3rem;
+  gap: 2.5rem;
   align-items: flex-start;
 `;
 
