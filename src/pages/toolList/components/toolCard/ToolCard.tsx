@@ -1,75 +1,22 @@
+import Chip from '@components/chip/Chip';
+import LoadingLottie from '@components/lottie/LoadingLottie';
+import { toolMockData, Tool } from '@pages/toolList/mocks/toolCard/ToolMockData';
 import { useEffect, useState, useCallback } from 'react';
 
 import * as S from './ToolCard.styled';
 
-import Chip from '../../../../components/common/chip/Chip';
 import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
-
-interface Tool {
-  toolId: number;
-  toolName: string;
-  toolLogo: string;
-  description: string;
-  license: string;
-  keywords: string[];
-  backgroundColor: string;
-  textColor: boolean;
-  bookmarked: boolean;
-}
 
 const ToolCard = () => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  const mockData = () => {
-    return {
-      status: 200,
-      data: {
-        tools: [
-          {
-            toolId: 1,
-            toolName: 'ElevenLabs',
-            toolLogo: './svgs/img_modalexit2.svg',
-            description: 'AI 오디오 플ssssssssssssssssatform으로 가장 현실적인 음성을 만들어보세요',
-            license: 'PAID',
-            keywords: ['AI', '음성', '생산성'],
-            backgroundColor: '#fed687',
-            textColor: true,
-            bookmarked: false,
-          },
-          {
-            toolId: 2,
-            toolName: 'ChatGPT',
-            toolLogo: './svgs/img_modalcheck.svg',
-            description: '즉각적인 답변, 더 높은 생산성, 무한한 영감',
-            license: 'FREE',
-            keywords: ['그래픽 제작', '디자인', '3D'],
-            backgroundColor: '#badcf9',
-            textColor: false,
-            bookmarked: false,
-          },
-          {
-            toolId: 3,
-            toolName: 'Figma',
-            toolLogo: './svgs/img_modalexit.svg',
-            description: '디자인 협업의 새로운 표준',
-            license: 'PAID',
-            keywords: ['AI', '음성', '생산성'],
-            backgroundColor: '#c3f9c7',
-            textColor: true,
-            bookmarked: false,
-          },
-        ],
-      },
-    };
-  };
-
   const fetchTools = async () => {
     if (isLoading) return;
     setIsLoading(true);
 
-    const data = mockData();
+    const data = toolMockData;
 
     if (data.status === 200 && data.data.tools.length > 0) {
       setTools((prevTools) => [...prevTools, ...data.data.tools]);
@@ -148,7 +95,7 @@ const ToolCard = () => {
           </S.Card>
         ))}
       </S.CardList>
-      {isLoading && <S.LoadingSpinner>Loading...</S.LoadingSpinner>}
+      {isLoading && <LoadingLottie />}
     </S.Container>
   );
 };

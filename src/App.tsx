@@ -1,7 +1,8 @@
-import K from './pages/toolList/components/toolCard/ToolCard';
+import router from '@routes/Router';
+import { RouterProvider } from 'react-router';
 
 const App = () => {
-  return <K />;
+  return <RouterProvider router={router} />;
 };
 
 export default App;

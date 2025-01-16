@@ -29,7 +29,7 @@ export const Card = styled.div`
   transition: box-shadow 0.3s ease-in-out;
 
   &:hover {
-    box-shadow: 2px 4px 12px 0 rgb(201 201 201 / 63%);
+    box-shadow: 0.2rem 0.4rem 1.2rem 0 rgb(201 201 201 / 63%);
   }
 `;
 
@@ -128,7 +128,7 @@ export const Description = styled.p`
 
 export const Keywords = styled.div`
   display: flex;
-  gap: 8px;
+  gap: 0.8rem;
 `;
 
 export const KeywordsFront = styled.div`
@@ -136,7 +136,7 @@ export const KeywordsFront = styled.div`
   bottom: 3.7rem;
   left: 3rem;
   display: flex;
-  gap: 8px;
+  gap: 0.8rem;
 `;
 
 export const LicenseBadge = styled.span`
@@ -163,17 +163,6 @@ export const CardBackBox = styled.div`
   align-items: flex-start;
   width: 20rem;
   height: 13.4rem;
-`;
-
-export const LoadingSpinner = styled.div`
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  margin: 20px auto;
-
-  border: 4px solid rgb(0 0 0 / 10%);
-  border-top: 4px solid #3498db;
-  border-radius: 50%;
 `;
 
 export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
