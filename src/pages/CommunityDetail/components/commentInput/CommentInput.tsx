@@ -10,7 +10,6 @@ import InputButton from '../inputButton/InputButton';
 
 const CommnetInput = () => {
   const {
-    maxChars,
     text,
     isOverflowed,
     imageSelected,
@@ -50,10 +49,10 @@ const CommnetInput = () => {
             onChange={handleTextChange}
             ref={textareaRef}
             onInput={handleInput}
-            placeholder="댓글을 입력하세요..."
+            placeholder="글을 작성해주세요."
           />
           <S.CountingWords $isOverflowed={isOverflowed}>
-            <span>{text.length}</span>/<span>{maxChars}자</span>
+            <span>{text.length}</span>/<span>1,000자</span>
           </S.CountingWords>
         </S.CardInputWrapper>
         <CircleButton icon={<ImgUploadWhite48 />} size="medium" disabled={isOverflowed || text.length === 0}>

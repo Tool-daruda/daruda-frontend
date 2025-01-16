@@ -8,7 +8,6 @@ interface InputButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
   stroke?: boolean;
   status: boolean;
   onImageSelect?: (isSelected: boolean, fileName: string) => void;
-  // handleClick: () => void;
 }
 
 const InputButton = ({ children, icon, status, onImageSelect, ...rest }: InputButtonProps) => {
