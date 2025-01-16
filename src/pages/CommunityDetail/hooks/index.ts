@@ -1,3 +1,4 @@
-import useCommnetPost from './useCommentPost';
+import useImageUpload from './useImageUpload';
+import useTextInput from './useTextInput';
 
-export { useCommnetPost };
+export { useTextInput, useImageUpload };

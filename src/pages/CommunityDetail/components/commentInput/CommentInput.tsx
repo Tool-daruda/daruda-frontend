@@ -2,26 +2,26 @@ import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svg
 import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Toast from '@components/toast/Toast';
-import useCommnetPost from '@pages/CommunityDetail/hooks/useCommentPost';
+import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
 
 import * as S from './CommentInput.styled';
 
 import InputButton from '../inputButton/InputButton';
 
 const CommnetInput = () => {
-  const {
-    text,
-    isOverflowed,
-    imageSelected,
-    textareaRef,
-    imageName,
-    isToastOpen,
-    handleTextChange,
-    handleInput,
-    handleImageChange,
-    handleImgReSubmit,
-    handleImageRemove,
-  } = useCommnetPost();
+  const { text, isOverflowed, textareaRef, handleTextChange, handleInput } = useTextInput(1000);
+  const { imageSelected, imageName, imageFile, isToastOpen, handleImageChange, handleImgReSubmit, handleImageRemove } =
+    useImageUpload();
+
+  const handleCommentPost = () => {
+    const formData = new FormData();
+    formData.append('text', text);
+    if (imageFile) {
+      formData.append('image', imageFile);
+    }
+    // TODO: POST 요청 연결
+    alert('댓글 뿅');
+  };
 
   const imageButton = !imageSelected ? (
     <InputButton
@@ -55,7 +55,12 @@ const CommnetInput = () => {
             <span>{text.length}</span>/<span>1,000자</span>
           </S.CountingWords>
         </S.CardInputWrapper>
-        <CircleButton icon={<ImgUploadWhite48 />} size="medium" disabled={isOverflowed || text.length === 0}>
+        <CircleButton
+          icon={<ImgUploadWhite48 />}
+          size="medium"
+          onClick={handleCommentPost}
+          disabled={isOverflowed || text.length === 0}
+        >
           완료
         </CircleButton>
       </S.CardSendContainer>
