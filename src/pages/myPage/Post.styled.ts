@@ -6,13 +6,13 @@ export const PostWrapper = styled.div`
   padding-left: 3.6rem;
 `;
 
-export const PostContainer = styled.div`
+export const PostContainer = styled.article`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
 
-export const Pagination = styled.div`
+export const Pagination = styled.nav`
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -22,7 +22,7 @@ export const Pagination = styled.div`
   ${({ theme }) => theme.fonts.body_16_m};
 `;
 
-export const PageNum = styled.span<{ $isCurrent: boolean }>`
+export const PageNum = styled.button<{ $isCurrent: boolean }>`
   ${({ $isCurrent, theme }) =>
     $isCurrent &&
     css`
@@ -30,7 +30,7 @@ export const PageNum = styled.span<{ $isCurrent: boolean }>`
     `}
 `;
 
-export const NonTool = styled.div`
+export const NonTool = styled.figure`
   display: flex;
   flex-direction: column;
   align-items: center;
