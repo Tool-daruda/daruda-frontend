@@ -28,7 +28,7 @@ const meta: Meta<typeof AlterModal> = {
       control: { type: 'text' },
       description: '모달의 본문 내용입니다. (더블버튼일 경우)',
     },
-    DobblebtnProps: {
+    DoublebtnProps: {
       control: { type: 'object' },
       description: '두 버튼의 속성을 정의합니다. (더블버튼일 경우)',
     },
@@ -53,7 +53,7 @@ export const Exit: Story = {
     modalTitle: '화면을 벗어나시겠어요?',
     modalContent: '작성중인 화면을 벗어나면 지금까지 입력했던 정보가 사라집니다.',
     ImgPopupModal: ImgModalexit,
-    DobblebtnProps: {
+    DoublebtnProps: {
       isPrimaryRight: false,
       primaryBtnContent: '그만두기',
       secondaryBtnContent: '마저 작성하기',
@@ -85,7 +85,7 @@ export const Delete: Story = {
   args: {
     modalTitle: '선택한 글을 삭제하시겠어요?',
     modalContent: '삭제된 글은 다시 볼 수 없어요',
-    DobblebtnProps: {
+    DoublebtnProps: {
       isPrimaryRight: true,
       primaryBtnContent: '삭제할게요',
       secondaryBtnContent: '한번더 생각할게요',

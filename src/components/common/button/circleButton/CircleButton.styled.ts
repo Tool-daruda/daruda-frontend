@@ -27,7 +27,7 @@ export const ButtonWrapper = styled.button<{
       `,
       small: css`
         gap: 1.2rem;
-        padding: 1.6rem 3.6rem;
+        padding: 1.6rem 3rem;
 
         ${theme.fonts.body_20_b};
         border-radius: 3.2rem;

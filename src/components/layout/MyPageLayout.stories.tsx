@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import MyPageLayout from './MyPageLayout';
 
 const meta: Meta<typeof MyPageLayout> = {
-  title: 'Components/MyPageLayout',
+  title: 'Components/Layout/MyPageLayout',
   component: MyPageLayout,
 
   parameters: {

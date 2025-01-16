@@ -8,16 +8,33 @@ export const DropDownContainer = styled.section<{ $position: 'start' | 'end' }>`
   align-items: ${({ $position }) => $position};
 `;
 
-export const DropDownToggleBtn = styled.div`
+export const DropDownToggleBtn = styled.button<{ $isOpen: boolean }>`
   cursor: pointer;
 
   svg {
     vertical-align: middle;
   }
+
+  ${({ $isOpen, theme }) =>
+    $isOpen &&
+    `
+  border-radius: 0.8rem;
+  background: ${theme.colors.gray4};
+`}
+
+  &:hover {
+    background: ${({ theme }) => theme.colors.gray4};
+    border-radius: 0.8rem;
+  }
+
+  &:hover svg path {
+    fill: ${({ theme, $isOpen }) => ($isOpen ? theme.colors.gray1 : theme.colors.white1)};
+  }
 `;
 
-export const DropDownWrapper = styled.ul`
-  position: abolsute;
+export const DropDownWrapper = styled.ul<{ $display: 'top' | 'bottom' }>`
+  position: absolute;
+  ${({ $display }) => $display}: 4.5rem;
   z-index: 1;
   width: min-content;
 

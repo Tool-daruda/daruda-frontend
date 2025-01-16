@@ -2,13 +2,13 @@ import { SVGProps, FunctionComponent } from 'react';
 
 import * as S from '../AlterModal.styled';
 
-interface DobbleBtnModalProps {
+interface DoubleBtnModalProps {
   modalTitle: string;
   modalContent?: string;
   ImgPopupModal: FunctionComponent<SVGProps<SVGSVGElement>>;
 }
 
-const DobbleBtnModal = ({ modalTitle, modalContent, ImgPopupModal }: DobbleBtnModalProps) => {
+const DoubleBtnModal = ({ modalTitle, modalContent, ImgPopupModal }: DoubleBtnModalProps) => {
   return (
     <>
       <ImgPopupModal />
@@ -18,4 +18,4 @@ const DobbleBtnModal = ({ modalTitle, modalContent, ImgPopupModal }: DobbleBtnMo
   );
 };
 
-export default DobbleBtnModal;
+export default DoubleBtnModal;
