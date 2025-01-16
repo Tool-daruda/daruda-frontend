@@ -143,11 +143,16 @@ const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
         {categories.map((category) => (
           <S.CategoryItem key={category}>
             {category === '자유' ? (
-              <S.CategoryHeader>
+              <S.CategoryHeader isFreeChecked={isFreeChecked}>
                 <S.CheckboxLabel>
                   <span>{category}</span>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <S.CheckboxInput type="checkbox" checked={isFreeChecked} onChange={handleFreeCheck} />
+                    <S.CheckboxInput
+                      className="category-free"
+                      type="checkbox"
+                      checked={isFreeChecked}
+                      onChange={handleFreeCheck}
+                    />
                     {isFreeChecked && (
                       <Union
                         style={{
@@ -162,7 +167,7 @@ const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
                 </S.CheckboxLabel>
               </S.CategoryHeader>
             ) : (
-              <S.CategoryHeader onClick={() => handleCategoryClick(category)}>
+              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category)}>
                 <span>{category}</span>
                 <IcChevron
                   style={{

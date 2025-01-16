@@ -65,7 +65,7 @@ export const CategoryItem = styled.li`
   min-height: 5.6rem;
 `;
 
-export const CategoryHeader = styled.div`
+export const CategoryHeader = styled.div<{ isFreeChecked: boolean }>`
   display: flex;
   align-items: center;
   align-self: stretch;
@@ -77,7 +77,7 @@ export const CategoryHeader = styled.div`
   border-top: 1px solid ${({ theme }) => theme.colors.gray4};
 
   & svg path {
-    fill: ${({ theme }) => theme.colors.black};
+    fill: ${({ theme, isFreeChecked }) => (isFreeChecked ? theme.colors.white1 : theme.colors.black)};
   }
 `;
 
