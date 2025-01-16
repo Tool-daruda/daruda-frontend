@@ -44,6 +44,8 @@ export const ButtonWrapper = styled.button<{
   }}
 
   &:hover svg path {
+    color: ${({ theme }) => theme.colors.white1};
+
     stroke: ${({ theme }) => theme.colors.white1};
   }
 
@@ -53,7 +55,10 @@ export const ButtonWrapper = styled.button<{
     background-color: ${({ theme }) => theme.colors.iris1};
   }
 
-  &:hover span svg path {
+  &:hover svg path,
+  &:hover svg rect {
+    color: ${({ theme }) => theme.colors.white1};
+
     stroke: ${({ theme }) => theme.colors.white1};
   }
 
