@@ -2,6 +2,8 @@ import Community from '@pages/community/Community';
 import CommunityDetail from '@pages/CommunityDetail/CommunityDetail';
 import CommunityWrite from '@pages/communityWrite/CommunityWrite';
 import Intro from '@pages/intro/Intro';
+import KakaoAuth from '@pages/login/KakaoAuth';
+import SignUp from '@pages/signUp/SignUp';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
 import { createBrowserRouter } from 'react-router';
@@ -22,6 +24,8 @@ const router = createBrowserRouter([
       { path: 'community', element: <Community /> }, // 커뮤니티
       { path: 'community/write', element: <CommunityWrite /> }, // 글 작성
       { path: 'community/:id', element: <CommunityDetail /> }, // 글 상세
+      { path: 'login', element: <KakaoAuth /> }, // 로그인
+      { path: 'signUp', element: <SignUp /> }, // 회원가입
     ],
   },
   {
