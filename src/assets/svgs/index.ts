@@ -2,6 +2,7 @@ export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
 export { default as CardListAppcard } from './CardListAppcard';
 export { default as CardListAppcard1 } from './CardListAppcard1';
 export { default as Ellipse5276 } from './Ellipse5276';
+export { default as Error } from './Error';
 export { default as Free } from './Free';
 export { default as Half } from './Half';
 export { default as IcAlarmBlack24 } from './IcAlarmBlack24';

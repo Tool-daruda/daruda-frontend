@@ -1,6 +1,7 @@
 import Community from '@pages/community/Community';
 import CommunityDetail from '@pages/CommunityDetail/CommunityDetail';
 import CommunityWrite from '@pages/communityWrite/CommunityWrite';
+import NotFound from '@pages/error/NotFound';
 import Intro from '@pages/intro/Intro';
 import KakaoAuth from '@pages/login/KakaoAuth';
 import SignUp from '@pages/signUp/SignUp';
@@ -26,6 +27,7 @@ const router = createBrowserRouter([
       { path: 'community/:id', element: <CommunityDetail /> }, // 글 상세
       { path: 'login', element: <KakaoAuth /> }, // 로그인
       { path: 'signUp', element: <SignUp /> }, // 회원가입
+      { path: '*', element: <NotFound /> },
     ],
   },
   {
