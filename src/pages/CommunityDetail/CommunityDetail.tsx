@@ -4,6 +4,7 @@ import Card from '@components/postCard/PostCard';
 import { POST_DATA } from '@pages/community/mocks';
 import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './CommunityDetail.styled';
 import CommentBoard from './components/comment/commentBoard/CommentBoard';
@@ -13,6 +14,7 @@ import { Comment_DATA } from './mocks';
 const CommunityDetail = () => {
   const [height, setHeight] = useState<number>(694);
   const postareaRef = useRef<HTMLLIElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (postareaRef.current) {
@@ -25,7 +27,7 @@ const CommunityDetail = () => {
     <S.WrapperLayout>
       <S.PageWrapper>
         <S.PageHeader>
-          <IcArrowLeftBlack32 />
+          <IcArrowLeftBlack32 onClick={() => navigate(-1)} />
           <h1>글 상세보기</h1>
         </S.PageHeader>
         <S.BoardContainer>
