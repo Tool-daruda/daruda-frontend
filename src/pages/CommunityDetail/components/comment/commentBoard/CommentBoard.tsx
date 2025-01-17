@@ -26,12 +26,21 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
           </div>
         </S.CommentHeader>
         <S.CommentList height={height}>
-          {commentList.map((comment, idx) => (
-            <div key={comment.commentId}>
-              <CommentCard comment={comment} />
-              {idx < commentList.length - 1 && <S.Divider />}
-            </div>
-          ))}
+          {commentList.length === 0 && (
+            <S.EmptySpaceWrapper>
+              <div>
+                <S.EmptySpaceTitle>작성된 댓글이 없어요</S.EmptySpaceTitle>
+                <S.EmptySpaceText>댓글을 남겨 의견을 공유해보세요.</S.EmptySpaceText>
+              </div>
+            </S.EmptySpaceWrapper>
+          )}
+          {commentList.length > 0 &&
+            commentList.map((comment, idx) => (
+              <div key={comment.commentId}>
+                <CommentCard comment={comment} />
+                {idx < commentList.length - 1 && <S.Divider />}
+              </div>
+            ))}
         </S.CommentList>
       </S.CommentLayout>
     </S.CommnetWrapper>

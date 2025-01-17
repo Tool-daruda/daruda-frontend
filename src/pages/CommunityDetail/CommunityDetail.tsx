@@ -30,7 +30,7 @@ const CommunityDetail = () => {
         </S.PageHeader>
         <S.BoardContainer>
           <S.PostItem>
-            <Card post={POST_DATA[6]} forDetail={true} ref={postareaRef} />
+            <Card post={POST_DATA[4]} forDetail={true} ref={postareaRef} />
             <CommentBoard commentList={Comment_DATA} height={height} />
           </S.PostItem>
           <CommnetInput />

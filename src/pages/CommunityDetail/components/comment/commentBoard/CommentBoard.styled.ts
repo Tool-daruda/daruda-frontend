@@ -60,3 +60,21 @@ export const CommentList = styled.ul<{ height: number }>`
 export const Divider = styled(SvgDividerCommunityCmt)`
   margin: 1.2rem 0;
 `;
+
+export const EmptySpaceWrapper = styled.section`
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding-top: 25.8rem;
+`;
+
+export const EmptySpaceTitle = styled.section`
+  ${({ theme }) => theme.fonts.body_20_b};
+  color: ${({ theme }) => theme.colors.gray1};
+  text-align: center;
+`;
+
+export const EmptySpaceText = styled.section`
+  ${({ theme }) => theme.fonts.caption_14_m};
+  color: ${({ theme }) => theme.colors.gray2};
+`;
