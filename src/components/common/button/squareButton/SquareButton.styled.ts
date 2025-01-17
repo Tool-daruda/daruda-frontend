@@ -13,7 +13,6 @@ export const ButtonWrapper = styled.button<{
   color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
 
   background-color: ${({ theme }) => theme.colors.white1};
-  cursor: pointer;
 
   ${({ size }) => {
     switch (size) {

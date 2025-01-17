@@ -11,7 +11,8 @@ import InputButton from '../inputButton/InputButton';
 import { MODAL_ERR } from '../../constants';
 
 const CommnetInput = () => {
-  const { text, isOverflowed, textareaRef, handleTextChange, handleInput } = useTextInput(1000);
+  const DEFAULT_MAX_CHARS = 1000;
+  const { text, isOverflowed, textareaRef, handleTextChange, handleInput } = useTextInput(DEFAULT_MAX_CHARS);
   const {
     toastType,
     imageSelected,
