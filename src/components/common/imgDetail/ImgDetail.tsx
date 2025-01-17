@@ -27,6 +27,18 @@ const ImgDetail = ({ handleModalClose, imgList, index }: ImgDetailPropsType) => 
         </S.ImgThumb>
         <S.ModalContent src={imgList[activeIndex]} alt="Selected Image" onClick={(e) => e.stopPropagation()} />
       </S.ModalInnerWrapper>
+      {imgList.length > 1 && (
+        <S.BtnWrapper>
+          <S.PrevBtn
+            $isActive={activeIndex !== 0}
+            onClick={() => activeIndex !== 0 && setActiveIndex((prev) => prev - 1)}
+          />
+          <S.NextBtn
+            $isActive={activeIndex !== imgList.length - 1}
+            onClick={() => activeIndex !== imgList.length - 1 && setActiveIndex((prev) => prev + 1)}
+          />
+        </S.BtnWrapper>
+      )}
     </S.ModalOverlay>
   );
 };
