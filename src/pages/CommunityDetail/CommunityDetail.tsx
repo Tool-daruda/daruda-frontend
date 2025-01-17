@@ -30,26 +30,28 @@ const CommunityDetail = () => {
         </S.PageHeader>
         <S.BoardContainer>
           <S.PostItem>
-            <Card post={POST_DATA[3]} forDetail={true} ref={postareaRef} />
+            <Card post={POST_DATA[6]} forDetail={true} ref={postareaRef} />
             <CommentBoard commentList={Comment_DATA} height={height} />
           </S.PostItem>
           <CommnetInput />
         </S.BoardContainer>
       </S.PageWrapper>
-      <S.BottomBar>
-        <S.FloatingBtns>
-          <SquareButton
-            type="button"
-            icon={<IcCommentGray24 />}
-            size="small"
-            stroke={false}
-            handleClick={handleScrollDown}
-          >{`${Comment_DATA.length}개`}</SquareButton>
-          <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
-            북마크
-          </SquareButton>
-        </S.FloatingBtns>
-      </S.BottomBar>
+      {height > 695 && (
+        <S.BottomBar>
+          <S.FloatingBtns>
+            <SquareButton
+              type="button"
+              icon={<IcCommentGray24 />}
+              size="small"
+              stroke={false}
+              handleClick={handleScrollDown}
+            >{`${Comment_DATA.length}개`}</SquareButton>
+            <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
+              북마크
+            </SquareButton>
+          </S.FloatingBtns>
+        </S.BottomBar>
+      )}
     </S.WrapperLayout>
   );
 };

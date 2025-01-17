@@ -30,7 +30,7 @@ export const CommentList = styled.ul<{ height: number }>`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  height: ${({ height }) => `${height}px`};
+  height: ${({ height }) => `${height - 93}px`};
   padding-right: 1.3rem;
   overflow-y: scroll;
 
