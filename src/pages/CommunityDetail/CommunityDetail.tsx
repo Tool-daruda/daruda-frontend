@@ -6,8 +6,8 @@ import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 
 import * as S from './CommunityDetail.styled';
-import CommentBoard from './components/commentBoard/CommentBoard';
-import CommnetInput from './components/commentInput/CommentInput';
+import CommentBoard from './components/comment/commentBoard/CommentBoard';
+import CommnetInput from './components/input/commentInput/CommentInput';
 import { Comment_DATA } from './mocks';
 
 const CommunityDetail = () => {

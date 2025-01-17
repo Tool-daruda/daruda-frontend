@@ -8,7 +8,7 @@ import * as S from './CommentInput.styled';
 
 import InputButton from '../inputButton/InputButton';
 
-import { MODAL_ERR } from '../../constants';
+import { MODAL_ERR } from '../../../constants';
 
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
