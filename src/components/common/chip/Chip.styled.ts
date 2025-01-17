@@ -79,7 +79,7 @@ export const ChipRectContainer = styled.button<{
           border: 1px solid
             ${$active
               ? chipColors.rectChip.borderColor && theme.colors[chipColors.rectChip.borderColor]
-              : theme.colors.gray4};
+              : theme.colors.white1};
         `;
       case 'small':
         return css`

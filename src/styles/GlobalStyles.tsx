@@ -34,6 +34,13 @@ const globalStyles = css`
     src: url('/fonts/AppleSDGothicNeoR00.ttf') format('truetype');
   }
 
+  @font-face {
+    font-weight: 700;
+    font-family: SFProDisplaybold;
+    font-style: normal;
+    src: url('/fonts/SFProDisplaybold.otf') format('opentype');
+  }
+
   html {
     font-size: 62.5%;
     scroll-behavior: smooth;

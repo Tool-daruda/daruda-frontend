@@ -5,13 +5,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { MyPageContainerForStory } from './MyPageStoryLayout';
 
-import MyToolPage from '../MyToolPage';
+import MyPostPage from '../MyPostPage';
 
 const headerState: HeaderState = HEADER_STATE.LOGGED_IN;
 
-const meta: Meta<typeof MyToolPage> = {
-  title: 'Pages/MyPage/MyToolPage',
-  component: MyToolPage,
+const meta: Meta<typeof MyPostPage> = {
+  title: 'Pages/MyPage/MyPostPage',
+  component: MyPostPage,
   parameters: {
     layout: 'fullscreen',
   },
@@ -19,7 +19,7 @@ const meta: Meta<typeof MyToolPage> = {
     (Story) => (
       <>
         <Header headerState={headerState} />
-        <MyPageContainerForStory>
+        <MyPageContainerForStory activeMenu={3}>
           <Story />
         </MyPageContainerForStory>
         <Footer />
@@ -29,6 +29,6 @@ const meta: Meta<typeof MyToolPage> = {
 };
 export default meta;
 
-type Story = StoryObj<typeof MyToolPage>;
+type Story = StoryObj<typeof MyPostPage>;
 
 export const Default: Story = {};

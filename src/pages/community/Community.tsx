@@ -21,7 +21,7 @@ const Community = () => {
       <S.CommunityContainer>
         <S.CardList>
           {POST_DATA.map((post) => (
-            <Card key={post.boardId} post={post} />
+            <Card key={`community-post-${post.boardId}`} post={post} />
           ))}
         </S.CardList>
       </S.CommunityContainer>
