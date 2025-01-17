@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import * as S from './ToolInfoCard.styled';
 
-export interface ToolInfoCardProps {
+export interface ToolInfoCardPropTypes {
   toolImage: string;
   description: string;
   license: string;
@@ -12,7 +12,7 @@ export interface ToolInfoCardProps {
   platforms: string[];
 }
 
-const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platforms }: ToolInfoCardProps) => {
+const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platforms }: ToolInfoCardPropTypes) => {
   const [isBookmark, setIsBookmark] = useState(false);
   const handleChipClick = (label: string) => {
     alert(`${label} 버튼 클릭!`);

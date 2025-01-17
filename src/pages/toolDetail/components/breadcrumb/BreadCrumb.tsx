@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import * as S from './BreadCrumb.styled';
 
-interface BreadCrumbProps {
+interface BreadCrumbPropTypes {
   topicsState: { name: string; active: boolean }[];
   toolsState: { name: string; active: boolean }[];
 }
 
-const BreadCrumb = ({ topicsState, toolsState }: BreadCrumbProps) => {
+const BreadCrumb = ({ topicsState, toolsState }: BreadCrumbPropTypes) => {
   const navigate = useNavigate();
 
   // TODO: 클릭된 경로에 맞게 보여주도록 구현하기
