@@ -17,7 +17,6 @@ export const Title = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 0.6rem;
 
   ${({ theme }) => theme.fonts.body_16_b_2};
   color: ${({ theme }) => theme.colors.orange1};
@@ -39,4 +38,5 @@ export const ToolContentFrame = styled.div`
 export const TitleImg = styled.div`
   display: flex;
   gap: 0.6rem;
+  margin-bottom: 0.6rem;
 `;

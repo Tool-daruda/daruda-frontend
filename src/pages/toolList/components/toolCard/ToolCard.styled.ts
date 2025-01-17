@@ -1,3 +1,4 @@
+//ToolCard.styled.ts
 import { NotFill } from '@assets/svgs';
 import styled from '@emotion/styled';
 
@@ -6,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   align-items: center;
+  margin-bottom: 7.8rem;
 `;
 
 export const CardList = styled.div`
@@ -55,6 +57,27 @@ export const CardFront = styled.div<{ bgColor: string }>`
   ${Card}:hover & {
     clip-path: polygon(61.9% 0, 100% 0, 100% 100%, 61.9% 100%);
   }
+
+  ${({ bgColor, theme }) =>
+    bgColor === '#FFFFFF' &&
+    `
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 61.9%;
+        width: 1px;
+        height: 100%;
+        background-color: ${theme.colors.gray4}; 
+        opacity: 0; 
+        transition: opacity 0.3s ease-in-out; 
+        z-index: 3;
+      }
+  
+      ${Card}:hover &::after {
+        opacity: 1; 
+      }
+    `}
 `;
 
 export const CardBack = styled.div`
@@ -90,30 +113,60 @@ export const ToolLogo = styled.img`
 `;
 
 export const ToolNameFront = styled.h2<{ textColor: boolean }>`
-  ${({ theme }) => theme.fonts.head_28_b};
   position: absolute;
-  top: 5.1rem;
+  top: 3.7rem;
   left: 3rem;
 
+  align-items: left;
+  width: 23.6rem;
+  height: auto;
+
   color: ${({ textColor, theme }) => (textColor ? theme.colors.black : theme.colors.white1)};
-  font-size: 3.6rem;
+  ${({ theme }) => theme.fonts.card_32_B};
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+`;
+export const ToolFront = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 23.6rem;
+  height: 7.6rem;
+`;
+export const ToolBackTitle = styled.h2`
+  width: 15.6rem;
+  height: auto;
+
+  color: ${({ theme }) => theme.colors.black};
+  ${({ theme }) => theme.fonts.card_18_B_20};
+  white-space: normal;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 `;
 
 export const ToolNameBack = styled.h2`
   display: flex;
+  gap: 1.2rem;
+  align-items: center;
   justify-content: space-between;
-  width: 100%;
+  width: 20rem;
+  height: 4rem;
+  margin-bottom: 0.4rem;
 
   ${({ theme }) => theme.fonts.head_28_b};
   color: ${({ theme }) => theme.colors.black};
-  font-size: 1.8rem;
-  text-align: center;
+  text-align: left;
 `;
 
 export const Description = styled.p`
-  display: -webkit-box;
+  display: flex;
+  align-items: center;
   width: 16rem;
   height: 3.2rem;
+  margin-top: 0.4rem;
   overflow: hidden;
 
   ${({ theme }) => theme.fonts.caption_12_r};
@@ -132,7 +185,7 @@ export const Keywords = styled.div`
 
 export const KeywordsFront = styled.div`
   position: absolute;
-  bottom: 3.7rem;
+  bottom: 3.3rem;
   left: 3rem;
   display: flex;
   gap: 0.8rem;
@@ -142,8 +195,8 @@ export const LicenseBadge = styled.span`
   display: flex;
   gap: 0.6rem;
   align-items: center;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
 
   color: ${({ theme }) => theme.colors.orange1};
   ${({ theme }) => theme.fonts.body_16_b_2};

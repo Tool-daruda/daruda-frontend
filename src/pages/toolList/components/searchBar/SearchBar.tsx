@@ -1,13 +1,20 @@
-import { IcSearchGray32 } from '@assets/svgs';
-import { useState } from 'react';
+//SearchBar.tsx
+import { BlurLeft, RightBlur } from '@assets/svgs';
+import Chip from '@components/chip/Chip';
+import { useRef, useState, useEffect } from 'react';
 
 import * as S from './SearchBar.styled';
 
-import Chip from '../../../../components/common/chip/Chip';
 import { categories as initialCategories } from '../../constants/searchBar/SearchBarCate';
 
-const SearchBar = () => {
+interface SearchBarProps {
+  isSticky: boolean;
+}
+
+const SearchBar = ({ isSticky }: SearchBarProps) => {
   const [categoriesState, setCategoriesState] = useState(initialCategories);
+  const [activeButton, setActiveButton] = useState<'left' | 'right'>('right');
+  const chipContainerRef = useRef<HTMLDivElement>(null);
 
   const handleCategoryClick = (categoryName: string) => {
     const updatedCategories = categoriesState.map((category) =>
@@ -16,16 +23,50 @@ const SearchBar = () => {
     setCategoriesState(updatedCategories);
   };
 
+  const scrollToStart = () => {
+    if (chipContainerRef.current) {
+      chipContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      setActiveButton('right');
+    }
+  };
+
+  const scrollToEnd = () => {
+    if (chipContainerRef.current) {
+      chipContainerRef.current.scrollTo({
+        left: chipContainerRef.current.scrollWidth,
+        behavior: 'smooth',
+      });
+      setActiveButton('left');
+    }
+  };
+
+  useEffect(() => {
+    if (chipContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = chipContainerRef.current;
+
+      if (scrollLeft === 0) {
+        setActiveButton('right');
+      } else if (scrollLeft + clientWidth >= scrollWidth) {
+        setActiveButton('left');
+      }
+    }
+  }, []);
+
   return (
-    <S.SearchBarWrapper>
-      <S.SearchBarContainer>
-        <S.SearchBarBox>
-          <S.SearchBarTitle>필요한 툴을 쉽고 빠르게 찾아보세요.</S.SearchBarTitle>
-          <S.SearchBar>
-            <IcSearchGray32 />
-            <S.Search placeholder="지금은 준비 중이에요" disabled />
-          </S.SearchBar>
-          <S.SearchChip>
+    <S.SearchBarContainer isSticky={isSticky}>
+      <S.SearchBarBox isSticky={isSticky}>
+        <S.SearchBarTitle isSticky={isSticky}>{isSticky ? '' : '필요한 툴을 쉽고 빠르게 찾아보세요.'}</S.SearchBarTitle>
+        <S.SearchBar isSticky={isSticky}>
+          <S.IcSearchGray />
+          <S.Search placeholder="지금은 준비 중이에요" disabled isSticky={isSticky} />
+        </S.SearchBar>
+        <S.SearchChipWrapper>
+          {isSticky && activeButton === 'left' && (
+            <S.ScrollButtonLeft onClick={scrollToStart}>
+              <BlurLeft />
+            </S.ScrollButtonLeft>
+          )}
+          <S.SearchChip ref={chipContainerRef} isSticky={isSticky}>
             {categoriesState.map((category) => (
               <Chip
                 key={category.name}
@@ -39,9 +80,14 @@ const SearchBar = () => {
               </Chip>
             ))}
           </S.SearchChip>
-        </S.SearchBarBox>
-      </S.SearchBarContainer>
-    </S.SearchBarWrapper>
+          {isSticky && activeButton === 'right' && (
+            <S.ScrollButtonRight onClick={scrollToEnd}>
+              <RightBlur />
+            </S.ScrollButtonRight>
+          )}
+        </S.SearchChipWrapper>
+      </S.SearchBarBox>
+    </S.SearchBarContainer>
   );
 };
 
