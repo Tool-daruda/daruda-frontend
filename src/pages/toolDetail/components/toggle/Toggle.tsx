@@ -13,6 +13,7 @@ interface TogglePropsType {
 
 const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }: TogglePropsType) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHover, setIsHover] = useState(false);
 
   const formattedLabel =
     typeof label === 'number' ? (
@@ -23,9 +24,23 @@ const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }
       label
     );
 
+  const handleMouseEnter = () => {
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHover(false);
+  };
+
+  const shouldDisplayDropdown = isHover || isOpen;
+
   return (
-    <S.ToggleWrapper>
-      <S.ToggleBtn $isSingleLine={isSingleLine} $isOpen={isOpen} onClick={() => setIsOpen((prev) => !prev)}>
+    <S.ToggleWrapper onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <S.ToggleBtn
+        $isSingleLine={isSingleLine}
+        $isOpen={shouldDisplayDropdown}
+        onClick={() => setIsOpen((prev) => !prev)}
+      >
         <div>
           <p>{planName}</p>
           <p>
@@ -33,9 +48,9 @@ const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }
             {isdollar && <span>({dollar}$)</span>}
           </p>
         </div>
-        <S.ToggleIcon $isOpen={isOpen} />
+        <S.ToggleIcon $isOpen={shouldDisplayDropdown} />
       </S.ToggleBtn>
-      <S.ToggleContent $isOpen={isOpen}>
+      <S.ToggleContent $isOpen={shouldDisplayDropdown}>
         {description.split('\n').map((line, index) => (
           <li key={index}>{line}</li>
         ))}
