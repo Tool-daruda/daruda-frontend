@@ -40,12 +40,14 @@ const errAnimation = `
   }
 `;
 
-export const CardInputWrapper = styled.section<{ $isOverflowed: boolean }>`
+export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocus: boolean }>`
   width: 81.3rem;
   padding: 2.2rem 5rem 3rem 2rem;
 
   background: ${({ theme }) => theme.colors.white2};
-  border: 1px solid ${({ theme, $isOverflowed }) => ($isOverflowed ? theme.colors.sys_red : theme.colors.gray4)};
+  border: 1px solid
+    ${({ theme, $isOverflowed, $isFocus }) =>
+      $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
   border-radius: 1.6rem;
 
   animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
