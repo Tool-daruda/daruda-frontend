@@ -38,6 +38,12 @@ export const ToggleBtn = styled.button<{ $isSingleLine: boolean; $isOpen: boolea
     ${({ theme }) => theme.fonts.caption_10_m};
   }
 
+  .won-symbol {
+    margin-left: 0.1rem;
+
+    color: ${({ $isOpen, theme }) => ($isOpen ? theme.colors.iris1 : theme.colors.gray1)};
+  }
+
   path {
     fill: ${({ $isOpen, theme }) => ($isOpen ? theme.colors.iris1 : theme.colors.gray1)};
   }

@@ -14,7 +14,14 @@ interface TogglePropsType {
 const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }: TogglePropsType) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const formattedLabel = typeof label === 'number' ? `월 ${new Intl.NumberFormat('ko-KR').format(label)}원₩` : label;
+  const formattedLabel =
+    typeof label === 'number' ? (
+      <>
+        월 {new Intl.NumberFormat('ko-KR').format(label)}원<span className="won-symbol">₩</span>
+      </>
+    ) : (
+      label
+    );
 
   return (
     <S.ToggleWrapper>
