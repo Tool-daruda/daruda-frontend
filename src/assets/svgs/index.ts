@@ -33,3 +33,7 @@ export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
 export { default as NotFill } from './NotFill';
 export { default as Paid } from './Paid';
 export { default as Union } from './Union';
+
+export { default as IcArrowRightupWhite24 } from './IcArrowRightupWhite24';
+export { default as IcBookmarkIris121Default } from './IcBookmarkIris121Default';
+export { default as IcShareIris125 } from './IcShareIris125';
