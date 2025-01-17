@@ -1,5 +1,9 @@
 import styled from '@emotion/styled';
 
+export const WrapperLayout = styled.section`
+  position: relative;
+`;
+
 export const PageHeader = styled.section`
   display: flex;
   align-items: center;
@@ -32,4 +36,22 @@ export const PostItem = styled.section`
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
+`;
+
+export const FloatingBtns = styled.span`
+  display: flex;
+  gap: 1.9rem;
+  align-items: center;
+`;
+
+export const BottomBar = styled.div`
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0.8rem 0;
+
+  background: ${({ theme }) => theme.colors.white1};
+  box-shadow: 0 0 12px 0 ${({ theme }) => theme.colors.shadow1};
 `;

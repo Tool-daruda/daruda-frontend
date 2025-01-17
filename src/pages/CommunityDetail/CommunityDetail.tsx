@@ -1,6 +1,8 @@
-import { IcArrowLeftBlack32 } from '@assets/svgs';
+import { IcArrowLeftBlack32, IcCommentGray24, IcBookmark } from '@assets/svgs';
+import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import { POST_DATA } from '@pages/community/mocks';
+import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 
 import * as S from './CommunityDetail.styled';
@@ -20,19 +22,35 @@ const CommunityDetail = () => {
   }, []);
 
   return (
-    <S.PageWrapper>
-      <S.PageHeader>
-        <IcArrowLeftBlack32 />
-        <h1>글 상세보기</h1>
-      </S.PageHeader>
-      <S.BoardContainer>
-        <S.PostItem>
-          <Card post={POST_DATA[3]} forDetail={true} ref={postareaRef} />
-          <CommentBoard commentList={Comment_DATA} height={height} />
-        </S.PostItem>
-        <CommnetInput />
-      </S.BoardContainer>
-    </S.PageWrapper>
+    <S.WrapperLayout>
+      <S.PageWrapper>
+        <S.PageHeader>
+          <IcArrowLeftBlack32 />
+          <h1>글 상세보기</h1>
+        </S.PageHeader>
+        <S.BoardContainer>
+          <S.PostItem>
+            <Card post={POST_DATA[3]} forDetail={true} ref={postareaRef} />
+            <CommentBoard commentList={Comment_DATA} height={height} />
+          </S.PostItem>
+          <CommnetInput />
+        </S.BoardContainer>
+      </S.PageWrapper>
+      <S.BottomBar>
+        <S.FloatingBtns>
+          <SquareButton
+            type="button"
+            icon={<IcCommentGray24 />}
+            size="small"
+            stroke={false}
+            handleClick={handleScrollDown}
+          >{`${Comment_DATA.length}개`}</SquareButton>
+          <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
+            북마크
+          </SquareButton>
+        </S.FloatingBtns>
+      </S.BottomBar>
+    </S.WrapperLayout>
   );
 };
 

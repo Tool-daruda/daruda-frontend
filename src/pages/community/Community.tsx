@@ -1,5 +1,6 @@
 import { IcPlusWhite20, IcChevron } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import { handleScrollUp } from '@utils';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
@@ -8,14 +9,6 @@ import { POST_DATA } from './mocks';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
-  const handleScrollUp = () => {
-    if (!window.scrollY) return;
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
   return (
     <S.CommunityWrapper>
       <Banner />
