@@ -3,9 +3,7 @@ import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
 import { ReactNode } from 'react';
 
-export const MyPageContainerForStory = ({ children }: { children: ReactNode }) => {
-  const activeMenu = 3;
-
+export const MyPageContainerForStory = ({ children, activeMenu }: { children: ReactNode; activeMenu: number }) => {
   return (
     <S.LayoutWrapper>
       <h1>마이페이지</h1>
