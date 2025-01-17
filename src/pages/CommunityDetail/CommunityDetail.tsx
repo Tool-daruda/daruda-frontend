@@ -16,7 +16,6 @@ const CommunityDetail = () => {
     if (postareaRef.current) {
       const height = postareaRef.current.offsetHeight;
       setHeight(height);
-      console.log(`Card height: ${height}px`);
     }
   }, []);
 
@@ -27,7 +26,7 @@ const CommunityDetail = () => {
       </S.PageHeader>
       <S.BoardContainer>
         <S.PostItem>
-          <Card post={POST_DATA[6]} forDetail={true} ref={postareaRef} />
+          <Card post={POST_DATA[3]} forDetail={true} ref={postareaRef} />
           <CommentBoard commentList={Comment_DATA} height={height} />
         </S.PostItem>
         <CommnetInput />

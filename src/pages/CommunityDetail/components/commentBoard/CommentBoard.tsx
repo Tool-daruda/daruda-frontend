@@ -17,7 +17,7 @@ interface CommentProp {
 
 const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
   return (
-    <S.CommnetWrapper height={height}>
+    <S.CommnetWrapper>
       <S.CommentLayout>
         <S.CommentHeader>
           <div>
@@ -25,7 +25,7 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
             <p>{`${commentList.length}개`}</p>
           </div>
         </S.CommentHeader>
-        <S.CommentList>
+        <S.CommentList height={height}>
           {commentList.map((comment, idx) => (
             <>
               <CommentCard key={comment.commentId} comment={comment} />

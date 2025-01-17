@@ -131,7 +131,7 @@ export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
 
 export const ToastWrapper = styled.div`
   position: absolute;
-  top: 9.2rem;
+  bottom: 0;
   left: 50%;
 
   transform: translateX(-50%);

@@ -45,8 +45,10 @@ const CommentCard = ({ comment }: Comment) => {
           </DropDown.Content>
         </DropDown>
       </S.MetaInfo>
-      <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
-      <S.CommentContent>{comment.content}</S.CommentContent>
+      <div>
+        <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
+        <S.CommentContent>{comment.content}</S.CommentContent>
+      </div>
     </S.Wrapper>
   );
 };

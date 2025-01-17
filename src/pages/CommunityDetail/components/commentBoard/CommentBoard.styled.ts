@@ -1,10 +1,8 @@
 import SvgDividerCommunityCmt from '@assets/svgs/DividerCommunityCmt';
 import styled from '@emotion/styled';
 
-export const CommnetWrapper = styled.section<{ height: number }>`
+export const CommnetWrapper = styled.section`
   width: 30%;
-  height: ${({ height }) => `${height}px`};
-  overflow-y: scroll;
 
   background: ${({ theme }) => theme.colors.white2};
   border-radius: 0 1.6rem 1.6rem 0;
@@ -28,10 +26,35 @@ export const CommentHeader = styled.section`
   }
 `;
 
-export const CommentList = styled.ul`
+export const CommentList = styled.ul<{ height: number }>`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  height: ${({ height }) => `${height}px`};
+  padding-right: 1rem;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0.8rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.white2};
+    cursor: pointer;
+    border: 4px solid ${({ theme }) => theme.colors.gray4};
+    border-radius: 0.4rem;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.colors.white2};
+  }
+
+  &::-webkit-scrollbar-button:vertical:start:decrement,
+  &::-webkit-scrollbar-button:vertical:start:increment,
+  &::-webkit-scrollbar-button:vertical:end:decrement {
+    display: block;
+    height: 0.1rem;
+  }
 `;
 
 export const Divider = styled(SvgDividerCommunityCmt)`
