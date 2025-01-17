@@ -3,8 +3,9 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
-import Card from './components/card/Card';
 import { POST_DATA } from './mocks';
+
+import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
   const handleScrollUp = () => {

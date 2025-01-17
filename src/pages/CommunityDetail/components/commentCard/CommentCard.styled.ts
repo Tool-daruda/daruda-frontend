@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const Wrapper = styled.article`
+export const Wrapper = styled.li`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -10,6 +10,15 @@ export const Wrapper = styled.article`
 
 export const MetaInfo = styled.span`
   ${({ theme }) => theme.fonts.caption_12_r};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  color: ${({ theme }) => theme.colors.gray2};
+`;
+
+export const MetaInfoItem = styled.span`
   display: flex;
   gap: 0.6rem;
   align-items: center;
@@ -25,5 +34,5 @@ export const CommentImg = styled.img`
 export const CommentContent = styled.pre`
   ${({ theme }) => theme.fonts.caption_14_m};
   color: ${({ theme }) => theme.colors.gray1};
-  white-space: break-spaces;
+  white-space: pre-line;
 `;

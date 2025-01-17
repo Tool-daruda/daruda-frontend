@@ -17,6 +17,7 @@ export const CardSendContainer = styled.div`
   display: flex;
   gap: 2.5rem;
   align-items: flex-start;
+  width: 100%;
 `;
 
 const errAnimation = `

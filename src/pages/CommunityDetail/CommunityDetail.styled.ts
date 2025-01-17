@@ -13,6 +13,7 @@ export const BoardContainer = styled.section`
   flex-direction: column;
   gap: 1.6rem;
   width: 100%;
+  min-height: 694px;
 `;
 
 export const PostItem = styled.section`

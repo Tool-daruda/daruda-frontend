@@ -10,7 +10,8 @@ export const Comment_DATA = [
   {
     commentId: 1,
     nickName: '레전드웨비',
-    content: `인생은 깡과 총이 있어야해요. 깡총깡총깡총깡총깡총깡총깡총깡총
+    content: `인생은 깡과 총이 있어야해요.
+      깡총깡총깡총깡총깡총깡총깡총깡총
       깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총
       깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총깡총`,
     image: 'https://placehold.co/172x100',
@@ -32,28 +33,20 @@ export const Comment_DATA = [
     image: 'https://placehold.co/172x100',
     updatedAt: '2025.01.12',
   },
-  {
-    commentId: 4,
-    nickName: '미니미니치취',
-    content:
-      '이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요',
-    image: 'https://placehold.co/172x100',
-    updatedAt: '2025.01.12',
-  },
-  {
-    commentId: 5,
-    nickName: '은제언제잠',
-    content:
-      '이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요',
-    image: 'https://placehold.co/172x100',
-    updatedAt: '2025.01.12',
-  },
-  {
-    commentId: 6,
-    nickName: '짱절미댕댕',
-    content:
-      '이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요',
-    image: 'https://placehold.co/172x100',
-    updatedAt: '2025.01.12',
-  },
+  // {
+  //   commentId: 4,
+  //   nickName: '미니미니치취',
+  //   content:
+  //     '이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요',
+  //   image: 'https://placehold.co/172x100',
+  //   updatedAt: '2025.01.12',
+  // },
+  // {
+  //   commentId: 5,
+  //   nickName: '미니미니치취',
+  //   content:
+  //     '이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요이건어떠세요',
+  //   image: 'https://placehold.co/172x100',
+  //   updatedAt: '2025.01.12',
+  // },
 ];
