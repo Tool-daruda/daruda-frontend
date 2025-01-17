@@ -32,20 +32,21 @@ export const ImgThumb = styled.ul`
   flex-direction: column;
   gap: 1rem;
   width: 8rem;
+`;
 
-  img {
-    width: 8rem;
-    height: 8rem;
-    object-fit: cover;
+export const PreviewImg = styled.img<{ $isActive: boolean }>`
+  width: 8rem;
+  height: 8rem;
+  object-fit: cover;
 
-    border-radius: 1.6rem;
-  }
+  cursor: pointer;
+  ${({ $isActive, theme }) =>
+    $isActive ? `  border: 3px solid ${theme.colors.orange1}` : `  border: 0.75px solid ${theme.colors.gray6};`};
+  border-radius: 1.6rem;
 `;
 
 export const ModalContent = styled.img`
   width: 102.5rem;
   height: 60rem;
   object-fit: contain;
-
-  border: 1px solid #fff;
 `;

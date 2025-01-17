@@ -38,6 +38,7 @@ export const Default: Story = {
     imgList: [
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
     ],
+    index: 0,
   },
 };
 
@@ -46,6 +47,7 @@ export const LongImage: Story = {
     imgList: [
       'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MDdfMjM4/MDAxNjIzMDQ2MjA1OTY4.EQxMIV0UDB16AtSDixaxxARU-j-9TR7FwI99BAI3Igog.OfP6ySj92pfhC-4nAF7dNOjhREXQQ6johvr2E0Qrgbwg.JPEG.loanpass2/%EC%B9%B4%ED%86%A1_%EC%9D%B5%EB%AA%85_%EC%BA%A1%EC%B3%90_%281%29.jpg?type=w420',
     ],
+    index: 0,
   },
 };
 
@@ -53,8 +55,9 @@ export const Images: Story = {
   args: {
     imgList: [
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
-      'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
+      'https://mblogthumb-phinf.pstatic.net/MjAyMTA2MDdfMjM4/MDAxNjIzMDQ2MjA1OTY4.EQxMIV0UDB16AtSDixaxxARU-j-9TR7FwI99BAI3Igog.OfP6ySj92pfhC-4nAF7dNOjhREXQQ6johvr2E0Qrgbwg.JPEG.loanpass2/%EC%B9%B4%ED%86%A1_%EC%9D%B5%EB%AA%85_%EC%BA%A1%EC%B3%90_%281%29.jpg?type=w420',
       'https://helpx.adobe.com/content/dam/help/en/photoshop/using/quick-actions/remove-background-before-qa1.png',
     ],
+    index: 0,
   },
 };
