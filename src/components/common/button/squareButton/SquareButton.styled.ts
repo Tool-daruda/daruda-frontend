@@ -5,15 +5,14 @@ export const ButtonWrapper = styled.button<{
   stroke: boolean;
 }>`
   display: flex;
-  gap: 0.6rem;
+  gap: 0.8rem;
   align-items: center;
   justify-content: center;
 
   ${({ theme }) => theme.fonts.body_16_m};
-  color: ${({ theme }) => theme.colors.gray1};
+  color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
 
   background-color: ${({ theme }) => theme.colors.white1};
-  cursor: pointer;
 
   ${({ size }) => {
     switch (size) {
@@ -43,7 +42,9 @@ export const ButtonWrapper = styled.button<{
     }
   }}
 
-  &:hover span svg path {
+  &:hover svg path {
+    color: ${({ theme }) => theme.colors.white1};
+
     stroke: ${({ theme }) => theme.colors.white1};
   }
 
@@ -51,6 +52,13 @@ export const ButtonWrapper = styled.button<{
     color: ${({ theme }) => theme.colors.white1};
 
     background-color: ${({ theme }) => theme.colors.iris1};
+  }
+
+  &:hover svg path,
+  &:hover svg rect {
+    color: ${({ theme }) => theme.colors.white1};
+
+    stroke: ${({ theme }) => theme.colors.white1};
   }
 
   &:active span svg path {
