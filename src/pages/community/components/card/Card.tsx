@@ -22,15 +22,16 @@ interface CardDataProp {
     nickName: string;
     commentCount: number;
   };
+  forComment?: boolean;
 }
 
-const Card = ({ post }: CardDataProp) => {
+const Card = ({ post, forComment = false }: CardDataProp) => {
   const { boardId, toolName, toolLogo, title, content, images, updatedAt, nickName, commentCount } = post;
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
   return (
-    <S.CardWrapper>
+    <S.CardWrapper $forComment={forComment}>
       <Link to={`/community/${boardId}`} key={boardId}>
         <S.CardLayout>
           <S.CardTopContent>

@@ -89,17 +89,4 @@ export const POST_DATA = [
     nickName: '미니미니치치',
     commentCount: 63,
   },
-  {
-    boardId: 6,
-    toolId: 0,
-    toolName: 'ChatGPT',
-    toolLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
-    title: 'PM 일 잘 해요PM 일 잘 해요PM 일 잘 해요PM 일 잘 해요PM 일 잘 해요PM 일',
-    content:
-      '대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박',
-    images: [],
-    updatedAt: '2024-12-21',
-    nickName: '안녕난또이야',
-    commentCount: 63,
-  },
 ];

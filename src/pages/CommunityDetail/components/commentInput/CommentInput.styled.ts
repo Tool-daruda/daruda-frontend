@@ -5,7 +5,6 @@ export const CardWrapper = styled.form`
   flex-direction: column;
   gap: 1.4rem;
   align-items: center;
-  width: 104.5rem;
   padding: 2rem 3.2rem;
 
   background: ${({ theme }) => theme.colors.white1};

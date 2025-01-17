@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 
-export const CardWrapper = styled.li`
+export const CardWrapper = styled.li<{ $forComment: boolean }>`
+  width: ${({ $forComment }) => ($forComment ? '70%' : '100%')};
+  height: max-content;
+  min-height: ${({ $forComment }) => $forComment && '694px'};
+
   background: ${({ theme }) => theme.colors.white1};
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
