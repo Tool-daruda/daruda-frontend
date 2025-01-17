@@ -27,10 +27,10 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
         </S.CommentHeader>
         <S.CommentList height={height}>
           {commentList.map((comment, idx) => (
-            <>
-              <CommentCard key={comment.commentId} comment={comment} />
+            <div key={comment.commentId}>
+              <CommentCard comment={comment} />
               {idx < commentList.length - 1 && <S.Divider />}
-            </>
+            </div>
           ))}
         </S.CommentList>
       </S.CommentLayout>

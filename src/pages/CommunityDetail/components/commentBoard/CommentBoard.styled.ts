@@ -31,7 +31,7 @@ export const CommentList = styled.ul<{ height: number }>`
   flex-direction: column;
   gap: 0.8rem;
   height: ${({ height }) => `${height}px`};
-  padding-right: 1rem;
+  padding-right: 1.3rem;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {

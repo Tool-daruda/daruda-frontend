@@ -1,5 +1,7 @@
-import { IcOverflowGray24 } from '@assets/svgs';
+import { IcOverflowGray24, ImgModalexit } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
+import { AlterModal } from '@components/modal';
+import { useState } from 'react';
 
 import * as S from './CommentCard.styled';
 
@@ -14,6 +16,16 @@ interface Comment {
 }
 
 const CommentCard = ({ comment }: Comment) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleModalClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleModalOpen = () => {
+    setIsOpen(true);
+  };
+
   return (
     <S.Wrapper>
       <S.MetaInfo>
@@ -32,15 +44,10 @@ const CommentCard = ({ comment }: Comment) => {
                 alert('첫번째 클릭!');
               }}
             >
-              드롭다운 목록
+              수정하기
             </DropDown.Item>
-            <DropDown.Item
-              status="danger"
-              onClick={() => {
-                alert('두번째 클릭!');
-              }}
-            >
-              드롭다운 목록
+            <DropDown.Item status="danger" onClick={handleModalOpen}>
+              삭제하기
             </DropDown.Item>
           </DropDown.Content>
         </DropDown>
@@ -49,6 +56,19 @@ const CommentCard = ({ comment }: Comment) => {
         <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
+      <AlterModal
+        modalTitle="글을 삭제하시겠어요?"
+        isOpen={isOpen}
+        handleClose={handleModalClose}
+        isSingleModal={false}
+        ImgPopupModal={ImgModalexit}
+        modalContent="삭제된 글은 다시 볼 수 없어요"
+        DoublebtnProps={{
+          isPrimaryRight: false,
+          primaryBtnContent: '한 번 더 생각할게요',
+          secondaryBtnContent: '삭제하기',
+        }}
+      />
     </S.Wrapper>
   );
 };

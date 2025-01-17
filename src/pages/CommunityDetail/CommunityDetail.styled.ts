@@ -1,8 +1,16 @@
 import styled from '@emotion/styled';
 
 export const PageHeader = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 51%;
   margin: 0.8rem 0;
   padding: 1.6rem;
+
+  h1 {
+    ${({ theme }) => theme.fonts.body_24_b};
+  }
 `;
 
 export const PageWrapper = styled.section`

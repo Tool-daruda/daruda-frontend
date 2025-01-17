@@ -23,6 +23,7 @@ const CommunityDetail = () => {
     <S.PageWrapper>
       <S.PageHeader>
         <IcArrowLeftBlack32 />
+        <h1>글 상세보기</h1>
       </S.PageHeader>
       <S.BoardContainer>
         <S.PostItem>
