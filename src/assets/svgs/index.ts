@@ -20,6 +20,7 @@ export { default as IcInstaGray20 } from './IcInstaGray20';
 export { default as IcMypageBookmark32 } from './IcMypageBookmark32';
 export { default as IcOverflowGray24 } from './IcOverflowGray24';
 export { default as IcOverflowGray44 } from './IcOverflowGray44';
+export { default as IcPlayWhite40 } from './IcPlayWhite40';
 export { default as IcPlusWhite20 } from './IcPlusWhite20';
 export { default as IcSearchGray32 } from './IcSearchGray32';
 export { default as IcShareGray24 } from './IcShareGray24';
