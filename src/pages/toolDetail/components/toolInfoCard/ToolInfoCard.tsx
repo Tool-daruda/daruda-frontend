@@ -38,6 +38,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
               <p>2025.01.10</p>
             </S.UpdateBox>
           </S.Description>
+          {/* TODO: 버튼별 링크 연결하기 */}
           <S.ButtonBox>
             <S.GoSiteBtn>
               <IcArrowRightupWhite24 />
