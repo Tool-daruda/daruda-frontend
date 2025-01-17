@@ -1,4 +1,3 @@
-import * as React from 'react';
 import type { SVGProps } from 'react';
 
 const SvgIcBookmarkGray24Dact = (props: SVGProps<SVGSVGElement>) => (

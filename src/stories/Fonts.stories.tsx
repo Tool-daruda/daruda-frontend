@@ -1,103 +1,9 @@
+/* eslint-disable react/no-unknown-property */
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import theme from '@styles/theme';
 import { ChangeEvent, useState } from 'react';
-
-const fontsObject = {
-  title_48_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '48px',
-    fontWeight: 700,
-    lineHeight: '68px',
-  },
-  title_40_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '40px',
-    fontWeight: 700,
-    lineHeight: '60px',
-  },
-  head_32_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '32px',
-    fontWeight: 700,
-    lineHeight: '48px',
-  },
-  head_28_m: {
-    fontFamily: "'AppleSDGothicNeoM00', sans-serif",
-    fontSize: '28px',
-    fontWeight: 500,
-    lineHeight: '56px',
-  },
-  body_24_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '24px',
-    fontWeight: 700,
-    lineHeight: '32px',
-  },
-  body_24_sb: {
-    fontFamily: "'AppleSDGothicNeoSB00', sans-serif",
-    fontSize: '24px',
-    fontWeight: 600,
-    lineHeight: '32px',
-  },
-  body_20_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '20px',
-    fontWeight: 700,
-    lineHeight: '24px',
-  },
-  body_20_m: {
-    fontFamily: "'AppleSDGothicNeoSM00', sans-serif",
-    fontSize: '20px',
-    fontWeight: 500,
-    lineHeight: '40px',
-  },
-  body_20_r: {
-    fontFamily: "'AppleSDGothicNeoSR00', sans-serif",
-    fontSize: '20px',
-    fontWeight: 400,
-    lineHeight: '40px',
-  },
-  body_16_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '16px',
-    fontWeight: 700,
-    lineHeight: '32px',
-  },
-  body_16_b_2: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '16px',
-    fontWeight: 700,
-    lineHeight: '20px',
-  },
-  body_16_m: {
-    fontFamily: "'AppleSDGothicNeoM00', sans-serif",
-    fontSize: '16px',
-    fontWeight: 500,
-    lineHeight: '28px',
-  },
-  caption_14_m: {
-    fontFamily: "'AppleSDGothicNeoM00', sans-serif",
-    fontSize: '14px',
-    fontWeight: 500,
-    lineHeight: '20px',
-  },
-  caption_12_b: {
-    fontFamily: "'AppleSDGothicNeoB00', sans-serif",
-    fontSize: '12px',
-    fontWeight: 700,
-    lineHeight: '18px',
-  },
-  caption_12_r: {
-    fontFamily: "'AppleSDGothicNeoR00', sans-serif",
-    fontSize: '12px',
-    fontWeight: 400,
-    lineHeight: '16px',
-  },
-  caption_8_b: {
-    fontFamily: "'AppleSDGothicNeoR00', sans-serif",
-    fontSize: '8px',
-    fontWeight: 400,
-    lineHeight: '11px',
-  },
-};
 
 const TextField = ({
   value,
@@ -115,17 +21,17 @@ const TextField = ({
     placeholder={placeholder}
     style={{
       width: '800px',
-      padding: '12px',
       margin: '16px 0',
+      padding: '12px',
+
+      color: '#121212',
+      fontSize: '16px',
+
       border: '1px solid #ccc',
       borderRadius: '8px',
-      fontSize: '16px',
-      color: '#121212',
     }}
   />
 );
-
-type FontName = keyof typeof fontsObject;
 
 const useInput = (defaultValue: string) => {
   const [input, setInput] = useState(defaultValue);
@@ -137,57 +43,77 @@ const useInput = (defaultValue: string) => {
   return [input, handleInputChange] as const;
 };
 
+const fonts = theme.fonts;
+
+const Title = styled.h2`
+  ${fonts.head_32_b};
+`;
+
+const Text = styled.p`
+  ${fonts.body_20_b};
+  margin-bottom: 8px;
+`;
+
+const ColorSpan = styled.span`
+  color: #888;
+`;
+
 export const Introduction = () => {
   const [text, handleTextChange] = useInput('대학생활에 필요한 툴을 다루다');
+
+  // `font-size`, `line-height` 값을 추출하는 함수
+  const extractCSSProperty = (styleString: string, property: string) => {
+    const match = styleString.match(new RegExp(`${property}:([\\d\\.a-zA-Z%]+)`));
+    return match ? match[1] : 'N/A';
+  };
+
+  // `rem`을 `px`로 변환하는 함수
+  const convertRemToPx = (value: string) => {
+    const match = value.match(/^([\d.]+)rem$/);
+    return match ? `${Number(match[1]) * 10}px` : value;
+  };
 
   return (
     <div
       style={{
-        backgroundColor: '#000',
         padding: '24px',
-        color: '#FFFFFF',
+        color: '#fff',
+        backgroundColor: '#000',
       }}
     >
-      <h2 style={{ ...fontsObject.head_32_b }}>📣 텍스트를 입력해서 확인하세요</h2>
+      <Title>📣 텍스트를 입력해서 확인하세요</Title>{' '}
       <TextField value={text} onChange={handleTextChange} placeholder="예시 문장을 입력해주세요" />
-
-      {Object.keys(fontsObject).map((fontName) => {
-        const fontObject = fontsObject[fontName as FontName];
+      {Object.keys(fonts).map((fontName) => {
+        const fontStyle = fonts[fontName as keyof typeof fonts];
+        const fontSizeRem = extractCSSProperty(fontStyle.styles, 'font-size');
+        const fontSizePx = convertRemToPx(fontSizeRem);
+        const lineHeightRem = extractCSSProperty(fontStyle.styles, 'line-height');
+        const lineHeightPx = convertRemToPx(lineHeightRem);
 
         return (
           <div
             key={fontName}
             style={{
-              backgroundColor: '#2A2A2A',
-              padding: '16px',
-              borderRadius: '8px',
               marginBottom: '16px',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              padding: '16px',
+
+              backgroundColor: '#2a2a2a',
+              boxShadow: '0 4px 6px rgb(0 0 0 / 10%)',
+              borderRadius: '8px',
             }}
           >
-            <p
-              style={{
-                ...fontsObject.body_20_b,
-                marginBottom: '8px',
-              }}
-            >
-              {fontName}
-            </p>
-            <div style={{ marginBottom: '8px', ...fontsObject.body_16_b, color: '#888888' }}>
+            <Text>{fontName}</Text>
+            <Text>
               <p>
-                <span style={{ color: '#888888' }}>fontWeight : </span>
-                {fontObject.fontWeight}
+                <ColorSpan>font-size : </ColorSpan>
+                {fontSizePx}
               </p>
               <p>
-                <span style={{ color: '#888888' }}>fontSize : </span>
-                {fontObject.fontSize}
+                <ColorSpan>line-height : </ColorSpan>
+                {lineHeightPx}
               </p>
-              <p>
-                <span style={{ color: '#888888' }}>lineHeight : </span>
-                {fontObject.lineHeight}
-              </p>
-            </div>
-            <p style={{ ...fontObject }}>{text}</p>
+            </Text>
+            <p css={css(fontStyle)}>{text}</p>
           </div>
         );
       })}
