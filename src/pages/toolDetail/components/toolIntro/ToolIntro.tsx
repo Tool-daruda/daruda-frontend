@@ -1,4 +1,4 @@
-import { TOOL_DESCRIPTIONS } from 'src/pages/toolDetail/constants/description';
+import { TOOL_DESCRIPTIONS } from '@pages/toolDetail/mocks/description';
 
 import * as S from './ToolIntro.styled';
 
