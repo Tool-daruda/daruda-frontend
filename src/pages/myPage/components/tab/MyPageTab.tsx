@@ -52,10 +52,11 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
     isOpen: isLogoutCheckOpen,
     handleClose: () => {
       handleLogoutCheckModal();
+      navigate('/toolist');
     },
     ImgPopupModal: ImgPopupLogoutcheck84,
     isSingleModal: true,
-    singleBtnContent: '로그인 페이지로 돌아가기',
+    singleBtnContent: '메인 페이지로 돌아가기',
   };
 
   return (
