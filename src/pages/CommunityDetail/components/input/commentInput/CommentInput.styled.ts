@@ -5,7 +5,6 @@ export const CardWrapper = styled.form`
   flex-direction: column;
   gap: 1.4rem;
   align-items: center;
-  width: 104.5rem;
   padding: 2rem 3.2rem;
 
   background: ${({ theme }) => theme.colors.white1};
@@ -18,6 +17,7 @@ export const CardSendContainer = styled.div`
   display: flex;
   gap: 2.5rem;
   align-items: flex-start;
+  width: 100%;
 `;
 
 const errAnimation = `
@@ -40,12 +40,14 @@ const errAnimation = `
   }
 `;
 
-export const CardInputWrapper = styled.section<{ $isOverflowed: boolean }>`
+export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocus: boolean }>`
   width: 81.3rem;
   padding: 2.2rem 5rem 3rem 2rem;
 
   background: ${({ theme }) => theme.colors.white2};
-  border: 1px solid ${({ theme, $isOverflowed }) => ($isOverflowed ? theme.colors.sys_red : theme.colors.gray4)};
+  border: 1px solid
+    ${({ theme, $isOverflowed, $isFocus }) =>
+      $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
   border-radius: 1.6rem;
 
   animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
@@ -131,7 +133,7 @@ export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
 
 export const ToastWrapper = styled.div`
   position: absolute;
-  top: 9.2rem;
+  bottom: 0;
   left: 50%;
 
   transform: translateX(-50%);

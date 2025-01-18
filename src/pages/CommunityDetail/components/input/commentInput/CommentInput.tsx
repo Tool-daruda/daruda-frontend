@@ -8,11 +8,20 @@ import * as S from './CommentInput.styled';
 
 import InputButton from '../inputButton/InputButton';
 
-import { MODAL_ERR } from '../../constants';
+import { MODAL_ERR } from '../../../constants';
 
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
-  const { text, isOverflowed, textareaRef, handleTextChange, handleInput } = useTextInput(DEFAULT_MAX_CHARS);
+  const {
+    isFocus,
+    text,
+    isOverflowed,
+    textareaRef,
+    handleTextChange,
+    handleInput,
+    handleInputFocus,
+    handleInputOutfocus,
+  } = useTextInput(DEFAULT_MAX_CHARS);
   const {
     toastType,
     imageSelected,
@@ -58,12 +67,14 @@ const CommnetInput = () => {
   return (
     <S.CardWrapper>
       <S.CardSendContainer>
-        <S.CardInputWrapper $isOverflowed={isOverflowed}>
+        <S.CardInputWrapper $isOverflowed={isOverflowed} $isFocus={isFocus}>
           <S.CardInput
             value={text}
             onChange={handleTextChange}
             ref={textareaRef}
             onInput={handleInput}
+            onFocus={handleInputFocus}
+            onBlur={handleInputOutfocus}
             placeholder="글을 작성해주세요."
           />
           <S.CountingWords $isOverflowed={isOverflowed}>
@@ -94,7 +105,7 @@ const CommnetInput = () => {
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
       </S.CautionWrpper>
       <S.ToastWrapper>
-        <Toast isVisible={isToastOpen} isWarning={false}>
+        <Toast isVisible={isToastOpen} isWarning={true}>
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
       </S.ToastWrapper>

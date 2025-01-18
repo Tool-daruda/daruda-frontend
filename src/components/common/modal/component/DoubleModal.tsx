@@ -6,14 +6,15 @@ interface DoubleBtnModalProps {
   modalTitle: string;
   modalContent?: string;
   ImgPopupModal: FunctionComponent<SVGProps<SVGSVGElement>>;
+  isPrimaryRight?: boolean;
 }
 
-const DoubleBtnModal = ({ modalTitle, modalContent, ImgPopupModal }: DoubleBtnModalProps) => {
+const DoubleBtnModal = ({ modalTitle, modalContent, ImgPopupModal, isPrimaryRight }: DoubleBtnModalProps) => {
   return (
     <>
       <ImgPopupModal />
       <S.ModalTitle>{modalTitle}</S.ModalTitle>
-      <S.ModalContent>{modalContent}</S.ModalContent>
+      <S.ModalContent $isPrimaryRight={isPrimaryRight}>{modalContent}</S.ModalContent>
     </>
   );
 };
