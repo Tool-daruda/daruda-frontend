@@ -33,6 +33,8 @@ export const CommentImg = styled.img`
 
 export const CommentContent = styled.pre`
   ${({ theme }) => theme.fonts.caption_14_m};
+  padding-top: 0.8rem;
+
   color: ${({ theme }) => theme.colors.gray1};
-  white-space: pre-line;
+  white-space: pre-wrap;
 `;

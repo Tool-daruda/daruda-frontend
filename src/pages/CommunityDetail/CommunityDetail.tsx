@@ -12,7 +12,7 @@ import CommnetInput from './components/input/commentInput/CommentInput';
 import { Comment_DATA } from './mocks';
 
 const CommunityDetail = () => {
-  const [height, setHeight] = useState<number>(694);
+  const [height, setHeight] = useState(694);
   const postareaRef = useRef<HTMLLIElement>(null);
   const navigate = useNavigate();
 

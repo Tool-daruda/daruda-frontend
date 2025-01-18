@@ -39,13 +39,6 @@ const CommentCard = ({ comment }: Comment) => {
             <IcOverflowGray24 />
           </DropDown.ToggleBtn>
           <DropDown.Content>
-            <DropDown.Item
-              onClick={() => {
-                alert('첫번째 클릭!');
-              }}
-            >
-              수정하기
-            </DropDown.Item>
             <DropDown.Item status="danger" onClick={handleModalOpen}>
               삭제하기
             </DropDown.Item>
