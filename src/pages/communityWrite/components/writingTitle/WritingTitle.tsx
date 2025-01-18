@@ -4,7 +4,7 @@ import * as S from './WritingTitle.styled';
 
 const MAX_CHAR_LIMIT = 50;
 
-const InputWithCounter = () => {
+const WritingTitle = () => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -47,4 +47,4 @@ const InputWithCounter = () => {
   );
 };
 
-export default InputWithCounter;
+export default WritingTitle;

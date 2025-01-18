@@ -12,7 +12,6 @@ export const Container = styled.div<{
   align-items: center;
   width: 780px;
   height: 525px;
-  margin: 3rem;
   overflow: hidden;
 
   box-shadow: 0 4px 6px rgb(0 0 0 / 10%);

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import * as S from './WritingImg.styled';
 
-const ImageInsertButton = () => {
+const WritingImg = () => {
   const [images, setImages] = useState<string[]>([]);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -63,4 +63,4 @@ const ImageInsertButton = () => {
   );
 };
 
-export default ImageInsertButton;
+export default WritingImg;

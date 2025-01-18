@@ -4,7 +4,7 @@ import * as S from './WritingBody.styled';
 
 const MAX_CHAR_LIMIT = 10000;
 
-const TextAreaWithCounter = () => {
+const WritingBody = () => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -51,4 +51,4 @@ const TextAreaWithCounter = () => {
   );
 };
 
-export default TextAreaWithCounter;
+export default WritingBody;
