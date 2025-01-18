@@ -50,12 +50,19 @@ export const SearchChip = styled.div<StickyProps>`
   display: flex;
   flex-wrap: ${({ isSticky }) => (isSticky ? 'nowrap' : 'wrap')};
   gap: 1.2rem;
-  place-content: center ${({ isSticky }) => (isSticky ? 'flex-start' : 'center')};
   align-items: center;
   width: ${({ isSticky }) => (isSticky ? '80.3rem' : '74.4rem')};
   overflow-x: hidden;
+  overflow-x: auto;
 
-  white-space: ${({ isSticky }) => (isSticky ? 'nowrap' : 'normal')};
+  white-space: nowrap;
+  place-content: center ${({ isSticky }) => (isSticky ? 'flex-start' : 'center')};
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ScrollButtonLeft = styled.button`
@@ -65,7 +72,9 @@ export const ScrollButtonLeft = styled.button`
   width: 5.4rem;
   height: 9rem;
 
+  background: none;
   cursor: pointer;
+  border: none;
 `;
 
 export const ScrollButtonRight = styled.button`
@@ -75,6 +84,7 @@ export const ScrollButtonRight = styled.button`
   width: 5.4rem;
   height: 9rem;
 
+  background: none;
   cursor: pointer;
   border: none;
 `;
