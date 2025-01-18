@@ -11,10 +11,6 @@ interface BreadCrumbPropTypes {
 const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
   const navigate = useNavigate();
 
-  // TODO: 클릭된 경로에 맞게 보여주도록 구현하기
-  // const activeTopic = topicsState.find((topic) => topic.active)?.name || '';
-  // const activeTool = toolsState.find((tool) => tool.active)?.name || '';
-
   return (
     <S.BreadCrumbWrapper>
       <S.BreadCrumbContainer>

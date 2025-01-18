@@ -2,34 +2,30 @@ import { IcToolcardPartiallypaid20 } from '@assets/svgs';
 
 import * as S from './SimilarToolCard.styled';
 
-interface keyWord {
-  keyWordId: number;
-  keyWordName: string;
-}
-
 interface SimilarToolCardPropTypes {
   toolLogo: string;
   toolNameMain: string;
-  keyWordList: keyWord[];
+  license: string;
+  keyWordList: string[];
 }
 
-const SimilarToolCard = ({ toolLogo, toolNameMain, keyWordList }: SimilarToolCardPropTypes) => {
+const SimilarToolCard = ({ toolLogo, toolNameMain, license, keyWordList }: SimilarToolCardPropTypes) => {
   return (
     <S.CardWrapper>
-      {/* TODO: 카드 데이터에 맞는 내용 배치하기 */}
       <S.TopContainer>
-        <S.CardLogo src={toolLogo} />
+        <S.CardLogo src={toolLogo} alt={`${toolNameMain} 로고`} />
         <S.InfoBox>
           <S.CardTitle>{toolNameMain}</S.CardTitle>
           <S.PlanBox>
+            {/* TODO: license 경우에 맞는 아이콘 배치하기 */}
             <IcToolcardPartiallypaid20 />
-            <span>부분 유료</span>
+            <span>{license}</span>
           </S.PlanBox>
         </S.InfoBox>
       </S.TopContainer>
       <S.KeyWordCardBox>
-        {keyWordList.map((keyword) => (
-          <S.KeyWordCard key={keyword.keyWordId}> {keyword.keyWordName}</S.KeyWordCard>
+        {keyWordList.map((keyword, index) => (
+          <S.KeyWordCard key={index}>{keyword}</S.KeyWordCard>
         ))}
       </S.KeyWordCardBox>
     </S.CardWrapper>

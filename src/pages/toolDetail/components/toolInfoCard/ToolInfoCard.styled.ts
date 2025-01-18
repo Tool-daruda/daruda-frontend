@@ -44,6 +44,7 @@ export const Description = styled.div`
   gap: 0.4rem;
   align-items: flex-start;
   align-self: stretch;
+  ${({ theme }) => theme.fonts.body_16_m};
 `;
 
 export const ToolNameBox = styled.div`
@@ -69,8 +70,8 @@ export const UpdateBox = styled.div`
   display: flex;
   gap: 0.6rem;
   align-items: center;
-  width: 12.8rem;
   height: 1.6rem;
+  margin-top: -0.4rem;
 
   color: ${({ theme }) => theme.colors.orange1};
   ${({ theme }) => theme.fonts.caption_12_r};
@@ -88,6 +89,7 @@ export const GoSiteBtn = styled.button<{ $isClickBtn: boolean }>`
   gap: 0.4rem;
   align-items: center;
   justify-content: center;
+  height: 4.8rem;
   padding: 0.8rem 2.4rem;
 
   color: ${({ theme }) => theme.colors.white1};
@@ -110,6 +112,7 @@ export const GoSiteBtn = styled.button<{ $isClickBtn: boolean }>`
     
     `};
 `;
+
 export const IconBox = styled.button`
   display: flex;
   align-items: center;

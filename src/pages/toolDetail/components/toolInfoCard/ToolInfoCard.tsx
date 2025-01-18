@@ -1,23 +1,23 @@
 import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
+import { ToolType } from '@pages/toolDetail/types';
 import { useState } from 'react';
 
 import * as S from './ToolInfoCard.styled';
 
 export interface ToolInfoCardPropTypes {
-  toolImage: string;
-  description: string;
-  license: string;
-  koreanSupport: boolean;
-  platforms: string[];
+  toolData: ToolType;
 }
 
-const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platforms }: ToolInfoCardPropTypes) => {
+const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
+  const { toolMainName, toolSubName, description, toolLink, supportKorea, platform, toolLogo, license, updatedAt } =
+    toolData;
   const [isClickBtn, setIsClickBtn] = useState(false);
   const [isBookmark, setIsBookmark] = useState(false);
 
   const handleClickBtn = () => {
     setIsClickBtn((prev) => !prev);
+    window.location.href = toolLink;
   };
 
   const handleBookmark = () => {
@@ -27,20 +27,19 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
   return (
     <S.ToolInfoCardWrapper>
       <S.LeftContainer>
-        <S.ToolImgBox>{toolImage ? <img src={toolImage} alt="툴 이미지" /> : '툴 이미지'}</S.ToolImgBox>
+        <S.ToolImgBox>{toolLogo ? <img src={toolLogo} alt="툴 이미지" /> : '툴 이미지'}</S.ToolImgBox>
         <S.ToolInfoBox>
           <S.Description>
             <S.ToolNameBox>
-              <span>Adobe Premiere Pro</span>
-              <span>어도비 프리미어 프로</span>
+              <span>{toolMainName}</span>
+              <span>{toolSubName}</span>
             </S.ToolNameBox>
             {description}
             <S.UpdateBox>
               <p>최근 업데이트</p>
-              <p>2025.01.10</p>
+              <p>{updatedAt}</p>
             </S.UpdateBox>
           </S.Description>
-          {/* TODO: 버튼별 링크 연결하기 */}
           <S.ButtonBox>
             <S.GoSiteBtn $isClickBtn={isClickBtn} onClick={() => handleClickBtn()}>
               <IcArrowRightupWhite24 />
@@ -72,7 +71,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
             <span>한국어 지원</span>
             <Chip size="xsmall" active={true}>
               <Chip.RectContainer>
-                <Chip.Label>{koreanSupport ? 'O' : 'X'}</Chip.Label>
+                <Chip.Label>{supportKorea ? 'O' : 'X'}</Chip.Label>
               </Chip.RectContainer>
             </Chip>
           </S.KoreanSupport>
@@ -81,13 +80,19 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
         <S.BottomBox>
           <span>플랫폼</span>
           <S.PlatformBtn>
-            {platforms.map((platform) => (
-              <Chip key={platform} size="xsmall" active={true}>
-                <Chip.RectContainer>
-                  <Chip.Label>{platform}</Chip.Label>
-                </Chip.RectContainer>
-              </Chip>
-            ))}
+            {platform.length > 0 &&
+              Object.entries(platform[0])
+                .filter(([_, value]) => {
+                  void _;
+                  return value;
+                })
+                .map(([key]) => (
+                  <Chip key={key} size="xsmall" active={true}>
+                    <Chip.RectContainer>
+                      <Chip.Label>{key}</Chip.Label>
+                    </Chip.RectContainer>
+                  </Chip>
+                ))}
           </S.PlatformBtn>
         </S.BottomBox>
       </S.RightContainer>

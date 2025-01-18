@@ -1,4 +1,4 @@
-import { TOOL_DESCRIPTIONS } from '@pages/toolDetail/mocks/description';
+import { TOOL_DESCRIPTIONS } from '@pages/toolDetail/mocks/toolData';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import ToolIntro from './ToolIntro';

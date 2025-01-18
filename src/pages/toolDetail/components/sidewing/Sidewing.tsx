@@ -1,22 +1,9 @@
 import { useState } from 'react';
 
 import * as S from './Sidewing.styled';
-import SimilarToolCard from './similarToolCard/SimilarToolCard';
+import SimilarToolCardList from './SimilarToolCardList';
 
-interface SidewingPropTypes {
-  defaultCard: {
-    toolLogo: string;
-    toolNameMain: string;
-    keyWordList: { keyWordId: number; keyWordName: string }[];
-  };
-  multiLineCard: {
-    toolLogo: string;
-    toolNameMain: string;
-    keyWordList: { keyWordId: number; keyWordName: string }[];
-  };
-}
-
-const Sidewing = ({ defaultCard, multiLineCard }: SidewingPropTypes) => {
+const Sidewing = () => {
   const [activeBtnId, setActiveBtnId] = useState<number | null>(null);
 
   const handleClickBtn = (id: number) => {
@@ -46,16 +33,7 @@ const Sidewing = ({ defaultCard, multiLineCard }: SidewingPropTypes) => {
       <S.SimilarToolContainer>
         <h1>유사한 기능을 가지고 있는 툴</h1>
         <S.ToolContainer>
-          <SimilarToolCard
-            toolLogo={defaultCard.toolLogo}
-            toolNameMain={defaultCard.toolNameMain}
-            keyWordList={defaultCard.keyWordList}
-          />
-          <SimilarToolCard
-            toolLogo={multiLineCard.toolLogo}
-            toolNameMain={multiLineCard.toolNameMain}
-            keyWordList={multiLineCard.keyWordList}
-          />
+          <SimilarToolCardList />
         </S.ToolContainer>
       </S.SimilarToolContainer>
     </S.SidewingWrapper>

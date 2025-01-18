@@ -1,8 +1,8 @@
-import { TOOL_COREFEATURES } from '@pages/toolDetail/mocks/coreFeature';
-
 import * as S from './CoreFeature.styled';
 
 import Toggle from '../toggle/Toggle';
+
+import { TOOL_COREFEATURES } from '../../mocks/coreFeature';
 
 const CoreFeature = () => {
   return (
@@ -10,10 +10,10 @@ const CoreFeature = () => {
       <S.CoreFeatureWrapper>
         <h1>핵심 기능</h1>
         <S.CoreFeatureContainer>
-          {/* TODO: '/{tool-id}/core-features' API 연결 */}
-          {Object.entries(TOOL_COREFEATURES).map(([key, feature], index, array) => (
+          {/* TODO: '/{tool-id}/core-features' API 연결하기 */}
+          {TOOL_COREFEATURES.data.toolCoreResList.map((feature, index, array) => (
             <Toggle
-              key={key}
+              key={feature.coreId}
               isSingleLine={true}
               label={feature.coreTitle}
               description={feature.coreContent}

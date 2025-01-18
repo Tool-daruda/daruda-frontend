@@ -8,25 +8,27 @@ import ReferenceVideo from './components/referenceVideo/ReferenceVideo';
 import Sidewing from './components/sidewing/Sidewing';
 import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
-import { DETAIL_RESPONSE } from './mocks/category';
+import { DETAIL_RESPONSE } from './mocks/toolData';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
   return (
     <S.ToolDetailWrapper>
       <Spacing size={'1.8'} />
-      <BreadCrumb
-        activeTopic={DETAIL_RESPONSE.data.tools.keywords[0]}
-        activeTool={DETAIL_RESPONSE.data.tools.toolName}
-      />
+      <BreadCrumb activeTopic={DETAIL_RESPONSE.data.category} activeTool={DETAIL_RESPONSE.data.toolMainName} />
       <Spacing size={'1.8'} />
-      <ToolInfoCard toolImage={''} description={''} license={''} koreanSupport={false} platforms={[]} />
+      <ToolInfoCard toolData={DETAIL_RESPONSE.data} />
+
       <Spacing size={'1'} />
 
       <S.ToolDetailContainer>
         <section>
           <S.ToolDetailBox>
-            <ToolIntro toolKey={'slack'} toolImage={''} />
+            <ToolIntro
+              toolImage={DETAIL_RESPONSE.data.images}
+              activeTool={DETAIL_RESPONSE.data.toolMainName}
+              description={DETAIL_RESPONSE.data.detailDescription}
+            />
             <CoreFeature />
             <ReferenceVideo />
             <PlanBox />
@@ -40,18 +42,7 @@ const ToolDetail = () => {
           <Spacing size={'7.2'} />
         </section>
 
-        <Sidewing
-          defaultCard={{
-            toolLogo: '',
-            toolNameMain: '',
-            keyWordList: [],
-          }}
-          multiLineCard={{
-            toolLogo: '',
-            toolNameMain: '',
-            keyWordList: [],
-          }}
-        />
+        <Sidewing />
       </S.ToolDetailContainer>
     </S.ToolDetailWrapper>
   );

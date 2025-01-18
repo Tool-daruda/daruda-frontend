@@ -9,6 +9,8 @@ export const ToolIntroWrapper = styled.div`
 `;
 
 export const IntroImgBox = styled.div`
+  position: relative;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 36rem;
@@ -23,6 +25,41 @@ export const IntroImgBox = styled.div`
     width: inherit;
     height: inherit;
     object-fit: fill;
+  }
+
+  .hover-icon {
+    position: absolute;
+    z-index: -1;
+
+    cursor: pointer;
+    opacity: 0;
+
+    transition:
+      opacity 0.3s ease,
+      z-index 0.3s ease;
+  }
+
+  &:hover {
+    .hover-icon {
+      z-index: 1; /* z-index 조정 */
+
+      opacity: 1; /* hover 시 표시 */
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: ${({ theme }) => theme.colors.black_toast};
+      opacity: 0.5;
+
+      transition: opacity 0.3s ease;
+
+      content: '';
+    }
   }
 `;
 
