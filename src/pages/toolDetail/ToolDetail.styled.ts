@@ -3,9 +3,9 @@ import styled from '@emotion/styled';
 export const ToolDetailWrapper = styled.section`
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 1.2rem 16rem 7.2rem;
 
   background-color: ${({ theme }) => theme.colors.white2};
 `;
@@ -21,6 +21,21 @@ export const ToolDetailContainer = styled.section`
 export const ToolDetailBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 
+  background-color: ${({ theme }) => theme.colors.white1};
+  border-radius: 1.6rem;
+`;
+
+export const ToolCommunityBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  background-color: ${({ theme }) => theme.colors.white1};
   border-radius: 1.6rem;
 `;

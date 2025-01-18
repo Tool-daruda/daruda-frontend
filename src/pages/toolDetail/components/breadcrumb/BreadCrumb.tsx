@@ -1,23 +1,22 @@
-import { IcArrowRightGray20, IcChevronLeftBlack32 } from '@assets/svgs';
+import { IcArrowRightGray20 } from '@assets/svgs';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './BreadCrumb.styled';
 
 interface BreadCrumbPropTypes {
-  topicsState: { name: string; active: boolean }[];
-  toolsState: { name: string; active: boolean }[];
+  activeTopic: string;
+  activeTool: string;
 }
 
-const BreadCrumb = ({ topicsState, toolsState }: BreadCrumbPropTypes) => {
+const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
   const navigate = useNavigate();
 
   // TODO: 클릭된 경로에 맞게 보여주도록 구현하기
-  const activeTopic = topicsState.find((topic) => topic.active)?.name || '';
-  const activeTool = toolsState.find((tool) => tool.active)?.name || '';
+  // const activeTopic = topicsState.find((topic) => topic.active)?.name || '';
+  // const activeTool = toolsState.find((tool) => tool.active)?.name || '';
 
   return (
     <S.BreadCrumbWrapper>
-      <IcChevronLeftBlack32 cursor={'pointer'} onClick={() => navigate(-1)} />
       <S.BreadCrumbContainer>
         {/* 카테고리 버튼 */}
         <S.CategoryItem onClick={() => navigate('/toollist')}>카테고리</S.CategoryItem>

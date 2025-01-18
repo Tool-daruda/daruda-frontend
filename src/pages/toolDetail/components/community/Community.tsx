@@ -10,7 +10,7 @@ type CardProps = {
   }[];
 };
 
-const Card = ({ cards }: CardProps) => {
+const ToolCommunity = ({ cards }: CardProps) => {
   return (
     <S.CardSectionWrapper>
       <S.CardTitle>
@@ -41,4 +41,4 @@ const Card = ({ cards }: CardProps) => {
   );
 };
 
-export default Card;
+export default ToolCommunity;

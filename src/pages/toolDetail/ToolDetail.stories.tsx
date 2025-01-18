@@ -13,6 +13,7 @@ const meta: Meta<typeof ToolDetail> = {
   parameters: {
     layout: 'fullscreen',
   },
+  tags: ['autodocs'],
   decorators: [
     (Story) => (
       <>

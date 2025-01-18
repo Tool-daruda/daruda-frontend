@@ -18,3 +18,19 @@ export const tools = [
   { name: 'ChatGPT', active: true },
   { name: 'Figma', active: false },
 ];
+
+export const DETAIL_RESPONSE = {
+  statusCode: 200,
+  message: '요청 데이터가 성공적으로 조회되었습니다',
+  data: {
+    tools: {
+      toolId: 103,
+      toolName: 'codeit',
+      toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/codeit.svg',
+      description: '쉽고 재미있는 코딩',
+      license: '부분 무료',
+      keywords: ['코딩', '강의'],
+      isScraped: false,
+    },
+  },
+};

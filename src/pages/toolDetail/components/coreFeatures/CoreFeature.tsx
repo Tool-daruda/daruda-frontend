@@ -14,7 +14,7 @@ const CoreFeature = () => {
           {Object.entries(TOOL_COREFEATURES).map(([key, feature], index, array) => (
             <Toggle
               key={key}
-              isSingleLine={false}
+              isSingleLine={true}
               label={feature.coreTitle}
               description={feature.coreContent}
               isdollar={false}
