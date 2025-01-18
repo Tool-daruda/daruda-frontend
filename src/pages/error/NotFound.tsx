@@ -15,7 +15,7 @@ const NotFound = () => {
         <Spacing size="0.4" />
         <S.Content> 다루다를 다시 시작해주세요</S.Content>
         <Spacing size="4" />
-        <CircleButton size="mini" onClick={() => navigate('/toolist')}>
+        <CircleButton size="mini" onClick={() => navigate('/toollist')}>
           다시 시작하기
         </CircleButton>
         <Spacing size="18" />

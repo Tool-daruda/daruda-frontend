@@ -52,7 +52,7 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
     isOpen: isLogoutCheckOpen,
     handleClose: () => {
       handleLogoutCheckModal();
-      navigate('/toolist');
+      navigate('/toollist');
     },
     ImgPopupModal: ImgPopupLogoutcheck84,
     isSingleModal: true,
