@@ -83,7 +83,7 @@ export const ButtonBox = styled.div`
   width: 29.8rem;
   height: 4.8rem;
 `;
-export const GoSiteBtn = styled.button`
+export const GoSiteBtn = styled.button<{ $isClickBtn: boolean }>`
   display: flex;
   gap: 0.4rem;
   align-items: center;
@@ -94,6 +94,21 @@ export const GoSiteBtn = styled.button`
 
   background-color: ${({ theme }) => theme.colors.iris1};
   border-radius: 4.8rem;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.iris1_hover};
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors.iris1_click};
+  }
+
+  ${({ $isClickBtn, theme }) =>
+    $isClickBtn &&
+    `
+    background-color: ${theme.colors.iris1_click};
+    
+    `};
 `;
 export const IconBox = styled.button`
   display: flex;

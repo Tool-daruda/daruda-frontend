@@ -13,9 +13,11 @@ export interface ToolInfoCardPropTypes {
 }
 
 const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platforms }: ToolInfoCardPropTypes) => {
+  const [isClickBtn, setIsClickBtn] = useState(false);
   const [isBookmark, setIsBookmark] = useState(false);
-  const handleChipClick = (label: string) => {
-    alert(`${label} 버튼 클릭!`);
+
+  const handleClickBtn = () => {
+    setIsClickBtn((prev) => !prev);
   };
 
   const handleBookmark = () => {
@@ -40,7 +42,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
           </S.Description>
           {/* TODO: 버튼별 링크 연결하기 */}
           <S.ButtonBox>
-            <S.GoSiteBtn>
+            <S.GoSiteBtn $isClickBtn={isClickBtn} onClick={() => handleClickBtn()}>
               <IcArrowRightupWhite24 />
               직접 체험해보기
             </S.GoSiteBtn>
@@ -58,7 +60,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
           {/* 라이센스 정보 */}
           <S.License>
             <span>라이센스</span>
-            <Chip size="xsmall" active={true} onClick={() => handleChipClick(license)}>
+            <Chip size="xsmall" active={true}>
               <Chip.RectContainer>
                 <Chip.Label>{license}</Chip.Label>
               </Chip.RectContainer>
@@ -68,7 +70,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
           {/* 한국어 지원 여부 */}
           <S.KoreanSupport>
             <span>한국어 지원</span>
-            <Chip size="xsmall" active={true} onClick={() => handleChipClick(koreanSupport ? '지원 O' : '지원 X')}>
+            <Chip size="xsmall" active={true}>
               <Chip.RectContainer>
                 <Chip.Label>{koreanSupport ? 'O' : 'X'}</Chip.Label>
               </Chip.RectContainer>
@@ -80,7 +82,7 @@ const ToolInfoCard = ({ toolImage, description, license, koreanSupport, platform
           <span>플랫폼</span>
           <S.PlatformBtn>
             {platforms.map((platform) => (
-              <Chip key={platform} size="xsmall" active={true} onClick={() => handleChipClick(platform)}>
+              <Chip key={platform} size="xsmall" active={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{platform}</Chip.Label>
                 </Chip.RectContainer>
