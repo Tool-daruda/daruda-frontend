@@ -144,22 +144,29 @@ export const CloseIcon = styled(SvgBtnWritingChipxIcon)<{ $width?: number; $heig
   width: ${({ $width }) => ($width ? `${$width}rem` : '2rem')};
   height: ${({ $height }) => ($height ? `${$height}rem` : '2rem')};
 
-  fill: none;
-  stroke: ${({ theme }) => theme.colors.gray2};
+  & rect {
+    fill: ${({ theme }) => theme.colors.white1};
+  }
 
-  ${({ theme }) => css`
-    ${ChipRectContainer}:hover & {
-      fill: ${theme.colors.gray4};
-      stroke: ${theme.colors.gray6};
-    }
-  `}
+  & path {
+    stroke: ${({ theme }) => theme.colors.gray2};
+  }
 
-  ${({ theme }) => css`
-    ${ChipRectContainer}:active & {
-      fill: ${theme.colors.gray4};
-      stroke: ${theme.colors.gray2};
-    }
-  `}
+  &:hover rect {
+    fill: ${({ theme }) => theme.colors.gray4};
+  }
+
+  &:hover path {
+    stroke: ${({ theme }) => theme.colors.white1};
+  }
+
+  &:active rect {
+    fill: ${({ theme }) => theme.colors.gray4};
+  }
+
+  &:active path {
+    stroke: ${({ theme }) => theme.colors.gray2};
+  }
 `;
 
 export const ChipLabel = styled.p`

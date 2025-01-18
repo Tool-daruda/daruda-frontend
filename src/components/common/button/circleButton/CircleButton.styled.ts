@@ -44,6 +44,7 @@ export const ButtonWrapper = styled.button<{
   }}
 
   color: ${({ theme }) => theme.colors.white1};
+  white-space: nowrap;
 
   background-color: ${({ theme }) => theme.colors.iris1};
   cursor: pointer;

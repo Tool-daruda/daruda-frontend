@@ -3,9 +3,11 @@ import type { SVGProps } from 'react';
 const SvgIcCmtimgGray24 = (props: SVGProps<SVGSVGElement>) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} fill="none" {...props}>
     <path
-      fill="#CCC"
-      d="M17.6 4H6.4C5.04 4 4 5.04 4 6.4v11.2C4 18.96 5.04 20 6.4 20h11.2c1.36 0 2.4-1.04 2.4-2.4V6.4C20 5.04 18.96 4 17.6 4m.8 9.52L16.88 12c-.96-.88-2.48-.88-3.36 0l-.72.72-2.32-2.32c-.96-.88-2.48-.88-3.36 0L5.6 11.92V6.4c0-.48.32-.8.8-.8h11.2c.48 0 .8.32.8.8z"
+      stroke="#565959"
+      strokeWidth={1.5}
+      d="m5 13.5 3.793-3.793a1 1 0 0 1 1.414 0l3.086 3.086a1 1 0 0 0 1.414 0l.586-.586a1 1 0 0 1 1.414 0L19 14.5"
     />
+    <rect width={14.5} height={14.5} x={4.75} y={4.75} stroke="#565959" strokeWidth={1.5} rx={2.25} />
   </svg>
 );
 export default SvgIcCmtimgGray24;
