@@ -32,6 +32,7 @@ export const CommentList = styled.ul<{ height: number }>`
   gap: 0.8rem;
   height: ${({ height }) => `${height - 93}px`};
   padding-right: 1.3rem;
+  overflow-x: inherit;
   overflow-y: scroll;
 
   &::-webkit-scrollbar {
