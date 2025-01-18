@@ -40,10 +40,12 @@ export const ButtonWrapper = styled.button<{
         border-radius: 5.6rem;
       `,
     };
+
     return sizeStyles[size];
   }}
 
   color: ${({ theme }) => theme.colors.white1};
+  line-height: 1;
   white-space: nowrap;
 
   background-color: ${({ theme }) => theme.colors.iris1};
