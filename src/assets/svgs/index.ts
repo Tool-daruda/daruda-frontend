@@ -1,3 +1,4 @@
+export { default as BtnWritingChipx56 } from './BtnWritingChipx56';
 export { default as Ellipse5276 } from './Ellipse5276';
 export { default as ImgBanner } from './ImgBanner';
 export { default as KakaoVector } from './KakaoVector';
@@ -28,6 +29,7 @@ export { default as IcCmtimgGray24 } from './IcCmtimgGray24';
 export { default as IcCommentGray24 } from './IcCommentGray24';
 export { default as IcImgdeleteGray40 } from './IcImgdeleteGray40';
 export { default as IcInstaGray20 } from './IcInstaGray20';
+export { default as IcLeftarrow60 } from './IcLeftarrow60';
 export { default as IcMypageBookmark32 } from './IcMypageBookmark32';
 export { default as IcOverflowGray24 } from './IcOverflowGray24';
 export { default as IcOverflowGray44 } from './IcOverflowGray44';
