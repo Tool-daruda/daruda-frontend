@@ -1,4 +1,3 @@
-//ToolList.styled.ts
 import styled from '@emotion/styled';
 
 export const ToolListWrapper = styled.div`
@@ -11,7 +10,7 @@ export const ToolListWrapper = styled.div`
 export const ToolCardWrapper = styled.div`
   width: 1046px;
   margin-bottom: 5rem;
-  padding: 3.2rem 9.3rem 8.8rem 9.3rem 93px;
+  padding: 3.2rem 9.3rem 8.8rem;
 
   background: ${({ theme }) => theme.colors.white1};
   border-radius: 1.6rem;

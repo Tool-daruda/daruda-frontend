@@ -1,4 +1,3 @@
-//ToolList.tsx
 import { Tooltip } from '@assets/svgs';
 import { useState, useEffect } from 'react';
 
@@ -28,7 +27,7 @@ const ToolList = () => {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsSticky(window.scrollY > 550);
+          setIsSticky(window.scrollY > 424);
           ticking = false;
         });
         ticking = true;

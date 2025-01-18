@@ -1,4 +1,3 @@
-//ToolCard.tsx
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/LoadingLottie';
 import { toolMockData, Tool } from '@pages/toolList/mocks/toolCard/ToolMockData';

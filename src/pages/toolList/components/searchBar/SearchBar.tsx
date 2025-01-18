@@ -1,7 +1,7 @@
-//SearchBar.tsx
 import { BlurLeft, RightBlur } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { useRef, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
 
@@ -15,54 +15,61 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
   const [categoriesState, setCategoriesState] = useState(initialCategories);
   const [activeButton, setActiveButton] = useState<'left' | 'right'>('right');
   const chipContainerRef = useRef<HTMLDivElement>(null);
+  const [searchParams] = useSearchParams();
+
+  const categoryFromParams = searchParams.get('category');
+
+  useEffect(() => {
+    const updatedCategories = initialCategories.map((category) => ({
+      ...category,
+      active: category.name === categoryFromParams,
+    }));
+    setCategoriesState(updatedCategories);
+  }, [categoryFromParams]);
 
   const handleCategoryClick = (categoryName: string) => {
-    const updatedCategories = categoriesState.map((category) =>
-      category.name === categoryName ? { ...category, active: true } : { ...category, active: false },
-    );
+    const encodedCategoryName = encodeURIComponent(categoryName);
+    const updatedCategories = categoriesState.map((category) => ({
+      ...category,
+      active: category.name === categoryName,
+    }));
     setCategoriesState(updatedCategories);
+
+    const url = categoryName === '카테고리' ? '/toollist' : `/toollist?category=${encodedCategoryName}`;
+    window.location.href = url;
   };
 
-  const scrollToStart = () => {
+  const handleScroll = (direction: 'start' | 'end') => {
     if (chipContainerRef.current) {
-      chipContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
-      setActiveButton('right');
-    }
-  };
-
-  const scrollToEnd = () => {
-    if (chipContainerRef.current) {
-      chipContainerRef.current.scrollTo({
-        left: chipContainerRef.current.scrollWidth,
-        behavior: 'smooth',
-      });
-      setActiveButton('left');
+      const scrollPosition = direction === 'start' ? 0 : chipContainerRef.current.scrollWidth;
+      chipContainerRef.current.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+      setActiveButton(direction === 'start' ? 'right' : 'left');
     }
   };
 
   useEffect(() => {
-    if (chipContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = chipContainerRef.current;
-
-      if (scrollLeft === 0) {
-        setActiveButton('right');
-      } else if (scrollLeft + clientWidth >= scrollWidth) {
-        setActiveButton('left');
+    const handleScrollState = () => {
+      if (chipContainerRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = chipContainerRef.current;
+        setActiveButton(scrollLeft === 0 ? 'right' : scrollLeft + clientWidth >= scrollWidth ? 'left' : activeButton);
       }
-    }
+    };
+
+    chipContainerRef.current?.addEventListener('scroll', handleScrollState);
+    return () => chipContainerRef.current?.removeEventListener('scroll', handleScrollState);
   }, []);
 
   return (
     <S.SearchBarContainer isSticky={isSticky}>
       <S.SearchBarBox isSticky={isSticky}>
-        <S.SearchBarTitle isSticky={isSticky}>{isSticky ? '' : '필요한 툴을 쉽고 빠르게 찾아보세요.'}</S.SearchBarTitle>
+        {isSticky || <S.SearchBarTitle>필요한 툴을 쉽고 빠르게 찾아보세요.</S.SearchBarTitle>}
         <S.SearchBar isSticky={isSticky}>
           <S.IcSearchGray />
           <S.Search placeholder="지금은 준비 중이에요" disabled isSticky={isSticky} />
         </S.SearchBar>
         <S.SearchChipWrapper>
           {isSticky && activeButton === 'left' && (
-            <S.ScrollButtonLeft onClick={scrollToStart}>
+            <S.ScrollButtonLeft onClick={() => handleScroll('start')}>
               <BlurLeft />
             </S.ScrollButtonLeft>
           )}
@@ -81,7 +88,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
             ))}
           </S.SearchChip>
           {isSticky && activeButton === 'right' && (
-            <S.ScrollButtonRight onClick={scrollToEnd}>
+            <S.ScrollButtonRight onClick={() => handleScroll('end')}>
               <RightBlur />
             </S.ScrollButtonRight>
           )}

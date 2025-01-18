@@ -1,4 +1,3 @@
-// ToolList.stories.tsx
 import type { Meta } from '@storybook/react';
 
 import ToolList from './ToolList';

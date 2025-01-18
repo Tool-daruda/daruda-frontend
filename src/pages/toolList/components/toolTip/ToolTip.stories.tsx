@@ -10,7 +10,6 @@ export default {
   },
 } as Meta;
 
-// Default Story
 export const Default: StoryFn = () => <ToolTip />;
 Default.storyName = 'Default ToolTip';
 Default.parameters = {

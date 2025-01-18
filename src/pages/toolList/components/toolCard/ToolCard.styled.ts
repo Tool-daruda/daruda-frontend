@@ -1,4 +1,3 @@
-//ToolCard.styled.ts
 import { NotFill } from '@assets/svgs';
 import styled from '@emotion/styled';
 
@@ -162,7 +161,9 @@ export const ToolNameBack = styled.h2`
 `;
 
 export const Description = styled.p`
-  display: flex;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   align-items: center;
   width: 16rem;
   height: 3.2rem;
@@ -172,9 +173,6 @@ export const Description = styled.p`
   ${({ theme }) => theme.fonts.caption_12_r};
   color: ${({ theme }) => theme.colors.gray2};
   text-align: left;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
   text-overflow: ellipsis;
 `;
 

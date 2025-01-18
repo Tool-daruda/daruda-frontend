@@ -1,4 +1,3 @@
-//SearchBarCate.ts
 export const categories = [
   { name: '전체', active: true },
   { name: 'AI', active: false },

@@ -1,4 +1,3 @@
-// SearchBar.stories.tsx
 import type { Meta } from '@storybook/react';
 
 import SearchBar from './SearchBar';

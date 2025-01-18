@@ -1,4 +1,3 @@
-//Toggle.tsx
 import * as S from './Toggle.styled';
 
 interface ToggleProps {

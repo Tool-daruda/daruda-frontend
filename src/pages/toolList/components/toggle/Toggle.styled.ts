@@ -1,4 +1,3 @@
-//Toggle.styled.ts
 import styled from '@emotion/styled';
 
 interface ToggleProps {
@@ -24,7 +23,7 @@ export const ToggleContainer = styled.div<ToggleProps>`
   cursor: pointer;
   border-radius: 1.5rem;
 
-  transition: background-color 0.5s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 `;
 
 export const ToggleCircle = styled.div<ToggleProps>`
@@ -37,5 +36,5 @@ export const ToggleCircle = styled.div<ToggleProps>`
   background-color: white;
   border-radius: 50%;
 
-  transition: left 0.6s ease-in-out;
+  transition: left 0.3s ease-in-out;
 `;

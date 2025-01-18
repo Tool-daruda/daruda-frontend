@@ -1,4 +1,3 @@
-// ToolCard.stories.tsx
 import type { Meta } from '@storybook/react';
 
 import ToolCard from './ToolCard';
