@@ -1,4 +1,5 @@
 import { IcPlusWhite20, IcChevron } from '@assets/svgs';
+import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 
 import * as S from './Community.style';
@@ -19,9 +20,10 @@ const Community = () => {
     <S.CommunityWrapper>
       <Banner />
       <S.CommunityContainer>
+        <ToolListBanner forCommunity={true} />
         <S.CardList>
           {POST_DATA.map((post) => (
-            <Card key={post.boardId} post={post} />
+            <Card key={`community-post-${post.boardId}`} post={post} />
           ))}
         </S.CardList>
       </S.CommunityContainer>

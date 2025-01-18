@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 const useModal = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -11,10 +11,16 @@ const useModal = () => {
     setIsOpen(false);
   };
 
+  const preventPropogation = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
+
   return {
     isOpen,
     handleModalOpen,
     handleModalClose,
+    preventPropogation,
   };
 };
 

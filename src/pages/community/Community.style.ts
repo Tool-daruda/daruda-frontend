@@ -4,16 +4,16 @@ export const CommunityWrapper = styled.section`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 
   background-color: ${({ theme }) => theme.colors.white2};
 `;
 
 export const CommunityContainer = styled.section`
-  display: inline-flex;
+  display: flex;
   gap: 1.4rem;
   align-items: flex-start;
   justify-content: center;
+  height: max-content;
 `;
 
 export const CardList = styled.ul`

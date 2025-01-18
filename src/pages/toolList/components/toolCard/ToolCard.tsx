@@ -8,36 +8,35 @@ import * as S from './ToolCard.styled';
 import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
 
 const ToolCard = () => {
-  const [tools, setTools] = useState<Tool[]>([]);
+  const [tools, setTools] = useState<Tool[]>(toolMockData.data.tools);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(toolMockData.data.scrollPaginationDto.nextCursor !== -1);
 
   const fetchTools = async () => {
-    if (isLoading) return;
+    if (isLoading || !hasMore) return;
+
     setIsLoading(true);
 
-    const data = toolMockData;
-
-    if (data.status === 200 && data.data.tools.length > 0) {
-      setTools((prevTools) => [...prevTools, ...data.data.tools]);
-      setHasMore(true);
-    } else {
-      setHasMore(false);
+    try {
+      const nextCursor = toolMockData.data.scrollPaginationDto.nextCursor;
+      if (nextCursor === -1) {
+        setHasMore(false);
+      }
+    } catch (error) {
+      console.error('Error fetching tools:', error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   const handleScroll = useCallback(() => {
-    const bottom = document.documentElement.scrollHeight === document.documentElement.scrollTop + window.innerHeight;
-    if (bottom && !isLoading && hasMore) {
+    const { scrollTop, scrollHeight } = document.documentElement;
+    const clientHeight = window.innerHeight;
+
+    if (scrollHeight - scrollTop === clientHeight && hasMore) {
       fetchTools();
     }
   }, [isLoading, hasMore]);
-
-  useEffect(() => {
-    fetchTools();
-  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -59,7 +58,9 @@ const ToolCard = () => {
           <S.Card key={tool.toolId}>
             <S.CardFront bgColor={tool.backgroundColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
-              <S.ToolNameFront textColor={tool.textColor}>{tool.toolName}</S.ToolNameFront>
+              <S.ToolFront>
+                <S.ToolNameFront textColor={tool.textColor}>{tool.toolName}</S.ToolNameFront>
+              </S.ToolFront>
               <S.KeywordsFront>
                 {tool.keywords.map((keyword, index) => (
                   <Chip key={index} size="xsmall" stroke={false} active={false}>
@@ -73,7 +74,7 @@ const ToolCard = () => {
             <S.CardBack>
               <S.CardBackBox>
                 <S.ToolNameBack>
-                  {tool.toolName}
+                  <S.ToolBackTitle>{tool.toolName}</S.ToolBackTitle>
                   <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.bookmarked} />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
