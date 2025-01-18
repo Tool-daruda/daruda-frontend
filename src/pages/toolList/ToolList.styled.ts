@@ -8,7 +8,7 @@ export const ToolListWrapper = styled.div`
 `;
 
 export const ToolCardWrapper = styled.div`
-  width: 1046px;
+  width: 104.6rem;
   margin-bottom: 5rem;
   padding: 3.2rem 9.3rem 8.8rem;
 
@@ -60,9 +60,7 @@ export const IconWrapper = styled.div`
 
 export const HoverComponent = styled.div`
   position: absolute;
-  top: -30%;
-  left: 600%;
+  top: -1.2rem;
+  left: 4rem;
   z-index: 10;
-
-  transform: translateX(-50%);
 `;
