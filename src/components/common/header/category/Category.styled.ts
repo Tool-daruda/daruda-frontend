@@ -22,7 +22,7 @@ export const CategorySection = styled.div`
   border-radius: 1.6rem 1.6rem 0 0;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.iris_click};
+    color: ${({ theme }) => theme.colors.iris1_click};
   }
 `;
 
@@ -44,7 +44,7 @@ export const OpenedCategory = styled.section`
   padding: 1rem 1.8rem;
   padding-bottom: 1.95rem;
 
-  color: ${({ theme }) => theme.colors.iris_click};
+  color: ${({ theme }) => theme.colors.iris1_click};
 
   background-color: ${({ theme }) => theme.colors.white1};
   box-shadow: 0 -1.2rem 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
@@ -61,7 +61,7 @@ export const CategoryDropdown = styled.div`
   height: 14rem;
   padding: 1.6rem 1.8rem;
 
-  color: ${({ theme }) => theme.colors.iris_click};
+  color: ${({ theme }) => theme.colors.iris1_click};
 
   background-color: ${({ theme }) => theme.colors.white1};
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
@@ -80,13 +80,13 @@ export const CategoryItem = styled.div`
   ${({ theme }) => theme.fonts.body_16_m};
 
   &:hover {
-    color: ${({ theme }) => theme.colors.iris_click};
+    color: ${({ theme }) => theme.colors.iris1_click};
 
     background-color: ${({ theme }) => theme.colors.white2};
   }
 
   &:active {
-    color: ${({ theme }) => theme.colors.iris_click};
+    color: ${({ theme }) => theme.colors.iris1_click};
 
     background-color: ${({ theme }) => theme.colors.gray5};
   }

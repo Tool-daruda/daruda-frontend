@@ -1,8 +1,12 @@
 import styled from '@emotion/styled';
 
-export const CardWrapper = styled.li`
+export const CardWrapper = styled.li<{ $forDetail: boolean }>`
+  width: ${({ $forDetail }) => ($forDetail ? '70%' : '100%')};
+  height: max-content;
+  min-height: ${({ $forDetail }) => $forDetail && '694px'};
+
   background: ${({ theme }) => theme.colors.white1};
-  border: 1px solid ${({ theme }) => theme.colors.gray6};
+  border: 1px solid ${({ theme, $forDetail }) => ($forDetail ? 'none' : theme.colors.gray6)};
   border-radius: 1.6rem;
 `;
 
@@ -64,18 +68,21 @@ export const CardTitleItem = styled.h1`
   word-break: break-word;
 `;
 
-export const CardTextItem = styled.pre<{ $isImgInclude: boolean }>`
+export const CardTextItem = styled.pre<{ $isImgInclude: boolean; $forDetail: boolean }>`
   display: -webkit-box;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 
   ${({ theme }) => theme.fonts.caption_14_m};
   color: ${({ theme }) => theme.colors.gray1};
   white-space: pre-wrap;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: ${({ $isImgInclude }) => ($isImgInclude ? 2 : 4)};
-  -webkit-box-orient: vertical;
-
+  ${({ $forDetail, $isImgInclude }) =>
+    !$forDetail &&
+    `text-overflow: ellipsis;
+    -webkit-line-clamp:${$isImgInclude ? 2 : 4};
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    `}
   word-wrap: break-word;
   word-break: break-word;
 `;
