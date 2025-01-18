@@ -38,6 +38,7 @@ type ToolSelectState = {
 
 interface ToolProp {
   forCommunity?: boolean;
+  onToolSelect?: (tool: string | null) => void;
 }
 
 const tools: Tool[] = [
@@ -67,7 +68,7 @@ const tools: Tool[] = [
   },
 ];
 
-const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
+const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
@@ -75,15 +76,6 @@ const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
   });
 
   const { selectedCategory, selectedTool, isFreeChecked } = toolState;
-
-  const clearSelectedTool = () => {
-    setToolState((prev) => ({
-      ...prev,
-      selectedTool: null,
-      isFreeChecked: false,
-      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
-    }));
-  };
 
   const handleCategoryClick = (category: string) => {
     setToolState((prev) => ({
@@ -93,21 +85,39 @@ const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
   };
 
   const handleToolClick = (toolName: string) => {
+    setToolState((prev) => {
+      const newState = {
+        ...prev,
+        selectedTool: toolName,
+        isFreeChecked: toolName === '자유' ? true : false,
+      };
+      onToolSelect(newState.selectedTool);
+      return newState;
+    });
+  };
+
+  const clearSelectedTool = () => {
     setToolState((prev) => ({
       ...prev,
-      selectedTool: toolName,
-      isFreeChecked: toolName === '자유' ? true : false,
+      selectedTool: null,
+      isFreeChecked: false,
+      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
     }));
+    onToolSelect(null);
   };
 
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-    setToolState((prev) => ({
-      ...prev,
-      isFreeChecked: isChecked,
-      selectedTool: isChecked ? '자유' : null,
-      selectedCategory: isChecked ? '자유' : null,
-    }));
+    setToolState((prev) => {
+      const newState = {
+        ...prev,
+        isFreeChecked: isChecked,
+        selectedTool: isChecked ? '자유' : null,
+        selectedCategory: isChecked ? '자유' : null,
+      };
+      onToolSelect(newState.selectedTool);
+      return newState;
+    });
   };
 
   return (

@@ -145,3 +145,9 @@ export const Content = styled.div`
   ${({ theme }) => theme.fonts.caption_12_m};
   color: ${({ theme }) => theme.colors.gray2};
 `;
+
+export const ToastBox = styled.div`
+  position: absolute;
+  top: -4.5rem;
+  left: 22rem;
+`;

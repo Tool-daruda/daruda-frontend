@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 
 import * as S from './WritingTitle.styled';
 
+interface WritingTitleProps {
+  setTitle: (text: string) => void;
+}
+
 const MAX_CHAR_LIMIT = 50;
 
-const WritingTitle = () => {
+const WritingTitle = ({ setTitle }: WritingTitleProps) => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -15,6 +19,7 @@ const WritingTitle = () => {
 
     if (inputText.length <= MAX_CHAR_LIMIT) {
       setText(inputText);
+      setTitle(inputText);
     }
 
     if (inputText.length === MAX_CHAR_LIMIT) {

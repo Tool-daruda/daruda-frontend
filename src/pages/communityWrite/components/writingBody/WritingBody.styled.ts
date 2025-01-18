@@ -21,7 +21,7 @@ export const Container = styled.div<{
       ? `2px solid ${theme.colors.sys_red}`
       : isActive
         ? `2px solid ${theme.colors.gray1}`
-        : `2px solid ${theme.colors.gray4}`} !important;
+        : `1px solid ${theme.colors.gray4}`} !important;
   border-radius: 1.6rem;
 
   animation: ${({ triggerShake }) => (triggerShake ? `shake 0.3s ease` : 'none')};
