@@ -6,8 +6,6 @@ export const ToolIntroWrapper = styled.div`
   width: 76.8rem;
   height: 30.7rem;
   padding: 5.2rem 3.2rem;
-
-  background-color: ${({ theme }) => theme.colors.white1};
 `;
 
 export const IntroImgBox = styled.div`

@@ -123,7 +123,7 @@ export const IconBox = styled.button`
 
 export const BookmarkIconBox = styled(IconBox)<{ $isBookmark: boolean }>`
   &:hover {
-    background-color: ${({ theme }) => theme.colors.iris2_hover};
+    background-color: ${({ theme, $isBookmark }) => !$isBookmark && theme.colors.iris2_hover};
   }
 
   &:active {
