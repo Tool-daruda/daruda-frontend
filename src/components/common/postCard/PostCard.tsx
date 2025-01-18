@@ -4,10 +4,10 @@ import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
-import { formatContent } from '@pages/community/utils';
+import { forwardRef } from 'react';
 import { Link } from 'react-router-dom';
 
-import * as S from './Card.styled';
+import * as S from './PostCard.styled';
 
 interface CardDataProp {
   post: {
@@ -22,16 +22,26 @@ interface CardDataProp {
     nickName: string;
     commentCount: number;
   };
+  forDetail?: boolean;
 }
 
-const Card = ({ post }: CardDataProp) => {
+const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
+  const { post, forDetail = false } = props;
   const { boardId, toolName, toolLogo, title, content, images, updatedAt, nickName, commentCount } = post;
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
   return (
-    <S.CardWrapper>
-      <Link to={`/community/${boardId}`} key={boardId}>
+    <S.CardWrapper $forDetail={forDetail} ref={ref}>
+      <Link
+        to={`/community/${boardId}`}
+        key={boardId}
+        onClick={(e) => {
+          if (forDetail) {
+            e.preventDefault();
+          }
+        }}
+      >
         <S.CardLayout>
           <S.CardTopContent>
             <header>
@@ -48,7 +58,9 @@ const Card = ({ post }: CardDataProp) => {
               </S.MetaInfo>
             </header>
             <S.CardTitleItem>{title}</S.CardTitleItem>
-            <S.CardTextItem $isImgInclude={images.length >= 1}>{formatContent(content, images.length)}</S.CardTextItem>
+            <S.CardTextItem $isImgInclude={images.length >= 1} $forDetail={forDetail}>
+              {content}
+            </S.CardTextItem>
             <S.ImageGrid $imageCount={images.length}>
               {images.map((image, i) => (
                 <img key={i} src={image} alt={`Post-card-img-${i}`} />
@@ -67,7 +79,7 @@ const Card = ({ post }: CardDataProp) => {
               <DropDown.ToggleBtn>
                 <IcOverflowGray44 />
               </DropDown.ToggleBtn>
-              <DropDown.Content $display="top">
+              <DropDown.Content $display="bottom">
                 <DropDown.Item
                   onClick={() => {
                     alert('클릭!');
@@ -98,6 +110,9 @@ const Card = ({ post }: CardDataProp) => {
       />
     </S.CardWrapper>
   );
-};
+});
+
+// forwrad 사용으로 인한, 디버깅 목적으로 사용
+Card.displayName = 'Card';
 
 export default Card;

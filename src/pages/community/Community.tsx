@@ -1,21 +1,15 @@
 import { IcPlusWhite20, IcChevron } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import { handleScrollUp } from '@utils';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
-import Card from './components/card/Card';
 import { POST_DATA } from './mocks';
 
-const Community = () => {
-  const handleScrollUp = () => {
-    if (!window.scrollY) return;
+import Card from '../../components/common/postCard/PostCard';
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+const Community = () => {
   return (
     <S.CommunityWrapper>
       <Banner />
