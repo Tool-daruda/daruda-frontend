@@ -28,8 +28,8 @@ export const Content = styled.p`
 export const Right = styled.div`
   position: relative;
   flex-shrink: 0;
-  width: 561px;
-  height: 482px;
+  width: 56.1rem;
+  height: 48.2rem;
 
   svg {
     position: absolute;
@@ -42,8 +42,8 @@ export const Ellipse = styled.div`
   bottom: 9.6rem;
   left: 0;
   flex-shrink: 0;
-  width: 491px;
-  height: 229px;
+  width: 49.1rem;
+  height: 22.9rem;
 
   background: #dedff5;
   border-radius: 100%;
