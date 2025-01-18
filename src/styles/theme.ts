@@ -13,7 +13,7 @@ const colors = {
   sys_green: '#40C927',
   black: '#212121',
   black_toast: ' rgba(33, 33, 33, 0.40)',
-  black_hover: 'rgba(70, 70, 70, 0.8)',
+  black2_hover: 'rgba(70, 70, 70, 0.8)',
   white1: '#FFFFFF',
   white2: '#F5F5F5',
   white1_hover: 'rgba(255, 255, 255, 0.4)',

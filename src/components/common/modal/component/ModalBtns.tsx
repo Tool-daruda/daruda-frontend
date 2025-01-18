@@ -18,10 +18,10 @@ const DoubleBtns = ({
 }: ModalBtnsProps) => {
   return (
     <S.ModalBtns>
-      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleSecondClose}>
+      <S.ModalBtn $isPrimary={true} order={isPrimaryRight ? 1 : 0} onClick={handleSecondClose}>
         {primaryBtnContent}
       </S.ModalBtn>
-      <S.ModalBtn $isPrimary={true} order={isPrimaryRight ? 1 : 0} onClick={handleClose}>
+      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleClose}>
         {secondaryBtnContent}
       </S.ModalBtn>
     </S.ModalBtns>
@@ -58,9 +58,6 @@ const S = {
     color: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.white1 : theme.colors.black)};
 
     background: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.iris1 : theme.colors.gray6)};
-    border: 1px solid ${({ theme }) => theme.colors.gray4};
-    border-top: none;
-    border-bottom: none;
     border-bottom-right-radius: ${({ order }) => (order ? '2rem' : '0')};
     border-bottom-left-radius: ${({ order }) => (order ? '0' : '2rem')};
   `,

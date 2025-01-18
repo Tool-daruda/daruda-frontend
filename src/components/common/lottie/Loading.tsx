@@ -1,7 +1,7 @@
-import loadingLottie from '@assets/lottie/daruda_scroll.json';
+import loadingLottie from '@assets/lottie/loading.json';
 import Lottie from 'react-lottie-player';
 
-const LoadingLottie = () => {
+const Loading = () => {
   return (
     <div>
       <Lottie loop animationData={loadingLottie} play style={{ width: 73, height: 72 }} />
@@ -9,4 +9,4 @@ const LoadingLottie = () => {
   );
 };
 
-export default LoadingLottie;
+export default Loading;

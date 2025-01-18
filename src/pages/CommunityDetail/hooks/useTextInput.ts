@@ -4,6 +4,7 @@ const useTextInput = (maxChars: number = 1000) => {
   const [text, setText] = useState('');
   const [isOverflowed, setIsOverflowed] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [isFocus, setIsFocus] = useState<boolean>(false);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -18,12 +19,23 @@ const useTextInput = (maxChars: number = 1000) => {
     }
   };
 
+  const handleInputFocus = () => {
+    setIsFocus(true);
+  };
+
+  const handleInputOutfocus = () => {
+    setIsFocus(false);
+  };
+
   return {
+    isFocus,
     text,
     isOverflowed,
     textareaRef,
     handleTextChange,
     handleInput,
+    handleInputFocus,
+    handleInputOutfocus,
   };
 };
 

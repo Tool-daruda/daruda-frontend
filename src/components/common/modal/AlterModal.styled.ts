@@ -3,9 +3,8 @@ import styled from '@emotion/styled';
 export const ModalContainer = styled.section<{ $isSingleModal: boolean; $isPrimaryRight?: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: ${({ $isSingleModal }) => ($isSingleModal ? '3.7rem' : '1.6rem')};
+  gap: ${({ $isPrimaryRight }) => ($isPrimaryRight ? '1.8rem' : '1.6rem')};
   align-items: center;
-  width: 30.2rem;
   padding-bottom: ${({ $isSingleModal, $isPrimaryRight }) =>
     !$isSingleModal && $isPrimaryRight ? '2.8rem' : !$isSingleModal && '2.5rem'};
 `;
@@ -16,9 +15,9 @@ export const ModalTitle = styled.h1`
   text-align: center;
 `;
 
-export const ModalContent = styled.p`
+export const ModalContent = styled.p<{ $isPrimaryRight?: boolean }>`
   ${({ theme }) => theme.fonts.caption_12_r};
-  margin-top: -0.8rem;
+  margin-top: ${({ $isPrimaryRight }) => ($isPrimaryRight ? '-1rem' : '-0.8rem')};
 
   color: ${({ theme }) => theme.colors.gray2};
   text-align: center;
