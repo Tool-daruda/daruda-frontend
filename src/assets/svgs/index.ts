@@ -25,6 +25,7 @@ export { default as IcChevron } from './IcChevron';
 export { default as IcChevronDownBlack16 } from './IcChevronDownBlack16';
 export { default as IcChevronLeftBlack32 } from './IcChevronLeftBlack32';
 export { default as IcArrowLeftBlack32 } from './IcArrowLeftBlack32';
+export { default as IcArrowRightGray20 } from './IcArrowRightGray20';
 
 export { default as IcCmtimgGray24 } from './IcCmtimgGray24';
 export { default as IcCommentGray24 } from './IcCommentGray24';
