@@ -9,7 +9,6 @@ export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
 export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
 export { default as CardListAppcard } from './CardListAppcard';
 export { default as CardListAppcard1 } from './CardListAppcard1';
-export { default as Error } from './Error';
 export { default as DividerCommunityCmt } from './DividerCommunityCmt';
 export { default as Free } from './Free';
 export { default as Group2085664966 } from './Group2085664966';
