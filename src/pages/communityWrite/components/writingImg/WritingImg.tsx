@@ -59,7 +59,7 @@ const WritingImg = () => {
 
         <input
           type="file"
-          accept="image/*"
+          accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
           multiple
           style={{ display: 'none' }}
           onChange={handleImageUpload}

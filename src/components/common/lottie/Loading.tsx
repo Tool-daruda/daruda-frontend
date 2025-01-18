@@ -1,4 +1,4 @@
-import loadingLottie from '@assets/lottie/Frame 2087327216.json';
+import loadingLottie from '@assets/lottie/loading.json';
 import Lottie from 'react-lottie-player';
 
 const Loading = () => {
