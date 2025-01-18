@@ -1,3 +1,4 @@
+export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
 export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
 export { default as CardListAppcard } from './CardListAppcard';
 export { default as CardListAppcard1 } from './CardListAppcard1';
@@ -9,6 +10,7 @@ export { default as IcAddimgGray344 } from './IcAddimgGray344';
 export { default as IcAlarmBlack24 } from './IcAlarmBlack24';
 export { default as IcArrowDownBlack24Copy } from './IcArrowDownBlack24Copy';
 export { default as IcArrowDownBlack24 } from './IcArrowDownBlack24';
+export { default as IcArrowLeftBlack32 } from './IcArrowLeftBlack32';
 export { default as IcBookmark } from './IcBookmark';
 export { default as IcBookmark32 } from './IcBookmark32';
 export { default as IcBookmarkGray24Dact } from './IcBookmarkGray24Dact';

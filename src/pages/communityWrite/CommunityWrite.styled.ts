@@ -14,16 +14,19 @@ export const WriteContainer = styled.div`
 export const WriteBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1.2rem;
 `;
 
 export const WriteTitle = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  width: 104.8rem;
   height: 64px;
   margin: 0.8rem 0;
-  padding: 16px;
 
   ${({ theme }) => theme.fonts.body_24_b};
   color: ${({ theme }) => theme.colors.black};
+
+  cursor: pointer;
 `;

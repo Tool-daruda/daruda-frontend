@@ -6,6 +6,7 @@ import * as S from './WritingImg.styled';
 const WritingImg = () => {
   const [images, setImages] = useState<string[]>([]);
   const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -35,9 +36,17 @@ const WritingImg = () => {
   return (
     <S.Container>
       <label>
-        <S.Button as="span" onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+        <S.Button
+          as="span"
+          isHovered={isHovered}
+          isClicked={isClicked}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onClick={() => setIsClicked(!isClicked)}
+        >
           {isHovered ? <PlusImg /> : <IcAddimgGray344 />}
         </S.Button>
+
         <input
           type="file"
           accept="image/*"
@@ -59,6 +68,7 @@ const WritingImg = () => {
           </S.ImagePreview>
         ))}
       </S.PreviewContainer>
+      <S.Content>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</S.Content>
     </S.Container>
   );
 };

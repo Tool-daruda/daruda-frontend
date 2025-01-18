@@ -5,17 +5,17 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 780px;
-  height: 148px;
-  padding: 24px 40px;
+  width: 78rem;
+  height: 16.9rem;
+  padding-left: 4rem;
 
   background: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 12px 0 ${({ theme }) => theme.colors.shadow1};
+  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray4};
-  border-radius: 16px;
+  border-radius: 1.6rem;
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ isHovered: boolean; isClicked: boolean }>`
   position: absolute;
   top: 2.4rem;
   left: 4rem;
@@ -44,6 +44,13 @@ export const Button = styled.button`
     background-color: ${({ theme }) => theme.colors.gray4};
     transform: scale(0.95);
   }
+
+  svg path {
+    transition: fill 0.2s;
+
+    fill: ${({ isHovered, isClicked, theme }) =>
+      isClicked ? theme.colors.gray2 : isHovered ? theme.colors.gray6 : ''};
+  }
 `;
 
 export const ImagePreview = styled.div`
@@ -64,11 +71,11 @@ export const ImagePreview = styled.div`
 
 export const PreviewContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: wrap;
   gap: 1rem;
   justify-content: flex-start;
   width: 90rem;
-  margin-top: 0.7rem;
+  margin-top: -1.7rem;
   margin-left: 11rem;
 `;
 
@@ -128,4 +135,13 @@ export const RemoveButton = styled.button`
   &:active svg path {
     stroke: ${({ theme }) => theme.colors.gray2};
   }
+`;
+
+export const Content = styled.div`
+  position: absolute;
+  bottom: 1.3rem;
+  left: 4rem;
+
+  ${({ theme }) => theme.fonts.caption_12_m};
+  color: ${({ theme }) => theme.colors.gray2};
 `;

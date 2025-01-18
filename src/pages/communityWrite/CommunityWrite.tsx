@@ -1,3 +1,4 @@
+import { BtnWritingArrowleft } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 
 import * as S from './CommunityWrite.styled';
@@ -8,7 +9,11 @@ import WritingTitle from './components/writingTitle/WritingTitle';
 const CommunityWrite = () => {
   return (
     <S.WriteWrapper>
-      <S.WriteTitle>글쓰기</S.WriteTitle>
+      <S.WriteTitle>
+        <BtnWritingArrowleft />
+        글쓰기
+        <div />
+      </S.WriteTitle>
       <S.WriteContainer>
         <S.WriteBox>
           <WritingTitle />

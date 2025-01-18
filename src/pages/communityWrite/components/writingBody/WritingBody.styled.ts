@@ -10,18 +10,18 @@ export const Container = styled.div<{
   flex-direction: column;
   flex-shrink: 0;
   align-items: center;
-  width: 780px;
-  height: 525px;
+  width: 78rem;
+  height: 52.5rem;
   overflow: hidden;
 
-  box-shadow: 0 4px 6px rgb(0 0 0 / 10%);
-  box-shadow: 0 0 12px 0 rgb(211 211 211 / 63%);
+  box-shadow: 0 0.4rem 0.6rem rgb(0 0 0 / 10%);
+  box-shadow: 0 0 1.2rem 0 rgb(211 211 211 / 63%);
   border: ${({ isExceedingLimit, isActive, theme }) =>
     isExceedingLimit
       ? `2px solid ${theme.colors.sys_red}`
       : isActive
-        ? `0.2rem solid ${theme.colors.gray1}`
-        : `0.1rem solid ${theme.colors.gray4}`} !important;
+        ? `2px solid ${theme.colors.gray1}`
+        : `2px solid ${theme.colors.gray4}`} !important;
   border-radius: 1.6rem;
 
   animation: ${({ triggerShake }) => (triggerShake ? `shake 0.3s ease` : 'none')};
@@ -65,12 +65,9 @@ export const TextArea = styled.textarea`
   top: 0;
   flex-shrink: 0;
   width: calc(100% - 0.1rem);
-  height: 463px;
+  height: 46.3rem;
   padding: 3.2rem 6rem 0 4rem;
   overflow-y: scroll;
-
-  font-size: 14px;
-  line-height: 1.5;
 
   background-color: transparent;
   ${({ theme }) => theme.fonts.body_16_m};
@@ -109,8 +106,8 @@ export const CharCount = styled.span<{ isExceedingLimit: boolean }>`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  width: 780px;
-  height: 62px;
+  width: 78rem;
+  height: 6.2rem;
   padding-right: 3.2rem;
 
   color: ${({ isExceedingLimit, theme }) => (isExceedingLimit ? theme.colors.sys_red : theme.colors.gray3)};
@@ -118,7 +115,6 @@ export const CharCount = styled.span<{ isExceedingLimit: boolean }>`
   ${({ theme }) => theme.fonts.body_20_r};
 
   background: ${({ theme }) => theme.colors.white1};
-  border: 0.1rem solid ${({ theme }) => theme.colors.gray4};
   border-top: 1px solid ${({ theme }) => theme.colors.gray2};
   border-radius: 0 0 1.6rem 1.6rem;
 `;
