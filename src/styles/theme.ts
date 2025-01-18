@@ -102,6 +102,11 @@ const fonts = {
     font-family: 'AppleSDGothicNeoB00', sans-serif;
     line-height: 2rem;
   `,
+  body_16_b_3: css`
+    font-size: 1.6rem;
+    font-family: 'AppleSDGothicNeoB00', sans-serif;
+    line-height: 1.6rem;
+  `,
   body_16_m: css`
     font-size: 1.6rem;
     font-family: 'AppleSDGothicNeoM00', sans-serif;

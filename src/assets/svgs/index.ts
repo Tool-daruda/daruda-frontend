@@ -35,6 +35,10 @@ export { default as NotFill } from './NotFill';
 export { default as Paid } from './Paid';
 export { default as Union } from './Union';
 
+export { default as IcToolcardFree20 } from './IcToolcardFree20';
+export { default as IcToolcardPaid20 } from './IcToolcardPaid20';
+export { default as IcToolcardPartiallypaid20 } from './IcToolcardPartiallypaid20';
+
 export { default as IcArrowRightupWhite24 } from './IcArrowRightupWhite24';
 export { default as IcBookmarkIris121Default } from './IcBookmarkIris121Default';
 export { default as IcShareIris125 } from './IcShareIris125';
