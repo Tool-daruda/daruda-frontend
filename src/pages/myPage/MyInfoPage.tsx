@@ -1,4 +1,4 @@
-import { ImgModalcheck } from '@assets/svgs';
+import { ImgPopupWithdrawal84 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
@@ -23,15 +23,15 @@ const MyInfoPage = () => {
   };
 
   const withdrawModalProps = {
-    modalTitle: '정말 다루다의 회원을 탈퇴하시겠어요??',
+    modalTitle: '정말 다루다의 회원을 탈퇴하시겠어요?',
     isOpen: isOpenWithdrawModal,
     handleClose: () => {
       alert('회원탈퇴');
       handleWithdrawModal();
-    }, // TODO: 탈퇴 로직 구현하기
-    ImgPopupModal: ImgModalcheck,
+    },
+    ImgPopupModal: ImgPopupWithdrawal84,
     isSingleModal: false,
-    modalContent: '탈퇴하시면 슬퍼요오오오오오',
+    modalContent: '회원 탈퇴 시, 기존의 모든 데이터가 삭제됩니다.',
     DoublebtnProps: {
       isPrimaryRight: true,
       primaryBtnContent: '한 번 더 생각할게요',
