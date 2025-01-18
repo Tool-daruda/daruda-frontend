@@ -41,6 +41,8 @@ export { default as ImgTextlogo } from './ImgTextlogo';
 export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
 export { default as LeftBlur } from './LeftBlur';
 export { default as Paid } from './Paid';
+export { default as Error } from './Error';
+export { default as PlusImg } from './PlusImg';
 export { default as Rectangle161126186 } from './Rectangle161126186';
 export { default as RightBlur } from './RightBlur';
 export { default as Tooltip } from './Tooltip';

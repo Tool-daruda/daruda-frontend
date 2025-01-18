@@ -1,4 +1,4 @@
-import { BtnWritingArrowleft } from '@assets/svgs';
+import { IcArrowLeftBlack32 } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ const CommunityWrite = () => {
   return (
     <S.WriteWrapper>
       <S.WriteTitle>
-        <BtnWritingArrowleft onClick={handleBackClick} />
+        <IcArrowLeftBlack32 onClick={handleBackClick} />
         글쓰기
         <div />
       </S.WriteTitle>
