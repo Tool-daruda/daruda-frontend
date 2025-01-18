@@ -42,7 +42,7 @@ const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }
         onClick={() => setIsOpen((prev) => !prev)}
       >
         <div>
-          <p>{planName}</p>
+          {planName && <p>{planName}</p>}
           <p>
             {formattedLabel}
             {isdollar && <span>({dollar}$)</span>}
