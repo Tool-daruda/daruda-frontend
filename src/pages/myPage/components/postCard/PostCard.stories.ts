@@ -20,6 +20,7 @@ export const MyPost: Story = {
     title: '다루다루다루다루다루다루다루다루다루다',
     updatedAt: '2025.01.01',
     toolLogo: '',
+    toolName: 'ChatGPT',
     onClick: () => alert('클릭'),
   },
 };
@@ -30,6 +31,7 @@ export const FavoritePost: Story = {
     title: '다루다루다루다루다루다루다루다루다루다다루다루다루다루다루다루다루다루다루다',
     updatedAt: '2025.01.01',
     toolLogo: '',
+    toolName: 'ChatGPT',
     onClick: () => alert('클릭'),
   },
 };

@@ -36,6 +36,11 @@ type ToolSelectState = {
   isFreeChecked: boolean;
 };
 
+interface ToolProp {
+  forCommunity?: boolean;
+  onToolSelect?: (tool: string | null) => void;
+}
+
 const tools: Tool[] = [
   {
     toolId: 1,
@@ -63,7 +68,7 @@ const tools: Tool[] = [
   },
 ];
 
-const ToolListBanner = () => {
+const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
@@ -71,15 +76,6 @@ const ToolListBanner = () => {
   });
 
   const { selectedCategory, selectedTool, isFreeChecked } = toolState;
-
-  const clearSelectedTool = () => {
-    setToolState((prev) => ({
-      ...prev,
-      selectedTool: null,
-      isFreeChecked: false,
-      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
-    }));
-  };
 
   const handleCategoryClick = (category: string) => {
     setToolState((prev) => ({
@@ -89,25 +85,43 @@ const ToolListBanner = () => {
   };
 
   const handleToolClick = (toolName: string) => {
+    setToolState((prev) => {
+      const newState = {
+        ...prev,
+        selectedTool: toolName,
+        isFreeChecked: toolName === '자유' ? true : false,
+      };
+      onToolSelect(newState.selectedTool);
+      return newState;
+    });
+  };
+
+  const clearSelectedTool = () => {
     setToolState((prev) => ({
       ...prev,
-      selectedTool: toolName,
-      isFreeChecked: toolName === '자유' ? true : false,
+      selectedTool: null,
+      isFreeChecked: false,
+      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
     }));
+    onToolSelect(null);
   };
 
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-    setToolState((prev) => ({
-      ...prev,
-      isFreeChecked: isChecked,
-      selectedTool: isChecked ? '자유' : null,
-      selectedCategory: isChecked ? '자유' : null,
-    }));
+    setToolState((prev) => {
+      const newState = {
+        ...prev,
+        isFreeChecked: isChecked,
+        selectedTool: isChecked ? '자유' : null,
+        selectedCategory: isChecked ? '자유' : null,
+      };
+      onToolSelect(newState.selectedTool);
+      return newState;
+    });
   };
 
   return (
-    <S.Container>
+    <S.Container $forCommunity={forCommunity}>
       <S.TitleBox>
         <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
@@ -139,11 +153,16 @@ const ToolListBanner = () => {
         {categories.map((category) => (
           <S.CategoryItem key={category}>
             {category === '자유' ? (
-              <S.CategoryHeader>
+              <S.CategoryHeader isFreeChecked={isFreeChecked}>
                 <S.CheckboxLabel>
                   <span>{category}</span>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <S.CheckboxInput type="checkbox" checked={isFreeChecked} onChange={handleFreeCheck} />
+                    <S.CheckboxInput
+                      className="category-free"
+                      type="checkbox"
+                      checked={isFreeChecked}
+                      onChange={handleFreeCheck}
+                    />
                     {isFreeChecked && (
                       <Union
                         style={{
@@ -158,7 +177,7 @@ const ToolListBanner = () => {
                 </S.CheckboxLabel>
               </S.CategoryHeader>
             ) : (
-              <S.CategoryHeader onClick={() => handleCategoryClick(category)}>
+              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category)}>
                 <span>{category}</span>
                 <IcChevron
                   style={{
