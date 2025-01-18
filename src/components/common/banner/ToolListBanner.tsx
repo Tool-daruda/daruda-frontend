@@ -36,6 +36,10 @@ type ToolSelectState = {
   isFreeChecked: boolean;
 };
 
+interface ToolProp {
+  forCommunity?: boolean;
+}
+
 const tools: Tool[] = [
   {
     toolId: 1,
@@ -63,7 +67,7 @@ const tools: Tool[] = [
   },
 ];
 
-const ToolListBanner = () => {
+const ToolListBanner = ({ forCommunity = false }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
@@ -107,7 +111,7 @@ const ToolListBanner = () => {
   };
 
   return (
-    <S.Container>
+    <S.Container $forCommunity={forCommunity}>
       <S.TitleBox>
         <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
@@ -139,11 +143,16 @@ const ToolListBanner = () => {
         {categories.map((category) => (
           <S.CategoryItem key={category}>
             {category === '자유' ? (
-              <S.CategoryHeader>
+              <S.CategoryHeader isFreeChecked={isFreeChecked}>
                 <S.CheckboxLabel>
                   <span>{category}</span>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <S.CheckboxInput type="checkbox" checked={isFreeChecked} onChange={handleFreeCheck} />
+                    <S.CheckboxInput
+                      className="category-free"
+                      type="checkbox"
+                      checked={isFreeChecked}
+                      onChange={handleFreeCheck}
+                    />
                     {isFreeChecked && (
                       <Union
                         style={{
@@ -158,7 +167,7 @@ const ToolListBanner = () => {
                 </S.CheckboxLabel>
               </S.CategoryHeader>
             ) : (
-              <S.CategoryHeader onClick={() => handleCategoryClick(category)}>
+              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category)}>
                 <span>{category}</span>
                 <IcChevron
                   style={{
