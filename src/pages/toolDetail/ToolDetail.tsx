@@ -44,4 +44,3 @@ const ToolDetail = () => {
 };
 
 export default ToolDetail;
-// test

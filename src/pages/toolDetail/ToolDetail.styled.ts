@@ -24,4 +24,3 @@ export const ToolDetailBox = styled.div`
 
   border-radius: 1.6rem;
 `;
-// test
