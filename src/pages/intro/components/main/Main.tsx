@@ -14,7 +14,7 @@ const Main = () => {
         <CircleButton shadow={false} size="large">
           시작하기
         </CircleButton>
-        <div>Scroll Down</div>
+        <S.Scroll>Scroll Down</S.Scroll>
       </div>
     </S.PageWrapper>
   );
