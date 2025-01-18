@@ -100,21 +100,23 @@ export const Image = styled.img<{ direction?: 'left' | 'right' }>`
   height: 20rem;
   object-fit: cover;
 
-  animation: ${({ direction }) =>
-    direction === 'left'
-      ? `
+  &.animation {
+    animation: ${({ direction }) =>
+      direction === 'left'
+        ? `
         leftscroll  3s ease-out forwards 
         `
-      : `
+        : `
           rightsroll 3s ease-out forwards
         `};
 
-  ${({ direction }) =>
-    direction === 'left'
-      ? `
+    ${({ direction }) =>
+      direction === 'left'
+        ? `
         ${scrollLeft}
         `
-      : `
+        : `
         ${scrollRight}
         `};
+  }
 `;

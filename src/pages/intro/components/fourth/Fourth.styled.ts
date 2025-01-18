@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.section`
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 10rem;
@@ -14,7 +15,7 @@ export const PageWrapper = styled.section`
 const scrollAnimation = `
   @keyframes scrollDown {
     0% {
-      transform: translateY(40%);
+      transform: translateY(42%);
     }
 
     100% {
@@ -28,9 +29,12 @@ export const Image = styled.img`
   width: 60rem;
   object-fit: cover;
 
-  animation: scrollDown 2s ease-in-out forwards;
+  &.animation {
+    transform: translateY(0);
 
-  ${scrollAnimation};
+    animation: scrollDown 3s ease-out forwards;
+  }
+  ${scrollAnimation}
 `;
 
 export const PageContainer = styled.div`

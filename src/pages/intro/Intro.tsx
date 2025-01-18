@@ -1,16 +1,15 @@
-import { Main } from './components';
-import Forth from './components/forth/Forth';
-import Second from './components/second/Second';
-import Third from './components/third/Third';
+import { Main, Second, Third, Forth } from './components';
+import * as S from './intro.styled';
 
 const Intro = () => {
   return (
-    <>
-      <Main />
-      <Second />
-      <Third />
-      <Forth />
-    </>
+    <S.Container>
+      {[Main, Second, Third, Forth].map((Component, index) => (
+        <S.Section key={index}>
+          <Component />
+        </S.Section>
+      ))}
+    </S.Container>
   );
 };
 

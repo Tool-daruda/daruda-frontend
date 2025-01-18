@@ -6,7 +6,7 @@ export const PageWrapper = styled.section`
   gap: 14rem;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  padding-top: 11rem;
 
   span {
     padding: 0 1.55rem;

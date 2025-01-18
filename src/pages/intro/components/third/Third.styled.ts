@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const PageWrapper = styled.section`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14rem;
