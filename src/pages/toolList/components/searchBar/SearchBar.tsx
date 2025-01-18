@@ -22,7 +22,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
   useEffect(() => {
     const updatedCategories = initialCategories.map((category) => ({
       ...category,
-      active: category.name === categoryFromParams,
+      active: category.name === (categoryFromParams || '전체'),
     }));
     setCategoriesState(updatedCategories);
   }, [categoryFromParams]);
