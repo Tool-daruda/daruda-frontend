@@ -1,5 +1,6 @@
 import { ImgDarudalogo50 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Scroll from '@components/lottie/Scroll';
 
 import * as S from './Main.styled';
 
@@ -12,9 +13,10 @@ const Main = () => {
       </S.PageTitle>
       <div>
         <CircleButton shadow={false} size="large">
-          시작하기
+          <span>시작하기</span>
         </CircleButton>
         <S.Scroll>Scroll Down</S.Scroll>
+        <Scroll />
       </div>
     </S.PageWrapper>
   );
