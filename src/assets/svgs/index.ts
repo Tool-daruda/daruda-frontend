@@ -8,11 +8,14 @@ export { default as Half } from './Half';
 export { default as IcAlarmBlack24 } from './IcAlarmBlack24';
 export { default as IcArrowDownBlack24Copy } from './IcArrowDownBlack24Copy';
 export { default as IcArrowDownBlack24 } from './IcArrowDownBlack24';
+export { default as IcArrowRightGray20 } from './IcArrowRightGray20';
 export { default as IcBookmark } from './IcBookmark';
 export { default as IcBookmark32 } from './IcBookmark32';
 export { default as IcBookmarkGray24Dact } from './IcBookmarkGray24Dact';
 export { default as IcChevron } from './IcChevron';
 export { default as IcChevronDownBlack16 } from './IcChevronDownBlack16';
+export { default as IcChevronLeftBlack32 } from './IcChevronLeftBlack32';
+
 export { default as IcCmtimgGray24 } from './IcCmtimgGray24';
 export { default as IcCommentGray24 } from './IcCommentGray24';
 export { default as IcImgdeleteGray40 } from './IcImgdeleteGray40';
