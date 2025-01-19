@@ -1,9 +1,11 @@
+import { forwardRef } from 'react';
+
 import * as S from './ReferenceVideo.styled';
 import VideoCard from './videoCard/VideoCard';
 
-const ReferenceVideo = () => {
+const ReferenceVideo = forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <>
+    <div ref={ref} {...props}>
       <S.ReferenceVideoWrapper>
         <h1>참고하면 좋은 영상</h1>
         <S.ReferenceVideoContainer>
@@ -12,8 +14,10 @@ const ReferenceVideo = () => {
         </S.ReferenceVideoContainer>
       </S.ReferenceVideoWrapper>
       <S.DividingLine />
-    </>
+    </div>
   );
-};
+});
+
+ReferenceVideo.displayName = 'ReferenceVideo';
 
 export default ReferenceVideo;

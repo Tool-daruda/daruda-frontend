@@ -11,10 +11,12 @@ export const ToolDetailWrapper = styled.section`
 `;
 
 export const ToolDetailContainer = styled.section`
+  position: relative;
   display: flex;
   gap: 1.2rem;
   align-items: flex-start;
   justify-content: center;
+  height: min-content;
   padding: 0.1rem 0;
 `;
 

@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
 
 export const SidewingWrapper = styled.div`
+  position: sticky;
+  top: 8.2rem;
   display: flex;
   flex-direction: column;
   gap: 2.4rem;
   justify-content: center;
   width: 26.6rem;
   height: 62.2rem;
+  margin-top: 1.8rem;
   padding: 3.2rem 2.8rem;
 
   background-color: ${({ theme }) => theme.colors.white1};
@@ -45,7 +48,7 @@ export const OrderBtn = styled.button<{ $isActive: boolean }>`
   ${({ theme }) => theme.fonts.caption_14_m};
 
   &:hover {
-    color: ${({ theme }) => theme.colors.gray4};
+    color: ${({ theme, $isActive }) => ($isActive ? theme.colors.black : theme.colors.gray4)};
   }
 
   .click-left-bar {

@@ -1,6 +1,6 @@
 import { IcWatchWhite40 } from '@assets/svgs';
 import ImgDetail from '@components/imgDetail/ImgDetail';
-import { useState } from 'react';
+import { forwardRef, useState } from 'react';
 
 import * as S from './ToolIntro.styled';
 
@@ -10,7 +10,7 @@ export interface ToolIntroPropTypes {
   description: string;
 }
 
-const ToolIntro = ({ toolImage, activeTool, description }: ToolIntroPropTypes) => {
+const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(({ toolImage, activeTool, description }, ref) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleImgFocus = () => {
@@ -22,7 +22,7 @@ const ToolIntro = ({ toolImage, activeTool, description }: ToolIntroPropTypes) =
   };
 
   return (
-    <>
+    <div ref={ref}>
       <S.ToolIntroWrapper>
         <S.IntroImgBox>
           {toolImage ? <img src={toolImage[0]} alt={`${activeTool} 이미지`} /> : '툴 이미지'}
@@ -37,8 +37,10 @@ const ToolIntro = ({ toolImage, activeTool, description }: ToolIntroPropTypes) =
 
       {/* ImgDetail 모달 */}
       {isModalOpen && <ImgDetail handleModalClose={handleModalClose} imgList={toolImage} index={0} />}
-    </>
+    </div>
   );
-};
+});
+
+ToolIntro.displayName = 'ToolIntro';
 
 export default ToolIntro;

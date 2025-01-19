@@ -1,12 +1,14 @@
+import { forwardRef } from 'react';
+
 import * as S from './CoreFeature.styled';
 
 import Toggle from '../toggle/Toggle';
 
 import { TOOL_COREFEATURES } from '../../mocks/coreFeature';
 
-const CoreFeature = () => {
+const CoreFeature = forwardRef<HTMLDivElement>((props, ref) => {
   return (
-    <>
+    <div ref={ref} {...props}>
       <S.CoreFeatureWrapper>
         <h1>핵심 기능</h1>
         <S.CoreFeatureContainer>
@@ -24,8 +26,10 @@ const CoreFeature = () => {
         </S.CoreFeatureContainer>
       </S.CoreFeatureWrapper>
       <S.DividingLine />
-    </>
+    </div>
   );
-};
+});
+
+CoreFeature.displayName = 'CoreFeature';
 
 export default CoreFeature;

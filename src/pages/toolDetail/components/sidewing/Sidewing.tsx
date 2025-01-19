@@ -1,13 +1,32 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import * as S from './Sidewing.styled';
 import SimilarToolCardList from './SimilarToolCardList';
 
-const Sidewing = () => {
+interface SidewingProps {
+  sectionRefs: {
+    getBoundingClientRect(): unknown;
+    [key: number]: React.RefObject<HTMLDivElement>;
+  };
+}
+
+const Sidewing = ({ sectionRefs }: SidewingProps) => {
   const [activeBtnId, setActiveBtnId] = useState<number | null>(null);
 
   const handleClickBtn = (id: number) => {
     setActiveBtnId(id);
+    const targetRef = sectionRefs[id];
+
+    if (targetRef?.current) {
+      const headerOffset = 45;
+      const elementPosition = targetRef.current.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
   };
 
   const orderButtons = [
@@ -20,7 +39,6 @@ const Sidewing = () => {
 
   return (
     <S.SidewingWrapper>
-      {/* TODO: 목차 버튼 클릭 시, 해당 항목 위치로 스크롤 한번에 하나씩만 선택 가능 */}
       <S.OrderContainer>
         <h1>목차</h1>
         {orderButtons.map((btn) => (
