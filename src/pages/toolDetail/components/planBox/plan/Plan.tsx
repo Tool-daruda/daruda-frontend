@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import * as S from './Plan.styled';
 
-import Toggle from '../toggle/Toggle';
+import Toggle from '../../toggle/Toggle';
 
 const Plan = () => {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -32,6 +32,7 @@ const Plan = () => {
               dollar={plan.is_dollar ? Math.round(price / 1300) : undefined}
               isdollar={plan.is_dollar === 1}
               description={plan.description}
+              zIndex={1}
             />
           );
         })}

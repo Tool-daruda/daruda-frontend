@@ -21,6 +21,7 @@ export const Feature: Story = {
     description:
       '사용자의 입력을 이해하고, 이에 적절한 응답을 생성합니다. 이를 통해 인간과 유사한 대화 경험을 제공합니다.',
     isdollar: false,
+    zIndex: 1,
   },
 };
 
@@ -32,6 +33,7 @@ export const FreePlan: Story = {
     description:
       'GPT 4o mini에 액세스\n표준 음성 채팅\nGPT-4o에 제한적 액세스\n파일 업로드, 고급 데이터 분석, 웹 검색, 이미지 생성 등에 제한적 액세스\n맞춤형 GPT 사용',
     isdollar: false,
+    zIndex: 1,
   },
 };
 
@@ -44,5 +46,6 @@ export const Plan: Story = {
     description:
       'GPT 4o mini에 액세스\n표준 음성 채팅\nGPT-4o에 제한적 액세스\n파일 업로드, 고급 데이터 분석, 웹 검색, 이미지 생성 등에 제한적 액세스\n맞춤형 GPT 사용',
     isdollar: true,
+    zIndex: 1,
   },
 };

@@ -9,9 +9,10 @@ interface TogglePropsType {
   dollar?: number;
   description: string;
   isdollar: boolean;
+  zIndex: number;
 }
 
-const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }: TogglePropsType) => {
+const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar, zIndex }: TogglePropsType) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
@@ -50,7 +51,7 @@ const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar }
         </div>
         <S.ToggleIcon $isOpen={shouldDisplayDropdown} />
       </S.ToggleBtn>
-      <S.ToggleContent $isOpen={shouldDisplayDropdown}>
+      <S.ToggleContent $isOpen={shouldDisplayDropdown} $zIndex={zIndex}>
         {description.split('\n').map((line, index) => (
           <li key={index}>{line}</li>
         ))}

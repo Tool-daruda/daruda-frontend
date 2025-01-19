@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 
 export const ModalOverlay = styled.div`
   position: fixed;
-  z-index: 10;
+  z-index: 120;
   display: flex;
   align-items: center;
   justify-content: center;

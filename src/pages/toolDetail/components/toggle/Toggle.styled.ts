@@ -57,10 +57,12 @@ export const ToggleIcon = styled(IcChevronDownBlack16)<{ $isOpen: boolean }>`
   fill: ${({ $isOpen, theme }) => ($isOpen ? theme.colors.iris1 : theme.colors.gray1)};
 `;
 
-export const ToggleContent = styled.ul<{ $isOpen: boolean }>`
+export const ToggleContent = styled.ul<{ $isOpen: boolean; $zIndex: number }>`
   position: absolute;
   top: 100%;
   left: 0;
+  z-index: ${({ $zIndex }) => $zIndex};
+
   width: inherit;
   padding: ${({ $isOpen }) => ($isOpen ? '1.6rem 1.2rem' : '0 1.2rem')};
 
@@ -79,6 +81,9 @@ export const ToggleContent = styled.ul<{ $isOpen: boolean }>`
 
   li {
     margin-left: 1.2rem;
+
+    white-space: break-spaces;
+    word-break: keep-all;
 
     list-style-type: disc;
   }
