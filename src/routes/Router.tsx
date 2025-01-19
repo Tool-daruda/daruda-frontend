@@ -16,10 +16,15 @@ import MYPAGE_ROUTES from './MyPageRoutes';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
     children: [
       { index: true, element: <Intro /> }, // 홈: 온보딩 페이지
       { path: 'intro', element: <Intro /> }, // 온보딩 페이지
+    ],
+  },
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
       { path: 'toollist', element: <ToolList /> }, // 툴 리스트
       { path: 'toollist/:id', element: <ToolDetail /> }, // 툴 상세
       { path: 'community', element: <Community /> }, // 커뮤니티
