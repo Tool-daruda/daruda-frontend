@@ -22,7 +22,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
   useEffect(() => {
     const updatedCategories = initialCategories.map((category) => ({
       ...category,
-      active: category.name === categoryFromParams,
+      active: category.name === (categoryFromParams || '전체'),
     }));
     setCategoriesState(updatedCategories);
   }, [categoryFromParams]);
@@ -41,9 +41,19 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
 
   const handleScroll = (direction: 'start' | 'end') => {
     if (chipContainerRef.current) {
-      const scrollPosition = direction === 'start' ? 0 : chipContainerRef.current.scrollWidth;
-      chipContainerRef.current.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-      setActiveButton(direction === 'start' ? 'right' : 'left');
+      if (direction === 'end') {
+        chipContainerRef.current.scrollTo({
+          left: chipContainerRef.current.scrollWidth,
+          behavior: 'smooth',
+        });
+        setActiveButton('left');
+      } else {
+        chipContainerRef.current.scrollTo({
+          left: 0,
+          behavior: 'smooth',
+        });
+        setActiveButton('right');
+      }
     }
   };
 
@@ -51,7 +61,11 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
     const handleScrollState = () => {
       if (chipContainerRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = chipContainerRef.current;
-        setActiveButton(scrollLeft === 0 ? 'right' : scrollLeft + clientWidth >= scrollWidth ? 'left' : activeButton);
+        if (scrollLeft === 0) {
+          setActiveButton('right');
+        } else if (scrollLeft + clientWidth >= scrollWidth) {
+          setActiveButton('left');
+        }
       }
     };
 

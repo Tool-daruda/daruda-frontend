@@ -1,6 +1,5 @@
-export { default as BlurLeft } from './BlurLeft';
 export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
-export { default as BtnWritingChipx56 } from './BtnWritingChipx56';
+export { default as BlurLeft } from './BlurLeft';
 export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
 export { default as CardListAppcard } from './CardListAppcard';
 export { default as CardListAppcard1 } from './CardListAppcard1';
