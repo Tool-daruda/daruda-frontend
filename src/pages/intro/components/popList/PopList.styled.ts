@@ -11,32 +11,23 @@ export const PageWrapper = styled.section`
   padding-left: 80rem;
   overflow: hidden;
 `;
-export const ImageContainer = styled.ul`
+
+export const ImageContainer = styled.ul<{ $position: number }>`
   position: relative;
   display: flex;
   gap: 2rem;
   width: 100%;
   margin-bottom: 15rem;
 
-  transform: translateX(0);
+  transform: ${({ $position }) => `translateX(${$position}px)`};
 
-  transition: transform 0.7s ease-in-out;
-
-  &.sliding {
-    transform: translateX(-44rem);
-  }
+  transition: ${({ $position }) => ($position === 0 ? 'none' : 'transform 1s ease-in-out')};
 `;
-
-// 0~XX opaticty 줄이고  왼쪽 카드이미지 + 갭크기만큼 이동하기 (요소 삭제)
-// XX ~ 100
 
 export const Image = styled.img`
   flex-shrink: 0;
+  width: 420px;
   object-fit: cover;
-
-  transition:
-    transform 2s ease,
-    opacity 2s ease;
 `;
 
 export const PageContainer = styled.div`

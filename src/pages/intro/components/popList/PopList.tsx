@@ -3,37 +3,44 @@ import card_popList2 from '@assets/images/card_popList2.png';
 import card_popList3 from '@assets/images/card_popList3.png';
 import card_popList4 from '@assets/images/card_popList4.png';
 import card_popList5 from '@assets/images/card_popList5.png';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import * as S from './PopList.styled';
 
 const PopList = () => {
   const INITIAL_LIST = [card_popList1, card_popList2, card_popList3, card_popList4, card_popList5];
   const [cardList, setCardList] = useState(INITIAL_LIST);
-  const [isSliding, setIsSliding] = useState(false);
+  const [position, setPosition] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
-  // TODO: 애니메이션과 관련해서 슬라이딩 로직 수정 예정
+  const popFn = useCallback(() => {
+    if (isAnimating) return;
+
+    setIsAnimating(true);
+    setPosition((prev) => prev - 440);
+
+    setTimeout(() => {
+      setCardList((prevList) => {
+        const updatedList = [...prevList];
+        const firstItem = prevList[0];
+        if (firstItem) {
+          updatedList.push(firstItem);
+          updatedList.shift();
+        }
+        return updatedList;
+      });
+      setPosition(0);
+      setIsAnimating(false);
+    }, 1000);
+  }, [isAnimating]);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setIsSliding(true);
-      setTimeout(() => {
-        setCardList((prevList) => {
-          const updatedList = [...prevList];
-          const firstItem = prevList[0];
-          if (firstItem) {
-            updatedList.push(firstItem);
-            updatedList.shift();
-          }
-
-          return updatedList;
-        });
-
-        setIsSliding(false);
-      }, 2000);
-    }, 4000);
+      popFn();
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [popFn]);
 
   return (
     <S.PageWrapper>
@@ -53,9 +60,9 @@ const PopList = () => {
           </S.DetailText>
         </S.MainContent>
       </S.PageContainer>
-      <S.ImageContainer className={isSliding ? 'sliding' : ''}>
+      <S.ImageContainer $position={position}>
         {cardList.map((src, index) => (
-          <S.Image key={`popList-img-${index}`} src={src} alt="popList - img" />
+          <S.Image key={`${src}-${index}`} src={src} alt={`popList - img ${index + 1}`} />
         ))}
       </S.ImageContainer>
     </S.PageWrapper>
