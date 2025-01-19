@@ -7,6 +7,7 @@ export const Container = styled.div<{ $forCommunity: boolean }>`
   justify-content: flex-start;
   width: 24.6rem;
   height: ${({ $forCommunity }) => ($forCommunity ? '100vh' : '67.1rem')};
+  margin-top: ${({ $forCommunity }) => $forCommunity && '2.4rem'};
   overflow: ${({ $forCommunity }) => ($forCommunity ? 'auto' : 'hidden auto')};
 
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
