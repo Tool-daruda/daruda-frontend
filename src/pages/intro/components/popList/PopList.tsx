@@ -10,16 +10,23 @@ import * as S from './PopList.styled';
 const PopList = () => {
   const INITIAL_LIST = [card_popList1, card_popList2, card_popList3, card_popList4, card_popList5];
   const [cardList, setCardList] = useState(INITIAL_LIST);
+  const [isSliding, setIsSliding] = useState(false);
 
+  // TODO: 애니메이션과 관련해서 슬라이딩 로직 수정 예정
   useEffect(() => {
     const interval = setInterval(() => {
-      setCardList((prevList) => {
-        const updatedList = [...prevList];
-        const firstItem = updatedList.shift();
-        if (firstItem) updatedList.push(firstItem);
-        return updatedList;
-      });
-    }, 4000);
+      setTimeout(() => {
+        setCardList((prevList) => {
+          const updatedList = [...prevList];
+          const firstItem = updatedList.shift();
+          setIsSliding(true);
+          if (firstItem) updatedList.push(firstItem);
+          return updatedList;
+        });
+
+        setIsSliding(false);
+      }, 2000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -42,7 +49,7 @@ const PopList = () => {
           </S.DetailText>
         </S.MainContent>
       </S.PageContainer>
-      <S.ImageContainer>
+      <S.ImageContainer className={isSliding ? 'sliding' : ''}>
         {cardList.map((src, index) => (
           <S.Image key={`popList-img-${index}`} src={src} alt="popList - img" />
         ))}
