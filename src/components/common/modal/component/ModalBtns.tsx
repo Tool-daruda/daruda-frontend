@@ -18,10 +18,10 @@ const DoubleBtns = ({
 }: ModalBtnsProps) => {
   return (
     <S.ModalBtns>
-      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleSecondClose}>
+      <S.ModalBtn $isPrimary={true} order={isPrimaryRight ? 1 : 0} onClick={handleSecondClose}>
         {primaryBtnContent}
       </S.ModalBtn>
-      <S.ModalBtn $isPrimary={true} order={isPrimaryRight ? 1 : 0} onClick={handleClose}>
+      <S.ModalBtn $isPrimary={false} order={isPrimaryRight ? 0 : 1} onClick={handleClose}>
         {secondaryBtnContent}
       </S.ModalBtn>
     </S.ModalBtns>
@@ -58,18 +58,16 @@ const S = {
     color: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.white1 : theme.colors.black)};
 
     background: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.iris1 : theme.colors.gray6)};
-    border: 1px solid ${({ theme }) => theme.colors.gray4};
-    border-top: none;
-    border-bottom: none;
     border-bottom-right-radius: ${({ order }) => (order ? '2rem' : '0')};
     border-bottom-left-radius: ${({ order }) => (order ? '0' : '2rem')};
   `,
 
   SingleBtn: styled(Button)`
     gap: 1rem;
-    padding: 1.6rem 5.4rem;
+    width: fit-content;
+    padding: 1rem 5.4rem;
 
-    ${({ theme }) => theme.fonts.body_20_b};
+    ${({ theme }) => theme.fonts.body_16_b_1};
     color: ${({ theme }) => theme.colors.white1};
 
     background: ${({ theme }) => theme.colors.iris1};

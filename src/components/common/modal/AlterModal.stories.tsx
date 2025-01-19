@@ -1,4 +1,4 @@
-import { ImgModalexit, ImgModalexit2, ImgModalcheck } from '@assets/svgs';
+import { ImgModalexit, ImgModalcheck, ImgPopupDelete84 } from '@assets/svgs';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -55,8 +55,8 @@ export const Exit: Story = {
     ImgPopupModal: ImgModalexit,
     DoublebtnProps: {
       isPrimaryRight: false,
-      primaryBtnContent: '그만두기',
-      secondaryBtnContent: '마저 작성하기',
+      primaryBtnContent: '마저 작성하기',
+      secondaryBtnContent: '화면 벗어나기',
     },
   },
   decorators: [
@@ -87,10 +87,10 @@ export const Delete: Story = {
     modalContent: '삭제된 글은 다시 볼 수 없어요',
     DoublebtnProps: {
       isPrimaryRight: true,
-      primaryBtnContent: '삭제할게요',
-      secondaryBtnContent: '한번더 생각할게요',
+      primaryBtnContent: '한번더 생각할게요',
+      secondaryBtnContent: '삭제하기',
     },
-    ImgPopupModal: ImgModalexit2,
+    ImgPopupModal: ImgPopupDelete84,
     isSingleModal: false,
   },
   decorators: [

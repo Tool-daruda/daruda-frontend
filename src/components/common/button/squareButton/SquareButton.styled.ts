@@ -11,6 +11,7 @@ export const ButtonWrapper = styled.button<{
 
   ${({ theme }) => theme.fonts.body_16_m};
   color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
+  line-height: 1;
 
   background-color: ${({ theme }) => theme.colors.white1};
 

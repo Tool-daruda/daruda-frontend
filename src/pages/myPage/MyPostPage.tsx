@@ -1,4 +1,4 @@
-import { ImgModalcheck } from '@assets/svgs/index.ts';
+import { ImgPopupDelete84 } from '@assets/svgs/index.ts';
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
@@ -43,8 +43,8 @@ const MyPostPage = () => {
     handleClose: () => {
       handleDeleteModal();
       setIsToast(true);
-    }, // TODO: 로그아웃 로직 구현하기
-    ImgPopupModal: ImgModalcheck,
+    },
+    ImgPopupModal: ImgPopupDelete84,
     isSingleModal: false,
     modalContent: '삭제된 글은 다시 볼 수 없어요',
     DoublebtnProps: {

@@ -74,6 +74,7 @@ export const ChipRectContainer = styled.button<{
 
           ${theme.fonts.caption_12_b};
           color: ${$active ? theme.colors[chipColors.rectChip.color] : theme.colors.gray2};
+          line-height: 1;
 
           background-color: ${theme.colors.white1};
           border: 1px solid
