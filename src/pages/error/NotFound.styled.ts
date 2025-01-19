@@ -2,13 +2,14 @@ import styled from '@emotion/styled';
 
 export const Container = styled.section`
   display: flex;
-  gap: 14rem;
+  gap: 22.6rem;
   width: 104.6rem;
   margin: 20.5rem auto;
 `;
 
 export const Left = styled.div`
   width: 34.5rem;
+  margin-top: 3.3rem;
 
   & > span {
     ${({ theme }) => theme.fonts.body_20_b};
@@ -18,6 +19,7 @@ export const Left = styled.div`
 
 export const Title = styled.h1`
   ${({ theme }) => theme.fonts.title_48_b};
+  width: max-content;
 `;
 
 export const Content = styled.p`
@@ -31,7 +33,7 @@ export const Right = styled.div`
   width: 56.1rem;
   height: 48.2rem;
 
-  svg {
+  img {
     position: absolute;
     right: 0;
   }
@@ -41,6 +43,7 @@ export const Ellipse = styled.div`
   position: absolute;
   bottom: 9.6rem;
   left: 0;
+  z-index: -1;
   flex-shrink: 0;
   width: 49.1rem;
   height: 22.9rem;

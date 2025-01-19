@@ -1,8 +1,8 @@
-import { Error } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Spacing from '@components/spacing/Spacing';
 import { useNavigate } from 'react-router-dom';
 
+import Error from './assets/svgs/error.svg';
 import * as S from './NotFound.styled';
 
 const NotFound = () => {
@@ -15,7 +15,7 @@ const NotFound = () => {
         <Spacing size="0.4" />
         <S.Content> 다루다를 다시 시작해주세요</S.Content>
         <Spacing size="4" />
-        <CircleButton size="mini" onClick={() => navigate('/toolist')}>
+        <CircleButton size="mini" onClick={() => navigate('/toollist')}>
           다시 시작하기
         </CircleButton>
         <Spacing size="18" />
@@ -23,7 +23,7 @@ const NotFound = () => {
       </S.Left>
       <S.Right>
         <S.Ellipse />
-        <Error />
+        <img src={Error} alt="404" />
       </S.Right>
     </S.Container>
   );
