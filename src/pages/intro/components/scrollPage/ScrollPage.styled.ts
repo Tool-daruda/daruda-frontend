@@ -15,7 +15,7 @@ export const PageWrapper = styled.section`
 const scrollAnimation = `
   @keyframes scrollDown {
     0% {
-      transform: translateY(42%);
+      transform: translateY(70%);
     }
 
     100% {
@@ -32,7 +32,7 @@ export const Image = styled.img`
   &.animation {
     transform: translateY(0);
 
-    animation: scrollDown 3s ease-out forwards;
+    animation: scrollDown 4s ease-out forwards;
   }
   ${scrollAnimation}
 `;

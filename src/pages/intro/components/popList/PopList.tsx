@@ -5,9 +5,9 @@ import card_popList4 from '@assets/images/card_popList4.png';
 import card_popList5 from '@assets/images/card_popList5.png';
 import { useState, useEffect } from 'react';
 
-import * as S from './Third.styled';
+import * as S from './PopList.styled';
 
-const Third = () => {
+const PopList = () => {
   const INITIAL_LIST = [card_popList1, card_popList2, card_popList3, card_popList4, card_popList5];
   const [cardList, setCardList] = useState(INITIAL_LIST);
 
@@ -51,4 +51,4 @@ const Third = () => {
   );
 };
 
-export default Third;
+export default PopList;

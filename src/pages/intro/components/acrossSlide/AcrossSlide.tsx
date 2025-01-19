@@ -4,9 +4,9 @@ import card_list3 from '@assets/images/card_list3.png';
 import { ImgTextlogo177 } from '@assets/svgs';
 import { useEffect, useState, useRef } from 'react';
 
-import * as S from './Second.styled';
+import * as S from './AcorssSlide.styled';
 
-const Second = () => {
+const AcorossSlide = () => {
   const [visible, setVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -56,4 +56,4 @@ const Second = () => {
   );
 };
 
-export default Second;
+export default AcorossSlide;

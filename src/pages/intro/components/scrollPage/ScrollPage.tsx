@@ -1,9 +1,9 @@
 import card_community from '@assets/images/card_community.png';
 import { useEffect, useState, useRef } from 'react';
 
-import * as S from './Fourth.styled';
+import * as S from './ScrollPage.styled';
 
-const Fourth = () => {
+const ScrollPage = () => {
   const [visible, setVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -53,4 +53,4 @@ const Fourth = () => {
   );
 };
 
-export default Fourth;
+export default ScrollPage;

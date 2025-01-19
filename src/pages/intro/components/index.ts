@@ -1,6 +1,6 @@
-import Forth from './fourth/Fourth';
+import AcrossSlide from './acrossSlide/AcrossSlide';
 import Main from './main/Main';
-import Second from './second/Second';
-import Third from './third/Third';
+import PopList from './popList/PopList';
+import ScrollPage from './scrollPage/ScrollPage';
 
-export { Main, Second, Third, Forth };
+export { Main, AcrossSlide, PopList, ScrollPage };
