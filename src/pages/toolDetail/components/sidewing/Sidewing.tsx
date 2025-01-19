@@ -5,7 +5,6 @@ import SimilarToolCardList from './SimilarToolCardList';
 
 interface SidewingProps {
   sectionRefs: {
-    getBoundingClientRect(): unknown;
     [key: number]: React.RefObject<HTMLDivElement>;
   };
 }
