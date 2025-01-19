@@ -11,7 +11,7 @@ export const PageWrapper = styled.section`
   padding-left: 80rem;
   overflow: hidden;
 `;
-export const ImageContainer = styled.div`
+export const ImageContainer = styled.ul`
   position: relative;
   display: flex;
   gap: 2rem;
@@ -23,17 +23,20 @@ export const ImageContainer = styled.div`
   transition: transform 0.7s ease-in-out;
 
   &.sliding {
-    transform: translateX(-10rem);
+    transform: translateX(-44rem);
   }
 `;
+
+// 0~XX opaticty 줄이고  왼쪽 카드이미지 + 갭크기만큼 이동하기 (요소 삭제)
+// XX ~ 100
 
 export const Image = styled.img`
   flex-shrink: 0;
   object-fit: cover;
 
   transition:
-    transform 1s ease,
-    opacity 1s ease;
+    transform 2s ease,
+    opacity 2s ease;
 `;
 
 export const PageContainer = styled.div`

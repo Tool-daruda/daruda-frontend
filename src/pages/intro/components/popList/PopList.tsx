@@ -15,18 +15,22 @@ const PopList = () => {
   // TODO: 애니메이션과 관련해서 슬라이딩 로직 수정 예정
   useEffect(() => {
     const interval = setInterval(() => {
+      setIsSliding(true);
       setTimeout(() => {
         setCardList((prevList) => {
           const updatedList = [...prevList];
-          const firstItem = updatedList.shift();
-          setIsSliding(true);
-          if (firstItem) updatedList.push(firstItem);
+          const firstItem = prevList[0];
+          if (firstItem) {
+            updatedList.push(firstItem);
+            updatedList.shift();
+          }
+
           return updatedList;
         });
 
         setIsSliding(false);
       }, 2000);
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
