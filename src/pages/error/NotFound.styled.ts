@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const Container = styled.section`
   display: flex;
-  gap: 22.6rem;
+  gap: 14rem;
   width: 104.6rem;
   margin: 20.5rem auto;
 `;
