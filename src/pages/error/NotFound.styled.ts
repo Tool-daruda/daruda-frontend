@@ -9,6 +9,7 @@ export const Container = styled.section`
 
 export const Left = styled.div`
   width: 34.5rem;
+  margin-top: 3.3rem;
 
   & > span {
     ${({ theme }) => theme.fonts.body_20_b};

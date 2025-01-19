@@ -1,4 +1,4 @@
-import { ImgModalcheck } from '@assets/svgs';
+import { ImgPopupLogout84, ImgPopupLogoutcheck84 } from '@assets/svgs';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
@@ -14,6 +14,7 @@ interface MyPageTabPropsType {
 
 const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [isLogoutCheckOpen, setIsLogoutCheckOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleMenuClick = (url: string) => {
@@ -28,10 +29,10 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
     modalTitle: '로그아웃하시겠어요?',
     isOpen: isLogoutOpen,
     handleClose: () => {
-      alert('로그아웃');
       handleLogoutModal();
-    }, // TODO: 로그아웃 로직 구현하기
-    ImgPopupModal: ImgModalcheck,
+      handleLogoutCheckModal();
+    },
+    ImgPopupModal: ImgPopupLogout84,
     isSingleModal: false,
     modalContent: '재로그인하면 다루다를 다시 이용할 수 있어요',
     DoublebtnProps: {
@@ -40,6 +41,22 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
       secondaryBtnContent: '로그아웃',
       handleSecondClose: handleLogoutModal,
     },
+  };
+
+  const handleLogoutCheckModal = () => {
+    setIsLogoutCheckOpen((prev) => !prev);
+  };
+
+  const logoutCheckModalProps = {
+    modalTitle: '로그아웃이 완료되었어요',
+    isOpen: isLogoutCheckOpen,
+    handleClose: () => {
+      handleLogoutCheckModal();
+      navigate('/toollist');
+    },
+    ImgPopupModal: ImgPopupLogoutcheck84,
+    isSingleModal: true,
+    singleBtnContent: '메인 페이지로 돌아가기',
   };
 
   return (
@@ -64,6 +81,7 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
         </Menu>
       </S.ContentTab>
       <AlterModal {...logoutModalProps} />
+      <AlterModal {...logoutCheckModalProps} />
     </>
   );
 };

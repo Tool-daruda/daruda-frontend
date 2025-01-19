@@ -1,4 +1,4 @@
-import { ImgModalexit, ImgModalexit2, ImgModalcheck } from '@assets/svgs';
+import { ImgModalexit, ImgModalcheck, ImgPopupDelete84 } from '@assets/svgs';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -90,7 +90,7 @@ export const Delete: Story = {
       primaryBtnContent: '한번더 생각할게요',
       secondaryBtnContent: '삭제하기',
     },
-    ImgPopupModal: ImgModalexit2,
+    ImgPopupModal: ImgPopupDelete84,
     isSingleModal: false,
   },
   decorators: [

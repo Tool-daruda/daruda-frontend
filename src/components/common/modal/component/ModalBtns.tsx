@@ -64,9 +64,10 @@ const S = {
 
   SingleBtn: styled(Button)`
     gap: 1rem;
-    padding: 1.6rem 5.4rem;
+    width: fit-content;
+    padding: 1rem 5.4rem;
 
-    ${({ theme }) => theme.fonts.body_20_b};
+    ${({ theme }) => theme.fonts.body_16_b_1};
     color: ${({ theme }) => theme.colors.white1};
 
     background: ${({ theme }) => theme.colors.iris1};
