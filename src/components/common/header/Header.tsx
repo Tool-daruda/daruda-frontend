@@ -12,8 +12,7 @@ interface HeaderProps {
 
 const HEADER_TEXTS = {
   community: '커뮤니티',
-  login: '로그인',
-  signup: '회원가입',
+  login: '시작하기',
 } as const;
 
 const Header = ({ headerState, forOnboarding }: HeaderProps) => {
@@ -70,10 +69,6 @@ const Auth = ({ headerState }: AuthProps) => {
   return (
     <S.AuthSection aria-label="로그인/회원가입">
       <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
-      <S.AuthDivider>/</S.AuthDivider>
-
-      {/* TODO: 카카오 로그인 구현 후 /signUp 페이지는 따로 없어도 됨 */}
-      <S.StyledLink to="/signUp">{HEADER_TEXTS.signup}</S.StyledLink>
     </S.AuthSection>
   );
 };
