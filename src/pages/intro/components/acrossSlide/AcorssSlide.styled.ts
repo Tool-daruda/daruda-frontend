@@ -8,6 +8,7 @@ export const PageWrapper = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding-top: 10rem;
   overflow: hidden;
 
   span {
