@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.header<{ $forOnBorder: boolean }>`
   z-index: 100;
   padding: 1.95rem 16rem;
 
-  background-color: ${({ theme }) => theme.colors.white1};
+  background-color: ${({ theme, $forOnBorder }) => ($forOnBorder ? theme.colors.white2 : theme.colors.white1)};
   border-bottom: 0.1rem solid ${({ theme, $forOnBorder }) => ($forOnBorder ? 'none' : theme.colors.gray4)};
 `;
 
