@@ -23,7 +23,7 @@ export const PageTitle = styled.section`
 
 export const Scroll = styled.section`
   ${({ theme }) => theme.fonts.caption_14_m};
-  margin: 5.3rem 0 0.7rem;
+  margin: 5.3rem 0 1.5rem;
 
   color: ${({ theme }) => theme.colors.gray2};
   text-align: center;

@@ -24,10 +24,12 @@ export const ImageContainer = styled.ul<{ $position: number }>`
   transition: ${({ $position }) => ($position === 0 ? 'none' : 'transform 1s ease-in-out')};
 `;
 
-export const Image = styled.img`
+export const Image = styled.img<{ $isHidden: boolean }>`
   flex-shrink: 0;
   width: 420px;
   object-fit: cover;
+
+  opacity: ${({ $isHidden }) => ($isHidden ? 0 : 1)};
 `;
 
 export const PageContainer = styled.div`

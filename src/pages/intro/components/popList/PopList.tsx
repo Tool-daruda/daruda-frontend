@@ -62,7 +62,12 @@ const PopList = () => {
       </S.PageContainer>
       <S.ImageContainer $position={position}>
         {cardList.map((src, index) => (
-          <S.Image key={`${src}-${index}`} src={src} alt={`popList - img ${index + 1}`} />
+          <S.Image
+            key={`${src}-${index}`}
+            src={src}
+            alt={`popList - img ${index + 1}`}
+            $isHidden={index === 0 && isAnimating}
+          />
         ))}
       </S.ImageContainer>
     </S.PageWrapper>
