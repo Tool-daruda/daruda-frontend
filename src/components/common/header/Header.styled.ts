@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-export const HeaderWrapper = styled.header<{ $forOnBorder: boolean }>`
+export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 1.95rem 16rem;
 
-  background-color: ${({ theme, $forOnBorder }) => ($forOnBorder ? theme.colors.white2 : theme.colors.white1)};
-  border-bottom: 0.1rem solid ${({ theme, $forOnBorder }) => ($forOnBorder ? 'none' : theme.colors.gray4)};
+  background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? theme.colors.white2 : theme.colors.white1)};
+  border-bottom: 0.1rem solid ${({ theme, $forOnboarding }) => ($forOnboarding ? 'none' : theme.colors.gray4)};
 `;
 
 export const HeaderContainer = styled.section`

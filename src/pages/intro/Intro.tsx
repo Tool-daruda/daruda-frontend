@@ -6,7 +6,7 @@ import * as S from './intro.styled';
 const Intro = () => {
   return (
     <S.Container>
-      <Header headerState="loggedIn" forOnBorder={true} />
+      <Header headerState="loggedIn" forOnboarding={true} />
       {[Main, AcrossSlide, PopList, ScrollPage].map((Component, index) => (
         <S.Section key={index}>
           <Component />
