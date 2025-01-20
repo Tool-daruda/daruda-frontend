@@ -4,7 +4,11 @@ import React, { useState } from 'react';
 
 import * as S from './WritingImg.styled';
 
-const WritingImg = () => {
+interface WritingImgProps {
+  onImageUpload: (images: string[]) => void;
+}
+
+const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
   const [images, setImages] = useState<string[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
@@ -25,14 +29,18 @@ const WritingImg = () => {
 
       Promise.all(fileReaders)
         .then((results) => {
-          setImages((prev) => [...prev, ...results]);
+          const updatedImages = [...images, ...results];
+          setImages(updatedImages);
+          onImageUpload(updatedImages);
         })
         .catch((err) => console.error('이미지 로드 에러:', err));
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+    onImageUpload(updatedImages);
   };
 
   const handleAddImageClick = () => {

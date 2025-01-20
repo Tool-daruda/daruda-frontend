@@ -1,34 +1,11 @@
 import { IcChevron, IcInstaGray20, Union } from '@assets/svgs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as S from './ToolListBanner.styled';
 
 import Chip from '../chip/Chip';
 
-const categories: string[] = [
-  '자유',
-  'AI',
-  '문서 작성&편집',
-  '프레젠테이션',
-  '협업&커뮤니케이션',
-  '데이터',
-  '그래픽&디자인',
-  '영상&음악',
-  '코딩&개발',
-  '설계&모델링',
-  '생활',
-  '커리어&자기개발',
-];
-
-type Tool = {
-  toolId: number;
-  toolName: string;
-  toolLogo: string;
-  description: string;
-  license: 'FREE' | 'PAID';
-  keywords: string[];
-  fetchPostList?: () => void;
-};
+import { fetchCategories } from '../../../apis/toolBanner/ToolBannerApi';
 
 type ToolSelectState = {
   selectedCategory: string | null;
@@ -41,32 +18,11 @@ interface ToolProp {
   onToolSelect?: (tool: string | null) => void;
 }
 
-const tools: Tool[] = [
-  {
-    toolId: 1,
-    toolName: 'ElevenLabs',
-    toolLogo: 'https://storage.googleapis.com/gweb-cloudblog-publish/images/ElevenLabs.max-2500x2500.jpg',
-    description: 'AI 오디오 플랫폼으로 가장 현실적인 음성을 만들어보세요',
-    license: 'PAID',
-    keywords: ['AI', '음성', '생산성'],
-  },
-  {
-    toolId: 2,
-    toolName: 'ChatGPT',
-    toolLogo: 'https://openai.com/chatgpt-logo.png',
-    description: '즉각적인 답변, 더 높은 생산성, 무한한 영감',
-    license: 'FREE',
-    keywords: ['그래픽 제작', '디자인', '3D'],
-  },
-  {
-    toolId: 3,
-    toolName: 'Figma',
-    toolLogo: 'https://figma.com/logo.png',
-    description: '디자인 협업의 새로운 표준',
-    license: 'PAID',
-    keywords: ['AI', '음성', '생산성'],
-  },
-];
+interface Category {
+  name: string;
+  koreanName: string;
+  tools: string[];
+}
 
 const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
@@ -74,6 +30,21 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     selectedTool: null,
     isFreeChecked: false,
   });
+
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        setCategories(data.data);
+        console.log(data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getCategories();
+  }, []);
 
   const { selectedCategory, selectedTool, isFreeChecked } = toolState;
 
@@ -131,17 +102,22 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                 {selectedTool === '자유' ? (
                   <IcInstaGray20 width={20} height={20} />
                 ) : (
-                  <Chip.Icon
-                    src={tools.find((tool) => tool.toolName === selectedTool)?.toolLogo || '/svgs/'}
-                    alt="logo"
-                    width={2}
-                    height={2}
-                  />
+                  <Chip.Icon src={'/path/to/tool/logo'} alt="logo" width={2} height={2} />
                 )}
                 <Chip.Label>{selectedTool}</Chip.Label>
-                <button onClick={clearSelectedTool} style={{ display: 'flex', cursor: 'pointer' }}>
+                <div
+                  onClick={clearSelectedTool}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      clearSelectedTool();
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  style={{ display: 'flex', cursor: 'pointer' }}
+                >
                   <Chip.CloseIcon width={20} height={20} />
-                </button>
+                </div>
               </Chip.RectContainer>
             </Chip>
           ) : (
@@ -151,11 +127,11 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
       </S.TitleBox>
       <S.CategoryList>
         {categories.map((category) => (
-          <S.CategoryItem key={category}>
-            {category === '자유' ? (
+          <S.CategoryItem key={category.name}>
+            {category.koreanName === '자유' ? (
               <S.CategoryHeader isFreeChecked={isFreeChecked}>
                 <S.CheckboxLabel>
-                  <span>{category}</span>
+                  <span>{category.koreanName}</span>
                   <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <S.CheckboxInput
                       className="category-free"
@@ -177,25 +153,20 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                 </S.CheckboxLabel>
               </S.CategoryHeader>
             ) : (
-              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category)}>
-                <span>{category}</span>
+              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category.name)}>
+                <span>{category.koreanName}</span>
                 <IcChevron
                   style={{
-                    transform: selectedCategory === category ? 'rotate(0deg)' : 'rotate(180deg)',
+                    transform: selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
                   }}
                 />
               </S.CategoryHeader>
             )}
-            {selectedCategory === category && category !== '자유' && (
+            {selectedCategory === category.name && category.name !== '자유' && (
               <S.ToolList>
-                {tools.map((tool) => (
-                  <S.ToolItem
-                    key={tool.toolId}
-                    isSelected={selectedTool === tool.toolName}
-                    onClick={() => handleToolClick(tool.toolName)}
-                  >
-                    <img src={tool.toolLogo} alt={tool.toolName} style={{ width: '2rem', height: '2rem' }} />
-                    {tool.toolName}
+                {category.tools.map((tool: string) => (
+                  <S.ToolItem key={tool} onClick={() => handleToolClick(tool)} isSelected={selectedTool === tool}>
+                    {tool}
                   </S.ToolItem>
                 ))}
               </S.ToolList>

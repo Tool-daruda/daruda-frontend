@@ -5,6 +5,7 @@ import { AlterModal } from '@components/modal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import postBoard from './apis/PostApi';
 import * as S from './CommunityWrite.styled';
 import WritingBody from './components/writingBody/WritingBody';
 import WritingImg from './components/writingImg/WritingImg';
@@ -13,6 +14,7 @@ import WritingTitle from './components/writingTitle/WritingTitle';
 const CommunityWrite = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+  const [images, setImages] = useState<string[]>([]);
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isQuitOpen, setIsQuitOpen] = useState(false);
 
@@ -24,8 +26,32 @@ const CommunityWrite = () => {
     setSelectedTool(tool);
   };
 
+  const handleImageUpload = (uploadedImages: string[]) => {
+    setImages(uploadedImages);
+  };
+
   const handleBackClick = () => {
     setIsQuitOpen((prev) => !prev);
+  };
+
+  const handlePostSubmit = async () => {
+    if (isButtonDisabled) return;
+
+    const postData = {
+      title,
+      content: body,
+      toolId: selectedTool ? parseInt(selectedTool, 10) : 3,
+      images,
+      isFree: true,
+    };
+
+    try {
+      const response = await postBoard(postData);
+      console.log('게시 성공:', response);
+      navigate('/community');
+    } catch (error) {
+      console.error('게시 실패:', error);
+    }
   };
 
   const exitModalProps = {
@@ -57,11 +83,11 @@ const CommunityWrite = () => {
           <S.WriteBox>
             <WritingTitle setTitle={setTitle} />
             <WritingBody setBody={setBody} />
-            <WritingImg />
+            <WritingImg onImageUpload={handleImageUpload} />
           </S.WriteBox>
           <S.SideBanner>
             <ToolListBanner onToolSelect={handleToolSelect} />
-            <CircleButton onClick={() => {}} size="large" disabled={isButtonDisabled}>
+            <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
               글 게시하기
             </CircleButton>
           </S.SideBanner>
