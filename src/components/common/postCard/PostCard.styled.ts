@@ -161,3 +161,42 @@ export const ImageGrid = styled.div<{ $imageCount: number }>`
     border-radius: 0.8rem;
   }
 `;
+export const EachImgContainer = styled.div<{ $imageCount: number }>`
+  position: relative;
+
+  .hover-icon {
+    position: absolute;
+    top: 34%;
+    right: 30%;
+    z-index: -1;
+
+    cursor: pointer;
+    opacity: 0;
+
+    transition:
+      opacity 0.3s ease,
+      z-index 0.3s ease;
+  }
+
+  &:hover {
+    .hover-icon {
+      z-index: 1;
+
+      opacity: 1;
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: ${({ theme }) => theme.colors.black_toast};
+      opacity: 0.5;
+      border-radius: 0.8rem;
+
+      content: '';
+    }
+  }
+`;
