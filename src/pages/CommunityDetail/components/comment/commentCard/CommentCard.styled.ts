@@ -48,10 +48,11 @@ export const IntroImgBox = styled.div`
 
   .hover-icon {
     position: absolute;
-    top: 37%;
-    left: 27%;
+    top: 50%;
+    left: 50%;
     z-index: -1;
 
+    transform: translate(-50%, -50%);
     cursor: pointer;
     opacity: 0;
 
