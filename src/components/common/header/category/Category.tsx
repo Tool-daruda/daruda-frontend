@@ -26,10 +26,6 @@ export const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const toggleCategory = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   const handleCategoryClick = () => {
     // 카테고리 index number로 넘겨주기
     setIsOpen(false);
@@ -48,7 +44,7 @@ export const Category = () => {
 
   return (
     <S.CategoryNav onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <S.CategorySection onClick={toggleCategory} aria-label="카테고리 열기">
+      <S.CategorySection aria-label="카테고리 열기">
         {HEADER_TEXTS.category}
         <S.ToggleIcon isOpen={shouldDisplayDropdown}>
           <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
@@ -57,7 +53,7 @@ export const Category = () => {
 
       {shouldDisplayDropdown && (
         <S.OpenedCategoryWrapper>
-          <S.OpenedCategory onClick={toggleCategory}>
+          <S.OpenedCategory>
             {HEADER_TEXTS.category}
             <S.ToggleIcon isOpen={shouldDisplayDropdown}>
               <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
