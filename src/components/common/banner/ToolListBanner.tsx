@@ -1,16 +1,17 @@
-import { IcChevron, IcInstaGray20, Union } from '@assets/svgs';
+import { IcChevron, Img, Union } from '@assets/svgs';
 import React, { useEffect, useState } from 'react';
 
 import * as S from './ToolListBanner.styled';
 
 import Chip from '../chip/Chip';
 
-import { fetchCategories } from '../../../apis/toolBanner/ToolBannerApi';
+import { fetchCategories, fetchToolsByCategory } from '../../../apis/toolBanner/ToolBannerApi';
 
 type ToolSelectState = {
   selectedCategory: string | null;
   selectedTool: string | null;
   isFreeChecked: boolean;
+  tools: { toolId: number; toolLogo: string; toolName: string }[];
 };
 
 interface ToolProp {
@@ -29,6 +30,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     selectedCategory: null,
     selectedTool: null,
     isFreeChecked: false,
+    tools: [],
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -37,22 +39,41 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     const getCategories = async () => {
       try {
         const data = await fetchCategories();
-        setCategories(data.data);
-        console.log(data.data);
+        const modifiedData = data.data;
+
+        if (modifiedData.length > 0) {
+          modifiedData[0].koreanName = '자유';
+        }
+
+        setCategories(modifiedData);
       } catch (error) {
         console.error(error);
       }
     };
+
     getCategories();
   }, []);
 
-  const { selectedCategory, selectedTool, isFreeChecked } = toolState;
+  const { selectedCategory, selectedTool, isFreeChecked, tools } = toolState;
 
-  const handleCategoryClick = (category: string) => {
+  const handleCategoryClick = async (category: string) => {
     setToolState((prev) => ({
       ...prev,
       selectedCategory: prev.selectedCategory === category ? null : category,
     }));
+
+    if (category !== '자유') {
+      try {
+        const response = await fetchToolsByCategory(category);
+        const tools = response.data.tools || [];
+        setToolState((prev) => ({
+          ...prev,
+          tools,
+        }));
+      } catch (error) {
+        console.error('툴 목록을 불러오는 데 실패했습니다:', error);
+      }
+    }
   };
 
   const handleToolClick = (toolName: string) => {
@@ -100,9 +121,15 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
             <Chip size="medium" stroke={true}>
               <Chip.RectContainer>
                 {selectedTool === '자유' ? (
-                  <IcInstaGray20 width={20} height={20} />
+                  <Img width={20} height={20} />
                 ) : (
-                  <Chip.Icon src={'/path/to/tool/logo'} alt="logo" width={2} height={2} />
+                  (() => {
+                    const selectedToolData = tools.find((tool) => tool.toolName === selectedTool);
+
+                    return selectedToolData ? (
+                      <Chip.Icon src={selectedToolData.toolLogo} alt="logo" width={2} height={2} />
+                    ) : null;
+                  })()
                 )}
                 <Chip.Label>{selectedTool}</Chip.Label>
                 <div
@@ -126,53 +153,66 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
         </S.Subtitle>
       </S.TitleBox>
       <S.CategoryList>
-        {categories.map((category) => (
-          <S.CategoryItem key={category.name}>
-            {category.koreanName === '자유' ? (
-              <S.CategoryHeader isFreeChecked={isFreeChecked}>
-                <S.CheckboxLabel>
-                  <span>{category.koreanName}</span>
-                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                    <S.CheckboxInput
-                      className="category-free"
-                      type="checkbox"
-                      checked={isFreeChecked}
-                      onChange={handleFreeCheck}
-                    />
-                    {isFreeChecked && (
-                      <Union
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                        }}
+        {categories && categories.length > 0 ? (
+          categories.map((category) => (
+            <S.CategoryItem key={category.name}>
+              {category.koreanName === '자유' ? (
+                <S.CategoryHeader isFreeChecked={isFreeChecked}>
+                  <S.CheckboxLabel>
+                    <span>{category.koreanName}</span>
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                      <S.CheckboxInput
+                        className="category-free"
+                        type="checkbox"
+                        checked={isFreeChecked}
+                        onChange={handleFreeCheck}
                       />
-                    )}
-                  </div>
-                </S.CheckboxLabel>
-              </S.CategoryHeader>
-            ) : (
-              <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category.name)}>
-                <span>{category.koreanName}</span>
-                <IcChevron
-                  style={{
-                    transform: selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
-                  }}
-                />
-              </S.CategoryHeader>
-            )}
-            {selectedCategory === category.name && category.name !== '자유' && (
-              <S.ToolList>
-                {category.tools.map((tool: string) => (
-                  <S.ToolItem key={tool} onClick={() => handleToolClick(tool)} isSelected={selectedTool === tool}>
-                    {tool}
-                  </S.ToolItem>
-                ))}
-              </S.ToolList>
-            )}
-          </S.CategoryItem>
-        ))}
+                      {isFreeChecked && (
+                        <Union
+                          style={{
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                          }}
+                        />
+                      )}
+                    </div>
+                  </S.CheckboxLabel>
+                </S.CategoryHeader>
+              ) : (
+                <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category.name)}>
+                  <span>{category.koreanName}</span>
+                  <IcChevron
+                    style={{
+                      transform: selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
+                    }}
+                  />
+                </S.CategoryHeader>
+              )}
+              {selectedCategory === category.name && category.name !== '자유' && (
+                <S.ToolList>
+                  {tools && tools.length > 0 ? (
+                    tools.map((tool) => (
+                      <S.ToolItem
+                        key={tool.toolId}
+                        onClick={() => handleToolClick(tool.toolName)}
+                        isSelected={selectedTool === tool.toolName}
+                      >
+                        <img src={tool.toolLogo} alt={tool.toolName} width={20} height={20} />
+                        {tool.toolName}
+                      </S.ToolItem>
+                    ))
+                  ) : (
+                    <S.Loading>툴 목록을 불러오는 중입니다 !</S.Loading>
+                  )}
+                </S.ToolList>
+              )}
+            </S.CategoryItem>
+          ))
+        ) : (
+          <S.Loading>카테고리 데이터를 불러오는 중입니다...</S.Loading>
+        )}
       </S.CategoryList>
     </S.Container>
   );

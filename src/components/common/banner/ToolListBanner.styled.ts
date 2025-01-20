@@ -145,3 +145,11 @@ export const IconContainer = styled.div`
 
   border-radius: 0.4rem;
 `;
+
+export const Loading = styled.div`
+  margin-left: 2.3rem;
+
+  ${({ theme }) => theme.fonts.caption_12_b};
+  color: ${({ theme }) => theme.colors.gray2};
+  text-align: left;
+`;
