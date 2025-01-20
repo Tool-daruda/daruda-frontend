@@ -7,6 +7,7 @@ import * as S from './Header.styled';
 
 interface HeaderProps {
   headerState: HeaderState;
+  forOnBorder: boolean;
 }
 
 const HEADER_TEXTS = {
@@ -16,9 +17,9 @@ const HEADER_TEXTS = {
   mypage: '마이페이지',
 } as const;
 
-const Header = ({ headerState }: HeaderProps) => {
+const Header = ({ headerState, forOnBorder }: HeaderProps) => {
   return (
-    <S.HeaderWrapper>
+    <S.HeaderWrapper $forOnBorder={forOnBorder}>
       <S.HeaderContainer>
         <Logo />
         <Category />
