@@ -38,11 +38,20 @@ export const AuthSection = styled.nav`
 
 export const MyPageSection = styled.section`
   display: flex;
-  gap: 2.4rem;
+  gap: 3.6rem;
   align-items: center;
+  justify-content: center;
 `;
 
 export const NotificationButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+`;
+
+export const MyPageButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;

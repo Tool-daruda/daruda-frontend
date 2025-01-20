@@ -51,7 +51,7 @@ export const Default: Story = {
       const headerState: HeaderState = HEADER_STATE.LOGGED_OUT;
       return (
         <Layout>
-          <Header headerState={headerState} />
+          <Header headerState={headerState} forOnboarding={false} />
           <Content />
           <Footer />
         </Layout>

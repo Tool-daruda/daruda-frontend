@@ -1,4 +1,4 @@
-import { IcAlarmBlack24, ImgDarudalogo40 } from '@assets/svgs';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40 } from '@assets/svgs';
 import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +14,6 @@ const HEADER_TEXTS = {
   community: '커뮤니티',
   login: '로그인',
   signup: '회원가입',
-  mypage: '마이페이지',
 } as const;
 
 const Header = ({ headerState, forOnboarding }: HeaderProps) => {
@@ -56,9 +55,13 @@ const Auth = ({ headerState }: AuthProps) => {
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>
           <S.NotificationButton aria-label="알림 확인">
-            <IcAlarmBlack24 width="2.4rem" height="2.4rem" />
+            <IcAlarmBlack24 />
           </S.NotificationButton>
-          <S.StyledLink to="/mypage"> {HEADER_TEXTS.mypage}</S.StyledLink>
+          <S.StyledLink to="/mypage">
+            <S.MyPageButton aria-label="마이페이지">
+              <IcProfileBlack24 />
+            </S.MyPageButton>
+          </S.StyledLink>
         </S.MyPageSection>
       </S.AuthSection>
     );
