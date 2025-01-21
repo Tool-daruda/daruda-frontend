@@ -43,8 +43,8 @@ const NamingInput = ({
         <ConfirmBtn isActive={isActive} onClick={onClick} />
       </S.InputBox>
       <S.DescriptionBox>
-        {description && <S.Description state={state}>{description}</S.Description>}
         <S.LetterCount>{count}/10</S.LetterCount>
+        {description && <S.Description state={state}>{description}</S.Description>}
       </S.DescriptionBox>
       {inputRestrictions.length > 0 && (
         <S.InputRestrictions>

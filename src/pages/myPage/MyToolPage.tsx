@@ -1,46 +1,39 @@
 import { ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import Spacing from '@components/spacing/Spacing';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 
 import { useGetFavoriteTool } from './apis/queries';
 import MyToolCard from './components/toolCard/MyToolCard';
-import { Tool } from './types/tool';
 
 const MyToolPage = () => {
-  const [toolList, setToolList] = useState<Tool[]>([]);
-  const { data } = useGetFavoriteTool();
+  const { data: favoriteToolData } = useGetFavoriteTool();
 
-  useEffect(() => {
-    if (data) {
-      setToolList(data.data);
-    }
-  }, []);
-
-  return (
-    <S.MyToolWrapper>
-      {toolList?.length > 0 ? (
-        <S.MyToolContainer>
-          {toolList.map((tool) => (
-            <MyToolCard
-              key={tool.toolId}
-              toolLogo={tool.toolLogo}
-              toolNameMain={tool.toolName}
-              keyWordList={tool.keywords}
-            />
-          ))}
-        </S.MyToolContainer>
-      ) : (
-        <S.NonTool>
-          <ImgPopupNonebookmarkScraptool />
-          <Spacing size="4.2" />
-          <p>관심있는 툴이 없어요</p>
-          <Spacing size="1" />
-          <p>북마크를 통해 관심있는 툴을 저장해보세요</p>
-        </S.NonTool>
-      )}
-    </S.MyToolWrapper>
-  );
+  if (favoriteToolData) {
+    return (
+      <S.MyToolWrapper>
+        {favoriteToolData.length > 0 ? (
+          <S.MyToolContainer>
+            {favoriteToolData.map((tool) => (
+              <MyToolCard
+                key={tool.toolId}
+                toolLogo={tool.toolLogo}
+                toolNameMain={tool.toolName}
+                keyWordList={tool.keywords}
+              />
+            ))}
+          </S.MyToolContainer>
+        ) : (
+          <S.NonTool>
+            <ImgPopupNonebookmarkScraptool />
+            <Spacing size="4.2" />
+            <p>관심있는 툴이 없어요</p>
+            <Spacing size="1" />
+            <p>북마크를 통해 관심있는 툴을 저장해보세요</p>
+          </S.NonTool>
+        )}
+      </S.MyToolWrapper>
+    );
+  }
 };
 
 export default MyToolPage;

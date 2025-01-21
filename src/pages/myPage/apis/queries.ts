@@ -30,7 +30,10 @@ export const usePatchInfo = () => {
 
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ nickname, position }: { nickname?: string; position?: string }) => patchInfo({ nickname, position }),
+    mutationFn: async ({ nickname, position }: { nickname?: string; position?: string }) => {
+      const response = await patchInfo({ nickname, position });
+      return response;
+    },
     onSuccess: () => {
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
     },
@@ -80,8 +83,26 @@ export const useGetFavoriteTool = () => {
 };
 
 export const useAccountDelete = () => {
+  const userItem = localStorage.getItem('user');
+  const userData = userItem ? JSON.parse(userItem) : null;
+  const userId = userData?.accessToken || null;
+
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: () => deleteAccount(),
+    onSuccess: () => {
+      if (userId) {
+        // userId와 관련된 모든 쿼리 무효화
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOO_LIST(userId) });
+      }
+
+      // localStorage에서 'user' 삭제
+      localStorage.removeItem('user');
+    },
   });
 };
 

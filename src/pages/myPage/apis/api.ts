@@ -30,16 +30,6 @@ export const patchInfo = async ({ nickname, position }: { nickname?: string; pos
   }
 };
 
-export const getNicknameCheck = async (nickname: string): Promise<boolean | null> => {
-  try {
-    const response = await post<{ data: boolean | null }>('nickname', { nickname: `${nickname}` });
-    return response.data.data;
-  } catch (error) {
-    console.error('Error:', error);
-    return null;
-  }
-};
-
 export const getBoardList = async (): Promise<BoardResponseData | null> => {
   try {
     const response: AxiosResponse<BoardResponse> = await get(`users/profile/boards`);
