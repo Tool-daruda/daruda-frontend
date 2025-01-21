@@ -1,3 +1,4 @@
+import { useBoardDelete } from '@apis/board/queries.ts';
 import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
@@ -11,9 +12,11 @@ import * as S from './Post.styled.ts';
 const MyPostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: postData } = useGetMyPost(currentPage);
+  const { mutateAsync: delMuatate } = useBoardDelete();
 
   const [isToast, setIsToast] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [selectedBoard, setSelectedBoard] = useState<number | null>(null);
 
   const handleDeleteModal = () => {
     setIsModal((prev) => !prev);
@@ -22,9 +25,12 @@ const MyPostPage = () => {
   const deleteModalProps = {
     modalTitle: '선택한 글을 삭제하시겠어요??',
     isOpen: isModal,
-    handleClose: () => {
+    handleClose: async () => {
       handleDeleteModal();
-      setIsToast(true);
+      if (selectedBoard !== null) {
+        await delMuatate(selectedBoard);
+        setIsToast(true);
+      }
     },
     ImgPopupModal: ImgPopupDelete84,
     isSingleModal: false,
@@ -37,7 +43,8 @@ const MyPostPage = () => {
     },
   };
 
-  const handleDelete = () => {
+  const handleDelete = (boardId: number) => {
+    setSelectedBoard(boardId);
     handleDeleteModal();
     setTimeout(() => setIsToast(false), 3000);
   };
@@ -56,7 +63,7 @@ const MyPostPage = () => {
                   updatedAt={post.updatedAt}
                   toolLogo={post.toolLogo}
                   toolName={post.toolName}
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(post.boardId)}
                 />
               ))}
             </S.PostContainer>

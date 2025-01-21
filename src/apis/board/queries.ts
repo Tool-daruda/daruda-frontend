@@ -2,7 +2,7 @@ import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { BoardList } from '@pages/myPage/types/board';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { postBoardScrap } from './api';
+import { delBoard, postBoardScrap } from './api';
 
 export const useBoardScrap = () => {
   const userItem = localStorage.getItem('user');
@@ -38,6 +38,21 @@ export const useBoardScrap = () => {
       // 서버 동기화를 위해 캐시 무효화
       // TODO: 민이가 작업하는 툴 리스트 페이지, 찬영언니가 작업하는 툴 디테일 페이지의 쿼리키도 무효화해주기
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
+    },
+  });
+};
+
+export const useBoardDelete = () => {
+  const userItem = localStorage.getItem('user');
+  const userData = userItem ? JSON.parse(userItem) : null;
+  const userId = userData?.accessToken || null;
+
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (boardId: number) => delBoard(boardId),
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
     },
   });
 };

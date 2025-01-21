@@ -1,3 +1,4 @@
+import { useToolScrap } from '@apis/tool/queries';
 import { ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import Spacing from '@components/spacing/Spacing';
 import styled from '@emotion/styled';
@@ -7,6 +8,7 @@ import MyToolCard from './components/toolCard/MyToolCard';
 
 const MyToolPage = () => {
   const { data: favoriteToolData } = useGetFavoriteTool();
+  const { mutateAsync: scrapMutate } = useToolScrap();
 
   if (favoriteToolData) {
     return (
@@ -19,6 +21,7 @@ const MyToolPage = () => {
                 toolLogo={tool.toolLogo}
                 toolNameMain={tool.toolName}
                 keyWordList={tool.keywords}
+                onClick={() => scrapMutate(tool.toolId)}
               />
             ))}
           </S.MyToolContainer>

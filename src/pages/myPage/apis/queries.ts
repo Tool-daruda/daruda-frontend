@@ -46,10 +46,10 @@ export const useGetMyPost = (pageNo: number) => {
   const userId = userData?.accessToken || null;
 
   return useQuery({
-    queryKey: [MYPAGE_QUERY_KEY.MY_POST_LIST(userId), pageNo],
+    queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId),
     queryFn: () => getBoardList(pageNo),
-    staleTime: 1000 * 60 * 10,
-    gcTime: 1000 * 60 * 60 * 24,
+    staleTime: 0,
+    gcTime: 0,
     enabled: !!userId,
   });
 };

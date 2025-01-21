@@ -7,14 +7,10 @@ interface MyToolCardPropType {
   toolLogo: string;
   toolNameMain: string;
   keyWordList: string[];
+  onClick?: () => void;
 }
 
-const MyToolCard = ({ toolLogo, toolNameMain, keyWordList }: MyToolCardPropType) => {
-  // TODO: API 연결하기
-  const handleBookmark = () => {
-    alert('북마크 해제');
-  };
-
+const MyToolCard = ({ toolLogo, toolNameMain, keyWordList, onClick }: MyToolCardPropType) => {
   return (
     <S.CardWrapper>
       <S.CardLogo src={toolLogo} />
@@ -30,7 +26,7 @@ const MyToolCard = ({ toolLogo, toolNameMain, keyWordList }: MyToolCardPropType)
           </Chip>
         ))}
       </S.CardKeyword>
-      <S.BookmarkBtn onClick={handleBookmark} />
+      <S.BookmarkBtn onClick={onClick} />
     </S.CardWrapper>
   );
 };

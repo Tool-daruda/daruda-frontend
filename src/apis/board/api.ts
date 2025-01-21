@@ -1,5 +1,4 @@
-import { post } from '@apis/index';
-// import type { AxiosResponse } from 'axios';
+import { del, post } from '@apis/index';
 
 export const postBoardScrap = async (boardId: number) => {
   try {
@@ -14,6 +13,14 @@ export const postBoardScrap = async (boardId: number) => {
     return response.data;
   } catch (error) {
     console.error('Error:', error);
-    return false;
+  }
+};
+
+export const delBoard = async (boardId: number) => {
+  try {
+    const response = await del(`boards/${boardId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error:', error);
   }
 };

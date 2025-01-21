@@ -1,15 +1,15 @@
 import { post } from '@apis/index';
 
-export const postBoardScrap = async (boardId: number) => {
+export const postToolScrap = async (toolId: number) => {
   try {
     const response = await post<{
       statusCode: number;
       message: string;
       data: {
-        boardId: number;
+        toolId: number;
         scarp: boolean;
       };
-    }>(`users/boards/${boardId}/scrap`);
+    }>(`users/tools/${toolId}/scrap`);
     return response.data;
   } catch (error) {
     console.error('Error:', error);
