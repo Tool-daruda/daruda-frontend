@@ -20,7 +20,7 @@ const ReferenceVideo = forwardRef<HTMLDivElement, ReferenceVideoProps>(({ toolId
       <S.ReferenceVideoWrapper>
         <h1>참고하면 좋은 영상</h1>
         <S.ReferenceVideoContainer>
-          {data.videos.map((videoUrl, index) => (
+          {data.videos?.map((videoUrl, index) => (
             <VideoCard key={index} video={videoUrl} /> // VideoCard에 각 URL 전달
           ))}
         </S.ReferenceVideoContainer>

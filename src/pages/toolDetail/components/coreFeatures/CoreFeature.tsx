@@ -24,7 +24,7 @@ const CoreFeature = forwardRef<HTMLDivElement, CoreFeaturePropTypes>(({ toolId, 
       <S.CoreFeatureWrapper>
         <h1>핵심 기능</h1>
         <S.CoreFeatureContainer>
-          {toolCoreResList.map((feature, index) => (
+          {toolCoreResList?.map((feature, index) => (
             <Toggle
               key={feature.coreId}
               isSingleLine={true}

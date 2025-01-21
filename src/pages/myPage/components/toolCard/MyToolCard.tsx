@@ -27,7 +27,7 @@ const MyToolCard = ({ toolLogo, toolNameMain, keyWordList }: MyToolCardPropType)
         {splitAndCountLines(toolNameMain).formattedToolName}
       </S.CardTitle>
       <S.CardKeyword>
-        {keyWordList.map((keyword) => (
+        {keyWordList?.map((keyword) => (
           <Chip key={keyword.keyWordId} size="xsmall" active={true}>
             <Chip.RectContainer>
               <Chip.Label>{keyword.keyWordName}</Chip.Label>

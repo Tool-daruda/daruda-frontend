@@ -15,7 +15,7 @@ const SimilarToolCardList = ({ data }: SimilarToolCardListProps) => {
 
   return (
     <>
-      {relatedToolResList.map((tool) => (
+      {relatedToolResList?.map((tool) => (
         <SimilarToolCard
           key={tool.toolId}
           toolLogo={tool.toolLogo}

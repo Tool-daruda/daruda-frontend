@@ -20,7 +20,7 @@ const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ toolPlans }, ref) => {
         </S.PlanBtn>
       </S.PlanTab>
       <S.PlanWrapper ref={ref}>
-        {toolPlans.map((plan) => {
+        {toolPlans?.map((plan) => {
           const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
           if (isAnnual && price === null) return null;
           return (

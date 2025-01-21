@@ -83,7 +83,7 @@ export const Introduction = () => {
     >
       <Title>📣 텍스트를 입력해서 확인하세요</Title>{' '}
       <TextField value={text} onChange={handleTextChange} placeholder="예시 문장을 입력해주세요" />
-      {Object.keys(fonts).map((fontName) => {
+      {Object.keys(fonts)?.map((fontName) => {
         const fontStyle = fonts[fontName as keyof typeof fonts];
         const fontSizeRem = extractCSSProperty(fontStyle.styles, 'font-size');
         const fontSizePx = convertRemToPx(fontSizeRem);

@@ -66,7 +66,7 @@ const MyPostPage = () => {
         {postList.length > 0 ? (
           <>
             <S.PostContainer>
-              {postList.map((post) => (
+              {postList?.map((post) => (
                 <PostCard
                   key={post.boardId}
                   isMine={true}

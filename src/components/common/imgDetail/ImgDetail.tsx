@@ -15,7 +15,7 @@ const ImgDetail = ({ handleModalClose, imgList, index }: ImgDetailPropsType) => 
       <S.CloseBtn onClick={handleModalClose} />
       <S.ModalInnerWrapper>
         <S.ImgThumb>
-          {imgList.map((img, index) => (
+          {imgList?.map((img, index) => (
             <S.PreviewImg
               key={img}
               src={img}

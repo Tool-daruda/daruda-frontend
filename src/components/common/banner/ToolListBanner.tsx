@@ -150,7 +150,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
         </S.Subtitle>
       </S.TitleBox>
       <S.CategoryList>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <S.CategoryItem key={category}>
             {category === '자유' ? (
               <S.CategoryHeader isFreeChecked={isFreeChecked}>
@@ -188,7 +188,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
             )}
             {selectedCategory === category && category !== '자유' && (
               <S.ToolList>
-                {tools.map((tool) => (
+                {tools?.map((tool) => (
                   <S.ToolItem
                     key={tool.toolId}
                     isSelected={selectedTool === tool.toolName}

@@ -36,7 +36,7 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
             </S.EmptySpaceWrapper>
           )}
           {commentList.length > 0 &&
-            commentList.map((comment, idx) => (
+            commentList?.map((comment, idx) => (
               <li key={comment.commentId}>
                 {idx > 0 && <S.Divider />}
                 <CommentCard comment={comment} />

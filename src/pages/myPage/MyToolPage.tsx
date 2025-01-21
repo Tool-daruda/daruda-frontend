@@ -30,7 +30,7 @@ const MyToolPage = () => {
     <S.MyToolWrapper>
       {toolList.length > 0 ? (
         <S.MyToolContainer>
-          {toolList.map((tool) => (
+          {toolList?.map((tool) => (
             <MyToolCard
               key={tool.toolId}
               toolLogo={tool.toolLogo}

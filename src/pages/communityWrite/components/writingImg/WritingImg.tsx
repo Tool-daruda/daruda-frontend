@@ -67,7 +67,7 @@ const WritingImg = () => {
         />
       </label>
       <S.PreviewContainer>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <S.ImagePreview key={index}>
             <S.ImageContainer>
               <img src={image} alt={`미리보기 ${index + 1}`} />
