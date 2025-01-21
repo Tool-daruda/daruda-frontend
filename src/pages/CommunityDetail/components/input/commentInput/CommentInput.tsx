@@ -1,8 +1,10 @@
 import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
+import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
 import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
+import { useState } from 'react';
 
 import * as S from './CommentInput.styled';
 
@@ -43,6 +45,16 @@ const CommnetInput = () => {
     }
     // TODO: POST 요청 연결
     alert('댓글 뿅');
+  };
+
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+
+  const handleImgFocus = () => {
+    setIsImgModalOpen(true);
+  };
+
+  const handleImgModalClose = () => {
+    setIsImgModalOpen(false);
   };
 
   const imageButton = !imageSelected ? (
@@ -93,7 +105,9 @@ const CommnetInput = () => {
       <S.CardBottom>
         {imageButton}
         <S.ImgNameItem $imageSelected={imageSelected}>
-          <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
+          <button type="button" onClick={handleImgFocus}>
+            <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
+          </button>
           {imageSelected && (
             <button onClick={handleImageRemove}>
               <IcImgdeleteGray40 />
@@ -109,6 +123,13 @@ const CommnetInput = () => {
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
       </S.ToastWrapper>
+      {isImgModalOpen && (
+        <ImgDetail
+          handleModalClose={handleImgModalClose}
+          imgList={imageFile ? [URL.createObjectURL(imageFile)] : []}
+          index={0}
+        />
+      )}
     </S.CardWrapper>
   );
 };
