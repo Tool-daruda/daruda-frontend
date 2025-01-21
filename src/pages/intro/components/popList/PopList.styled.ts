@@ -8,6 +8,7 @@ export const PageWrapper = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding-top: 20rem;
   padding-left: 80rem;
   overflow: hidden;
 `;
@@ -21,13 +22,17 @@ export const ImageContainer = styled.ul<{ $position: number }>`
 
   transform: ${({ $position }) => `translateX(${$position}px)`};
 
-  transition: ${({ $position }) => ($position === 0 ? 'none' : 'transform 1s ease-in-out')};
+  transition: ${({ $position }) => ($position === 0 ? 'none' : 'transform 0.6s ease-in-out')};
 `;
 
-export const Image = styled.img`
+export const Image = styled.img<{ $isHidden: boolean }>`
   flex-shrink: 0;
   width: 420px;
   object-fit: cover;
+
+  box-shadow: 2px 8px 20px 0 ${({ theme }) => theme.colors.gray2};
+  opacity: ${({ $isHidden }) => ($isHidden ? 0 : 1)};
+  border-radius: 2rem;
 `;
 
 export const PageContainer = styled.div`

@@ -8,7 +8,6 @@ export const CardWrapper = styled.form`
   padding: 2rem 3.2rem;
 
   background: ${({ theme }) => theme.colors.white1};
-  box-shadow: ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
 `;
@@ -41,14 +40,14 @@ const errAnimation = `
 `;
 
 export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocus: boolean }>`
-  width: 81.3rem;
+  width: 100%;
   padding: 2.2rem 5rem 3rem 2rem;
 
   background: ${({ theme }) => theme.colors.white2};
   border: 1px solid
     ${({ theme, $isOverflowed, $isFocus }) =>
       $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
-  border-radius: 1.6rem;
+  border-radius: 0.8rem;
 
   animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
   ${errAnimation}
@@ -106,11 +105,16 @@ export const CardBottom = styled.section`
   display: flex;
   gap: 2rem;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
 
   p {
     color: ${({ theme }) => theme.colors.gray2};
+  }
+
+  & div {
+    display: flex;
+    gap: 2rem;
   }
 `;
 

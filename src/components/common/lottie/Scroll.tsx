@@ -1,4 +1,4 @@
-import scrollLottie from '@assets/lottie/daruda_scroll.json';
+import scrollLottie from '@assets/lottie/scrolldown_.json';
 import Lottie from 'react-lottie-player';
 
 const Scroll = () => {

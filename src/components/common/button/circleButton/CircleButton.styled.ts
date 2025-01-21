@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 export const ButtonWrapper = styled.button<{
   shadow: boolean;
+  $whiteBtn: boolean;
   size: 'large' | 'medium' | 'small' | 'mini';
 }>`
   display: flex;
@@ -44,17 +45,20 @@ export const ButtonWrapper = styled.button<{
     return sizeStyles[size];
   }}
 
-  color: ${({ theme }) => theme.colors.white1};
+  color: ${({ theme, $whiteBtn }) => ($whiteBtn ? theme.colors.iris1 : theme.colors.white1)};
   line-height: 1;
   white-space: nowrap;
 
-  background-color: ${({ theme }) => theme.colors.iris1};
+  background-color: ${({ theme, $whiteBtn }) => ($whiteBtn ? theme.colors.white1 : theme.colors.iris1)};
   cursor: pointer;
 
   transition: background-color 0.3s ease;
 
   &:hover {
+    color: ${({ theme, $whiteBtn }) => $whiteBtn && theme.colors.white1};
+
     background-color: ${({ theme }) => theme.colors.iris1_hover};
+    box-shadow: 0 0 12px 0 ${({ theme, $whiteBtn }) => $whiteBtn && theme.colors.shadow1};
   }
 
   &:active {

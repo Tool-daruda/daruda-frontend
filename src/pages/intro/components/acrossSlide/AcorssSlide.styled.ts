@@ -8,6 +8,7 @@ export const PageWrapper = styled.section`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  padding-top: 10rem;
   overflow: hidden;
 
   span {
@@ -85,7 +86,7 @@ export const ImageContainer = styled.div`
 `;
 
 export const MainContent = styled.div`
-  padding: 6.7rem 19rem 25.3rem 0;
+  padding: 16.7rem 19rem 25.3rem 0;
 `;
 
 export const DetailText = styled.div`
