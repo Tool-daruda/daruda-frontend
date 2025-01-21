@@ -1,37 +1,30 @@
-import { ImgPopupDelete84 } from '@assets/svgs/index.ts';
+import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
 import { useEffect, useState } from 'react';
 
+import { useGetMyPost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
-import { MYPOST_RESPONSE } from './mocks/myPostList.ts';
 import * as S from './Post.styled.ts';
-
-interface Post {
-  boardId: number;
-  title: string;
-  content: string;
-  updatedAt: string;
-  toolId: number;
-  toolLogo: string;
-  toolName: string;
-  scrapId: number;
-}
+import { Board } from './types/board.ts';
 
 const MyPostPage = () => {
-  const [postList, setPostList] = useState<Post[]>(MYPOST_RESPONSE.boardList);
-  const [pages, setPages] = useState(MYPOST_RESPONSE.pagination.totalPages);
+  const { data } = useGetMyPost();
+
+  const [postList, setPostList] = useState<Board[]>([]);
+  const [pages, setPages] = useState(1);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [isToast, setIsToast] = useState(false);
   const [isModal, setIsModal] = useState(false);
 
-  // 추후에 API 연결을 위해 useState를 사용하기 위해 set함수를 임의로 넣었습니다!!!
-  // API 연결할 때 삭제하겠습니다.
   useEffect(() => {
-    setPostList((prevToolList) => [...prevToolList]);
-    setPages((prev) => prev);
-  }, []);
+    if (data) {
+      setPostList(data.boardList);
+      setPages(data.pageInfo.pageNo);
+    }
+  }, [data]);
 
   const handleDeleteModal = () => {
     setIsModal((prev) => !prev);
@@ -63,7 +56,7 @@ const MyPostPage = () => {
   return (
     <>
       <S.PostWrapper>
-        {postList.length > 0 ? (
+        {postList?.length > 0 ? (
           <>
             <S.PostContainer>
               {postList.map((post) => (
@@ -95,11 +88,7 @@ const MyPostPage = () => {
           </>
         ) : (
           <S.NonTool>
-            {/* TODO: 이미지 갈아끼우기 */}
-            <img
-              src="https://mblogthumb-phinf.pstatic.net/MjAxOTEwMTFfNjEg/MDAxNTcwNzg1ODM3Nzc0.zxDXm20VlPdQv8GQi9LWOdPwkqoBdiEmf8aBTWTsPF8g.FqMQTiF6ufydkQxrLBgET3kNYAyyKGJTWTyi1qd1-_Ag.PNG.kkson50/sample_images_01.png?type=w800"
-              alt=""
-            />
+            <ImgPopupNonebookmarkMypost />
             <Spacing size="4.2" />
             <p>작성한 글이 없어요</p>
             <Spacing size="1" />

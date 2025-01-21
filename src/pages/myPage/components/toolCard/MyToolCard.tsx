@@ -3,15 +3,10 @@ import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
 
 import * as S from './MyToolCard.styled';
 
-interface keyWord {
-  keyWordId: number;
-  keyWordName: string;
-}
-
 interface MyToolCardPropType {
   toolLogo: string;
   toolNameMain: string;
-  keyWordList: keyWord[];
+  keyWordList: string[];
 }
 
 const MyToolCard = ({ toolLogo, toolNameMain, keyWordList }: MyToolCardPropType) => {
@@ -27,10 +22,10 @@ const MyToolCard = ({ toolLogo, toolNameMain, keyWordList }: MyToolCardPropType)
         {splitAndCountLines(toolNameMain).formattedToolName}
       </S.CardTitle>
       <S.CardKeyword>
-        {keyWordList.map((keyword) => (
-          <Chip key={keyword.keyWordId} size="xsmall" active={true}>
+        {keyWordList.map((keyword, index) => (
+          <Chip key={index} size="xsmall" active={true}>
             <Chip.RectContainer>
-              <Chip.Label>{keyword.keyWordName}</Chip.Label>
+              <Chip.Label>{keyword}</Chip.Label>
             </Chip.RectContainer>
           </Chip>
         ))}

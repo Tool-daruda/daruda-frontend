@@ -3,16 +3,20 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
-  const [selectedAffiliation, setSelectedAffiliation] = useState('학생');
+  const { data } = useGetInfo();
+  const [selectedAffiliation, setSelectedAffiliation] = useState<string | undefined>();
   const [nickname, setNickname] = useState('');
   const [isOpenWithdrawModal, setIsOpenWithdrawModal] = useState(false);
+  const { mutateAsync: deleteMutate } = useAccountDelete();
+  const { mutateAsync: patchMutate } = usePatchInfo();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -22,11 +26,39 @@ const MyInfoPage = () => {
     setIsOpenWithdrawModal((prev) => !prev);
   };
 
+  useEffect(() => {
+    if (data) {
+      setSelectedAffiliation(data.data.positions);
+      setNickname(data.data.nickname);
+    }
+  }, [data]);
+
+  const handleSaveInfo = async () => {
+    const updatedData: { nickname?: string; position?: string } = {};
+
+    if (nickname !== data?.data.nickname) {
+      updatedData.nickname = nickname;
+    }
+
+    if (selectedAffiliation !== data?.data.positions) {
+      const affiliationKey = Object.keys(AFFILIATION_OPTIONS).find(
+        (key) => AFFILIATION_OPTIONS[key as keyof typeof AFFILIATION_OPTIONS] === selectedAffiliation,
+      );
+
+      updatedData.position = affiliationKey ?? selectedAffiliation;
+    }
+
+    console.log(updatedData);
+    if (Object.keys(updatedData).length > 0) {
+      await patchMutate(updatedData);
+    }
+  };
+
   const withdrawModalProps = {
     modalTitle: '정말 다루다의 회원을 탈퇴하시겠어요?',
     isOpen: isOpenWithdrawModal,
     handleClose: () => {
-      alert('회원탈퇴');
+      deleteMutate();
       handleWithdrawModal();
     },
     ImgPopupModal: ImgPopupWithdrawal84,
@@ -44,12 +76,12 @@ const MyInfoPage = () => {
     <S.InfoWrapper>
       <S.AffiliationBtnBox>
         <S.InfoLabel>소속*</S.InfoLabel>
-        {AFFILIATION_OPTIONS.map((label) => (
+        {Object.keys(AFFILIATION_OPTIONS).map((label) => (
           <AffiliationBtn
             key={label}
             label={label}
-            isSelected={selectedAffiliation === label}
-            onClick={() => setSelectedAffiliation(label)}
+            isSelected={selectedAffiliation === AFFILIATION_OPTIONS[label as keyof typeof AFFILIATION_OPTIONS]}
+            onClick={() => setSelectedAffiliation(AFFILIATION_OPTIONS[label as keyof typeof AFFILIATION_OPTIONS])}
           />
         ))}
       </S.AffiliationBtnBox>
@@ -61,7 +93,7 @@ const MyInfoPage = () => {
         </S.NicknameInputBox>
       </S.NickNameWrapper>
       <Spacing size="11.2" />
-      <CircleButton size="mini" disabled={false} onClick={() => console.log()}>
+      <CircleButton size="mini" disabled={false} onClick={handleSaveInfo}>
         기본 정보 저장
       </CircleButton>
       <Spacing size="3" />
