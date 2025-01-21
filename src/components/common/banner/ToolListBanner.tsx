@@ -9,14 +9,16 @@ import { fetchCategories, fetchToolsByCategory } from '../../../apis/toolBanner/
 
 type ToolSelectState = {
   selectedCategory: string | null;
-  selectedTool: string | null;
+  selectedTool: number | null;
   isFreeChecked: boolean;
+  isFree: boolean;
   tools: { toolId: number; toolLogo: string; toolName: string }[];
 };
 
 interface ToolProp {
   forCommunity?: boolean;
-  onToolSelect?: (tool: string | null) => void;
+  onToolSelect?: (tool: number | null) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 interface Category {
@@ -31,6 +33,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     selectedTool: null,
     isFreeChecked: false,
     tools: [],
+    isFree: false,
   });
 
   const [categories, setCategories] = useState<Category[]>([]);
@@ -39,6 +42,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     const getCategories = async () => {
       try {
         const data = await fetchCategories();
+        console.log('카테고리 데이터:', data);
         const modifiedData = data.data;
 
         if (modifiedData.length > 0) {
@@ -47,7 +51,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
 
         setCategories(modifiedData);
       } catch (error) {
-        console.error(error);
+        console.error('카테고리 데이터를 불러오는 데 실패했습니다:', error);
       }
     };
 
@@ -57,14 +61,20 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
   const { selectedCategory, selectedTool, isFreeChecked, tools } = toolState;
 
   const handleCategoryClick = async (category: string) => {
+    if (toolState.selectedCategory === category) {
+      return;
+    }
+
     setToolState((prev) => ({
       ...prev,
-      selectedCategory: prev.selectedCategory === category ? null : category,
+      selectedCategory: category,
+      tools: category === '자유' ? [] : prev.tools,
     }));
 
     if (category !== '자유') {
       try {
         const response = await fetchToolsByCategory(category);
+        console.log('툴 목록 데이터:', response.data);
         const tools = response.data.tools || [];
         setToolState((prev) => ({
           ...prev,
@@ -76,16 +86,25 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     }
   };
 
-  const handleToolClick = (toolName: string) => {
-    setToolState((prev) => {
-      const newState = {
+  const handleToolClick = (toolName: string, toolId: number) => {
+    if (toolState.isFree) {
+      setToolState((prev) => ({
         ...prev,
-        selectedTool: toolName,
-        isFreeChecked: toolName === '자유' ? true : false,
-      };
-      onToolSelect(newState.selectedTool);
-      return newState;
-    });
+        isFree: false,
+        selectedCategory: null,
+      }));
+    }
+
+    if (toolState.selectedTool === toolId) return;
+
+    setToolState((prev) => ({
+      ...prev,
+      selectedTool: toolId,
+      isFreeChecked: false,
+    }));
+
+    console.log('선택한 툴 이름:', toolName, '선택한 툴 ID:', toolId);
+    onToolSelect(toolId);
   };
 
   const clearSelectedTool = () => {
@@ -93,23 +112,24 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
       ...prev,
       selectedTool: null,
       isFreeChecked: false,
-      selectedCategory: prev.selectedCategory === '자유' ? null : prev.selectedCategory,
+      isFree: false,
+      selectedCategory: null,
     }));
     onToolSelect(null);
   };
 
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-    setToolState((prev) => {
-      const newState = {
-        ...prev,
-        isFreeChecked: isChecked,
-        selectedTool: isChecked ? '자유' : null,
-        selectedCategory: isChecked ? '자유' : null,
-      };
-      onToolSelect(newState.selectedTool);
-      return newState;
-    });
+
+    setToolState((prev) => ({
+      ...prev,
+      isFreeChecked: isChecked,
+      selectedTool: null,
+      isFree: isChecked,
+      selectedCategory: isChecked ? '자유' : prev.selectedCategory,
+    }));
+
+    onToolSelect(null);
   };
 
   return (
@@ -117,34 +137,36 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
       <S.TitleBox>
         <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
-          {selectedTool ? (
-            <Chip size="medium" stroke={true}>
+          {selectedTool || toolState.isFree ? (
+            <Chip size="medium" stroke>
               <Chip.RectContainer>
-                {selectedTool === '자유' ? (
-                  <Img width={20} height={20} />
+                {toolState.isFree ? (
+                  <>
+                    <Img />
+                    <Chip.Label>자유</Chip.Label>
+                  </>
                 ) : (
                   (() => {
-                    const selectedToolData = tools.find((tool) => tool.toolName === selectedTool);
-
+                    const selectedToolData = tools.find((tool) => tool.toolId === selectedTool);
                     return selectedToolData ? (
-                      <Chip.Icon src={selectedToolData.toolLogo} alt="logo" width={2} height={2} />
+                      <>
+                        <Chip.Icon src={selectedToolData.toolLogo} alt="logo" width={2} height={2} />
+                        <Chip.Label>{selectedToolData.toolName}</Chip.Label>
+                      </>
                     ) : null;
                   })()
                 )}
-                <Chip.Label>{selectedTool}</Chip.Label>
-                <div
+                <button
                   onClick={clearSelectedTool}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       clearSelectedTool();
                     }
                   }}
-                  role="button"
-                  tabIndex={0}
                   style={{ display: 'flex', cursor: 'pointer' }}
                 >
                   <Chip.CloseIcon width={20} height={20} />
-                </div>
+                </button>
               </Chip.RectContainer>
             </Chip>
           ) : (
@@ -153,7 +175,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
         </S.Subtitle>
       </S.TitleBox>
       <S.CategoryList>
-        {categories && categories.length > 0 ? (
+        {categories.length > 0 ? (
           categories.map((category) => (
             <S.CategoryItem key={category.name}>
               {category.koreanName === '자유' ? (
@@ -192,12 +214,12 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
               )}
               {selectedCategory === category.name && category.name !== '자유' && (
                 <S.ToolList>
-                  {tools && tools.length > 0 ? (
+                  {tools.length > 0 ? (
                     tools.map((tool) => (
                       <S.ToolItem
                         key={tool.toolId}
-                        onClick={() => handleToolClick(tool.toolName)}
-                        isSelected={selectedTool === tool.toolName}
+                        onClick={() => handleToolClick(tool.toolName, tool.toolId)}
+                        isSelected={selectedTool === tool.toolId}
                       >
                         <img src={tool.toolLogo} alt={tool.toolName} width={20} height={20} />
                         {tool.toolName}

@@ -1,7 +1,5 @@
-import { BtnWritingArrowleft, ImgPopupQuit84 } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
-import { AlterModal } from '@components/modal';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,87 +12,68 @@ import WritingTitle from './components/writingTitle/WritingTitle';
 const CommunityWrite = () => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
-  const [images, setImages] = useState<string[]>([]);
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
-  const [isQuitOpen, setIsQuitOpen] = useState(false);
+  const [images, setImages] = useState<File[]>([]);
 
+  const [selectedTool, setSelectedTool] = useState<number | null>(null);
+  const [isFree, setIsFree] = useState(false);
   const navigate = useNavigate();
 
-  const isButtonDisabled = title.trim() === '' || body.trim() === '' || selectedTool === null;
-
-  const handleToolSelect = (tool: string | null) => {
-    setSelectedTool(tool);
+  const handleToolSelect = (toolId: number | null) => {
+    setSelectedTool(toolId);
+    setIsFree(toolId === null);
   };
 
-  const handleImageUpload = (uploadedImages: string[]) => {
-    setImages(uploadedImages);
-  };
-
-  const handleBackClick = () => {
-    setIsQuitOpen((prev) => !prev);
-  };
+  const isButtonDisabled = title.trim() === '' || body.trim() === '' || (!isFree && selectedTool === null);
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
 
-    const postData = {
-      title,
-      content: body,
-      toolId: selectedTool ? parseInt(selectedTool, 10) : 3,
-      images,
-      isFree: true,
-    };
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', body);
+    formData.append('isFree', isFree ? 'true' : 'false');
+
+    if (isFree) {
+      formData.append('toolId', '1');
+    } else if (selectedTool !== null) {
+      formData.append('toolId', String(selectedTool));
+    }
+
+    if (images.length > 0) {
+      images.forEach((image) => {
+        if (image instanceof File) {
+          formData.append(`images`, image);
+        } else if (typeof image === 'string') {
+          formData.append(`images`, image);
+        }
+      });
+    }
 
     try {
-      const response = await postBoard(postData);
-      console.log('게시 성공:', response);
+      await postBoard(formData);
       navigate('/community');
     } catch (error) {
-      console.error('게시 실패:', error);
+      console.error('실패:', error);
     }
   };
 
-  const exitModalProps = {
-    modalTitle: '화면을 벗어나시겠어요??',
-    isOpen: isQuitOpen,
-    handleClose: () => {
-      navigate(-1);
-    },
-    ImgPopupModal: ImgPopupQuit84,
-    isSingleModal: false,
-    modalContent: '작성중인 화면을 벗어나면 지금까지 입력했던 정보가 사라집니다.',
-    DoublebtnProps: {
-      isPrimaryRight: true,
-      primaryBtnContent: '마저 작성할게요',
-      secondaryBtnContent: '화면 벗어나기',
-      handleSecondClose: handleBackClick,
-    },
-  };
-
   return (
-    <>
-      <S.WriteWrapper>
-        <S.WriteTitle>
-          <BtnWritingArrowleft onClick={handleBackClick} />
-          글쓰기
-          <div />
-        </S.WriteTitle>
-        <S.WriteContainer>
-          <S.WriteBox>
-            <WritingTitle setTitle={setTitle} />
-            <WritingBody setBody={setBody} />
-            <WritingImg onImageUpload={handleImageUpload} />
-          </S.WriteBox>
-          <S.SideBanner>
-            <ToolListBanner onToolSelect={handleToolSelect} />
-            <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
-              글 게시하기
-            </CircleButton>
-          </S.SideBanner>
-        </S.WriteContainer>
-      </S.WriteWrapper>
-      <AlterModal {...exitModalProps} />
-    </>
+    <S.WriteWrapper>
+      <S.WriteTitle>글쓰기</S.WriteTitle>
+      <S.WriteContainer>
+        <S.WriteBox>
+          <WritingTitle setTitle={setTitle} />
+          <WritingBody setBody={setBody} />
+          <WritingImg onImageUpload={setImages} />
+        </S.WriteBox>
+        <S.SideBanner>
+          <ToolListBanner onToolSelect={handleToolSelect} />
+          <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
+            글 게시하기
+          </CircleButton>
+        </S.SideBanner>
+      </S.WriteContainer>
+    </S.WriteWrapper>
   );
 };
 

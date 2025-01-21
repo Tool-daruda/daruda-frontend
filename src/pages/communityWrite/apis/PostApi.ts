@@ -1,35 +1,22 @@
-import axios, { isAxiosError } from 'axios';
+import axios from 'axios';
 
-import { PostBoardData, PostBoardResponse } from '../types/PostType';
+const token = import.meta.env.VITE_TOKEN || '';
+const baseURL = import.meta.env.VITE_API_BASE_URL || '';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const postBoard = async (formData: FormData) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  };
 
-const postBoard = async (data: PostBoardData): Promise<PostBoardResponse> => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/boards`, data, {
-      headers: {
-        Authorization: `Bearer ${import.meta.env.VITE_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      withCredentials: true,
-    });
-
-    if (response.status !== 200) {
-      throw new Error(`Unexpected status code: ${response.status}`);
-    }
-
+    const response = await axios.post(`${baseURL}/boards`, formData, config);
     return response.data;
   } catch (error) {
-    if (isAxiosError(error)) {
-      console.error('API 요청 실패:', error.message);
-      if (error.response) {
-        console.error('응답 데이터:', error.response.data);
-
-        throw new Error(error.response.data.message || 'API 요청 중 오류가 발생했습니다.');
-      }
-    }
-
-    throw new Error('알 수 없는 오류가 발생했습니다.');
+    console.error('게시 실패:', error);
+    throw new Error('게시 실패');
   }
 };
 

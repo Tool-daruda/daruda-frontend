@@ -5,11 +5,12 @@ import React, { useState } from 'react';
 import * as S from './WritingImg.styled';
 
 interface WritingImgProps {
-  onImageUpload: (images: string[]) => void;
+  onImageUpload: (files: File[]) => void;
 }
 
 const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -18,22 +19,20 @@ const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const newImages = Array.from(files);
-      const fileReaders: Promise<string>[] = newImages.map((file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      });
 
-      Promise.all(fileReaders)
-        .then((results) => {
-          const updatedImages = [...images, ...results];
-          setImages(updatedImages);
-          onImageUpload(updatedImages);
-        })
-        .catch((err) => console.error('이미지 로드 에러:', err));
+      if (newImages.some((file) => file.size > 7 * 1024 * 1024)) {
+        console.error('파일 용량 초과');
+        return;
+      }
+      const validTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif'];
+      if (newImages.some((file) => !validTypes.includes(file.type))) {
+        console.error('파일 형식 오류');
+        return;
+      }
+
+      const updatedImages: File[] = [...images, ...newImages];
+      setImages(updatedImages);
+      onImageUpload(updatedImages);
     }
   };
 
@@ -78,7 +77,7 @@ const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
         {images.map((image, index) => (
           <S.ImagePreview key={index}>
             <S.ImageContainer>
-              <img src={image} alt={`미리보기 ${index + 1}`} />
+              <img src={URL.createObjectURL(image)} alt={`미리보기 ${index + 1}`} />
               <S.RemoveButton onClick={() => handleRemoveImage(index)}>
                 <Group2085664966 />
               </S.RemoveButton>

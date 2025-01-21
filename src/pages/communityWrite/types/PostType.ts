@@ -1,10 +1,9 @@
-//PostType.ts
-export interface PostBoardData {
+export interface PostFormData {
   title: string;
   content: string;
   toolId?: number;
-  images?: string[];
   isFree: boolean;
+  images: File[];
 }
 
 export interface BoardResponseData {
