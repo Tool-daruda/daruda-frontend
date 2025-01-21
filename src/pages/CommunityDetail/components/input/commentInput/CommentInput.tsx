@@ -1,8 +1,10 @@
 import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
+import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
 import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
+import { useState } from 'react';
 
 import * as S from './CommentInput.styled';
 
@@ -45,6 +47,16 @@ const CommnetInput = () => {
     alert('댓글 뿅');
   };
 
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+
+  const handleImgFocus = () => {
+    setIsImgModalOpen(true);
+  };
+
+  const handleImgModalClose = () => {
+    setIsImgModalOpen(false);
+  };
+
   const imageButton = !imageSelected ? (
     <InputButton
       icon={<IcCmtimgGray24 />}
@@ -81,6 +93,21 @@ const CommnetInput = () => {
             <span>{text.length}</span>/<span>1,000자</span>
           </S.CountingWords>
         </S.CardInputWrapper>
+      </S.CardSendContainer>
+      <S.CardBottom>
+        <div>
+          {imageButton}
+          <S.ImgNameItem $imageSelected={imageSelected}>
+            <button type="button" onClick={handleImgFocus}>
+              <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
+            </button>
+            {imageSelected && (
+              <button onClick={handleImageRemove}>
+                <IcImgdeleteGray40 />
+              </button>
+            )}
+          </S.ImgNameItem>
+        </div>
         <CircleButton
           icon={<ImgUploadWhite48 />}
           size="medium"
@@ -89,17 +116,6 @@ const CommnetInput = () => {
         >
           완료
         </CircleButton>
-      </S.CardSendContainer>
-      <S.CardBottom>
-        {imageButton}
-        <S.ImgNameItem $imageSelected={imageSelected}>
-          <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
-          {imageSelected && (
-            <button onClick={handleImageRemove}>
-              <IcImgdeleteGray40 />
-            </button>
-          )}
-        </S.ImgNameItem>
       </S.CardBottom>
       <S.CautionWrpper>
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
@@ -109,6 +125,13 @@ const CommnetInput = () => {
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
       </S.ToastWrapper>
+      {isImgModalOpen && (
+        <ImgDetail
+          handleModalClose={handleImgModalClose}
+          imgList={imageFile ? [URL.createObjectURL(imageFile)] : []}
+          index={0}
+        />
+      )}
     </S.CardWrapper>
   );
 };

@@ -1,5 +1,6 @@
-import { IcOverflowGray24, ImgModalexit } from '@assets/svgs';
+import { IcOverflowGray24, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
+import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useState } from 'react';
 
@@ -17,6 +18,7 @@ interface Comment {
 
 const CommentCard = ({ comment }: Comment) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
   const handleModalClose = () => {
     setIsOpen(false);
@@ -26,12 +28,19 @@ const CommentCard = ({ comment }: Comment) => {
     setIsOpen(true);
   };
 
+  const handleImgFocus = () => {
+    setIsImgModalOpen(true);
+  };
+
+  const handleImgModalClose = () => {
+    setIsImgModalOpen(false);
+  };
+
   return (
     <S.Wrapper>
       <S.MetaInfo>
         <S.MetaInfoItem>
           <span>{comment.nickName}</span>
-          <span>|</span>
           <span>{comment.updatedAt}</span>
         </S.MetaInfoItem>
         <DropDown position="end">
@@ -46,7 +55,10 @@ const CommentCard = ({ comment }: Comment) => {
         </DropDown>
       </S.MetaInfo>
       <div>
-        <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
+        <S.IntroImgBox>
+          <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
+          <IcWatchWhite40 className="hover-icon" onClick={handleImgFocus} />
+        </S.IntroImgBox>
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
       <AlterModal
@@ -62,6 +74,7 @@ const CommentCard = ({ comment }: Comment) => {
           secondaryBtnContent: '삭제하기',
         }}
       />
+      {isImgModalOpen && <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />}
     </S.Wrapper>
   );
 };

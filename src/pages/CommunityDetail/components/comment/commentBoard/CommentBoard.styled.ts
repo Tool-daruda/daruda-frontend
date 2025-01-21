@@ -3,25 +3,27 @@ import styled from '@emotion/styled';
 export const CommnetWrapper = styled.section`
   width: 30%;
 
-  background: ${({ theme }) => theme.colors.white2};
+  background: ${({ theme }) => theme.colors.white1};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 0 1.6rem 1.6rem 0;
 `;
 
 export const CommentLayout = styled.div`
   width: 100%;
-  padding: 2.9rem 3.3rem 3rem 2rem;
+  padding: 2.4rem 0 1.2rem;
 `;
 
 export const CommentHeader = styled.section`
   display: flex;
   width: 100%;
+  padding: 0 1rem 0 2rem;
 
   div {
     display: flex;
     gap: 0.4rem;
 
     ${({ theme }) => theme.fonts.body_16_b_1}
-    color:     ${({ theme }) => theme.colors.gray1};
+    color: ${({ theme }) => theme.colors.gray1};
   }
 `;
 
@@ -30,6 +32,7 @@ export const CommentList = styled.ul<{ height: number }>`
   flex-direction: column;
   gap: 0.8rem;
   height: ${({ height }) => `${height - 93}px`};
+  margin: 1.2rem 1rem 0 2rem;
   padding-right: 1.3rem;
   overflow: clip scroll;
 
@@ -57,7 +60,7 @@ export const CommentList = styled.ul<{ height: number }>`
 `;
 
 export const Divider = styled.div`
-  width: inherit;
+  width: 100%;
   height: 0.15rem;
   margin: 1.2rem 0;
 

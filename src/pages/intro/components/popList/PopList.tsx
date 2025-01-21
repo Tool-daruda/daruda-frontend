@@ -1,14 +1,10 @@
-import card_popList1 from '@assets/images/card_popList1.png';
-import card_popList2 from '@assets/images/card_popList2.png';
-import card_popList3 from '@assets/images/card_popList3.png';
-import card_popList4 from '@assets/images/card_popList4.png';
-import card_popList5 from '@assets/images/card_popList5.png';
+import { CardPopList1, CardPopList2, CardPopList3, CardPopList4, CardPopList5 } from '@assets/svgs';
 import { useState, useEffect, useCallback } from 'react';
 
 import * as S from './PopList.styled';
 
 const PopList = () => {
-  const INITIAL_LIST = [card_popList1, card_popList2, card_popList3, card_popList4, card_popList5];
+  const INITIAL_LIST = [CardPopList1, CardPopList2, CardPopList3, CardPopList4, CardPopList5];
   const [cardList, setCardList] = useState(INITIAL_LIST);
   const [position, setPosition] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -37,7 +33,7 @@ const PopList = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       popFn();
-    }, 3000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [popFn]);
@@ -61,8 +57,13 @@ const PopList = () => {
         </S.MainContent>
       </S.PageContainer>
       <S.ImageContainer $position={position}>
-        {cardList.map((src, index) => (
-          <S.Image key={`${src}-${index}`} src={src} alt={`popList - img ${index + 1}`} />
+        {cardList.map((Image, index) => (
+          <S.Image
+            as={Image}
+            key={`popList-${index}`}
+            alt={`popList - img ${index + 1}`}
+            $isHidden={index === 0 && isAnimating}
+          />
         ))}
       </S.ImageContainer>
     </S.PageWrapper>

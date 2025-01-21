@@ -3,6 +3,7 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
 import React, { useState } from 'react';
 
+import signup from './apis/api';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
@@ -12,20 +13,46 @@ const SignUp = () => {
   const [nickname, setNickname] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // 중복 클릭 방지용
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
-  };
-
-  const handleCircleBtnClick = () => {
-    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const isCircleBtnActive = nickname.length >= 1;
+  const handleCircleBtnClick = async () => {
+    if (!nickname || !selectedAffiliation) {
+      alert('닉네임과 소속을 모두 입력해주세요.');
+      return;
+    }
+
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      if (!user.email) {
+        alert('이메일 정보가 없습니다. 다시 로그인해주세요.');
+        return;
+      }
+      setIsSubmitting(true); // 버튼 중복 클릭 방지
+      try {
+        await signup({
+          nickname,
+          positions: selectedAffiliation,
+          email: user.email,
+        });
+        setIsModalOpen(true); // 회원가입 성공 시 모달 열기
+      } catch (error) {
+        console.error('회원가입 실패:', error);
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  const isCircleBtnActive = nickname.length >= 1 && selectedAffiliation !== null;
 
   const modalProps = {
     modalTitle: '회원가입이 완료되었어요.',
@@ -74,12 +101,10 @@ const SignUp = () => {
             </S.AffiliationBtnBox>
           </S.AffiliationBox>
           <S.NicknameInputBox>
-            {/* TODO: 중복확인 상태에 따른 로직 구현 */}
             <NamingInput value={nickname} onChange={handleNicknameChange} />
           </S.NicknameInputBox>
           <S.SignUpBtn>
-            {/* TODO: 중복확인 되었을 때만 작동되도록 */}
-            <CircleButton size="mini" disabled={!isCircleBtnActive} onClick={handleCircleBtnClick}>
+            <CircleButton size="mini" disabled={!isCircleBtnActive || isSubmitting} onClick={handleCircleBtnClick}>
               회원가입 하기
             </CircleButton>
           </S.SignUpBtn>
