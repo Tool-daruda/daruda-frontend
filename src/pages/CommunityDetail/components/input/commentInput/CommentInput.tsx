@@ -93,6 +93,21 @@ const CommnetInput = () => {
             <span>{text.length}</span>/<span>1,000자</span>
           </S.CountingWords>
         </S.CardInputWrapper>
+      </S.CardSendContainer>
+      <S.CardBottom>
+        <div>
+          {imageButton}
+          <S.ImgNameItem $imageSelected={imageSelected}>
+            <button type="button" onClick={handleImgFocus}>
+              <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
+            </button>
+            {imageSelected && (
+              <button onClick={handleImageRemove}>
+                <IcImgdeleteGray40 />
+              </button>
+            )}
+          </S.ImgNameItem>
+        </div>
         <CircleButton
           icon={<ImgUploadWhite48 />}
           size="medium"
@@ -101,19 +116,6 @@ const CommnetInput = () => {
         >
           완료
         </CircleButton>
-      </S.CardSendContainer>
-      <S.CardBottom>
-        {imageButton}
-        <S.ImgNameItem $imageSelected={imageSelected}>
-          <button type="button" onClick={handleImgFocus}>
-            <p>{imageSelected ? imageName : '첨부된 이미지가 없어요'}</p>
-          </button>
-          {imageSelected && (
-            <button onClick={handleImageRemove}>
-              <IcImgdeleteGray40 />
-            </button>
-          )}
-        </S.ImgNameItem>
       </S.CardBottom>
       <S.CautionWrpper>
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
