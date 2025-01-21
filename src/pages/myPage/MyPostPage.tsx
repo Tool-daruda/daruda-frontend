@@ -45,10 +45,10 @@ const MyPostPage = () => {
   if (postData) {
     return (
       <>
-        {postData.boardList.length > 0 ? (
+        {postData.boardList?.length > 0 ? (
           <S.PostWrapper>
             <S.PostContainer>
-              {postData.boardList.map((post) => (
+              {postData.boardList?.map((post) => (
                 <PostCard
                   key={post.boardId}
                   isMine={true}

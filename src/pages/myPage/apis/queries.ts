@@ -3,10 +3,10 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteAccount, getBoardList, getFavoriteBoardList, getToolList, getUserInfo, logout, patchInfo } from './api';
 
 export const MYPAGE_QUERY_KEY = {
-  MY_INFO: (userId: number) => ['myInfo', userId],
-  MY_POST_LIST: (userId: number) => ['myPostList', userId],
-  MY_FAVORITE_POST_LIST: (userId: number) => ['myFavortiePostList', userId],
-  MY_FAVORITE_TOO_LIST: (userId: number) => ['myFavortiePostList', userId],
+  MY_INFO: (userId: number) => ['myInfo', userId], // 개인정보
+  MY_POST_LIST: (userId: number) => ['myPostList', userId], // 작성 글
+  MY_FAVORITE_POST_LIST: (userId: number) => ['myFavortiePostList', userId], // 관심 글
+  MY_FAVORITE_TOOL_LIST: (userId: number) => ['myFavortieToolList', userId], // 관심 툴
 };
 
 export const useGetInfo = () => {
@@ -62,8 +62,8 @@ export const useGetFavoritePost = () => {
   return useQuery({
     queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId),
     queryFn: () => getFavoriteBoardList(),
-    staleTime: 1000 * 60 * 10,
-    gcTime: 1000 * 60 * 60 * 24,
+    staleTime: 0,
+    gcTime: 0,
     enabled: !!userId,
   });
 };
@@ -74,7 +74,7 @@ export const useGetFavoriteTool = () => {
   const userId = userData?.accessToken || null;
 
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOO_LIST(userId),
+    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId),
     queryFn: () => getToolList(),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
@@ -97,7 +97,7 @@ export const useAccountDelete = () => {
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOO_LIST(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
       }
 
       // localStorage에서 'user' 삭제
@@ -121,7 +121,7 @@ export const useLogout = () => {
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOO_LIST(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
       }
 
       // localStorage에서 'user' 삭제

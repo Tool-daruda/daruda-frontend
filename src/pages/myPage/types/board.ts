@@ -1,3 +1,7 @@
+export interface BoardList {
+  boardList: Board[];
+}
+
 export interface Board {
   boardId: number;
   toolName: string;
@@ -8,6 +12,7 @@ export interface Board {
   images: string[];
   updatedAt: string;
   commentCount: number;
+  isScrapped: boolean;
 }
 
 export interface PageInfo {

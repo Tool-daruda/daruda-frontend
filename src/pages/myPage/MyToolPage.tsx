@@ -11,7 +11,7 @@ const MyToolPage = () => {
   if (favoriteToolData) {
     return (
       <S.MyToolWrapper>
-        {favoriteToolData.toolList?.length === 0 ? (
+        {favoriteToolData.toolList?.length > 0 ? (
           <S.MyToolContainer>
             {favoriteToolData.toolList?.map((tool) => (
               <MyToolCard

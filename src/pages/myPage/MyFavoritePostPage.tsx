@@ -1,3 +1,4 @@
+import { useBoardScrap } from '@apis/board/queries.ts';
 import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
@@ -11,8 +12,10 @@ const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isToast, setIsToast] = useState(false);
   const { data: favoritePostData } = useGetFavoritePost();
+  const { mutateAsync: scrapMutate } = useBoardScrap();
 
-  const handleScrap = () => {
+  const handleScrap = async (boardId: number) => {
+    await scrapMutate(boardId);
     setIsToast(true);
     setTimeout(() => setIsToast(false), 3000);
   };
@@ -21,7 +24,7 @@ const MyFavoritePostPage = () => {
     return (
       <>
         <S.PostWrapper>
-          {favoritePostData.boardList.length > 0 ? (
+          {favoritePostData.boardList?.length > 0 ? (
             <>
               <S.PostContainer>
                 {favoritePostData.boardList.map((post) => (
@@ -32,7 +35,7 @@ const MyFavoritePostPage = () => {
                     updatedAt={post.updatedAt}
                     toolLogo={post.toolLogo}
                     toolName={post.toolName}
-                    onClick={handleScrap}
+                    onClick={() => handleScrap(post.boardId)}
                   />
                 ))}
               </S.PostContainer>
@@ -61,9 +64,9 @@ const MyFavoritePostPage = () => {
             <S.NonTool>
               <ImgPopupNonebookmarkScrappost />
               <Spacing size="4.2" />
-              <p>작성한 글이 없어요</p>
+              <p>관심있는 글이 없어요</p>
               <Spacing size="1" />
-              <p>커뮤니티에서 궁금한 점을 물어보세요</p>
+              <p>커뮤니티에서 관심있는 글을 찾아보세요</p>
             </S.NonTool>
           )}
         </S.PostWrapper>
