@@ -4,7 +4,7 @@ export const CommnetWrapper = styled.section`
   width: 30%;
 
   background: ${({ theme }) => theme.colors.white1};
-  border: 1px solid ${({ theme }) => theme.colors.gray6};
+  border-left: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 0 1.6rem 1.6rem 0;
 `;
 
@@ -64,7 +64,7 @@ export const Divider = styled.div`
   height: 0.15rem;
   margin: 1.2rem 0;
 
-  background: ${({ theme }) => theme.colors.gray4};
+  background: ${({ theme }) => theme.colors.gray6};
   border-radius: 0.7rem;
 `;
 
