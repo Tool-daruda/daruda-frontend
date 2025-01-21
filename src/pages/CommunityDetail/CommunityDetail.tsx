@@ -21,6 +21,20 @@ const CommunityDetail = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await axios.get('https://www.daruda.site/api/v1/boards/board/6', {
+  //       headers: {
+  //         'Access-Token':
+  //           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3Mzc0NTA1NTYsImV4cCI6MTczODY2MDE1NiwidXNlcklkIjo2OH0.AgCu3QO3ost1WCy7W7D36O9GMVSdZvlxNuEdOpR95-_qP2QzNDu2DeLC0jTqSIMghxyHi9EvK-yJ8OfRvvHXHA',
+  //       },
+  //     });
+  //     console.log(data);
+  //   };
+
+  //   fetchData();
+  // }, []);
+
   return (
     <S.WrapperLayout>
       <S.PageWrapper>

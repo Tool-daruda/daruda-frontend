@@ -20,7 +20,7 @@ interface CardDataProp {
     content: string;
     images: string[];
     updatedAt: string;
-    nickName: string;
+    author: string;
     commentCount: number;
   };
   forDetail?: boolean;
@@ -28,7 +28,7 @@ interface CardDataProp {
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { post, forDetail = false } = props;
-  const { boardId, toolName, toolLogo, title, content, images, updatedAt, nickName, commentCount } = post;
+  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount } = post;
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
@@ -71,7 +71,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 </Chip.RectContainer>
               </Chip>
               <S.MetaInfo>
-                <span>{nickName}</span>
+                <span>{author}</span>
                 <span>{updatedAt}</span>
               </S.MetaInfo>
             </header>
