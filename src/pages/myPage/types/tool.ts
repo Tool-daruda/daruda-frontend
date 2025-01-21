@@ -1,3 +1,7 @@
+export interface ToolList {
+  toolList: Tool[];
+}
+
 export interface Tool {
   toolId: number;
   toolName: string;
@@ -11,5 +15,5 @@ export interface Tool {
 export interface ToolResponse {
   statusCode: number;
   message: string;
-  data: Tool[];
+  data: ToolList;
 }

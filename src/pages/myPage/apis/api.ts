@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 
 import { BoardResponse, BoardResponseData } from '../types/board';
 import { Info } from '../types/info';
-import { Tool, ToolResponse } from '../types/tool';
+import { ToolList, ToolResponse } from '../types/tool';
 
 export const getUserInfo = async (): Promise<Info | null> => {
   try {
@@ -49,7 +49,7 @@ export const getFavoriteBoardList = async (): Promise<BoardResponseData | null> 
   }
 };
 
-export const getToolList = async (): Promise<Tool[] | null> => {
+export const getToolList = async (): Promise<ToolList | null> => {
   try {
     const response: AxiosResponse<ToolResponse> = await get(`users/profile/tools`);
     return response.data.data;

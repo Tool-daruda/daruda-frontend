@@ -11,9 +11,9 @@ const MyToolPage = () => {
   if (favoriteToolData) {
     return (
       <S.MyToolWrapper>
-        {favoriteToolData.length > 0 ? (
+        {favoriteToolData.toolList?.length === 0 ? (
           <S.MyToolContainer>
-            {favoriteToolData.map((tool) => (
+            {favoriteToolData.toolList?.map((tool) => (
               <MyToolCard
                 key={tool.toolId}
                 toolLogo={tool.toolLogo}
@@ -74,11 +74,16 @@ const S = {
     margin: 1.2rem 0;
   `,
   NonTool: styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: inheriht;
     margin-left: -3.6rem;
+
+    transform: translate(-50%, -50%);
 
     & p:first-of-type {
       color: ${({ theme }) => theme.colors.gray1};
