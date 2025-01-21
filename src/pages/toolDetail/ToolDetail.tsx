@@ -1,6 +1,8 @@
 import Spacing from '@components/spacing/Spacing';
 import { useRef } from 'react';
+import { useParams } from 'react-router-dom'; // useParams 가져오기
 
+import { useToolData } from './apis';
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
 import ToolCommunity from './components/community/Community';
 import CoreFeature from './components/coreFeatures/CoreFeature';
@@ -10,15 +12,19 @@ import Sidewing from './components/sidewing/Sidewing';
 import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
 import { COMMUNITY_RESPONSE } from './mocks/community';
-import { DETAIL_RESPONSE } from './mocks/toolData';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
+  const { toolId } = useParams(); // URL에서 toolId 가져오기
   const ToolIntroRef = useRef<HTMLDivElement>(null);
   const CoreFeatureRef = useRef<HTMLDivElement>(null);
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
   const PlanBoxRef = useRef<HTMLDivElement>(null);
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
+
+  // toolId를 숫자로 변환하여 전달
+  const numericToolId = Number(toolId);
+  const { data } = useToolData(numericToolId);
 
   const sectionRefs = {
     1: ToolIntroRef,
@@ -28,40 +34,44 @@ const ToolDetail = () => {
     5: ToolCommunityRef,
   };
 
-  return (
-    <S.ToolDetailWrapper>
-      <Spacing size={'1.8'} />
-      <BreadCrumb activeTopic={DETAIL_RESPONSE.data.category} activeTool={DETAIL_RESPONSE.data.toolMainName} />
-      <Spacing size={'1.8'} />
-      <ToolInfoCard toolData={DETAIL_RESPONSE.data} />
+  if (data) {
+    return (
+      <S.ToolDetailWrapper>
+        <Spacing size={'1.8'} />
+        <BreadCrumb activeTopic={data.category} activeTool={data.toolMainName} />
+        <Spacing size={'1.8'} />
+        <ToolInfoCard toolData={data} />
 
-      <Spacing size={'1'} />
+        <Spacing size={'1'} />
 
-      <S.ToolDetailContainer>
-        <section>
-          <S.ToolDetailBox>
-            <ToolIntro
-              ref={ToolIntroRef}
-              toolImage={DETAIL_RESPONSE.data.images}
-              activeTool={DETAIL_RESPONSE.data.toolMainName}
-              description={DETAIL_RESPONSE.data.detailDescription}
-            />
-            <CoreFeature ref={CoreFeatureRef} />
-            <ReferenceVideo ref={ReferenceVideoRef} />
-            <PlanBox ref={PlanBoxRef} />
+        <S.ToolDetailContainer>
+          <section>
+            <S.ToolDetailBox>
+              <ToolIntro
+                ref={ToolIntroRef}
+                toolImage={data.images}
+                activeTool={data.toolMainName}
+                description={data.detailDescription}
+              />
+              <CoreFeature ref={CoreFeatureRef} toolId={numericToolId} />
+              <ReferenceVideo ref={ReferenceVideoRef} toolId={numericToolId} />
+              <PlanBox ref={PlanBoxRef} toolId={numericToolId} />
+              <Spacing size={'1'} />
+            </S.ToolDetailBox>
             <Spacing size={'1'} />
-          </S.ToolDetailBox>
-          <Spacing size={'1'} />
 
-          <S.ToolCommunityBox>
-            <ToolCommunity cards={COMMUNITY_RESPONSE.data.contents} ref={ToolCommunityRef} />
-          </S.ToolCommunityBox>
-          <Spacing size={'7.2'} />
-        </section>
-        <Sidewing sectionRefs={sectionRefs} />
-      </S.ToolDetailContainer>
-    </S.ToolDetailWrapper>
-  );
+            <S.ToolCommunityBox>
+              <ToolCommunity cards={COMMUNITY_RESPONSE.data.contents} ref={ToolCommunityRef} />
+            </S.ToolCommunityBox>
+            <Spacing size={'7.2'} />
+          </section>
+          <Sidewing sectionRefs={sectionRefs} />
+        </S.ToolDetailContainer>
+      </S.ToolDetailWrapper>
+    );
+  }
+
+  return null; // 데이터가 로드되지 않은 경우 null 반환
 };
 
 export default ToolDetail;

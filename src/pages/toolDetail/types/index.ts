@@ -24,3 +24,33 @@ export interface ToolType {
   isScrapped: boolean;
   toolLogo: string;
 }
+
+export interface CoreFeatureType {
+  toolCoreResList: {
+    coreId: number;
+    coreTitle: string;
+    coreContent: string;
+  }[];
+}
+
+export interface ToolPlan {
+  ToolPlans: {
+    price: string | number;
+    planId: number;
+    planName: string;
+    monthlyPrice: number | null;
+    annualPrice: number | null;
+    description: string;
+    isDollar: boolean;
+  }[];
+}
+
+export interface RelatedTool {
+  relatedToolResList: {
+    toolId: number;
+    toolName: string;
+    toolLogo: string;
+    license: string;
+    keywords: string[];
+  }[];
+}
