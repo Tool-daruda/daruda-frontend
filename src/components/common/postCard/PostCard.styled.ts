@@ -166,6 +166,12 @@ export const ImageGrid = styled.div<{ $imageCount: number; $forDetail: boolean }
 export const EachImgContainer = styled.div<{ $imageCount: number; $forDetail: boolean }>`
   position: relative;
 
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .hover-icon {
     position: absolute;
     top: 50%;

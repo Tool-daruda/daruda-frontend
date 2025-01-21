@@ -7,22 +7,12 @@ import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
 import { forwardRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Post } from 'src/types/post';
 
 import * as S from './PostCard.styled';
 
 interface CardDataProp {
-  post: {
-    boardId: number;
-    toolId: number;
-    toolName: string;
-    toolLogo: string;
-    title: string;
-    content: string;
-    images: string[];
-    updatedAt: string;
-    author: string;
-    commentCount: number;
-  };
+  post: Post;
   forDetail?: boolean;
 }
 

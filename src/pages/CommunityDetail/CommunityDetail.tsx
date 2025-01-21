@@ -1,16 +1,18 @@
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
-import { POST_DATA } from '@pages/community/mocks';
 import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import useGetDetailPost from './apis/fetchDetailPost/queries';
 import * as S from './CommunityDetail.styled';
 import CommentBoard from './components/comment/commentBoard/CommentBoard';
 import CommnetInput from './components/input/commentInput/CommentInput';
 import { Comment_DATA } from './mocks';
 
 const CommunityDetail = () => {
+  const { id } = useParams<{ id: string }>();
   const [height, setHeight] = useState(694);
   const postareaRef = useRef<HTMLLIElement>(null);
 
@@ -21,20 +23,7 @@ const CommunityDetail = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await axios.get('https://www.daruda.site/api/v1/boards/board/6', {
-  //       headers: {
-  //         'Access-Token':
-  //           'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3Mzc0NTA1NTYsImV4cCI6MTczODY2MDE1NiwidXNlcklkIjo2OH0.AgCu3QO3ost1WCy7W7D36O9GMVSdZvlxNuEdOpR95-_qP2QzNDu2DeLC0jTqSIMghxyHi9EvK-yJ8OfRvvHXHA',
-  //       },
-  //     });
-  //     console.log(data);
-  //   };
-
-  //   fetchData();
-  // }, []);
-
+  const { data } = useGetDetailPost(id);
   return (
     <S.WrapperLayout>
       <S.PageWrapper>
@@ -43,7 +32,7 @@ const CommunityDetail = () => {
         </S.PageHeader>
         <S.BoardContainer>
           <S.PostItem>
-            <Card post={POST_DATA[1]} forDetail={true} ref={postareaRef} />
+            {data && <Card post={data} forDetail={true} ref={postareaRef} />}
             <CommentBoard commentList={Comment_DATA} height={height} />
           </S.PostItem>
           <CommnetInput />
