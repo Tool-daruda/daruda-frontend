@@ -40,14 +40,14 @@ export const usePatchInfo = () => {
   });
 };
 
-export const useGetMyPost = () => {
+export const useGetMyPost = (pageNo: number) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
 
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId),
-    queryFn: () => getBoardList(),
+    queryKey: [MYPAGE_QUERY_KEY.MY_POST_LIST(userId), pageNo],
+    queryFn: () => getBoardList(pageNo),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
     enabled: !!userId,

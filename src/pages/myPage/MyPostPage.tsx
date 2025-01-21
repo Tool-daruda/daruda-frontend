@@ -2,29 +2,18 @@ import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useGetMyPost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
 import * as S from './Post.styled.ts';
-import { Board } from './types/board.ts';
 
 const MyPostPage = () => {
-  const { data } = useGetMyPost();
-
-  const [postList, setPostList] = useState<Board[]>([]);
-  const [pages, setPages] = useState(1);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: postData } = useGetMyPost(currentPage);
+
   const [isToast, setIsToast] = useState(false);
   const [isModal, setIsModal] = useState(false);
-
-  useEffect(() => {
-    if (data) {
-      setPostList(data.boardList);
-      setPages(data.pageInfo.pageNo);
-    }
-  }, [data]);
 
   const handleDeleteModal = () => {
     setIsModal((prev) => !prev);
@@ -53,13 +42,13 @@ const MyPostPage = () => {
     setTimeout(() => setIsToast(false), 3000);
   };
 
-  return (
-    <>
-      <S.PostWrapper>
-        {postList?.length > 0 ? (
-          <>
+  if (postData) {
+    return (
+      <>
+        {postData.boardList.length > 0 ? (
+          <S.PostWrapper>
             <S.PostContainer>
-              {postList.map((post) => (
+              {postData.boardList.map((post) => (
                 <PostCard
                   key={post.boardId}
                   isMine={true}
@@ -71,21 +60,23 @@ const MyPostPage = () => {
                 />
               ))}
             </S.PostContainer>
-            <Spacing size="3" />
             <S.Pagination>
               <button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>
                 &lt;
               </button>
-              {Array.from(Array(pages), (_, index) => (
-                <S.PageNum key={index} $isCurrent={currentPage === index + 1}>
+              {Array.from(Array(postData.pageInfo.totalPages), (_, index) => (
+                <S.PageNum key={index} $isCurrent={currentPage === index + 1} onClick={() => setCurrentPage(index + 1)}>
                   {index + 1}
                 </S.PageNum>
               ))}
-              <button disabled={currentPage === pages} onClick={() => setCurrentPage((prev) => prev + 1)}>
+              <button
+                disabled={currentPage === postData.pageInfo.totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
                 &gt;
               </button>
             </S.Pagination>
-          </>
+          </S.PostWrapper>
         ) : (
           <S.NonTool>
             <ImgPopupNonebookmarkMypost />
@@ -95,15 +86,15 @@ const MyPostPage = () => {
             <p>커뮤니티에서 궁금한 점을 물어보세요</p>
           </S.NonTool>
         )}
-      </S.PostWrapper>
-      <AlterModal {...deleteModalProps} />
-      <S.ToastWrapper>
-        <Toast isVisible={isToast} isWarning={false}>
-          삭제가 완료되었어요.
-        </Toast>
-      </S.ToastWrapper>
-    </>
-  );
+        <AlterModal {...deleteModalProps} />
+        <S.ToastWrapper>
+          <Toast isVisible={isToast} isWarning={false}>
+            삭제가 완료되었어요.
+          </Toast>
+        </S.ToastWrapper>
+      </>
+    );
+  }
 };
 
 export default MyPostPage;

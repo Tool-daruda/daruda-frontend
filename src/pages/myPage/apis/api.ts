@@ -30,13 +30,12 @@ export const patchInfo = async ({ nickname, position }: { nickname?: string; pos
   }
 };
 
-export const getBoardList = async (): Promise<BoardResponseData | null> => {
+export const getBoardList = async (page?: number): Promise<BoardResponseData | undefined> => {
   try {
-    const response: AxiosResponse<BoardResponse> = await get(`users/profile/boards`);
+    const response: AxiosResponse<BoardResponse> = await get(`users/profile/boards?page=${page}`);
     return response.data.data;
   } catch (error) {
     console.error('Error:', error);
-    return null;
   }
 };
 
