@@ -1,8 +1,8 @@
+import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom'; // useParams 가져오기
 
-import { useToolData } from './apis/api';
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
 import ToolCommunity from './components/community/Community';
 import CoreFeature from './components/coreFeatures/CoreFeature';

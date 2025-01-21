@@ -1,17 +1,7 @@
 import { get } from '@apis/index';
 import type { AxiosResponse } from 'axios';
 
-import { CoreFeatureType, RelatedTool, ToolPlan, ToolType } from '../types';
-
-export const getDetail = async (toolId: number): Promise<ToolType | null> => {
-  try {
-    const response: AxiosResponse<ToolType> = await get(`tools/${toolId}`);
-    return response.data;
-  } catch (error) {
-    console.error('툴 상세 정보 조회 오류:', error);
-    return null;
-  }
-};
+import { CoreFeatureType, RelatedTool, ToolPlan } from '../types';
 
 export const getCoreFeature = async (toolId: number): Promise<CoreFeatureType | null> => {
   try {
