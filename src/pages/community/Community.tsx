@@ -12,6 +12,7 @@ import { usePostListQuery } from '../../apis/fetchPostList/queries';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
+  //TODO: 툴리스트 값을 받아와, 필터링이 가능하도록 로직 필요, 추후 공통 API 머지 후 추가 예정
   const { data, fetchNextPage, hasNextPage } = usePostListQuery();
   const { ref, inView } = useInView();
 
