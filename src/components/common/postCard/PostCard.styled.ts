@@ -29,13 +29,13 @@ export const CardTopContent = styled.section`
 
   header {
     display: flex;
-    gap: 1.2rem;
+    gap: 1.6rem;
     align-items: center;
   }
 `;
 
 export const MetaInfo = styled.span`
-  ${({ theme }) => theme.fonts.caption_12_r};
+  ${({ theme }) => theme.fonts.caption_14_m};
   display: flex;
   gap: 0.6rem;
   align-items: center;
@@ -61,6 +61,8 @@ export const CardBottomBar = styled.section`
 `;
 
 export const CardTitleItem = styled.h1`
+  margin-top: 0.8rem;
+
   ${({ theme }) => theme.fonts.body_20_b};
   color: ${({ theme }) => theme.colors.black};
   white-space: normal;

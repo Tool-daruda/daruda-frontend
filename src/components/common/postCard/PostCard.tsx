@@ -72,7 +72,6 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               </Chip>
               <S.MetaInfo>
                 <span>{nickName}</span>
-                <span>|</span>
                 <span>{updatedAt}</span>
               </S.MetaInfo>
             </header>

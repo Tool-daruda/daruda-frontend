@@ -41,7 +41,6 @@ const CommentCard = ({ comment }: Comment) => {
       <S.MetaInfo>
         <S.MetaInfoItem>
           <span>{comment.nickName}</span>
-          <span>|</span>
           <span>{comment.updatedAt}</span>
         </S.MetaInfoItem>
         <DropDown position="end">
