@@ -1,4 +1,4 @@
-import { usePlan } from '@pages/toolDetail/apis';
+import { usePlan } from '@pages/toolDetail/apis/api';
 import { forwardRef } from 'react';
 
 import Plan from './plan/Plan';
@@ -12,7 +12,7 @@ const PlanBox = forwardRef<HTMLDivElement, PlanPropTypes>(({ toolId, ...props },
   const { data } = usePlan(toolId);
 
   // 데이터가 없거나 비어있는 경우 null 반환
-  if (!data || !data.ToolPlans || data.ToolPlans.length === 0) {
+  if (!data || !data.toolPlans) {
     return null;
   }
 
@@ -20,7 +20,7 @@ const PlanBox = forwardRef<HTMLDivElement, PlanPropTypes>(({ toolId, ...props },
     <div ref={ref} {...props}>
       <S.PlanBoxWrapper>
         <h1>플랜</h1>
-        <Plan ToolPlans={data.ToolPlans} />
+        <Plan toolPlans={data.toolPlans} />
       </S.PlanBoxWrapper>
     </div>
   );

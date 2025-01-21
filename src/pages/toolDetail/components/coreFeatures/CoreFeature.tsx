@@ -1,4 +1,4 @@
-import { useCoreFeature } from '@pages/toolDetail/apis';
+import { useCoreFeature } from '@pages/toolDetail/apis/api';
 import { forwardRef } from 'react';
 
 import * as S from './CoreFeature.styled';

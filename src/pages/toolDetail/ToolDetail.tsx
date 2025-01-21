@@ -2,7 +2,7 @@ import Spacing from '@components/spacing/Spacing';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom'; // useParams 가져오기
 
-import { useToolData } from './apis';
+import { useToolData } from './apis/api';
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
 import ToolCommunity from './components/community/Community';
 import CoreFeature from './components/coreFeatures/CoreFeature';
@@ -65,13 +65,13 @@ const ToolDetail = () => {
             </S.ToolCommunityBox>
             <Spacing size={'7.2'} />
           </section>
-          <Sidewing sectionRefs={sectionRefs} />
+          <Sidewing sectionRefs={sectionRefs} toolId={numericToolId} />
         </S.ToolDetailContainer>
       </S.ToolDetailWrapper>
     );
   }
-
-  return null; // 데이터가 로드되지 않은 경우 null 반환
+  // 데이터가 로드되지 않은 경우 null 반환
+  return null;
 };
 
 export default ToolDetail;

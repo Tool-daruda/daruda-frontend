@@ -1,4 +1,4 @@
-import { useToolData } from '@pages/toolDetail/apis';
+import { useToolData } from '@pages/toolDetail/apis/api';
 import { forwardRef } from 'react';
 
 import * as S from './ReferenceVideo.styled';

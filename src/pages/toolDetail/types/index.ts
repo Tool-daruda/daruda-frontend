@@ -34,7 +34,7 @@ export interface CoreFeatureType {
 }
 
 export interface ToolPlan {
-  ToolPlans: {
+  toolPlans: {
     price: string | number;
     planId: number;
     planName: string;
@@ -50,7 +50,7 @@ export interface RelatedTool {
     toolId: number;
     toolName: string;
     toolLogo: string;
-    license: string;
+    license: '무료' | '부분 무료' | '유료';
     keywords: string[];
   }[];
 }

@@ -5,7 +5,7 @@ import * as S from './Plan.styled';
 
 import Toggle from '../../toggle/Toggle';
 
-const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ ToolPlans }, ref) => {
+const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ toolPlans }, ref) => {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
@@ -20,7 +20,7 @@ const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ ToolPlans }, ref) => {
         </S.PlanBtn>
       </S.PlanTab>
       <S.PlanWrapper ref={ref}>
-        {ToolPlans.map((plan) => {
+        {toolPlans.map((plan) => {
           const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
           if (isAnnual && price === null) return null;
           return (

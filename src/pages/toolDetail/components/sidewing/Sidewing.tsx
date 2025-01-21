@@ -1,3 +1,4 @@
+import { useRelatedTool } from '@pages/toolDetail/apis/api';
 import React, { useState } from 'react';
 
 import * as S from './Sidewing.styled';
@@ -7,10 +8,12 @@ interface SidewingProps {
   sectionRefs: {
     [key: number]: React.RefObject<HTMLDivElement>;
   };
+  toolId: number;
 }
 
-const Sidewing = ({ sectionRefs }: SidewingProps) => {
+const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
   const [activeBtnId, setActiveBtnId] = useState<number | null>(null);
+  const { data } = useRelatedTool(toolId);
 
   const handleClickBtn = (id: number) => {
     setActiveBtnId(id);
@@ -48,9 +51,10 @@ const Sidewing = ({ sectionRefs }: SidewingProps) => {
         ))}
       </S.OrderContainer>
       <S.SimilarToolContainer>
-        <h1>유사한 기능을 가지고 있는 툴</h1>
+        <h1 className="title">유사한 기능을 가지고 있는 툴</h1>
         <S.ToolContainer>
-          <SimilarToolCardList />
+          {/* 데이터가 있을 경우에만 SimilarToolCardList 렌더링 */}
+          {data ? <SimilarToolCardList data={data} /> : null}
         </S.ToolContainer>
       </S.SimilarToolContainer>
     </S.SidewingWrapper>
