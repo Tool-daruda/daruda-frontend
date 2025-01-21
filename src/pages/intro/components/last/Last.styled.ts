@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const PageWrapper = styled.section`
   position: relative;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   height: 100vh;
@@ -23,6 +23,7 @@ export const PageContainer = styled.div`
   gap: 9rem;
   align-items: center;
   justify-content: center;
+  width: 100%;
   padding-bottom: 9.6rem;
 
   h1 {
