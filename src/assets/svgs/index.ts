@@ -54,6 +54,7 @@ export { default as IcToolcardFree20 } from './IcToolcardFree20';
 export { default as IcToolcardPaid20 } from './IcToolcardPaid20';
 export { default as IcToolcardPartiallypaid20 } from './IcToolcardPartiallypaid20';
 export { default as IcWatchWhite40 } from './IcWatchWhite40';
+export { default as ImgBannerAttached } from './ImgBannerAttached';
 export { default as ImgDarudalogo40 } from './ImgDarudalogo40';
 export { default as ImgDarudalogo50 } from './ImgDarudalogo50';
 export { default as ImgModalcheck } from './ImgModalcheck';

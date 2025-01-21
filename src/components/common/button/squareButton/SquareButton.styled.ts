@@ -3,11 +3,12 @@ import styled from '@emotion/styled';
 export const ButtonWrapper = styled.button<{
   size: 'large' | 'small';
   stroke: boolean;
+  $forBookMark: boolean;
 }>`
   display: flex;
   gap: 0.8rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 
   ${({ theme }) => theme.fonts.body_16_m};
   color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
@@ -28,6 +29,7 @@ export const ButtonWrapper = styled.button<{
         return `
           width: 12rem;
           height: 4.8rem;
+          padding: 1rem 0.8rem;
           border-radius: 1.2rem;
         `;
     }
@@ -43,33 +45,28 @@ export const ButtonWrapper = styled.button<{
     }
   }}
 
-  &:hover svg path {
-    color: ${({ theme }) => theme.colors.white1};
-
-    stroke: ${({ theme }) => theme.colors.white1};
-  }
-
   &:hover {
-    color: ${({ theme }) => theme.colors.white1};
+    color: ${({ theme }) => theme.colors.iris1_hover};
 
-    background-color: ${({ theme }) => theme.colors.iris1};
+    background-color: ${({ theme }) => theme.colors.white1};
   }
 
   &:hover svg path,
   &:hover svg rect {
-    color: ${({ theme }) => theme.colors.white1};
+    color: ${({ theme }) => theme.colors.iris1_hover};
 
-    stroke: ${({ theme }) => theme.colors.white1};
+    stroke: ${({ theme }) => theme.colors.iris1_hover};
   }
 
   &:active span svg path {
-    stroke: ${({ theme }) => theme.colors.white1};
+    fill: ${({ theme, $forBookMark }) => ($forBookMark ? theme.colors.iris1_click : theme.colors.white1)};
+    stroke: ${({ theme }) => theme.colors.iris1_click};
   }
 
   &:active {
-    color: ${({ theme }) => theme.colors.white1};
+    color: ${({ theme }) => theme.colors.iris1_click};
 
-    background-color: ${({ theme }) => theme.colors.iris1};
+    background-color: ${({ theme }) => theme.colors.white1};
   }
 
   &:disabled {

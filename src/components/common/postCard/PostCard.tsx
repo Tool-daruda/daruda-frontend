@@ -100,15 +100,12 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           <S.CardBottomBar onClick={preventPropogation}>
             <S.BottomBarLeft>
               <SquareButton icon={<IcCommentGray24 />} size="small" stroke={false}>{`${commentCount}개`}</SquareButton>
-              <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
+              <SquareButton icon={<IcBookmark />} size="small" stroke={false} forBookMark={true}>
                 북마크
               </SquareButton>
             </S.BottomBarLeft>
             <DropDown position="end">
-              <DropDown.ToggleBtn>
-                <IcOverflowGray44 />
-              </DropDown.ToggleBtn>
-              <DropDown.Content $display="bottom">
+              <DropDown.Content $display="top">
                 <DropDown.Item
                   onClick={() => {
                     alert('클릭!');
@@ -120,6 +117,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                   삭제하기
                 </DropDown.Item>
               </DropDown.Content>
+              <DropDown.ToggleBtn>
+                <IcOverflowGray44 />
+              </DropDown.ToggleBtn>
             </DropDown>
           </S.CardBottomBar>
         </S.CardLayout>
