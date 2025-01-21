@@ -80,17 +80,19 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             <S.CardTextItem $isImgInclude={images.length >= 1} $forDetail={forDetail}>
               {content}
             </S.CardTextItem>
-            <S.ImageGrid $imageCount={images.length}>
+            <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
               {images.map((image, idx) => (
-                <S.EachImgContainer key={idx} $imageCount={images.length}>
+                <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
                   <img src={image} alt={`Post-card-img-${idx}`} />
-                  <IcWatchWhite40
-                    className="hover-icon"
-                    onClick={() => {
-                      handleImgFocus();
-                      handleIdxRecord(idx);
-                    }}
-                  />
+                  {forDetail && (
+                    <IcWatchWhite40
+                      className="hover-icon"
+                      onClick={() => {
+                        handleImgFocus();
+                        handleIdxRecord(idx);
+                      }}
+                    />
+                  )}
                 </S.EachImgContainer>
               ))}
             </S.ImageGrid>

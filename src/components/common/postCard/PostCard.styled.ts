@@ -92,7 +92,7 @@ export const BottomBarLeft = styled.span`
   gap: 1.9rem;
   align-items: center;
 `;
-export const ImageGrid = styled.div<{ $imageCount: number }>`
+export const ImageGrid = styled.div<{ $imageCount: number; $forDetail: boolean }>`
   display: grid;
   grid-template-rows: ${({ $imageCount }) => {
     switch ($imageCount) {
@@ -161,7 +161,7 @@ export const ImageGrid = styled.div<{ $imageCount: number }>`
     border-radius: 0.8rem;
   }
 `;
-export const EachImgContainer = styled.div<{ $imageCount: number }>`
+export const EachImgContainer = styled.div<{ $imageCount: number; $forDetail: boolean }>`
   position: relative;
 
   .hover-icon {
@@ -179,6 +179,10 @@ export const EachImgContainer = styled.div<{ $imageCount: number }>`
       z-index 0.3s ease;
   }
 
+  ${({ $forDetail, theme }) =>
+    $forDetail &&
+    `
+
   &:hover {
     .hover-icon {
       z-index: 1;
@@ -193,11 +197,10 @@ export const EachImgContainer = styled.div<{ $imageCount: number }>`
       width: 100%;
       height: 100%;
 
-      background-color: ${({ theme }) => theme.colors.black_toast};
+      background-color: ${theme.colors.black_toast};
       opacity: 0.5;
       border-radius: 0.8rem;
 
       content: '';
-    }
-  }
+    }`}
 `;
