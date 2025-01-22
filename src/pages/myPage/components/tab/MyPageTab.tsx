@@ -1,6 +1,7 @@
 import { ImgPopupLogout84, ImgPopupLogoutcheck84 } from '@assets/svgs';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
+import { useLogout } from '@pages/myPage/apis/queries';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -16,12 +17,14 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
   const [isLogoutCheckOpen, setIsLogoutCheckOpen] = useState(false);
   const navigate = useNavigate();
+  const { mutate } = useLogout();
 
   const handleMenuClick = (url: string) => {
     navigate(url);
   };
 
   const handleLogoutModal = () => {
+    mutate();
     setIsLogoutOpen((prev) => !prev);
   };
 

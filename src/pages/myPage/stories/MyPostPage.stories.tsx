@@ -18,7 +18,7 @@ const meta: Meta<typeof MyPostPage> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <MyPageContainerForStory activeMenu={3}>
           <Story />
         </MyPageContainerForStory>

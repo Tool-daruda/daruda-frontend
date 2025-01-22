@@ -74,6 +74,8 @@ const S = {
     border-radius: 2rem;
   `,
   ContentBox: styled.section`
+    position: relative;
+    width: 100%;
     padding-top: 2.8rem;
 
     & > h2 {

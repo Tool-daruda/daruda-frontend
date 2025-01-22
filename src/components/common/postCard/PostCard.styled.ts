@@ -22,7 +22,7 @@ export const CardLayout = styled.section`
 export const CardTopContent = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
   align-items: flex-start;
   align-self: stretch;
   width: 100%;
@@ -165,6 +165,12 @@ export const ImageGrid = styled.div<{ $imageCount: number; $forDetail: boolean }
 `;
 export const EachImgContainer = styled.div<{ $imageCount: number; $forDetail: boolean }>`
   position: relative;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   .hover-icon {
     position: absolute;
