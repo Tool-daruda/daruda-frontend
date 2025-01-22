@@ -101,7 +101,7 @@ export const CommentContent = styled.pre`
 
 export const ToastWrapper = styled.div`
   position: absolute;
-  bottom: 10%;
+  bottom: 10vh;
   left: 50%;
 
   transform: translateX(-50%);

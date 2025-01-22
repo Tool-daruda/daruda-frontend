@@ -36,7 +36,7 @@ const CommunityDetail = () => {
 
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
-    <div>
+    <>
       <S.PageWrapper>
         <S.PageHeader>
           <h1>글 상세보기</h1>
@@ -73,7 +73,7 @@ const CommunityDetail = () => {
           </S.FloatingBtns>
         </S.BottomBar>
       )}
-    </div>
+    </>
   );
 };
 
