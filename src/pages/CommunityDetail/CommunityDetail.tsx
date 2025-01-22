@@ -3,18 +3,23 @@ import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
 
+import useGetComment from './apis/fetchComment/queries';
 import useGetDetailPost from './apis/fetchDetailPost/queries';
 import * as S from './CommunityDetail.styled';
 import CommentBoard from './components/comment/commentBoard/CommentBoard';
 import CommnetInput from './components/input/commentInput/CommentInput';
-import { Comment_DATA } from './mocks';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [height, setHeight] = useState(694);
   const postareaRef = useRef<HTMLLIElement>(null);
+  const { ref, inView } = useInView();
+
+  const { data } = useGetDetailPost(id);
+  const { data: CommentData, fetchNextPage, hasNextPage } = useGetComment(id);
 
   useEffect(() => {
     if (postareaRef.current) {
@@ -23,7 +28,14 @@ const CommunityDetail = () => {
     }
   }, []);
 
-  const { data } = useGetDetailPost(id);
+  useEffect(() => {
+    console.log(inView);
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
     <S.WrapperLayout>
       <S.PageWrapper>
@@ -33,7 +45,7 @@ const CommunityDetail = () => {
         <S.BoardContainer>
           <S.PostItem>
             {data && <Card post={data} forDetail={true} ref={postareaRef} />}
-            <CommentBoard commentList={Comment_DATA} height={height} />
+            {CommentData && <CommentBoard ref={ref} commentList={comments} height={height} hasNextPage={hasNextPage} />}
           </S.PostItem>
           <CommnetInput />
         </S.BoardContainer>
@@ -47,7 +59,7 @@ const CommunityDetail = () => {
               size="small"
               stroke={false}
               handleClick={handleScrollDown}
-            >{`${Comment_DATA.length}개`}</SquareButton>
+            >{`${comments.length}개`}</SquareButton>
             <SquareButton icon={<IcBookmark />} size="small" stroke={false}>
               북마크
             </SquareButton>

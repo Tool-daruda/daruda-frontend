@@ -9,7 +9,7 @@ import * as S from './CommentCard.styled';
 interface Comment {
   comment: {
     commentId: number;
-    nickName: string;
+    nickname: string;
     content: string;
     image: string;
     updatedAt: string;
@@ -40,7 +40,7 @@ const CommentCard = ({ comment }: Comment) => {
     <S.Wrapper>
       <S.MetaInfo>
         <S.MetaInfoItem>
-          <span>{comment.nickName}</span>
+          <span>{comment.nickname}</span>
           <span>{comment.updatedAt}</span>
         </S.MetaInfoItem>
         <DropDown position="end">
