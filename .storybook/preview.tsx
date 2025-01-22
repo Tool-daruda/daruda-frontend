@@ -1,6 +1,7 @@
 import { withThemeProvider } from 'storybook-addon-theme-provider';
 import type { Preview } from '@storybook/react';
 import { Provider } from './provider';
+import React from 'react';
 
 const preview: Preview = {
   parameters: {
@@ -14,7 +15,13 @@ const preview: Preview = {
       panelPosition: 'right',
     },
   },
-  decorators: [withThemeProvider(Provider)],
+  decorators: [
+    (Story) => (
+      <Provider>
+        <Story />
+      </Provider>
+    ),
+  ],
 };
 
 export default preview;
