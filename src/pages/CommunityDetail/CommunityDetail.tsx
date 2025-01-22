@@ -29,13 +29,10 @@ const CommunityDetail = () => {
   }, []);
 
   useEffect(() => {
-    console.log(inView);
     if (inView) {
       fetchNextPage();
     }
   }, [inView]);
-
-  console.log(data);
 
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
