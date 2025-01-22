@@ -1,10 +1,10 @@
-import { post } from '@apis/index';
+import { patch } from '@apis/index';
 
 import { PostBoardResponse } from '../types/PostType';
 
-const postBoard = async (formData: FormData): Promise<PostBoardResponse> => {
+const postBoard = async (boardId: number, formData: FormData): Promise<PostBoardResponse> => {
   try {
-    const response = await post<PostBoardResponse>('/boards', formData, {
+    const response = await patch<PostBoardResponse>(`/boards/${boardId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

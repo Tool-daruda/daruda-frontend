@@ -7,13 +7,19 @@ import * as S from './ToolListBanner.styled';
 import Chip from '../chip/Chip';
 
 import { fetchCategories, fetchToolsByCategory } from '../../../apis/toolBanner/ToolBannerApi';
-import { ToolSelectState, ToolProp, Category } from '../../../types/toolListBanner/ToolListBannerTypes';
+import { ToolSelectState, ToolProp, Category, OriginToolType } from '../../../types/toolListBanner/ToolListBannerTypes';
 import { clearSelectedTool } from '../../../utils/toolListBanner/ToolListBannerUtils';
 
-const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
+const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>(INITIAL_TOOL_STATE);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [initialTool, setInitialTool] = useState<OriginToolType>({
+    toolId: originTool?.toolId ?? null,
+    toolName: originTool?.toolName ?? null,
+    toolLogo: originTool?.toolLogo ?? null,
+  });
 
+  // 툴 카테고리(아코디언) 조회
   useEffect(() => {
     const getCategories = async () => {
       try {
@@ -30,18 +36,20 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     getCategories();
   }, []);
 
+  // 툴 카테고리(아코디언)을 클릭했을 때 해당 카테고리의 툴 조회
   const handleCategoryClick = async (category: string) => {
     setToolState((prev) => ({
       ...prev,
       selectedCategory: prev.selectedCategory === category ? null : category,
     }));
 
+    // 선택한 카테고리가 자유가 아니고 새로운 카테고리일 때
     if (category !== '자유' && category !== toolState.selectedCategory) {
       try {
-        const response = await fetchToolsByCategory(category);
+        const response = await fetchToolsByCategory(category); // 새로운 툴 목록 조회 요청
         setToolState((prev) => ({
           ...prev,
-          tools: response.data.tools || [],
+          tools: response.data.tools || [], // 보여지는 툴 목록들 바꾸기
         }));
       } catch (error) {
         console.error('툴 목록을 불러오는 데 실패했습니다:', error);
@@ -49,14 +57,15 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     }
   };
 
+  // 자유 카테고리 클릭 이벤트 처리
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
+    const isChecked = event.target.checked; // 자유의 체크 여부
 
     setToolState((prev) => ({
       ...prev,
       isFree: isChecked,
       selectedTool: null,
-      selectedCategory: isChecked ? '자유' : null,
+      selectedCategory: isChecked ? '자유' : null, // 자유를 클릭했다면 자유 보여주고, 자유 체크를 해제했다면 모두 리셋
     }));
 
     onToolSelect(null);
@@ -67,15 +76,18 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
       <S.TitleBox>
         <S.Title isSelected={!!toolState.selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
+          {/* tool이 선택되어있을 때 */}
           {toolState.selectedTool || toolState.isFree ? (
             <Chip size="medium" stroke>
               <Chip.RectContainer>
                 {toolState.isFree ? (
+                  // tool이 자유일 때
                   <>
                     <Img />
                     <Chip.Label>자유</Chip.Label>
                   </>
                 ) : (
+                  // tool이 자유가 아닐 때
                   (() => {
                     const selectedToolData = toolState.tools.find((tool) => tool.toolId === toolState.selectedTool);
                     return selectedToolData ? (
@@ -86,12 +98,43 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                     ) : null;
                   })()
                 )}
-                <S.CloseBtn as="button" onClick={() => clearSelectedTool(setToolState, onToolSelect)}>
+                <S.CloseBtn
+                  as="button"
+                  onClick={() => {
+                    clearSelectedTool(setToolState, onToolSelect);
+                    setInitialTool({
+                      toolId: null,
+                      toolName: null,
+                      toolLogo: null,
+                    });
+                  }}
+                >
+                  <Chip.CloseIcon />
+                </S.CloseBtn>
+              </Chip.RectContainer>
+            </Chip>
+          ) : initialTool.toolLogo && initialTool.toolName ? (
+            // 선택한 tool이 없지만 originTool이 있을 때 (게시글 수정 페이지 초기 상태)
+            <Chip size="medium" stroke>
+              <Chip.RectContainer>
+                <Chip.Icon src={initialTool.toolLogo as string} alt="logo" width={2} height={2} />
+                <Chip.Label>{initialTool.toolName}</Chip.Label>
+                <S.CloseBtn
+                  as="button"
+                  onClick={() =>
+                    setInitialTool({
+                      toolId: null,
+                      toolName: null,
+                      toolLogo: null,
+                    })
+                  }
+                >
                   <Chip.CloseIcon />
                 </S.CloseBtn>
               </Chip.RectContainer>
             </Chip>
           ) : (
+            // tool 선택 안했을 때
             '글과 관련된 툴을 선택해주세요.'
           )}
         </S.Subtitle>

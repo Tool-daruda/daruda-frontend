@@ -13,32 +13,6 @@ import useCommunityModify from './hooks/UseCommunityModify';
 import { createPostFormData } from './utils/FormDataUtils';
 
 const CommunityModify = () => {
-  const { title, setTitle, body, setBody, images, setImages, selectedTool, isFree, handleToolSelect } =
-    useCommunityModify();
-
-  const navigate = useNavigate();
-  const [isToastVisible, setIsToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [isImgSame, setIsImgSame] = useState(true);
-
-  const handlePostSubmit = async () => {
-    if (isButtonDisabled) return;
-
-    const formData = createPostFormData(title, body, isFree, selectedTool, images);
-
-    try {
-      await postBoard(formData);
-      navigate('/community');
-    } catch (error: unknown) {
-      console.error('에러 발생:', error);
-      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
-      setIsToastVisible(true);
-      setTimeout(() => setIsToastVisible(false), 3000);
-    }
-  };
-
   // TODO: state 맞춰주기
   const post = {
     boardId: 136,
@@ -54,12 +28,38 @@ const CommunityModify = () => {
     isScraped: false,
     updatedAt: '2025.01.22',
     commentCount: 0,
+    toolId: null,
+  };
+
+  const { title, setTitle, body, setBody, images, setImages, selectedTool, isFree, handleToolSelect } =
+    useCommunityModify(post.toolId);
+
+  const navigate = useNavigate();
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isImgSame, setIsImgSame] = useState(true);
+
+  const handlePostSubmit = async () => {
+    if (isButtonDisabled) return;
+
+    const formData = createPostFormData(title, body, isFree, selectedTool, images);
+
+    try {
+      await postBoard(post.boardId, formData);
+      navigate('/community');
+    } catch (error: unknown) {
+      console.error('에러 발생:', error);
+      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
+      setIsToastVisible(true);
+      setTimeout(() => setIsToastVisible(false), 3000);
+    }
   };
 
   useEffect(() => {
     setTitle(post.title);
     setBody(post.content);
-    // setTitle(post.title);
   }, []);
 
   // 이미지 URL → File 변환
@@ -83,7 +83,7 @@ const CommunityModify = () => {
     const isNull = title.trim() === '' || body.trim() === '';
 
     // 모든 내용이 이전과 같으면 비활성화
-    const isSame = title === post.title && body === post.content && isImgSame;
+    const isSame = title === post.title && body === post.content && isImgSame && selectedTool === post.toolId;
 
     setIsButtonDisabled(isNull || isSame);
   }, [title, body, isFree, selectedTool, isImgSame]);
@@ -92,6 +92,8 @@ const CommunityModify = () => {
     setImages(newImages);
     setIsImgSame(false); // 이미지 변경 플래그
   };
+
+  const originTool = { toolId: post.toolId, toolName: post.toolName, toolLogo: post.toolLogo };
 
   return (
     <S.WriteWrapper>
@@ -103,7 +105,7 @@ const CommunityModify = () => {
           <WritingImg originImages={imageFiles} onImageUpload={handleImageUpload} />
         </S.WriteBox>
         <S.SideBanner>
-          <ToolListBanner onToolSelect={handleToolSelect} />
+          <ToolListBanner originTool={originTool} onToolSelect={handleToolSelect} />
           <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
             글 게시하기
           </CircleButton>
