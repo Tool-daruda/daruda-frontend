@@ -9,6 +9,7 @@ type NamingInputPropTypes = {
   inputRestrictions?: string[];
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick?: () => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const NamingInput = ({
@@ -21,6 +22,7 @@ const NamingInput = ({
   ],
   value,
   onChange,
+  onClick,
   ...props
 }: NamingInputPropTypes) => {
   const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
@@ -38,11 +40,11 @@ const NamingInput = ({
     <S.InputWrapper>
       <S.InputBox>
         <S.Input state={state} value={value} onChange={handleInputChange} placeholder={placeholder} {...props} />
-        <ConfirmBtn isActive={isActive} />
+        <ConfirmBtn isActive={isActive} onClick={onClick} />
       </S.InputBox>
       <S.DescriptionBox>
-        {description && <S.Description state={state}>{description}</S.Description>}
         <S.LetterCount>{count}/10</S.LetterCount>
+        {description && <S.Description state={state}>{description}</S.Description>}
       </S.DescriptionBox>
       {inputRestrictions.length > 0 && (
         <S.InputRestrictions>

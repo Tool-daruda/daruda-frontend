@@ -151,3 +151,7 @@ export const ToastBox = styled.div`
   top: -4.5rem;
   left: 22rem;
 `;
+
+export const Input = styled.input`
+  display: none;
+`;

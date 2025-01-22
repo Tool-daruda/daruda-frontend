@@ -29,7 +29,8 @@ const router = createBrowserRouter([
       { path: 'toollist/:toolId', element: <ToolDetail /> }, // 툴 상세
       { path: 'community', element: <Community /> }, // 커뮤니티
       { path: 'community/write', element: <CommunityWrite /> }, // 글 작성
-      { path: 'community/:toolId', element: <CommunityDetail /> }, // 글 상세
+      { path: 'community/modify/:id', element: <CommunityWrite /> }, // 글 작성
+      { path: 'community/:id', element: <CommunityDetail /> }, // 글 상세
       { path: 'login', element: <KakaoAuth /> }, // 로그인
       { path: 'signUp', element: <SignUp /> }, // 회원가입
       { path: '*', element: <NotFound /> },
