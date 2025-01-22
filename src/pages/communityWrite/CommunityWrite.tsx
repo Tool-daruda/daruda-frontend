@@ -1,74 +1,75 @@
-import { BtnWritingArrowleft, ImgPopupQuit84 } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
-import { AlterModal } from '@components/modal';
+import Toast from '@components/toast/Toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import postBoard from './apis/PostApi';
 import * as S from './CommunityWrite.styled';
 import WritingBody from './components/writingBody/WritingBody';
 import WritingImg from './components/writingImg/WritingImg';
 import WritingTitle from './components/writingTitle/WritingTitle';
+import useCommunityWrite from './hooks/UseCommunityWrite';
+import { createPostFormData } from './utils/FormDataUtils';
 
 const CommunityWrite = () => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
-  const [selectedTool, setSelectedTool] = useState<string | null>(null);
-  const [isQuitOpen, setIsQuitOpen] = useState(false);
+  const {
+    title,
+    setTitle,
+    body,
+    setBody,
+    images,
+    setImages,
+    selectedTool,
+    isFree,
+    handleToolSelect,
+    isButtonDisabled,
+  } = useCommunityWrite();
 
   const navigate = useNavigate();
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
-  const isButtonDisabled = title.trim() === '' || body.trim() === '' || selectedTool === null;
+  const handlePostSubmit = async () => {
+    if (isButtonDisabled) return;
 
-  const handleToolSelect = (tool: string | null) => {
-    setSelectedTool(tool);
-  };
+    const formData = createPostFormData(title, body, isFree, selectedTool, images);
 
-  const handleBackClick = () => {
-    setIsQuitOpen((prev) => !prev);
-  };
-
-  const exitModalProps = {
-    modalTitle: '화면을 벗어나시겠어요??',
-    isOpen: isQuitOpen,
-    handleClose: () => {
-      navigate(-1);
-    },
-    ImgPopupModal: ImgPopupQuit84,
-    isSingleModal: false,
-    modalContent: '작성중인 화면을 벗어나면 지금까지 입력했던 정보가 사라집니다.',
-    DoublebtnProps: {
-      isPrimaryRight: true,
-      primaryBtnContent: '마저 작성할게요',
-      secondaryBtnContent: '화면 벗어나기',
-      handleSecondClose: handleBackClick,
-    },
+    try {
+      await postBoard(formData);
+      navigate('/community');
+    } catch (error: unknown) {
+      console.error('에러 발생:', error);
+      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
+      setIsToastVisible(true);
+      setTimeout(() => setIsToastVisible(false), 3000);
+    }
   };
 
   return (
-    <>
-      <S.WriteWrapper>
-        <S.WriteTitle>
-          <BtnWritingArrowleft onClick={handleBackClick} />
-          글쓰기
-          <div />
-        </S.WriteTitle>
-        <S.WriteContainer>
-          <S.WriteBox>
-            <WritingTitle setTitle={setTitle} />
-            <WritingBody setBody={setBody} />
-            <WritingImg />
-          </S.WriteBox>
-          <S.SideBanner>
-            <ToolListBanner onToolSelect={handleToolSelect} />
-            <CircleButton onClick={() => {}} size="large" disabled={isButtonDisabled}>
-              글 게시하기
-            </CircleButton>
-          </S.SideBanner>
-        </S.WriteContainer>
-      </S.WriteWrapper>
-      <AlterModal {...exitModalProps} />
-    </>
+    <S.WriteWrapper>
+      <S.WriteTitle>글쓰기</S.WriteTitle>
+      <S.WriteContainer>
+        <S.WriteBox>
+          <WritingTitle setTitle={setTitle} />
+          <WritingBody setBody={setBody} />
+          <WritingImg onImageUpload={setImages} />
+        </S.WriteBox>
+        <S.SideBanner>
+          <ToolListBanner onToolSelect={handleToolSelect} />
+          <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
+            글 게시하기
+          </CircleButton>
+        </S.SideBanner>
+      </S.WriteContainer>
+      {isToastVisible && (
+        <S.ToastBox>
+          <Toast isVisible={true} isWarning={true}>
+            {toastMessage}
+          </Toast>
+        </S.ToastBox>
+      )}
+    </S.WriteWrapper>
   );
 };
 
