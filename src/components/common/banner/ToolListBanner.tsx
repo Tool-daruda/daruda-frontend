@@ -1,4 +1,5 @@
 import { IcChevron, Img, Union } from '@assets/svgs';
+import { INITIAL_TOOL_STATE } from '@constants/toolListBanner/ToolListBannerConstants';
 import React, { useEffect, useState } from 'react';
 
 import * as S from './ToolListBanner.styled';
@@ -6,79 +7,41 @@ import * as S from './ToolListBanner.styled';
 import Chip from '../chip/Chip';
 
 import { fetchCategories, fetchToolsByCategory } from '../../../apis/toolBanner/ToolBannerApi';
-
-type ToolSelectState = {
-  selectedCategory: string | null;
-  selectedTool: number | null;
-  isFreeChecked: boolean;
-  isFree: boolean;
-  tools: { toolId: number; toolLogo: string; toolName: string }[];
-};
-
-interface ToolProp {
-  forCommunity?: boolean;
-  onToolSelect?: (tool: number | null) => void;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface Category {
-  name: string;
-  koreanName: string;
-  tools: string[];
-}
+import { ToolSelectState, ToolProp, Category } from '../../../types/toolListBanner/ToolListBannerTypes';
+import { clearSelectedTool } from '../../../utils/toolListBanner/ToolListBannerUtils';
 
 const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
-  const [toolState, setToolState] = useState<ToolSelectState>({
-    selectedCategory: null,
-    selectedTool: null,
-    isFreeChecked: false,
-    tools: [],
-    isFree: false,
-  });
-
+  const [toolState, setToolState] = useState<ToolSelectState>(INITIAL_TOOL_STATE);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
     const getCategories = async () => {
       try {
         const data = await fetchCategories();
-        console.log('카테고리 데이터:', data);
         const modifiedData = data.data;
-
         if (modifiedData.length > 0) {
           modifiedData[0].koreanName = '자유';
         }
-
         setCategories(modifiedData);
       } catch (error) {
         console.error('카테고리 데이터를 불러오는 데 실패했습니다:', error);
       }
     };
-
     getCategories();
   }, []);
 
-  const { selectedCategory, selectedTool, isFreeChecked, tools } = toolState;
-
   const handleCategoryClick = async (category: string) => {
-    if (toolState.selectedCategory === category) {
-      return;
-    }
-
     setToolState((prev) => ({
       ...prev,
-      selectedCategory: category,
-      tools: category === '자유' ? [] : prev.tools,
+      selectedCategory: prev.selectedCategory === category ? null : category,
     }));
 
-    if (category !== '자유') {
+    if (category !== '자유' && category !== toolState.selectedCategory) {
       try {
         const response = await fetchToolsByCategory(category);
-        console.log('툴 목록 데이터:', response.data);
-        const tools = response.data.tools || [];
         setToolState((prev) => ({
           ...prev,
-          tools,
+          tools: response.data.tools || [],
         }));
       } catch (error) {
         console.error('툴 목록을 불러오는 데 실패했습니다:', error);
@@ -86,47 +49,14 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     }
   };
 
-  const handleToolClick = (toolName: string, toolId: number) => {
-    if (toolState.isFree) {
-      setToolState((prev) => ({
-        ...prev,
-        isFree: false,
-        selectedCategory: null,
-      }));
-    }
-
-    if (toolState.selectedTool === toolId) return;
-
-    setToolState((prev) => ({
-      ...prev,
-      selectedTool: toolId,
-      isFreeChecked: false,
-    }));
-
-    console.log('선택한 툴 이름:', toolName, '선택한 툴 ID:', toolId);
-    onToolSelect(toolId);
-  };
-
-  const clearSelectedTool = () => {
-    setToolState((prev) => ({
-      ...prev,
-      selectedTool: null,
-      isFreeChecked: false,
-      isFree: false,
-      selectedCategory: null,
-    }));
-    onToolSelect(null);
-  };
-
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
 
     setToolState((prev) => ({
       ...prev,
-      isFreeChecked: isChecked,
-      selectedTool: null,
       isFree: isChecked,
-      selectedCategory: isChecked ? '자유' : prev.selectedCategory,
+      selectedTool: null,
+      selectedCategory: isChecked ? '자유' : null,
     }));
 
     onToolSelect(null);
@@ -135,9 +65,9 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
   return (
     <S.Container $forCommunity={forCommunity}>
       <S.TitleBox>
-        <S.Title isSelected={!!selectedTool}>툴 선택</S.Title>
+        <S.Title isSelected={!!toolState.selectedTool}>툴 선택</S.Title>
         <S.Subtitle>
-          {selectedTool || toolState.isFree ? (
+          {toolState.selectedTool || toolState.isFree ? (
             <Chip size="medium" stroke>
               <Chip.RectContainer>
                 {toolState.isFree ? (
@@ -147,7 +77,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                   </>
                 ) : (
                   (() => {
-                    const selectedToolData = tools.find((tool) => tool.toolId === selectedTool);
+                    const selectedToolData = toolState.tools.find((tool) => tool.toolId === toolState.selectedTool);
                     return selectedToolData ? (
                       <>
                         <Chip.Icon src={selectedToolData.toolLogo} alt="logo" width={2} height={2} />
@@ -157,12 +87,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                   })()
                 )}
                 <button
-                  onClick={clearSelectedTool}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      clearSelectedTool();
-                    }
-                  }}
+                  onClick={() => clearSelectedTool(setToolState, onToolSelect)}
                   style={{ display: 'flex', cursor: 'pointer' }}
                 >
                   <Chip.CloseIcon width={20} height={20} />
@@ -179,17 +104,17 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
           categories.map((category) => (
             <S.CategoryItem key={category.name}>
               {category.koreanName === '자유' ? (
-                <S.CategoryHeader isFreeChecked={isFreeChecked}>
+                <S.CategoryHeader isFreeChecked={toolState.isFree}>
                   <S.CheckboxLabel>
                     <span>{category.koreanName}</span>
                     <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                       <S.CheckboxInput
                         className="category-free"
                         type="checkbox"
-                        checked={isFreeChecked}
+                        checked={toolState.isFree}
                         onChange={handleFreeCheck}
                       />
-                      {isFreeChecked && (
+                      {toolState.isFree && (
                         <Union
                           style={{
                             position: 'absolute',
@@ -203,23 +128,37 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                   </S.CheckboxLabel>
                 </S.CategoryHeader>
               ) : (
-                <S.CategoryHeader isFreeChecked={false} onClick={() => handleCategoryClick(category.name)}>
+                <S.CategoryHeader
+                  isFreeChecked={false}
+                  onClick={(e) => {
+                    if ((e.target as HTMLElement).classList.contains('ic-chevron')) return;
+                    handleCategoryClick(category.name);
+                  }}
+                >
                   <span>{category.koreanName}</span>
                   <IcChevron
+                    className="ic-chevron"
                     style={{
-                      transform: selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
+                      transform: toolState.selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
                     }}
                   />
                 </S.CategoryHeader>
               )}
-              {selectedCategory === category.name && category.name !== '자유' && (
+              {toolState.selectedCategory === category.name && category.name !== '자유' && (
                 <S.ToolList>
-                  {tools.length > 0 ? (
-                    tools.map((tool) => (
+                  {toolState.tools.length > 0 ? (
+                    toolState.tools.map((tool) => (
                       <S.ToolItem
                         key={tool.toolId}
-                        onClick={() => handleToolClick(tool.toolName, tool.toolId)}
-                        isSelected={selectedTool === tool.toolId}
+                        onClick={() => {
+                          setToolState((prev) => ({
+                            ...prev,
+                            selectedTool: tool.toolId,
+                            isFree: false,
+                          }));
+                          onToolSelect(tool.toolId);
+                        }}
+                        isSelected={toolState.selectedTool === tool.toolId}
                       >
                         <img src={tool.toolLogo} alt={tool.toolName} width={20} height={20} />
                         {tool.toolName}
