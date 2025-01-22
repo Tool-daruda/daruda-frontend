@@ -11,7 +11,7 @@ import * as S from './Post.styled.ts';
 const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isToast, setIsToast] = useState(false);
-  const { data: favoritePostData } = useGetFavoritePost();
+  const { data: favoritePostData } = useGetFavoritePost(currentPage);
   const { mutateAsync: scrapMutate } = useBoardScrap();
 
   const handleScrap = async (boardId: number) => {

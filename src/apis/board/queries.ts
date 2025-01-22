@@ -37,7 +37,14 @@ export const useBoardScrap = () => {
     onSettled: () => {
       // 서버 동기화를 위해 캐시 무효화
       // TODO: 민이가 작업하는 툴 리스트 페이지, 찬영언니가 작업하는 툴 디테일 페이지의 쿼리키도 무효화해주기
-      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          // 'myFavoritePostList'랑 userId가 같은 쿼리키들 모두 새로고침
+          return (
+            Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList' && query.queryKey[1] === userId
+          );
+        },
+      });
     },
   });
 };
@@ -52,7 +59,12 @@ export const useBoardDelete = () => {
   return useMutation({
     mutationFn: (boardId: number) => delBoard(boardId),
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          // 'myPostList'랑 userId가 같은 쿼리키들 모두 새로고침
+          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList' && query.queryKey[1] === userId;
+        },
+      });
     },
   });
 };
