@@ -1,6 +1,7 @@
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
+import Title from '@components/title/Title';
 import { handleScrollDown } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -37,6 +38,7 @@ const CommunityDetail = () => {
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
     <>
+      <Title title={data?.title as string} />
       <S.PageWrapper>
         <S.PageHeader>
           <h1>글 상세보기</h1>

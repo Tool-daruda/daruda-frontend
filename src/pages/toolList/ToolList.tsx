@@ -1,4 +1,5 @@
 import { Tooltip } from '@assets/svgs';
+import Title from '@components/title/Title';
 import { useState, useEffect } from 'react';
 
 import SearchBar from './components/searchBar/SearchBar';
@@ -41,6 +42,7 @@ const ToolList = () => {
 
   return (
     <S.ToolListWrapper>
+      <Title title="다루다(daruda)" />
       <TopBanner />
       <SearchBar isSticky={isSticky} />
       <S.ToolCardWrapper>

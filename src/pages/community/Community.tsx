@@ -1,6 +1,7 @@
 import { IcPlusWhite20, IcChevron } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -31,24 +32,27 @@ const Community = () => {
     setIsNoTopic(toolId === null);
   };
   return (
-    <S.CommunityWrapper>
-      <Banner />
-      <S.CommunityContainer>
-        <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
-        <S.CardList>
-          {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
-          {hasNextPage ? <div ref={ref} /> : null}
-        </S.CardList>
-      </S.CommunityContainer>
-      <S.FollowingBtns>
-        <CircleButton size="small" shadow={true} icon={<IcPlusWhite20 />}>
-          글쓰기
-        </CircleButton>
-        <S.TopBtn type="button" onClick={handleScrollUp}>
-          <IcChevron />
-        </S.TopBtn>
-      </S.FollowingBtns>
-    </S.CommunityWrapper>
+    <>
+      <Title title="커뮤니티" />
+      <S.CommunityWrapper>
+        <Banner />
+        <S.CommunityContainer>
+          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
+          <S.CardList>
+            {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
+            {hasNextPage ? <div ref={ref} /> : null}
+          </S.CardList>
+        </S.CommunityContainer>
+        <S.FollowingBtns>
+          <CircleButton size="small" shadow={true} icon={<IcPlusWhite20 />}>
+            글쓰기
+          </CircleButton>
+          <S.TopBtn type="button" onClick={handleScrollUp}>
+            <IcChevron />
+          </S.TopBtn>
+        </S.FollowingBtns>
+      </S.CommunityWrapper>
+    </>
   );
 };
 

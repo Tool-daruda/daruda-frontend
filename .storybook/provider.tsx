@@ -3,6 +3,7 @@ import theme from '../src/styles/theme';
 import GlobalStyle from '../src/styles/GlobalStyles';
 import React, { ReactNode, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 interface ProviderProps {
@@ -16,8 +17,10 @@ export const Provider = ({ children }: ProviderProps) => {
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <GlobalStyle />
-        <BrowserRouter>{children}</BrowserRouter>
+        <HelmetProvider>
+          <GlobalStyle />
+          <BrowserRouter>{children}</BrowserRouter>
+        </HelmetProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );
