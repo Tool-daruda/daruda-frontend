@@ -7,7 +7,6 @@ export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   z-index: 100;
   padding: 1.95rem 16rem;
 
-  background: op;
   background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? 'transparent' : theme.colors.white1)};
   border-bottom: 0.1rem solid ${({ theme, $forOnboarding }) => ($forOnboarding ? 'none' : theme.colors.gray4)};
 `;
