@@ -8,9 +8,8 @@ interface WritingImgProps {
   onImageUpload: (files: File[]) => void;
 }
 
-const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
+const WritingImg = ({ onImageUpload }: WritingImgProps) => {
   const [images, setImages] = useState<File[]>([]);
-
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -64,11 +63,10 @@ const WritingImg: React.FC<WritingImgProps> = ({ onImageUpload }) => {
           {isHovered ? <PlusImg /> : <IcAddimgGray344 />}
         </S.Button>
 
-        <input
+        <S.Input
           type="file"
           accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
           multiple
-          style={{ display: 'none' }}
           onChange={handleImageUpload}
           disabled={images.length >= 5}
         />

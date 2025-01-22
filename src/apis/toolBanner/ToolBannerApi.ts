@@ -1,27 +1,19 @@
-import axios from 'axios';
+import { CategoryResponse, ToolResponse } from 'src/types/toolListBanner/ToolListBannerTypes';
 
-const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-const VITE_TOKEN = import.meta.env.VITE_TOKEN;
+import { get } from '../index';
 
-export const fetchCategories = async () => {
+export const fetchCategories = async (): Promise<CategoryResponse> => {
   try {
-    const response = await axios.get(`${VITE_API_BASE_URL}/tools/category`);
-    return response.data;
+    return await get('/tools/category');
   } catch (error) {
     console.error('API 요청 오류:', error);
     throw new Error('카테고리 데이터를 가져오는 데 실패했습니다.');
   }
 };
 
-export const fetchToolsByCategory = async (category: string) => {
+export const fetchToolsByCategory = async (category: string): Promise<ToolResponse> => {
   try {
-    const response = await axios.get(`${VITE_API_BASE_URL}/tools?category=${category}`, {
-      headers: {
-        Authorization: `Bearer ${VITE_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-    });
-    return response.data;
+    return await get(`/tools?category=${category}`);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('툴 목록 요청 오류:', error.message);

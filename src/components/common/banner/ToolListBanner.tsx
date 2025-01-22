@@ -1,4 +1,4 @@
-import { IcChevron, Img, Union } from '@assets/svgs';
+import { Img } from '@assets/svgs';
 import { INITIAL_TOOL_STATE } from '@constants/toolListBanner/ToolListBannerConstants';
 import React, { useEffect, useState } from 'react';
 
@@ -86,12 +86,9 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                     ) : null;
                   })()
                 )}
-                <button
-                  onClick={() => clearSelectedTool(setToolState, onToolSelect)}
-                  style={{ display: 'flex', cursor: 'pointer' }}
-                >
-                  <Chip.CloseIcon width={20} height={20} />
-                </button>
+                <S.CloseBtn as="button" onClick={() => clearSelectedTool(setToolState, onToolSelect)}>
+                  <Chip.CloseIcon />
+                </S.CloseBtn>
               </Chip.RectContainer>
             </Chip>
           ) : (
@@ -107,24 +104,15 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                 <S.CategoryHeader isFreeChecked={toolState.isFree}>
                   <S.CheckboxLabel>
                     <span>{category.koreanName}</span>
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                    <S.CheckBox>
                       <S.CheckboxInput
                         className="category-free"
                         type="checkbox"
                         checked={toolState.isFree}
                         onChange={handleFreeCheck}
                       />
-                      {toolState.isFree && (
-                        <Union
-                          style={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                          }}
-                        />
-                      )}
-                    </div>
+                      {toolState.isFree && <S.Unions />}
+                    </S.CheckBox>
                   </S.CheckboxLabel>
                 </S.CategoryHeader>
               ) : (
@@ -136,12 +124,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                   }}
                 >
                   <span>{category.koreanName}</span>
-                  <IcChevron
-                    className="ic-chevron"
-                    style={{
-                      transform: toolState.selectedCategory === category.name ? 'rotate(0deg)' : 'rotate(180deg)',
-                    }}
-                  />
+                  <S.Chevron isSelected={toolState.selectedCategory === category.name} />
                 </S.CategoryHeader>
               )}
               {toolState.selectedCategory === category.name && category.name !== '자유' && (

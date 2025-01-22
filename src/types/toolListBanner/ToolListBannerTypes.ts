@@ -16,5 +16,12 @@ export interface ToolProp {
 export interface Category {
   name: string;
   koreanName: string;
-  tools: { toolId: number; toolLogo: string; toolName: string }[];
+  tools?: { toolId: number; toolLogo: string; toolName: string }[];
+}
+export interface CategoryResponse {
+  data: { name: string; koreanName: string }[];
+}
+
+export interface ToolResponse {
+  data: { tools: { toolId: number; toolLogo: string; toolName: string }[] };
 }
