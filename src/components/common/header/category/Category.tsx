@@ -1,4 +1,5 @@
-import { IcArrowDownBlack24, IcArrowDownBlack24Copy } from '@assets/svgs';
+import { IcArrowDownBlack24 } from '@assets/svgs';
+import theme from '@styles/theme';
 import { useState } from 'react';
 
 import * as S from './Category.styled';
@@ -25,10 +26,6 @@ export const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
 
-  const toggleCategory = () => {
-    setIsOpen((prev) => !prev);
-  };
-
   const handleCategoryClick = () => {
     // 카테고리 index number로 넘겨주기
     setIsOpen(false);
@@ -47,16 +44,22 @@ export const Category = () => {
 
   return (
     <S.CategoryNav onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <S.CategorySection onClick={toggleCategory} aria-label="카테고리 열기">
+      <S.CategorySection aria-label="카테고리 열기">
         {HEADER_TEXTS.category}
-        <IcArrowDownBlack24 width="2.4rem" height="2.4rem" />
+        <S.ToggleIcon isOpen={shouldDisplayDropdown}>
+          <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
+        </S.ToggleIcon>
       </S.CategorySection>
+
       {shouldDisplayDropdown && (
         <S.OpenedCategoryWrapper>
-          <S.OpenedCategory onClick={toggleCategory}>
+          <S.OpenedCategory>
             {HEADER_TEXTS.category}
-            <IcArrowDownBlack24Copy width="2.4rem" height="2.4rem" />
+            <S.ToggleIcon isOpen={shouldDisplayDropdown}>
+              <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
+            </S.ToggleIcon>
           </S.OpenedCategory>
+
           <S.CategoryDropdown>
             {CATAGORY_TEXTS.map((category, index) => (
               <CategoryItem key={index} category={category} onClick={() => handleCategoryClick()} />

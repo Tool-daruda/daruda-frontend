@@ -13,7 +13,7 @@ const MyPageLayout = () => {
 
   return (
     <>
-      <Header headerState={headerState} />
+      <Header headerState={headerState} forOnboarding={false} />
       <MyPageContainer>
         <Outlet />
       </MyPageContainer>

@@ -10,7 +10,7 @@ const Layout = () => {
 
   return (
     <S.LayoutWrapper>
-      <Header headerState={headerState} />
+      <Header headerState={headerState} forOnboarding={false} />
       <S.ContentWrapper>
         <Outlet />
       </S.ContentWrapper>

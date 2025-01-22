@@ -33,7 +33,6 @@ export const PostItem = styled.section`
   width: 100%;
 
   background: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
 `;

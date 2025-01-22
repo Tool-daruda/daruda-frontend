@@ -1,10 +1,11 @@
-import { IcCommentGray24, IcBookmark, IcOverflowGray44, ImgModalexit } from '@assets/svgs';
+import { IcCommentGray24, IcBookmark, IcOverflowGray44, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
+import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as S from './PostCard.styled';
@@ -31,6 +32,21 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
+  const [clickedIdx, setClickedIdx] = useState(0);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+
+  const handleIdxRecord = (idx: number) => {
+    setClickedIdx(idx);
+  };
+
+  const handleImgFocus = () => {
+    setIsImgModalOpen(true);
+  };
+
+  const handleImgModalClose = () => {
+    setIsImgModalOpen(false);
+  };
+
   return (
     <S.CardWrapper $forDetail={forDetail} ref={ref}>
       <Link
@@ -43,6 +59,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         }}
       >
         <S.CardLayout>
+          {isImgModalOpen && (
+            <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
+          )}
           <S.CardTopContent>
             <header>
               <Chip size="medium" stroke={true}>
@@ -53,7 +72,6 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               </Chip>
               <S.MetaInfo>
                 <span>{nickName}</span>
-                <span>|</span>
                 <span>{updatedAt}</span>
               </S.MetaInfo>
             </header>
@@ -61,9 +79,20 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             <S.CardTextItem $isImgInclude={images.length >= 1} $forDetail={forDetail}>
               {content}
             </S.CardTextItem>
-            <S.ImageGrid $imageCount={images.length}>
-              {images.map((image, i) => (
-                <img key={i} src={image} alt={`Post-card-img-${i}`} />
+            <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
+              {images.map((image, idx) => (
+                <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
+                  <img src={image} alt={`Post-card-img-${idx}`} />
+                  {forDetail && (
+                    <IcWatchWhite40
+                      className="hover-icon"
+                      onClick={() => {
+                        handleImgFocus();
+                        handleIdxRecord(idx);
+                      }}
+                    />
+                  )}
+                </S.EachImgContainer>
               ))}
             </S.ImageGrid>
           </S.CardTopContent>

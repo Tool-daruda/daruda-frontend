@@ -7,11 +7,12 @@ type ButtonProps = {
   icon?: ReactNode;
   shadow?: boolean;
   size?: 'large' | 'medium' | 'small' | 'mini';
+  whiteBtn?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const CircleButton = ({ children, icon, shadow = false, size = 'large', ...props }: ButtonProps) => {
+const CircleButton = ({ children, icon, shadow = false, size = 'large', whiteBtn = false, ...props }: ButtonProps) => {
   return (
-    <S.ButtonWrapper shadow={shadow} size={size} disabled={props.disabled} {...props}>
+    <S.ButtonWrapper shadow={shadow} size={size} disabled={props.disabled} $whiteBtn={whiteBtn} {...props}>
       {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
       <span>{children}</span>
     </S.ButtonWrapper>

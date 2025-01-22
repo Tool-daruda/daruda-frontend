@@ -25,6 +25,7 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
             <p>{`${commentList.length}개`}</p>
           </div>
         </S.CommentHeader>
+        <S.Divider />
         <S.CommentList height={height}>
           {commentList.length === 0 && (
             <S.EmptySpaceWrapper>
@@ -37,8 +38,8 @@ const CommentBoard = ({ commentList, height = 694 }: CommentProp) => {
           {commentList.length > 0 &&
             commentList.map((comment, idx) => (
               <li key={comment.commentId}>
+                {idx > 0 && <S.Divider />}
                 <CommentCard comment={comment} />
-                {idx < commentList.length - 1 && <S.Divider />}
               </li>
             ))}
         </S.CommentList>
