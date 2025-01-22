@@ -2,9 +2,8 @@ import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Toast from '@components/toast/Toast';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
-import postBoard from './apis/PostApi';
+import { useBoardUpdate } from './apis/queries';
 import * as S from './CommunityModify.styled';
 import WritingBody from './components/writingBody/WritingBody';
 import WritingImg from './components/writingImg/WritingImg';
@@ -21,10 +20,7 @@ const CommunityModify = () => {
     author: '또이또이또이',
     title: 'ㄴㅇ',
     content: 'ㄴㅇㄴㅇ',
-    images: [
-      'https://daruda.s3.ap-northeast-2.amazonaws.com/0e2d2a48-76dc-4116-89cf-8f5e17c3a030.png',
-      'https://daruda.s3.ap-northeast-2.amazonaws.com/9d185f65-5c8e-459e-b3c8-947447ae9696.png',
-    ],
+    images: ['https://t4.ftcdn.net/jpg/01/43/42/83/360_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg'],
     isScraped: false,
     updatedAt: '2025.01.22',
     commentCount: 0,
@@ -34,27 +30,21 @@ const CommunityModify = () => {
   const { title, setTitle, body, setBody, images, setImages, selectedTool, isFree, handleToolSelect } =
     useCommunityModify(post.toolId);
 
-  const navigate = useNavigate();
   const [isToastVisible, setIsToastVisible] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isImgSame, setIsImgSame] = useState(true);
+  const { mutate: patchMutate } = useBoardUpdate();
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
 
     const formData = createPostFormData(title, body, isFree, selectedTool, images);
 
-    try {
-      await postBoard(post.boardId, formData);
-      navigate('/community');
-    } catch (error: unknown) {
-      console.error('에러 발생:', error);
-      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
-      setIsToastVisible(true);
-      setTimeout(() => setIsToastVisible(false), 3000);
-    }
+    const req = { id: post.boardId, data: formData };
+    await patchMutate(req);
+    setIsToastVisible(true);
+    setTimeout(() => setIsToastVisible(false), 3000);
   };
 
   useEffect(() => {
@@ -114,7 +104,7 @@ const CommunityModify = () => {
       {isToastVisible && (
         <S.ToastBox>
           <Toast isVisible={true} isWarning={true}>
-            {toastMessage}
+            글 수정이 완료 되었습니다.
           </Toast>
         </S.ToastBox>
       )}

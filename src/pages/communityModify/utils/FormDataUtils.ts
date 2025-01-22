@@ -8,9 +8,9 @@ export const createPostFormData = (
   const formData = new FormData();
   formData.append('title', title);
   formData.append('content', body);
-  formData.append('isFree', isFree ? 'true' : 'false');
+  formData.append('isFree', isFree || selectedTool === null ? 'true' : 'false');
 
-  if (isFree) {
+  if (isFree || selectedTool === null) {
     formData.append('toolId', '1');
   } else if (selectedTool !== null) {
     formData.append('toolId', String(selectedTool));
@@ -22,5 +22,12 @@ export const createPostFormData = (
     }
   });
 
+  for (const key of formData.keys()) {
+    console.log(key);
+  }
+
+  for (const value of formData.values()) {
+    console.log(value);
+  }
   return formData;
 };
