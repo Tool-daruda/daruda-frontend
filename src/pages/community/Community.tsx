@@ -2,7 +2,7 @@ import { IcPlusWhite20, IcChevron } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { handleScrollUp } from '@utils';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import * as S from './Community.style';
@@ -12,10 +12,12 @@ import { usePostListQuery } from '../../apis/fetchPostList/queries';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
-  //TODO: 툴리스트 값을 받아와, 필터링이 가능하도록 로직 필요, 추후 공통 API 머지 후 추가 예정
-  const { data, fetchNextPage, hasNextPage } = usePostListQuery();
+  const [pickedtool, setPickedtool] = useState<number | null>(null);
+  const [isNoTopic, setIsNoTopic] = useState<boolean>(false);
+  const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, isNoTopic);
   const { ref, inView } = useInView();
 
+  // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
   const postList = data?.pages.map((item) => item.contents).flat();
 
   useEffect(() => {
@@ -24,11 +26,15 @@ const Community = () => {
     }
   }, [inView]);
 
+  const handleToolSelect = (toolId: number | null) => {
+    setPickedtool(toolId);
+    setIsNoTopic(toolId === null);
+  };
   return (
     <S.CommunityWrapper>
       <Banner />
       <S.CommunityContainer>
-        <ToolListBanner forCommunity={true} />
+        <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
         <S.CardList>
           {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
           {hasNextPage ? <div ref={ref} /> : null}

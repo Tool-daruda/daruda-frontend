@@ -3,13 +3,13 @@ import { GetPostListResponse } from 'src/types/post';
 
 import { fetchPostList } from './api';
 
-export const usePostListQuery = () =>
+export const usePostListQuery = (toolId: number | null, isFree: boolean) =>
   useInfiniteQuery<GetPostListResponse>({
-    queryKey: ['boards', { isFree: false, size: 6, lastBoardId: -1, toolId: null }], // 기본 쿼리 키 설정 (size에 따라서 가져올 값 갯수 결정)
+    queryKey: ['boards', { isFree, size: 6, lastBoardId: -1, toolId }], // 기본 쿼리 키 설정 (size에 따라서 가져올 값 갯수 결정)
     queryFn: ({ pageParam }) =>
       fetchPostList({
         pageParam,
-        queryKey: ['boards', { isFree: true, size: 6, lastBoardId: -1 }],
+        queryKey: ['boards', { isFree: isFree, size: 6, lastBoardId: -1, toolId: toolId }],
       }),
 
     getNextPageParam: (lastPage) => {

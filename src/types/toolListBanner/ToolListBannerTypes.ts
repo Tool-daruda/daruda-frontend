@@ -11,6 +11,7 @@ export interface ToolProp {
   forCommunity?: boolean;
   onToolSelect?: (tool: number | null) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onTopicSelect?: (isChecked: boolean) => void;
 }
 
 export interface Category {
