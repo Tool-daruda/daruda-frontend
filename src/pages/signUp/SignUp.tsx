@@ -1,6 +1,7 @@
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
+import Title from '@components/title/Title';
 import React, { useState } from 'react';
 
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
@@ -43,50 +44,53 @@ const SignUp = () => {
   };
 
   return (
-    <S.SignUpWrapper>
-      <S.Container>
-        <S.LeftContainer>
-          <S.LeftBox>
-            <S.TitleBox>
-              쉬운 대학생활, <br />
-              앞으로 한 걸음 남았어요.
-            </S.TitleBox>
-            <S.CommentBox>
-              공부, 과제, 팀플, 동아리, 대외활동 <br />
-              복잡하고 어렵기만 했던 툴에 대한 고민은 <br />
-              다루다가 해결해 드릴게요.
-            </S.CommentBox>
-          </S.LeftBox>
-        </S.LeftContainer>
-        <S.RightContainer>
-          <h1>회원가입</h1>
-          <S.AffiliationBox>
-            <h2>소속을 선택해주세요.</h2>
-            <S.AffiliationBtnBox>
-              {AFFILIATION_OPTIONS.map((label) => (
-                <AffiliationBtn
-                  key={label}
-                  label={label}
-                  isSelected={selectedAffiliation === label}
-                  onClick={() => setSelectedAffiliation(label)}
-                />
-              ))}
-            </S.AffiliationBtnBox>
-          </S.AffiliationBox>
-          <S.NicknameInputBox>
-            {/* TODO: 중복확인 상태에 따른 로직 구현 */}
-            <NamingInput value={nickname} onChange={handleNicknameChange} />
-          </S.NicknameInputBox>
-          <S.SignUpBtn>
-            {/* TODO: 중복확인 되었을 때만 작동되도록 */}
-            <CircleButton size="mini" disabled={!isCircleBtnActive} onClick={handleCircleBtnClick}>
-              회원가입 하기
-            </CircleButton>
-          </S.SignUpBtn>
-        </S.RightContainer>
-        <AlterModal {...modalProps} />
-      </S.Container>
-    </S.SignUpWrapper>
+    <>
+      <Title title="회원가입" />
+      <S.SignUpWrapper>
+        <S.Container>
+          <S.LeftContainer>
+            <S.LeftBox>
+              <S.TitleBox>
+                쉬운 대학생활, <br />
+                앞으로 한 걸음 남았어요.
+              </S.TitleBox>
+              <S.CommentBox>
+                공부, 과제, 팀플, 동아리, 대외활동 <br />
+                복잡하고 어렵기만 했던 툴에 대한 고민은 <br />
+                다루다가 해결해 드릴게요.
+              </S.CommentBox>
+            </S.LeftBox>
+          </S.LeftContainer>
+          <S.RightContainer>
+            <h1>회원가입</h1>
+            <S.AffiliationBox>
+              <h2>소속을 선택해주세요.</h2>
+              <S.AffiliationBtnBox>
+                {AFFILIATION_OPTIONS.map((label) => (
+                  <AffiliationBtn
+                    key={label}
+                    label={label}
+                    isSelected={selectedAffiliation === label}
+                    onClick={() => setSelectedAffiliation(label)}
+                  />
+                ))}
+              </S.AffiliationBtnBox>
+            </S.AffiliationBox>
+            <S.NicknameInputBox>
+              {/* TODO: 중복확인 상태에 따른 로직 구현 */}
+              <NamingInput value={nickname} onChange={handleNicknameChange} />
+            </S.NicknameInputBox>
+            <S.SignUpBtn>
+              {/* TODO: 중복확인 되었을 때만 작동되도록 */}
+              <CircleButton size="mini" disabled={!isCircleBtnActive} onClick={handleCircleBtnClick}>
+                회원가입 하기
+              </CircleButton>
+            </S.SignUpBtn>
+          </S.RightContainer>
+          <AlterModal {...modalProps} />
+        </S.Container>
+      </S.SignUpWrapper>
+    </>
   );
 };
 

@@ -2,6 +2,7 @@ import { BtnWritingArrowleft, ImgPopupQuit84 } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
+import Title from '@components/title/Title';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,6 +48,7 @@ const CommunityWrite = () => {
 
   return (
     <>
+      <Title title="글쓰기" />
       <S.WriteWrapper>
         <S.WriteTitle>
           <BtnWritingArrowleft onClick={handleBackClick} />
