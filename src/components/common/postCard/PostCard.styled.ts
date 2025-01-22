@@ -29,13 +29,13 @@ export const CardTopContent = styled.section`
 
   header {
     display: flex;
-    gap: 1.2rem;
+    gap: 1.6rem;
     align-items: center;
   }
 `;
 
 export const MetaInfo = styled.span`
-  ${({ theme }) => theme.fonts.caption_12_r};
+  ${({ theme }) => theme.fonts.caption_14_m};
   display: flex;
   gap: 0.6rem;
   align-items: center;
@@ -61,6 +61,8 @@ export const CardBottomBar = styled.section`
 `;
 
 export const CardTitleItem = styled.h1`
+  margin-top: 0.8rem;
+
   ${({ theme }) => theme.fonts.body_20_b};
   color: ${({ theme }) => theme.colors.black};
   white-space: normal;
@@ -92,7 +94,7 @@ export const BottomBarLeft = styled.span`
   gap: 1.9rem;
   align-items: center;
 `;
-export const ImageGrid = styled.div<{ $imageCount: number }>`
+export const ImageGrid = styled.div<{ $imageCount: number; $forDetail: boolean }>`
   display: grid;
   grid-template-rows: ${({ $imageCount }) => {
     switch ($imageCount) {
@@ -160,4 +162,47 @@ export const ImageGrid = styled.div<{ $imageCount: number }>`
 
     border-radius: 0.8rem;
   }
+`;
+export const EachImgContainer = styled.div<{ $imageCount: number; $forDetail: boolean }>`
+  position: relative;
+
+  .hover-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    opacity: 0;
+
+    transition:
+      opacity 0.3s ease,
+      z-index 0.3s ease;
+  }
+
+  ${({ $forDetail, theme }) =>
+    $forDetail &&
+    `
+
+  &:hover {
+    .hover-icon {
+      z-index: 1;
+
+      opacity: 1;
+    }
+
+    &::after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+
+      background-color: ${theme.colors.black_toast};
+      opacity: 0.5;
+      border-radius: 0.8rem;
+
+      content: '';
+    }`}
 `;

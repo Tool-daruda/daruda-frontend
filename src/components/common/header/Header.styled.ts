@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-export const HeaderWrapper = styled.header`
+export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
   z-index: 100;
   padding: 1.95rem 16rem;
 
-  background-color: ${({ theme }) => theme.colors.white1};
-  border-bottom: 0.1rem solid ${({ theme }) => theme.colors.gray4};
+  background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? theme.colors.white2 : theme.colors.white1)};
+  border-bottom: 0.1rem solid ${({ theme, $forOnboarding }) => ($forOnboarding ? 'none' : theme.colors.gray4)};
 `;
 
 export const HeaderContainer = styled.section`
@@ -28,6 +28,7 @@ export const LogoSection = styled.section`
 `;
 
 export const CommunityNav = styled.nav`
+  z-index: 3;
   margin-right: auto;
 `;
 
@@ -38,11 +39,20 @@ export const AuthSection = styled.nav`
 
 export const MyPageSection = styled.section`
   display: flex;
-  gap: 2.4rem;
+  gap: 3.6rem;
   align-items: center;
+  justify-content: center;
 `;
 
 export const NotificationButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+`;
+
+export const MyPageButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;

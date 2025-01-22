@@ -26,12 +26,24 @@ export const CategorySection = styled.div`
   }
 `;
 
+export const ToggleIcon = styled.button<{ isOpen: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+
+  transition: transform 0.3s ease;
+`;
+
 export const OpenedCategoryWrapper = styled.div`
   position: absolute;
   top: -1rem;
   left: -1.8rem;
   display: flex;
   flex-direction: column;
+
+  cursor: pointer;
 `;
 
 export const OpenedCategory = styled.section`
