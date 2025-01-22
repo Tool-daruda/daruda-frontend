@@ -1,37 +1,22 @@
 import { IcArrowDownBlack24 } from '@assets/svgs';
 import theme from '@styles/theme';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { useGetCategory } from './apis/queries';
 import * as S from './Category.styled';
 
 const HEADER_TEXTS = {
   category: '카테고리',
 } as const;
 
-const CATAGORY_TEXTS = [
-  'AI',
-  '협업&커뮤니케이션',
-  '영상&음악',
-  '커리어&자기개발',
-  '문서 작성&편집',
-  '데이터',
-  '생활',
-  '그래픽&디자인',
-  '프레젠테이션',
-  '코딩&개발',
-  '설계&모델링',
-] as const;
-
 export const Category = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const navigate = useNavigate();
 
-  const handleCategoryClick = () => {
-    // 카테고리 index number로 넘겨주기
-    setIsOpen(false);
-    // TODO: 카테고리 클릭 시 '툴리스트' 페이지에서 해당 카테고리가 선택되어 보이도록 구현
-  };
-
+  // 카테고리 데이터 가져오기
+  const { data: categoryList } = useGetCategory();
   const handleMouseEnter = () => {
     setIsHover(true);
   };
@@ -40,13 +25,26 @@ export const Category = () => {
     setIsHover(false);
   };
 
+  const handleCategoryClick = (categoryName: string) => {
+    setIsHover(false);
+
+    // 카테고리 이름을 URL에 맞게 인코딩
+    const encodedCategoryName = encodeURIComponent(categoryName);
+
+    // '전체'일 경우 기본 경로로 이동, 그렇지 않으면 쿼리 파라미터 추가
+    const url = categoryName === '전체' ? '/toollist' : `/toollist?category=${encodedCategoryName}`;
+
+    // 해당 URL로 이동
+    navigate(url);
+  };
+
   const shouldDisplayDropdown = isHover || isOpen;
 
   return (
     <S.CategoryNav onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-      <S.CategorySection aria-label="카테고리 열기">
+      <S.CategorySection aria-label="카테고리 열기" onClick={() => setIsOpen(!isOpen)}>
         {HEADER_TEXTS.category}
-        <S.ToggleIcon isOpen={shouldDisplayDropdown}>
+        <S.ToggleIcon $isOpen={shouldDisplayDropdown}>
           <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
         </S.ToggleIcon>
       </S.CategorySection>
@@ -55,14 +53,18 @@ export const Category = () => {
         <S.OpenedCategoryWrapper>
           <S.OpenedCategory>
             {HEADER_TEXTS.category}
-            <S.ToggleIcon isOpen={shouldDisplayDropdown}>
+            <S.ToggleIcon $isOpen={shouldDisplayDropdown}>
               <IcArrowDownBlack24 stroke={shouldDisplayDropdown ? theme.colors.iris1_click : theme.colors.black} />
             </S.ToggleIcon>
           </S.OpenedCategory>
 
           <S.CategoryDropdown>
-            {CATAGORY_TEXTS.map((category, index) => (
-              <CategoryItem key={index} category={category} onClick={() => handleCategoryClick()} />
+            {categoryList?.map((category) => (
+              <CategoryItem
+                key={category.name}
+                category={category.koreanName}
+                onClick={() => handleCategoryClick(category.koreanName)}
+              />
             ))}
           </S.CategoryDropdown>
         </S.OpenedCategoryWrapper>
@@ -78,5 +80,5 @@ interface CategoryItemProps {
 }
 
 const CategoryItem = ({ category, onClick }: CategoryItemProps) => {
-  return <S.CategoryItem onClick={onClick}>{category}</S.CategoryItem>;
+  return <S.CategoryItem onClick={onClick}>{category || '값 없음'}</S.CategoryItem>;
 };

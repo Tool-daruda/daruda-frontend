@@ -1,3 +1,4 @@
+import { ImgBannerAttached } from '@assets/svgs';
 import styled from '@emotion/styled';
 
 export const BannerWrapper = styled.section`
@@ -9,9 +10,9 @@ export const BannerWrapper = styled.section`
   background: ${({ theme }) => theme.colors.orange1};
 `;
 
-export const MainImgBanner = styled.img`
+export const MainImgBanner = styled(ImgBannerAttached)`
   width: 51.4rem;
-  margin: 2.6rem 0 0 18.6rem;
+  margin: 2.6rem 0 0 21.6rem;
 `;
 
 export const BannerContainer = styled.div`

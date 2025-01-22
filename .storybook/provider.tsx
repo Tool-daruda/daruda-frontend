@@ -11,7 +11,8 @@ interface ProviderProps {
 }
 
 export const Provider = ({ children }: ProviderProps) => {
-  const [queryClient] = useState(() => new QueryClient());
+  const queryClient = new QueryClient();
+
   return (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
