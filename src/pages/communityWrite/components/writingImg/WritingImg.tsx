@@ -4,8 +4,12 @@ import React, { useState } from 'react';
 
 import * as S from './WritingImg.styled';
 
-const WritingImg = () => {
-  const [images, setImages] = useState<string[]>([]);
+interface WritingImgProps {
+  onImageUpload: (files: File[]) => void;
+}
+
+const WritingImg = ({ onImageUpload }: WritingImgProps) => {
+  const [images, setImages] = useState<File[]>([]);
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -14,25 +18,27 @@ const WritingImg = () => {
     const files = e.target.files;
     if (files && files.length > 0) {
       const newImages = Array.from(files);
-      const fileReaders: Promise<string>[] = newImages.map((file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      });
 
-      Promise.all(fileReaders)
-        .then((results) => {
-          setImages((prev) => [...prev, ...results]);
-        })
-        .catch((err) => console.error('이미지 로드 에러:', err));
+      if (newImages.some((file) => file.size > 7 * 1024 * 1024)) {
+        console.error('파일 용량 초과');
+        return;
+      }
+      const validTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif'];
+      if (newImages.some((file) => !validTypes.includes(file.type))) {
+        console.error('파일 형식 오류');
+        return;
+      }
+
+      const updatedImages: File[] = [...images, ...newImages];
+      setImages(updatedImages);
+      onImageUpload(updatedImages);
     }
   };
 
   const handleRemoveImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+    onImageUpload(updatedImages);
   };
 
   const handleAddImageClick = () => {
@@ -57,11 +63,10 @@ const WritingImg = () => {
           {isHovered ? <PlusImg /> : <IcAddimgGray344 />}
         </S.Button>
 
-        <input
+        <S.Input
           type="file"
           accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
           multiple
-          style={{ display: 'none' }}
           onChange={handleImageUpload}
           disabled={images.length >= 5}
         />
@@ -70,7 +75,7 @@ const WritingImg = () => {
         {images.map((image, index) => (
           <S.ImagePreview key={index}>
             <S.ImageContainer>
-              <img src={image} alt={`미리보기 ${index + 1}`} />
+              <img src={URL.createObjectURL(image)} alt={`미리보기 ${index + 1}`} />
               <S.RemoveButton onClick={() => handleRemoveImage(index)}>
                 <Group2085664966 />
               </S.RemoveButton>
