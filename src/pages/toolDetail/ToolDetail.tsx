@@ -56,6 +56,7 @@ const ToolDetail = () => {
               <CoreFeature ref={CoreFeatureRef} toolId={numericToolId} />
               <ReferenceVideo ref={ReferenceVideoRef} toolId={numericToolId} />
               <PlanBox ref={PlanBoxRef} toolId={numericToolId} />
+
               <Spacing size={'1'} />
             </S.ToolDetailBox>
             <Spacing size={'1'} />
