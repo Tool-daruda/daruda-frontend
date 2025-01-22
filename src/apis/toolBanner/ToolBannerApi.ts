@@ -11,9 +11,10 @@ export const fetchCategories = async (): Promise<CategoryResponse> => {
   }
 };
 
-export const fetchToolsByCategory = async (category: string): Promise<ToolResponse> => {
+export const fetchToolsByCategory = async (category: string, isFree: boolean = false): Promise<ToolResponse> => {
   try {
-    return await get(`/tools?category=${category}`);
+    const query = `/tools?category=${category}&isFree=${isFree}`;
+    return await get(query);
   } catch (error: unknown) {
     if (error instanceof Error) {
       console.error('툴 목록 요청 오류:', error.message);
@@ -22,6 +23,6 @@ export const fetchToolsByCategory = async (category: string): Promise<ToolRespon
       console.error('알 수 없는 오류 발생');
     }
 
-    throw new Error(`카테고리 "${category}"에 대한 툴 목록을 가져오는 데 실패했습니다.`);
+    throw new Error(`카테고리 "${category}" 및 isFree="${isFree}"에 대한 툴 목록을 가져오는 데 실패했습니다.`);
   }
 };

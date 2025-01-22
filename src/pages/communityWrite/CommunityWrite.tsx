@@ -1,5 +1,7 @@
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Toast from '@components/toast/Toast';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import postBoard from './apis/PostApi';
@@ -25,6 +27,8 @@ const CommunityWrite = () => {
   } = useCommunityWrite();
 
   const navigate = useNavigate();
+  const [isToastVisible, setIsToastVisible] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
@@ -33,10 +37,12 @@ const CommunityWrite = () => {
 
     try {
       await postBoard(formData);
-
       navigate('/community');
-    } catch (error) {
-      console.error('실패:', error);
+    } catch (error: unknown) {
+      console.error('에러 발생:', error);
+      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
+      setIsToastVisible(true);
+      setTimeout(() => setIsToastVisible(false), 3000);
     }
   };
 
@@ -56,6 +62,13 @@ const CommunityWrite = () => {
           </CircleButton>
         </S.SideBanner>
       </S.WriteContainer>
+      {isToastVisible && (
+        <S.ToastBox>
+          <Toast isVisible={true} isWarning={true}>
+            {toastMessage}
+          </Toast>
+        </S.ToastBox>
+      )}
     </S.WriteWrapper>
   );
 };
