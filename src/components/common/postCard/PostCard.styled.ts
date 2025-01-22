@@ -22,7 +22,7 @@ export const CardLayout = styled.section`
 export const CardTopContent = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
   align-items: flex-start;
   align-self: stretch;
   width: 100%;

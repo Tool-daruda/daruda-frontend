@@ -13,6 +13,7 @@ export const WriteContainer = styled.div`
 `;
 
 export const WriteBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -37,4 +38,11 @@ export const SideBanner = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+`;
+
+export const ToastBox = styled.div`
+  position: absolute;
+  top: 74rem;
+  left: 38rem;
+  z-index: 3;
 `;
