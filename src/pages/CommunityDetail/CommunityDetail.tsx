@@ -35,6 +35,8 @@ const CommunityDetail = () => {
     }
   }, [inView]);
 
+  console.log(data);
+
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
     <div>

@@ -1,7 +1,6 @@
 export interface Post {
   boardId: number;
   toolName: string;
-  toolId: number;
   toolLogo: string;
   author: string;
   title: string;

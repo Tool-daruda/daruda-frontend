@@ -5,6 +5,7 @@ import { AlterModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import useCommentDelete from '@pages/CommunityDetail/apis/DeletePost/queries';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import * as S from './CommentCard.styled';
 
@@ -19,9 +20,10 @@ interface Comment {
 }
 
 const CommentCard = ({ comment }: Comment) => {
+  const { id } = useParams<{ id: string }>();
   const [isOpen, setIsOpen] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { mutate, isError } = useCommentDelete(comment.commentId);
+  const { mutate, isError } = useCommentDelete(comment.commentId, id);
   const [IsToastOpen, setIsToastOpen] = useState(false);
 
   useEffect(() => {
