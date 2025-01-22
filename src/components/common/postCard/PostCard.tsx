@@ -90,7 +90,12 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           <S.CardDivider />
           <S.CardBottomBar onClick={preventPropogation}>
             <S.BottomBarLeft>
-              <SquareButton icon={<IcCommentGray24 />} size="small" stroke={false}>{`${commentCount}개`}</SquareButton>
+              <SquareButton
+                icon={<IcCommentGray24 />}
+                size="small"
+                stroke={false}
+                onClick={() => navigate(`/community/${boardId}`)}
+              >{`${commentCount}개`}</SquareButton>
               <SquareButton icon={<IcBookmark />} size="small" stroke={false} forBookMark={true}>
                 북마크
               </SquareButton>

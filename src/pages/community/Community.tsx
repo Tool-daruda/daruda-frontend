@@ -43,7 +43,12 @@ const Community = () => {
         </S.CardList>
       </S.CommunityContainer>
       <S.FollowingBtns>
-        <CircleButton onClick={() => navigate('/community/write')} size="small" shadow={true} icon={<IcPlusWhite20 />}>
+        <CircleButton
+          onClick={() => navigate(`/community/write#target-sectio`)}
+          size="small"
+          shadow={true}
+          icon={<IcPlusWhite20 />}
+        >
           글쓰기
         </CircleButton>
         <S.TopBtn type="button" onClick={handleScrollUp}>

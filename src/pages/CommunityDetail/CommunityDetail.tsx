@@ -41,7 +41,7 @@ const CommunityDetail = () => {
         <S.PageHeader>
           <h1>글 상세보기</h1>
         </S.PageHeader>
-        <S.BoardContainer>
+        <S.BoardContainer id="target-section">
           <S.PostItem>
             {data && <Card post={data} forDetail={true} ref={postareaRef} />}
             {CommentData && (
