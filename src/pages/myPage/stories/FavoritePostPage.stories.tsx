@@ -18,7 +18,7 @@ const meta: Meta<typeof MyFavoritePostPage> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <MyPageContainerForStory activeMenu={4}>
           <Story />
         </MyPageContainerForStory>
