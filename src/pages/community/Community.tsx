@@ -4,6 +4,7 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import { handleScrollUp } from '@utils';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
@@ -12,6 +13,7 @@ import { usePostListQuery } from '../../apis/fetchPostList/queries';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
+  const navigate = useNavigate();
   const [pickedtool, setPickedtool] = useState<number | null>(null);
   const [noTopic, setIsNoTopic] = useState<boolean>(false);
   const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
@@ -41,7 +43,7 @@ const Community = () => {
         </S.CardList>
       </S.CommunityContainer>
       <S.FollowingBtns>
-        <CircleButton size="small" shadow={true} icon={<IcPlusWhite20 />}>
+        <CircleButton onClick={() => navigate('/community/write')} size="small" shadow={true} icon={<IcPlusWhite20 />}>
           글쓰기
         </CircleButton>
         <S.TopBtn type="button" onClick={handleScrollUp}>
