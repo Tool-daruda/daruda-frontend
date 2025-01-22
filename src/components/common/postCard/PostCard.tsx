@@ -6,7 +6,7 @@ import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
 import { forwardRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Post } from 'src/types/post';
 
 import * as S from './PostCard.styled';
@@ -17,6 +17,7 @@ interface CardDataProp {
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
+  const navigate = useNavigate();
   const { post, forDetail = false } = props;
   const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount } = post;
 
@@ -96,11 +97,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             </S.BottomBarLeft>
             <DropDown position="end">
               <DropDown.Content $display="top">
-                <DropDown.Item
-                  onClick={() => {
-                    alert('클릭!');
-                  }}
-                >
+                <DropDown.Item onClick={() => navigate('/community/modify/:id', { state: post })}>
                   수정하기
                 </DropDown.Item>
                 <DropDown.Item status="danger" onClick={handleModalOpen}>
