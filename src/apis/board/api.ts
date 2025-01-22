@@ -7,7 +7,7 @@ export const postBoardScrap = async (boardId: number) => {
       message: string;
       data: {
         boardId: number;
-        scarp: boolean;
+        scrap: boolean;
       };
     }>(`users/boards/${boardId}/scrap`);
     return response.data;

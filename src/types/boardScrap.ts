@@ -3,6 +3,6 @@ export interface boardScrapResponse {
   message: string;
   data: {
     boardId: number;
-    scarp: boolean;
+    scrap: boolean;
   };
 }

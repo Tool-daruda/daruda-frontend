@@ -7,7 +7,7 @@ export const postToolScrap = async (toolId: number) => {
       message: string;
       data: {
         toolId: number;
-        scarp: boolean;
+        scrap: boolean;
       };
     }>(`users/tools/${toolId}/scrap`);
     return response.data;
