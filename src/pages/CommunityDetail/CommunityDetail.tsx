@@ -45,7 +45,15 @@ const CommunityDetail = () => {
         <S.BoardContainer>
           <S.PostItem>
             {data && <Card post={data} forDetail={true} ref={postareaRef} />}
-            {CommentData && <CommentBoard ref={ref} commentList={comments} height={height} hasNextPage={hasNextPage} />}
+            {CommentData && (
+              <CommentBoard
+                ref={ref}
+                commentList={comments}
+                height={height}
+                hasNextPage={hasNextPage}
+                commentCount={data?.commentCount}
+              />
+            )}
           </S.PostItem>
           <CommnetInput />
         </S.BoardContainer>
