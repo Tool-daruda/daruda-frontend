@@ -2,6 +2,7 @@ import { get } from '@apis/index';
 import { CommentResponse } from '@pages/CommunityDetail/types';
 import type { AxiosResponse } from 'axios';
 
+// 상세 페이지 댓글 (무한스크롤)
 const fetchComment = async ({
   pageParam,
   postId,

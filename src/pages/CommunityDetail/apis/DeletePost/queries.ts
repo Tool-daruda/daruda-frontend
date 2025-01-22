@@ -16,8 +16,8 @@ const useCommentDelete = (commentId: number, postId: string | undefined) => {
     mutationFn: () => delComment(commentId),
     onMutate: async () => {
       await queryClient.cancelQueries({ queryKey: ['comment', postId] });
-      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(['comment', postId]);
-      const prevDetail = queryClient.getQueryData<Post>(['detailPost', postId]);
+      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(['comment', postId]); // 댓글 리스트 가져오기
+      const prevDetail = queryClient.getQueryData<Post>(['detailPost', postId]); // 게시글 상세 가져오기
 
       if (prevComments) {
         queryClient.setQueryData<InfiniteQueryResponse>(['comment', postId], {

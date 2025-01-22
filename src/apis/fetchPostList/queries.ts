@@ -5,7 +5,8 @@ import { fetchPostList } from './api';
 
 export const usePostListQuery = (toolId: number | null, isFree: boolean) =>
   useInfiniteQuery<GetPostListResponse>({
-    queryKey: ['boards', { isFree, size: 6, lastBoardId: -1, toolId }], // 기본 쿼리 키 설정 (size에 따라서 가져올 값 갯수 결정)
+    // 기본 쿼리 키 설정 (size에 따라서 가져올 값 갯수 결정가능 / toolId를 통해 필터링 가능 )
+    queryKey: ['boards', { isFree, size: 6, lastBoardId: -1, toolId }],
     queryFn: ({ pageParam }) =>
       fetchPostList({
         pageParam,

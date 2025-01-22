@@ -2,6 +2,7 @@ import { get } from '@apis/index';
 import type { AxiosResponse } from 'axios';
 import { GetPostListResponse } from 'src/types/post';
 
+// 커뮤니티 게시글 목록 페이지 (무한스크롤)
 const fetchPostList = async ({
   pageParam = -1,
   queryKey,
