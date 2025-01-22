@@ -8,16 +8,16 @@ const fetchPostList = async ({
   queryKey,
 }: {
   pageParam: number | null | unknown;
-  queryKey: [string, { isFree?: boolean; lastBoardId?: number | null; size?: number; toolId?: number | null }];
+  queryKey: [string, { noTopic?: boolean; lastBoardId?: number | null; size?: number; toolId?: number | null }];
 }): Promise<GetPostListResponse> => {
   try {
-    const [, { isFree, size, toolId }] = queryKey;
+    const [, { noTopic, size, toolId }] = queryKey;
 
     const url =
       `/boards/board/list?` +
-      `${isFree ? `noTopic=${isFree}` : ''}` +
+      `${noTopic ? `noTopic=${noTopic}` : ''}` +
       `${size ? `&size=${size}` : ''}` +
-      `${toolId && !isFree ? `&toolId=${toolId}` : ''}` +
+      `${toolId && !noTopic ? `&toolId=${toolId}` : ''}` +
       `${pageParam ? `&lastBoardId=${pageParam}` : ''}`;
 
     const res: AxiosResponse<GetPostListResponse> = await get(url);

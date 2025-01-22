@@ -13,8 +13,8 @@ import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
   const [pickedtool, setPickedtool] = useState<number | null>(null);
-  const [isNoTopic, setIsNoTopic] = useState<boolean>(false);
-  const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, isNoTopic);
+  const [noTopic, setIsNoTopic] = useState<boolean>(false);
+  const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
 
   // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
