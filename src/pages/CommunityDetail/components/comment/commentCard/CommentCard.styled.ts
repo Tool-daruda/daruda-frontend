@@ -98,3 +98,11 @@ export const CommentContent = styled.pre`
   color: ${({ theme }) => theme.colors.gray1};
   white-space: pre-wrap;
 `;
+
+export const ToastWrapper = styled.div`
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+
+  transform: translateX(-50%);
+`;

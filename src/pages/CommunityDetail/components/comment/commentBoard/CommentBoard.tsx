@@ -16,17 +16,18 @@ interface CommentProp {
   commentList: Comment[];
   height?: number;
   hasNextPage: boolean;
+  commentCount: number | undefined;
 }
 
 const CommentBoard = forwardRef<HTMLDivElement, CommentProp>(
-  ({ commentList, height = 694, hasNextPage }: CommentProp, ref) => {
+  ({ commentList, height = 694, hasNextPage, commentCount }: CommentProp, ref) => {
     return (
       <S.CommnetWrapper>
         <S.CommentLayout>
           <S.CommentHeader>
             <div>
               <p>댓글</p>
-              <p>{`${commentList.length}개`}</p>
+              <p>{`${commentCount}개`}</p>
             </div>
           </S.CommentHeader>
           <S.Divider />

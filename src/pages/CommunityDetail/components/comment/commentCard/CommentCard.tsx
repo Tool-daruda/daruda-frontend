@@ -2,7 +2,9 @@ import { IcOverflowGray24, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
-import { useState } from 'react';
+import Toast from '@components/toast/Toast';
+import useCommentDelete from '@pages/CommunityDetail/apis/DeletePost/queries';
+import { useState, useEffect } from 'react';
 
 import * as S from './CommentCard.styled';
 
@@ -17,10 +19,24 @@ interface Comment {
 }
 
 const CommentCard = ({ comment }: Comment) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+  const { mutate, isError } = useCommentDelete(comment.commentId);
+  const [IsToastOpen, setIsToastOpen] = useState(false);
+
+  useEffect(() => {
+    if (isError) {
+      setIsToastOpen(true);
+      setTimeout(() => setIsToastOpen(false), 3000);
+    }
+  }, [isError]);
 
   const handleModalClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleModalDelete = async () => {
+    mutate();
     setIsOpen(false);
   };
 
@@ -64,7 +80,7 @@ const CommentCard = ({ comment }: Comment) => {
       <AlterModal
         modalTitle="글을 삭제하시겠어요?"
         isOpen={isOpen}
-        handleClose={handleModalClose}
+        handleClose={handleModalDelete}
         isSingleModal={false}
         ImgPopupModal={ImgModalexit}
         modalContent="삭제된 글은 다시 볼 수 없어요"
@@ -72,9 +88,15 @@ const CommentCard = ({ comment }: Comment) => {
           isPrimaryRight: false,
           primaryBtnContent: '한 번 더 생각할게요',
           secondaryBtnContent: '삭제하기',
+          handleSecondClose: handleModalClose,
         }}
       />
       {isImgModalOpen && <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />}
+      <S.ToastWrapper>
+        <Toast isVisible={IsToastOpen} isWarning={true}>
+          삭제 불가합니다. 권한을 확인해주세요
+        </Toast>
+      </S.ToastWrapper>
     </S.Wrapper>
   );
 };
