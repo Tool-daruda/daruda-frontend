@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   align-items: center;
-  margin-bottom: 7.8rem;
+  margin-bottom: 2rem;
 `;
 
 export const CardList = styled.div`
@@ -224,4 +224,16 @@ export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
   cursor: pointer;
 
   fill: ${({ bookmarked, theme }) => (bookmarked ? theme.colors.iris1 : 'none')};
+`;
+
+export const EmptyMessage = styled.h1`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  ${({ theme }) => theme.fonts.body_20_m}
+  margin-top:5rem;
+`;
+
+export const Lottie = styled.div`
+  margin-bottom: 4rem;
 `;

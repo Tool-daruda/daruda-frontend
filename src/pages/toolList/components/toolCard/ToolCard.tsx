@@ -80,6 +80,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   return (
     <S.Container>
       <S.CardList>
+        {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {tools?.map((tool) => (
           <S.Card key={tool.toolId}>
             <S.CardFront bgColor={tool.bgColor}>
@@ -127,7 +128,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
           </S.Card>
         ))}
       </S.CardList>
-      {isLoading && <LoadingLottie />}
+      <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
     </S.Container>
   );
 };
