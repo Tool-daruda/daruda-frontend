@@ -1,4 +1,4 @@
-import { useBoardScrap } from '@apis/board/queries';
+import { useBoardDelete, useBoardScrap } from '@apis/board/queries';
 import {
   IcCommentGray24,
   IcBookmark,
@@ -27,8 +27,11 @@ interface CardDataProp {
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   const { post, forDetail = false } = props;
-  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount, isScraped } = post;
+  const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
+    post;
   const [isOwnPost, setIsOwnPost] = useState(false);
+
+  console.log(post);
 
   const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
@@ -42,7 +45,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
     if (postOwner) {
       const user = JSON.parse(postOwner);
-      const ownPost = user.nickName === author;
+      const ownPost = user.nickname === author;
       setIsOwnPost(ownPost);
     }
   }, [boardId, author]);
@@ -62,6 +65,13 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const handleScrap = (boardId: number) => {
     setIsClicked((prev) => !prev);
     srapMutate(boardId);
+  };
+  const noTopic = toolId === null;
+  const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, noTopic);
+
+  const handleImgModalDel = () => {
+    DeleteMutate(boardId);
+    setIsImgModalOpen(false);
   };
 
   return (
@@ -172,7 +182,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         <AlterModal
           modalTitle="글을 삭제하시겠어요?"
           isOpen={isOpen}
-          handleClose={handleModalClose}
+          handleClose={handleImgModalDel}
           isSingleModal={false}
           ImgPopupModal={ImgPopupDelete84}
           modalContent="삭제된 글은 다시 볼 수 없어요"
@@ -180,6 +190,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             isPrimaryRight: false,
             primaryBtnContent: '한 번 더 생각할게요',
             secondaryBtnContent: '삭제하기',
+            handleSecondClose: handleModalClose,
           }}
         />
       )}

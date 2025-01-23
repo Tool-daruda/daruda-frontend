@@ -6,6 +6,7 @@ export interface Post {
   title: string;
   content: string;
   images: string[];
+  toolId: number | null;
   isScraped: boolean;
   updatedAt: string;
   commentCount: number;
