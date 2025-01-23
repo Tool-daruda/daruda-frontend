@@ -150,7 +150,7 @@ const fonts = {
   card_36_B: css`
     font-size: 3.6rem;
     font-family: SFProDisplaybold, sans-serif;
-    line-height: 6rem;
+    line-height: 3.8rem;
   `,
   card_32_B: css`
     font-size: 3.2rem;

@@ -111,14 +111,14 @@ export const ToolLogo = styled.img`
   height: 10rem;
 `;
 
-export const ToolNameFront = styled.h2<{ fontColor: boolean }>`
+export const ToolNameFront = styled.h1<{ fontColor: boolean }>`
   position: absolute;
   top: 3.7rem;
   left: 3rem;
 
   align-items: left;
   width: 23.6rem;
-  height: auto;
+  height: 7.6rem;
 
   color: ${({ fontColor, theme }) => (fontColor ? theme.colors.black : theme.colors.white1)};
   ${({ theme }) => theme.fonts.card_36_B};
@@ -127,6 +127,8 @@ export const ToolNameFront = styled.h2<{ fontColor: boolean }>`
   word-wrap: break-word;
   overflow-wrap: break-word;
 `;
+//한글은 글씨체 적용안되는 문제 있음
+
 export const ToolFront = styled.div`
   display: flex;
   align-items: center;
@@ -145,6 +147,7 @@ export const ToolBackTitle = styled.h2`
   word-wrap: break-word;
   overflow-wrap: break-word;
 `;
+//여기도 한글 글씨체
 
 export const ToolNameBack = styled.h2`
   display: flex;
