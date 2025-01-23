@@ -5,7 +5,7 @@ export const ButtonWrapper = styled.button<{
   stroke: boolean;
   $forBookMark: boolean;
   $isBook: boolean;
-  $status: boolean;
+  $status: boolean | undefined;
 }>`
   display: flex;
   gap: 0.8rem;
