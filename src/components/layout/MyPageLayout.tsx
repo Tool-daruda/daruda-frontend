@@ -1,7 +1,6 @@
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
 import Title from '@components/title/Title';
-import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import styled from '@emotion/styled';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
@@ -9,12 +8,9 @@ import { ReactNode } from 'react';
 import { Outlet, useLocation } from 'react-router';
 
 const MyPageLayout = () => {
-  // Header 상태 설정 (로그인 후)
-  const headerState: HeaderState = HEADER_STATE.LOGGED_IN;
-
   return (
     <>
-      <Header headerState={headerState} forOnboarding={false} />
+      <Header forOnboarding={false} />
       <Title title="마이 페이지" />
       <MyPageContainer>
         <Outlet />
