@@ -36,24 +36,31 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
           <button onClick={onClick}>커뮤니티 글 더보기&gt;</button>
         </S.CardTitle>
         <S.CardSection>
-          {postList?.map((post) => {
-            const firstImage = post.images[0];
+          {postList && postList.length > 0 ? (
+            postList.map((post) => {
+              const firstImage = post.images[0];
 
-            return (
-              <S.CardWrapper key={post.boardId} onClick={() => post.boardId && handlePostClick(post.boardId)}>
-                <S.CardBox>
-                  <S.Title>{post.title}</S.Title>
-                  <S.NickName>
-                    {post.author} | {post.updatedAt}
-                  </S.NickName>
-                </S.CardBox>
-                <S.ContentWrapper imageUrl={firstImage}>
-                  {firstImage && <S.ImageWrapper imageUrl={firstImage} />}
-                  <S.Description imageUrl={firstImage}>{post.content}</S.Description>
-                </S.ContentWrapper>
-              </S.CardWrapper>
-            );
-          })}
+              return (
+                <S.CardWrapper key={post.boardId} onClick={() => post.boardId && handlePostClick(post.boardId)}>
+                  <S.CardBox>
+                    <S.Title>{post.title}</S.Title>
+                    <S.NickName>
+                      {post.author} | {post.updatedAt}
+                    </S.NickName>
+                  </S.CardBox>
+                  <S.ContentWrapper imageUrl={firstImage}>
+                    {firstImage && <S.ImageWrapper imageUrl={firstImage} />}
+                    <S.Description imageUrl={firstImage}>{post.content}</S.Description>
+                  </S.ContentWrapper>
+                </S.CardWrapper>
+              );
+            })
+          ) : (
+            // postList가 비어 있을 때 표시
+            <S.NullBox>
+              <S.NullText>작성된 글이 없습니다.</S.NullText>
+            </S.NullBox>
+          )}
           {hasNextPage && <div ref={inViewRef} />}
         </S.CardSection>
       </S.CardSectionWrapper>

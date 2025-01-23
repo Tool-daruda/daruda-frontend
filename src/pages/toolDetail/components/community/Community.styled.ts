@@ -126,3 +126,17 @@ export const CardTitle = styled.div`
     cursor: pointer;
   }
 `;
+
+export const NullBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const NullText = styled.span`
+  color: ${({ theme }) => theme.colors.gray3};
+  text-align: center;
+  ${({ theme }) => theme.fonts.body_20_b};
+`;
