@@ -1,5 +1,21 @@
 import styled from '@emotion/styled';
 
+export const NullTextWrapper = styled.span`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+`;
+
+export const NullText = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: ${({ theme }) => theme.colors.gray3};
+  ${({ theme }) => theme.fonts.body_20_b};
+`;
+
 export const VideoWrapper = styled.div<{ $isPlay: boolean; $isReady: boolean }>`
   position: relative;
   width: 32rem;

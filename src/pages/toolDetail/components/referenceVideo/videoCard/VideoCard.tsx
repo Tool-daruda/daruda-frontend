@@ -4,9 +4,17 @@ import ReactPlayer from 'react-player';
 
 import * as S from './VideoCard.styled';
 
-const VideoCard = ({ video }: { video: string }) => {
+const VideoCard = ({ video }: { video: string | null }) => {
   const [isPlay, setIsPlay] = useState(false);
   const [isReady, setIsReady] = useState(false);
+
+  if (!video) {
+    return (
+      <S.NullTextWrapper>
+        <S.NullText>준비된 영상이 없습니다.</S.NullText>
+      </S.NullTextWrapper>
+    );
+  }
 
   return (
     <S.VideoWrapper $isPlay={isPlay} $isReady={isReady}>

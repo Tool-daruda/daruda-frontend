@@ -26,20 +26,9 @@ export const ReferenceVideoContainer = styled.div<{ count: number }>`
 
 export const DividingLine = styled.span`
   display: flex;
-  flex-direction: column;
   width: 68.8rem;
   height: 0.2rem;
   margin: 0 4rem;
 
   background-color: ${({ theme }) => theme.colors.gray5};
-`;
-
-export const NullText = styled.span`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  color: ${({ theme }) => theme.colors.gray3};
-  ${({ theme }) => theme.fonts.body_20_b};
 `;
