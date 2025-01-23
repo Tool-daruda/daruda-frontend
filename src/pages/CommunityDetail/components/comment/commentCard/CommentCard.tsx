@@ -1,4 +1,4 @@
-import { IcOverflowGray24, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
+import { IcOverflowGray24, ImgModalexit, IcWatchWhite40, ImgModalcheck } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
@@ -25,6 +25,7 @@ const CommentCard = ({ comment }: Comment) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const { mutate, isError } = useCommentDelete(comment.commentId, id);
   const [IsToastOpen, setIsToastOpen] = useState(false);
+  const [modalType, setModalType] = useState('');
 
   const [isOwnPost, setIsOwnPost] = useState(false);
 
@@ -33,10 +34,10 @@ const CommentCard = ({ comment }: Comment) => {
 
     if (postOwner) {
       const user = JSON.parse(postOwner);
-      const ownPost = user.nickName === comment.nickname;
+      const ownPost = user.nickname === comment.nickname;
       setIsOwnPost(ownPost);
     }
-  }, [id, comment]);
+  }, [id, comment.nickname]);
 
   useEffect(() => {
     if (isError) {
@@ -54,7 +55,8 @@ const CommentCard = ({ comment }: Comment) => {
     setIsOpen(false);
   };
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (type: string) => {
+    setModalType(type);
     setIsOpen(true);
   };
 
@@ -79,11 +81,11 @@ const CommentCard = ({ comment }: Comment) => {
           </DropDown.ToggleBtn>
           <DropDown.Content>
             {isOwnPost ? (
-              <DropDown.Item status="danger" onClick={handleModalOpen}>
+              <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
                 삭제하기
               </DropDown.Item>
             ) : (
-              <DropDown.Item status="danger" onClick={handleModalOpen}>
+              <DropDown.Item status="danger" onClick={() => handleModalOpen('신고')}>
                 신고하기
               </DropDown.Item>
             )}
@@ -100,20 +102,31 @@ const CommentCard = ({ comment }: Comment) => {
 
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
-      <AlterModal
-        modalTitle="글을 삭제하시겠어요?"
-        isOpen={isOpen}
-        handleClose={handleModalDelete}
-        isSingleModal={false}
-        ImgPopupModal={ImgModalexit}
-        modalContent="삭제된 글은 다시 볼 수 없어요"
-        DoublebtnProps={{
-          isPrimaryRight: false,
-          primaryBtnContent: '한 번 더 생각할게요',
-          secondaryBtnContent: '삭제하기',
-          handleSecondClose: handleModalClose,
-        }}
-      />
+      {modalType === '신고' ? (
+        <AlterModal
+          modalTitle="신고 접수가 완료되었어요"
+          isOpen={isOpen}
+          handleClose={handleModalClose}
+          isSingleModal={true}
+          ImgPopupModal={ImgModalcheck}
+          singleBtnContent="확인했어요"
+        />
+      ) : (
+        <AlterModal
+          modalTitle="글을 삭제하시겠어요?"
+          isOpen={isOpen}
+          handleClose={handleModalDelete}
+          isSingleModal={false}
+          ImgPopupModal={ImgModalexit}
+          modalContent="삭제된 글은 다시 볼 수 없어요"
+          DoublebtnProps={{
+            isPrimaryRight: false,
+            primaryBtnContent: '한 번 더 생각할게요',
+            secondaryBtnContent: '삭제하기',
+            handleSecondClose: handleModalClose,
+          }}
+        />
+      )}
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
