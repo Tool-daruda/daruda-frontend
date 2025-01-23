@@ -7,13 +7,13 @@ import * as S from './SearchBar.styled';
 
 import { fetchCategories, fetchToolsByCategory } from '../../apis/api';
 
-interface Category {
+export interface Category {
   name: string;
   koreanName: string;
   active: boolean;
 }
 
-interface SearchBarProps {
+export interface SearchBarProps {
   isSticky: boolean;
   onCategoryChange: (category: string) => void;
 }
