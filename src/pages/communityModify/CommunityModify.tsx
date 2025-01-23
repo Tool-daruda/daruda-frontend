@@ -1,5 +1,6 @@
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -44,7 +45,7 @@ const CommunityModify = () => {
   const handlePostSubmit = async () => {
     if (isButtonDisabled || !post) return;
 
-    const formData = createPostFormData(title, body, isFree, selectedTool, images);
+    const formData = createPostFormData(title, body, isFree, selectedTool, images ?? imageFiles);
 
     const req = { id: post.boardId, data: formData };
     await patchMutate(req);
@@ -76,7 +77,7 @@ const CommunityModify = () => {
     if (post?.images) {
       fetchFiles(post.images).then(setImageFiles);
     }
-  }, []);
+  }, [post]);
 
   useEffect(() => {
     if (!post) return;
@@ -96,29 +97,32 @@ const CommunityModify = () => {
   }
 
   return (
-    <S.WriteWrapper>
-      <S.WriteTitle>글 수정하기</S.WriteTitle>
-      <S.WriteContainer>
-        <S.WriteBox>
-          <WritingTitle originTitle={post.title} setTitle={setTitle} />
-          <WritingBody originBody={post.content} setBody={setBody} />
-          <WritingImg originImages={imageFiles} onImageUpload={handleImageUpload} />
-        </S.WriteBox>
-        <S.SideBanner>
-          <ToolListBanner originTool={originTool} onToolSelect={handleToolSelect} />
-          <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
-            글 게시하기
-          </CircleButton>
-        </S.SideBanner>
-      </S.WriteContainer>
-      {isToastVisible && (
-        <S.ToastBox>
-          <Toast isVisible={true} isWarning={true}>
-            글 수정이 완료 되었습니다.
-          </Toast>
-        </S.ToastBox>
-      )}
-    </S.WriteWrapper>
+    <>
+      <Title title={`(수정중)${post.title}`} />
+      <S.WriteWrapper>
+        <S.WriteTitle>글 수정하기</S.WriteTitle>
+        <S.WriteContainer>
+          <S.WriteBox>
+            <WritingTitle originTitle={post.title} setTitle={setTitle} />
+            <WritingBody originBody={post.content} setBody={setBody} />
+            <WritingImg originImages={imageFiles} onImageUpload={handleImageUpload} />
+          </S.WriteBox>
+          <S.SideBanner>
+            <ToolListBanner originTool={originTool} onToolSelect={handleToolSelect} />
+            <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
+              글 게시하기
+            </CircleButton>
+          </S.SideBanner>
+        </S.WriteContainer>
+        {isToastVisible && (
+          <S.ToastBox>
+            <Toast isVisible={true} isWarning={true}>
+              글 수정이 완료 되었습니다.
+            </Toast>
+          </S.ToastBox>
+        )}
+      </S.WriteWrapper>
+    </>
   );
 };
 

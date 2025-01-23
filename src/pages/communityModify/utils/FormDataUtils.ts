@@ -22,12 +22,5 @@ export const createPostFormData = (
     }
   });
 
-  for (const key of formData.keys()) {
-    console.log(key);
-  }
-
-  for (const value of formData.values()) {
-    console.log(value);
-  }
   return formData;
 };

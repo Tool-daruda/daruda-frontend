@@ -19,28 +19,45 @@ const WritingImg = ({ originImages, onImageUpload }: WritingImgProps) => {
   useEffect(() => {
     if (originImages.length > 0) {
       setImages(originImages);
+      onImageUpload(originImages);
     }
   }, [originImages]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files && files.length > 0) {
-      const newImages = Array.from(files);
+    if (!files || files.length === 0) return; // file 없으면 early return
 
-      if (newImages.some((file) => file.size > 7 * 1024 * 1024)) {
-        console.error('파일 용량 초과');
-        return;
-      }
-      const validTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif'];
-      if (newImages.some((file) => !validTypes.includes(file.type))) {
-        console.error('파일 형식 오류');
-        return;
-      }
+    const newImages = Array.from(files);
 
-      const updatedImages: File[] = [...images, ...newImages];
-      setImages(updatedImages);
-      onImageUpload(updatedImages);
+    // 개수 초과 확인 (기존 이미지 개수 + 새 이미지 개수)
+    if (images.length + newImages.length > 5) {
+      setIsToastVisible(true);
+      setTimeout(() => setIsToastVisible(false), 3000);
+      e.target.value = ''; // input 초기화
+      return;
     }
+
+    // 파일 용량 검사
+    if (newImages.some((file) => file.size > 7 * 1024 * 1024)) {
+      console.error('파일 용량 초과');
+      e.target.value = ''; // input 초기화
+      return;
+    }
+
+    // 지원하지 않는 형식 검사
+    const validTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/heic', 'image/heif'];
+    if (newImages.some((file) => !validTypes.includes(file.type))) {
+      console.error('파일 형식 오류');
+      e.target.value = ''; // input 초기화
+      return;
+    }
+
+    // 기존 이미지에 추가
+    const updatedImages: File[] = [...images, ...newImages];
+    setImages(updatedImages);
+    onImageUpload(updatedImages);
+
+    e.target.value = ''; // input 초기화
   };
 
   const handleRemoveImage = (index: number) => {

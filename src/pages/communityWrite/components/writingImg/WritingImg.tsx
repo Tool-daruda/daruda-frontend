@@ -65,8 +65,6 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
     setIsClicked((prev) => !prev);
   };
 
-  console.log(images);
-
   return (
     <S.Container>
       <label>
