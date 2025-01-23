@@ -16,7 +16,7 @@ const meta: Meta<typeof KakaoAuth> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} forOnBorder={false} />
+        <Header headerState={headerState} />
         <Story />
         <Footer />
       </>

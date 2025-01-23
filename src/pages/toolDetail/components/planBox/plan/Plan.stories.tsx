@@ -14,4 +14,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    toolPlans: [
+      {
+        price: '500원',
+        planId: 1,
+        planName: '플랜',
+        monthlyPrice: 5000,
+        annualPrice: 8000,
+        description: '설명',
+        isDollar: false,
+      },
+    ],
+  },
+};
