@@ -14,7 +14,7 @@ interface Comment {
     commentId: number;
     nickname: string;
     content: string;
-    image: string;
+    image: string | null;
     updatedAt: string;
   };
 }
@@ -73,10 +73,13 @@ const CommentCard = ({ comment }: Comment) => {
         </DropDown>
       </S.MetaInfo>
       <div>
-        <S.IntroImgBox>
-          <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
-          <IcWatchWhite40 className="hover-icon" onClick={handleImgFocus} />
-        </S.IntroImgBox>
+        {comment.image && (
+          <S.IntroImgBox>
+            <S.CommentImg src={comment.image} alt={`commnet-img-${comment.commentId}`} />
+            <IcWatchWhite40 className="hover-icon" onClick={handleImgFocus} />
+          </S.IntroImgBox>
+        )}
+
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
       <AlterModal
@@ -93,7 +96,9 @@ const CommentCard = ({ comment }: Comment) => {
           handleSecondClose: handleModalClose,
         }}
       />
-      {isImgModalOpen && <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />}
+      {isImgModalOpen && comment.image && (
+        <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
+      )}
       <S.ToastWrapper>
         <Toast isVisible={IsToastOpen} isWarning={true}>
           삭제 불가합니다. 권한을 확인해주세요

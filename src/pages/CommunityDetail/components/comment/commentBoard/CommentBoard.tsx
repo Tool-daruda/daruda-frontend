@@ -8,7 +8,7 @@ interface Comment {
   commentId: number;
   nickname: string;
   content: string;
-  image: string;
+  image: string | null;
   updatedAt: string;
 }
 
