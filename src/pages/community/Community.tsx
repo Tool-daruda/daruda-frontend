@@ -1,6 +1,7 @@
 import { IcPlusWhite20, IcChevron, ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
@@ -18,7 +19,7 @@ const Community = () => {
   const navigate = useNavigate();
   const [pickedtool, setPickedtool] = useState<number | null>(null);
   const [noTopic, setIsNoTopic] = useState<boolean>(false);
-  const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
+  const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
 
   const postList = data?.pages.map((item) => item.contents).flat();
@@ -51,6 +52,11 @@ const Community = () => {
                 <Spacing size="1" />
                 <p>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</p>
               </S.NonTool>
+            )}
+            {isLoading && (
+              <S.LoadingSection>
+                <Loading />
+              </S.LoadingSection>
             )}
             {hasNextPage ? <div ref={ref} /> : null}
           </S.CardList>

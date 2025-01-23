@@ -22,6 +22,7 @@ import * as S from './PostCard.styled';
 interface CardDataProp {
   post: Post;
   forDetail?: boolean;
+  isLoading?: boolean;
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
