@@ -1,4 +1,4 @@
-import { IcPlusWhite20, IcChevron, ImgPopupNonebookmark } from '@assets/svgs';
+import { IcPlusWhite20, IcChevron, ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Spacing from '@components/spacing/Spacing';
@@ -21,7 +21,6 @@ const Community = () => {
   const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
 
-  // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
   const postList = data?.pages.map((item) => item.contents).flat();
 
   useEffect(() => {
@@ -46,7 +45,7 @@ const Community = () => {
               postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
             ) : (
               <S.NonTool>
-                <ImgPopupNonebookmark />
+                <ImgPopupNonebookmarkScraptool />
                 <Spacing size="4.2" />
                 <p>작성된 글이 없어요</p>
                 <Spacing size="1" />
