@@ -1,27 +1,52 @@
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
-import { toolMockData, Tool } from '@pages/toolList/mocks/toolCard/ToolMockData';
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
-import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
+import { fetchToolsByCategory } from '../../apis/api';
+import { Tool, getLicenseBadgeContent, FetchToolsResponse } from '../../utils/toolCard/ToolCard.utils';
 
-const ToolCard = () => {
-  const [tools, setTools] = useState<Tool[]>(toolMockData.data.tools);
+interface ToolCardProps {
+  selectedCategory: string;
+  isFree: boolean;
+  criteria: 'popular' | 'createdAt';
+  onCategoryChange: (category: string) => void;
+}
+
+const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
+  const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(toolMockData.data.scrollPaginationDto.nextCursor !== -1);
+  const [hasMore, setHasMore] = useState(true);
+  const [cursor, setCursor] = useState<number | null>(null);
+  const navigate = useNavigate();
+  const isKorean = (text: string): boolean => /[가-힣]/.test(text); //한국어 제목 들어올 때 폰트 설정 위해서
 
-  const fetchTools = async () => {
-    if (isLoading || !hasMore) return;
+  const fetchTools = async (isReset = false) => {
+    if (isLoading || (!hasMore && !isReset)) return;
 
     setIsLoading(true);
 
     try {
-      const nextCursor = toolMockData.data.scrollPaginationDto.nextCursor;
-      if (nextCursor === -1) {
-        setHasMore(false);
-      }
+      const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, isReset ? null : cursor);
+      const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
+
+      const formattedTools: Tool[] = newTools.map((tool) => ({
+        toolId: tool.toolId,
+        toolLogo: tool.toolLogo,
+        toolName: tool.toolName,
+        license: tool.license || 'unknown',
+        keywords: tool.keywords || [],
+        isScraped: tool.isScraped || false,
+        bgColor: tool.bgColor || '#FFFFFF',
+        fontColor: tool.fontColor || false,
+        description: tool.description || '',
+      }));
+
+      setTools((prevTools: Tool[]) => (isReset ? formattedTools : [...prevTools, ...formattedTools]));
+      setCursor(scrollPaginationDto.nextCursor);
+      setHasMore(scrollPaginationDto.nextCursor !== -1);
     } catch (error) {
       console.error('Error fetching tools:', error);
     } finally {
@@ -33,10 +58,14 @@ const ToolCard = () => {
     const { scrollTop, scrollHeight } = document.documentElement;
     const clientHeight = window.innerHeight;
 
-    if (scrollHeight - scrollTop === clientHeight && hasMore) {
+    if (scrollHeight - scrollTop <= clientHeight + 10 && hasMore) {
       fetchTools();
     }
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, selectedCategory, isFree, criteria, cursor]);
+
+  useEffect(() => {
+    fetchTools(true);
+  }, [selectedCategory, isFree, criteria]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -45,25 +74,38 @@ const ToolCard = () => {
     };
   }, [handleScroll]);
 
-  const toggleBookmark = (toolId: number) => {
+  const toggleBookmark = (e: React.MouseEvent, toolId: number) => {
+    e.stopPropagation(); //세부페이지 이동 X, 북마크 작동 위함
     setTools((prevTools) =>
-      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, bookmarked: !tool.bookmarked } : tool)),
+      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !tool.isScraped } : tool)),
     );
+  };
+
+  const navigateToDetail = (toolId: number) => {
+    navigate(`/toollist/${toolId}`);
   };
 
   return (
     <S.Container>
       <S.CardList>
+        {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {tools?.map((tool) => (
-          <S.Card key={tool.toolId}>
-            <S.CardFront bgColor={tool.backgroundColor}>
+          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
+            <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolFront>
-                <S.ToolNameFront textColor={tool.textColor}>{tool.toolName}</S.ToolNameFront>
+                <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
+                  {tool.toolName}
+                </S.ToolNameFront>
               </S.ToolFront>
               <S.KeywordsFront>
                 {tool.keywords?.map((keyword, index) => (
-                  <Chip key={index} size="xsmall" stroke={false} active={false}>
+                  <Chip
+                    key={index}
+                    size={tool.bgColor === '#FFFFFF' ? 'custom' : 'xsmall'}
+                    stroke={false}
+                    active={false}
+                  >
                     <Chip.RectContainer>
                       <Chip.Label>{keyword}</Chip.Label>
                     </Chip.RectContainer>
@@ -74,8 +116,11 @@ const ToolCard = () => {
             <S.CardBack>
               <S.CardBackBox>
                 <S.ToolNameBack>
-                  <S.ToolBackTitle>{tool.toolName}</S.ToolBackTitle>
-                  <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.bookmarked} />
+                  <S.ToolBackTitle isKorean={isKorean(tool.toolName)}>{tool.toolName}</S.ToolBackTitle>
+                  <S.BookMark
+                    onClick={(e) => toggleBookmark(e, tool.toolId)} // 이벤트 인수 전달
+                    bookmarked={tool.isScraped}
+                  />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
                 <S.LicenseBadge>
@@ -96,7 +141,7 @@ const ToolCard = () => {
           </S.Card>
         ))}
       </S.CardList>
-      {isLoading && <LoadingLottie />}
+      <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
     </S.Container>
   );
 };

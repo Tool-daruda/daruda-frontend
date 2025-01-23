@@ -1,12 +1,24 @@
-import { CardListAppcard, CardListAppcard1 } from '@assets/svgs';
+import { Backcards } from '@assets/svgs';
 import styled from '@emotion/styled';
 
 export const BannerWrapper = styled.div`
   position: relative;
   align-self: stretch;
   height: 20.8rem;
+  overflow: hidden;
 
-  background-color: ${({ theme }) => theme.colors.iris1};
+  background: linear-gradient(90deg, #4d4ecd 40.5%, rgb(77 78 205 / 20%) 69.5%, rgb(77 78 205 / 5%) 100%);
+`;
+
+export const BackCards = styled(Backcards)`
+  position: absolute;
+  top: -26%;
+  left: 73%;
+  z-index: -2;
+  height: 52.35rem;
+  overflow: hidden;
+
+  transform: translate(-50%, -50%);
 `;
 
 export const BannerContainer = styled.div`
@@ -23,15 +35,4 @@ export const BannerContainer = styled.div`
 export const BannerTitle = styled.div`
   ${({ theme }) => theme.fonts.head_32_b};
   color: ${({ theme }) => theme.colors.white1};
-`;
-
-export const CardListAppcardStyled = styled(CardListAppcard)`
-  position: absolute;
-  right: 16rem;
-`;
-
-export const CardListAppcard1Styled = styled(CardListAppcard1)`
-  position: absolute;
-  right: 0;
-  bottom: 0;
 `;

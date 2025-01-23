@@ -63,8 +63,9 @@ export const Category = () => {
               <CategoryItem
                 key={category.name}
                 category={category.koreanName}
-                onClick={() => handleCategoryClick(category.koreanName)}
+                onClick={() => handleCategoryClick(category.name)}
               />
+              // 여기 온클릭 부분만 한국어말고 영어로 되게 수정했는데 괜찮을까요오?
             ))}
           </S.CategoryDropdown>
         </S.OpenedCategoryWrapper>
