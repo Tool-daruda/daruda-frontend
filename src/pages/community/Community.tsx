@@ -22,6 +22,13 @@ const Community = () => {
   // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
   const postList = data?.pages.map((item) => item.contents).flat();
 
+  const user = {
+    accessToken:
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3Mzc1ODE0NzQsImV4cCI6MTczODc5MTA3NCwidXNlcklkIjo4OX0.XoxYqtPPeq484M1nXQSYFhO5Wg2vJ8PfcXMi3dfvwwnxZOdWSUsCCm1wElQOcL0rtrvU9gafYKjNyOw4l0_HzA',
+  };
+
+  localStorage.setItem('user', JSON.stringify(user));
+
   useEffect(() => {
     if (inView) {
       fetchNextPage();

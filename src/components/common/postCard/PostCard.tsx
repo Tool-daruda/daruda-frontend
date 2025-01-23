@@ -94,7 +94,10 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 icon={<IcCommentGray24 />}
                 size="small"
                 stroke={false}
-                onClick={() => navigate(`/community/${boardId}`)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/community/${boardId}`);
+                }}
               >{`${commentCount}개`}</SquareButton>
               <SquareButton icon={<IcBookmark />} size="small" stroke={false} forBookMark={true}>
                 북마크
@@ -102,7 +105,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             </S.BottomBarLeft>
             <DropDown position="end">
               <DropDown.Content $display="top">
-                <DropDown.Item onClick={() => navigate('/community/modify/:id', { state: post })}>
+                <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: post })}>
                   수정하기
                 </DropDown.Item>
                 <DropDown.Item status="danger" onClick={handleModalOpen}>
