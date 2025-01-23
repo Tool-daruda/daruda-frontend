@@ -19,7 +19,35 @@ const Community = () => {
   const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
   const location = useLocation();
-  const originTool = location.state;
+  const [originTool, setOriginTool] = useState<{
+    toolId: number | null;
+    toolLogo: string;
+    toolMainName: string;
+  }>();
+  const [initialTool, setInitialTool] = useState<{
+    toolId: number | null;
+    toolLogo: string;
+    toolName: string;
+  }>();
+
+  useEffect(() => {
+    if (location.state) {
+      setOriginTool(location.state);
+      if (originTool) {
+        setPickedtool(originTool?.toolId);
+      }
+    }
+  }, [location.state, originTool]);
+
+  useEffect(() => {
+    if (originTool) {
+      setInitialTool({
+        toolId: originTool.toolId,
+        toolName: originTool.toolMainName,
+        toolLogo: originTool.toolLogo,
+      });
+    }
+  }, [originTool]);
 
   // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
   const postList = data?.pages.map((item) => item.contents).flat();
@@ -40,7 +68,7 @@ const Community = () => {
       <S.CommunityWrapper>
         <Banner />
         <S.CommunityContainer>
-          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={originTool} />
+          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
             {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
             {hasNextPage ? <div ref={ref} /> : null}
