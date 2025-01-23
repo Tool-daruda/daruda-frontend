@@ -12,7 +12,6 @@ import ReferenceVideo from './components/referenceVideo/ReferenceVideo';
 import Sidewing from './components/sidewing/Sidewing';
 import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
-import { COMMUNITY_RESPONSE } from './mocks/community';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
@@ -65,7 +64,9 @@ const ToolDetail = () => {
               <Spacing size={'1'} />
 
               <S.ToolCommunityBox>
-                <ToolCommunity cards={COMMUNITY_RESPONSE.data.contents} ref={ToolCommunityRef} />
+                <S.ToolCommunityBox>
+                  <ToolCommunity toolId={numericToolId} ref={ToolCommunityRef} boardId={0} />
+                </S.ToolCommunityBox>
               </S.ToolCommunityBox>
               <Spacing size={'7.2'} />
             </section>
@@ -75,6 +76,7 @@ const ToolDetail = () => {
       </>
     );
   }
+
   // 데이터가 로드되지 않은 경우 null 반환
   return null;
 };
