@@ -111,7 +111,7 @@ export const ToolLogo = styled.img`
   height: 10rem;
 `;
 
-export const ToolNameFront = styled.h2<{ textColor: boolean }>`
+export const ToolNameFront = styled.h2<{ fontColor: boolean }>`
   position: absolute;
   top: 3.7rem;
   left: 3rem;
@@ -120,8 +120,8 @@ export const ToolNameFront = styled.h2<{ textColor: boolean }>`
   width: 23.6rem;
   height: auto;
 
-  color: ${({ textColor, theme }) => (textColor ? theme.colors.black : theme.colors.white1)};
-  ${({ theme }) => theme.fonts.card_32_B};
+  color: ${({ fontColor, theme }) => (fontColor ? theme.colors.black : theme.colors.white1)};
+  ${({ theme }) => theme.fonts.card_36_B};
   white-space: normal;
   text-align: left;
   word-wrap: break-word;

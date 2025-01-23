@@ -1,27 +1,39 @@
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
-import { toolMockData, Tool } from '@pages/toolList/mocks/toolCard/ToolMockData';
 import { useEffect, useState, useCallback } from 'react';
 
 import * as S from './ToolCard.styled';
 
-import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
+import { fetchToolsByCategory } from '../../apis/api';
+import { Tool, getLicenseBadgeContent, FetchToolsResponse } from '../../utils/toolCard/ToolCard.utils';
 
-const ToolCard = () => {
-  const [tools, setTools] = useState<Tool[]>(toolMockData.data.tools);
+interface ToolCardProps {
+  selectedCategory: string;
+  isFree: boolean;
+  criteria: 'popular' | 'createdAt';
+  onCategoryChange: (category: string) => void;
+}
+
+const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
+  const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(toolMockData.data.scrollPaginationDto.nextCursor !== -1);
+  const [hasMore, setHasMore] = useState(true);
+  const [cursor, setCursor] = useState<number | null>(null);
 
   const fetchTools = async () => {
     if (isLoading || !hasMore) return;
 
     setIsLoading(true);
-
     try {
-      const nextCursor = toolMockData.data.scrollPaginationDto.nextCursor;
-      if (nextCursor === -1) {
-        setHasMore(false);
-      }
+      const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, cursor);
+      const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
+
+      setTools((prevTools) => [
+        ...prevTools,
+        ...newTools.filter((tool) => !prevTools.some((t) => t.toolId === tool.toolId)),
+      ]);
+      setCursor(scrollPaginationDto.nextCursor);
+      setHasMore(scrollPaginationDto.nextCursor !== -1);
     } catch (error) {
       console.error('Error fetching tools:', error);
     } finally {
@@ -29,14 +41,32 @@ const ToolCard = () => {
     }
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10 && hasMore) {
+        fetchTools();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchTools, hasMore]);
+
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight } = document.documentElement;
     const clientHeight = window.innerHeight;
 
-    if (scrollHeight - scrollTop === clientHeight && hasMore) {
+    if (scrollHeight - scrollTop <= clientHeight + 10 && hasMore) {
       fetchTools();
     }
-  }, [isLoading, hasMore]);
+  }, [isLoading, hasMore, selectedCategory, isFree, criteria, cursor]);
+
+  useEffect(() => {
+    setTools([]);
+    setCursor(null);
+    setHasMore(true);
+    fetchTools();
+  }, [selectedCategory, isFree, criteria]);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -47,7 +77,7 @@ const ToolCard = () => {
 
   const toggleBookmark = (toolId: number) => {
     setTools((prevTools) =>
-      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, bookmarked: !tool.bookmarked } : tool)),
+      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !tool.isScraped } : tool)),
     );
   };
 
@@ -56,14 +86,19 @@ const ToolCard = () => {
       <S.CardList>
         {tools?.map((tool) => (
           <S.Card key={tool.toolId}>
-            <S.CardFront bgColor={tool.backgroundColor}>
+            <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolFront>
-                <S.ToolNameFront textColor={tool.textColor}>{tool.toolName}</S.ToolNameFront>
+                <S.ToolNameFront fontColor={tool.fontColor}>{tool.toolName}</S.ToolNameFront>
               </S.ToolFront>
               <S.KeywordsFront>
                 {tool.keywords?.map((keyword, index) => (
-                  <Chip key={index} size="xsmall" stroke={false} active={false}>
+                  <Chip
+                    key={index}
+                    size={tool.bgColor === '#FFFFFF' ? 'custom' : 'xsmall'}
+                    stroke={false}
+                    active={false}
+                  >
                     <Chip.RectContainer>
                       <Chip.Label>{keyword}</Chip.Label>
                     </Chip.RectContainer>
@@ -75,7 +110,7 @@ const ToolCard = () => {
               <S.CardBackBox>
                 <S.ToolNameBack>
                   <S.ToolBackTitle>{tool.toolName}</S.ToolBackTitle>
-                  <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.bookmarked} />
+                  <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.isScraped} />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
                 <S.LicenseBadge>

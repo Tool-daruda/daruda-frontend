@@ -1,6 +1,7 @@
 import { Tooltip } from '@assets/svgs';
 import Title from '@components/title/Title';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 import SearchBar from './components/searchBar/SearchBar';
 import Toggle from './components/toggle/Toggle';
@@ -10,17 +11,28 @@ import TopBanner from './components/topBanner/TopBanner';
 import * as S from './ToolList.styled';
 
 const ToolList = () => {
-  const [activeButton, setActiveButton] = useState<'popular' | 'new'>('popular');
+  const [activeButton, setActiveButton] = useState<'popular' | 'createdAt'>('popular');
   const [isHovered, setIsHovered] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
   const [isOn, setIsOn] = useState(false);
 
-  const handleButtonClick = (button: 'popular' | 'new') => {
+  const [isFree, setIsFree] = useState<boolean>(false);
+
+  const [searchParams] = useSearchParams();
+  const initialCategory = searchParams.get('category') || 'ALL';
+  const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+
+  const handleButtonClick = (button: 'popular' | 'createdAt') => {
     setActiveButton(button);
   };
 
   const handleToggle = () => {
     setIsOn((prev) => !prev);
+    setIsFree((prev) => !prev);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
   };
 
   useEffect(() => {
@@ -44,7 +56,7 @@ const ToolList = () => {
     <S.ToolListWrapper>
       <Title title="다루다(daruda)" />
       <TopBanner />
-      <SearchBar isSticky={isSticky} />
+      <SearchBar isSticky={isSticky} onCategoryChange={handleCategoryChange} />
       <S.ToolCardWrapper>
         <S.ToolCardTitle>
           <S.ToolCardTitleLeft>
@@ -64,12 +76,17 @@ const ToolList = () => {
               인기순
             </S.SortButton>
             |
-            <S.SortButton isActive={activeButton === 'new'} onClick={() => handleButtonClick('new')}>
-              최신순
+            <S.SortButton isActive={activeButton === 'createdAt'} onClick={() => handleButtonClick('createdAt')}>
+              등록순
             </S.SortButton>
           </S.ToolCardTitleRight>
         </S.ToolCardTitle>
-        <ToolCard />
+        <ToolCard
+          onCategoryChange={handleCategoryChange}
+          selectedCategory={selectedCategory}
+          isFree={isFree}
+          criteria={activeButton}
+        />
       </S.ToolCardWrapper>
     </S.ToolListWrapper>
   );

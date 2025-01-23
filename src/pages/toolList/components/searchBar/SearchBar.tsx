@@ -1,42 +1,62 @@
 import { BlurLeft, RightBlur } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { useRef, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
 
-import { categories as initialCategories } from '../../constants/searchBar/SearchBarCate';
+import { fetchCategories } from '../../apis/api';
+
+interface Category {
+  name: string;
+  koreanName: string;
+  active: boolean;
+}
 
 interface SearchBarProps {
   isSticky: boolean;
+  onCategoryChange: (category: string) => void;
 }
 
-const SearchBar = ({ isSticky }: SearchBarProps) => {
-  const [categoriesState, setCategoriesState] = useState(initialCategories);
+const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
+  const [categoriesState, setCategoriesState] = useState<Category[]>([]);
   const [activeButton, setActiveButton] = useState<'left' | 'right'>('right');
   const chipContainerRef = useRef<HTMLDivElement>(null);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
-  const categoryFromParams = searchParams.get('category');
+  const categoryFromParams = searchParams.get('category') || 'ALL';
 
   useEffect(() => {
-    const updatedCategories = initialCategories?.map((category) => ({
-      ...category,
-      active: category.name === (categoryFromParams || '전체'),
-    }));
-    setCategoriesState(updatedCategories);
-  }, [categoryFromParams]);
+    const loadCategories = async () => {
+      try {
+        const response = await fetchCategories();
+        const categories = response.data.map((category: { name: string; koreanName: string }) => ({
+          ...category,
+          active: category.name === categoryFromParams,
+        }));
+        setCategoriesState(categories);
+      } catch (error) {
+        console.error('카테고리를 불러오는 중 오류 발생:', error);
+      }
+    };
+
+    loadCategories();
+    onCategoryChange(categoryFromParams);
+  }, [categoryFromParams, onCategoryChange]);
 
   const handleCategoryClick = (categoryName: string) => {
     const encodedCategoryName = encodeURIComponent(categoryName);
-    const updatedCategories = categoriesState?.map((category) => ({
+
+    const updatedCategories = categoriesState.map((category) => ({
       ...category,
       active: category.name === categoryName,
     }));
     setCategoriesState(updatedCategories);
 
-    const url = categoryName === '카테고리' ? '/toollist' : `/toollist?category=${encodedCategoryName}`;
-    window.location.href = url;
+    onCategoryChange(categoryName);
+
+    navigate(`/toollist?category=${encodedCategoryName}`);
   };
 
   const handleScroll = (direction: 'start' | 'end') => {
@@ -96,7 +116,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
                 onClick={() => handleCategoryClick(category.name)}
               >
                 <Chip.RoundContainer>
-                  <Chip.Label>{category.name}</Chip.Label>
+                  <Chip.Label>{category.koreanName}</Chip.Label>
                 </Chip.RoundContainer>
               </Chip>
             ))}
