@@ -5,7 +5,7 @@ import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
-import { forwardRef, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Post } from 'src/types/post';
 
@@ -20,11 +20,22 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   const { post, forDetail = false } = props;
   const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount } = post;
+  const [isOwnPost, setIsOwnPost] = useState(false);
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+
+  useEffect(() => {
+    const postOwner = localStorage.getItem('user');
+
+    if (postOwner) {
+      const user = JSON.parse(postOwner);
+      const ownPost = user.nickName === author;
+      setIsOwnPost(ownPost);
+    }
+  }, [boardId, author]);
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -104,12 +115,20 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             </S.BottomBarLeft>
             <DropDown position="end">
               <DropDown.Content $display="top">
-                <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: post })}>
-                  수정하기
-                </DropDown.Item>
-                <DropDown.Item status="danger" onClick={handleModalOpen}>
-                  삭제하기
-                </DropDown.Item>
+                {isOwnPost ? (
+                  <>
+                    <DropDown.Item status="danger" onClick={handleModalOpen}>
+                      삭제하기
+                    </DropDown.Item>
+                    <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: post })}>
+                      수정하기
+                    </DropDown.Item>
+                  </>
+                ) : (
+                  <DropDown.Item status="danger" onClick={handleModalOpen}>
+                    신고하기
+                  </DropDown.Item>
+                )}
               </DropDown.Content>
               <DropDown.ToggleBtn>
                 <IcOverflowGray44 />
