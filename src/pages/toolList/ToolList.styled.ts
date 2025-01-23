@@ -9,7 +9,7 @@ export const ToolListWrapper = styled.div`
 
 export const ToolCardWrapper = styled.div`
   width: 104.6rem;
-  margin-bottom: 5rem;
+  margin-bottom: 15rem;
 
   background: ${({ theme }) => theme.colors.white1};
   border-radius: 1.6rem;
