@@ -54,6 +54,7 @@ const CommnetInput = () => {
     postComment(formData);
 
     setText('');
+    handleImageRemove();
   };
 
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
