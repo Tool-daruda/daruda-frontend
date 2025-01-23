@@ -1,18 +1,21 @@
 import Chip from '@components/chip/Chip';
 import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './MyToolCard.styled';
 
 interface MyToolCardPropType {
+  toolId: number;
   toolLogo: string;
   toolNameMain: string;
   keyWordList: string[];
   onClick?: () => void;
 }
 
-const MyToolCard = ({ toolLogo, toolNameMain, keyWordList, onClick }: MyToolCardPropType) => {
+const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick }: MyToolCardPropType) => {
+  const navigate = useNavigate();
   return (
-    <S.CardWrapper>
+    <S.CardWrapper onClick={() => navigate(`/toollist/${toolId}`)}>
       <S.CardLogo src={toolLogo} />
       <S.CardTitle $lineCount={splitAndCountLines(toolNameMain).lineCount}>
         {splitAndCountLines(toolNameMain).formattedToolName}
