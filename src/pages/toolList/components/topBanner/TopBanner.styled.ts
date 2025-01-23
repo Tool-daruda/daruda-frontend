@@ -5,6 +5,7 @@ export const BannerWrapper = styled.div`
   position: relative;
   align-self: stretch;
   height: 20.8rem;
+  overflow: hidden;
 
   background: linear-gradient(90deg, #4d4ecd 40.5%, rgb(77 78 205 / 20%) 69.5%, rgb(77 78 205 / 5%) 100%);
 `;

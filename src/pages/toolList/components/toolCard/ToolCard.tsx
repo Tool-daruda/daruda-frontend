@@ -1,6 +1,7 @@
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import { useEffect, useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
@@ -19,6 +20,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<number | null>(null);
+  const navigate = useNavigate();
 
   const fetchTools = async (isReset = false) => {
     if (isLoading || (!hasMore && !isReset)) return;
@@ -77,12 +79,16 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     );
   };
 
+  const navigateToDetail = (toolId: number) => {
+    navigate(`/toollist/${toolId}`);
+  };
+
   return (
     <S.Container>
       <S.CardList>
         {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {tools?.map((tool) => (
-          <S.Card key={tool.toolId}>
+          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolFront>
