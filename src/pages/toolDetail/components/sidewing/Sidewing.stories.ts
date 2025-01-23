@@ -24,5 +24,6 @@ export const Default: Story = {
       4: React.createRef(),
       5: React.createRef(),
     },
+    toolId: 1,
   },
 };
