@@ -23,7 +23,7 @@ const CoreFeature = forwardRef<HTMLDivElement, CoreFeaturePropTypes>(({ toolId, 
     <div ref={ref} {...props}>
       <S.CoreFeatureWrapper>
         <h1>핵심 기능</h1>
-        <S.CoreFeatureContainer count={toolCoreResList.length}>
+        <S.CoreFeatureContainer>
           {toolCoreResList?.map((feature, index) => (
             <Toggle
               key={feature.coreId}

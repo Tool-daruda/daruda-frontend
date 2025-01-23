@@ -76,7 +76,6 @@ const ToolDetail = () => {
       </>
     );
   }
-
   // 데이터가 로드되지 않은 경우 null 반환
   return null;
 };
