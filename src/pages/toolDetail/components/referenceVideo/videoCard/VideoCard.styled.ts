@@ -29,7 +29,13 @@ export const VideoWrapper = styled.div<{ $isPlay: boolean; $isReady: boolean }>`
 
 export const ThumbnailWrapper = styled.div`
   width: 32rem;
-  height: 1.8rem;
+  height: 18rem;
+
+  img {
+    width: 32rem;
+    height: 18rem;
+    object-fit: cover;
+  }
 
   svg {
     opacity: 0;
