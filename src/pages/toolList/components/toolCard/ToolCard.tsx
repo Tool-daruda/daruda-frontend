@@ -1,6 +1,6 @@
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
-import { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
@@ -21,6 +21,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<number | null>(null);
   const navigate = useNavigate();
+  const isKorean = (text: string): boolean => /[가-힣]/.test(text); //한국어 제목 들어올 때 폰트 설정 위해서
 
   const fetchTools = async (isReset = false) => {
     if (isLoading || (!hasMore && !isReset)) return;
@@ -73,7 +74,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     };
   }, [handleScroll]);
 
-  const toggleBookmark = (toolId: number) => {
+  const toggleBookmark = (e: React.MouseEvent, toolId: number) => {
+    e.stopPropagation(); //세부페이지 이동 X, 북마크 작동 위함
     setTools((prevTools) =>
       prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !tool.isScraped } : tool)),
     );
@@ -92,7 +94,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolFront>
-                <S.ToolNameFront fontColor={tool.fontColor}>{tool.toolName}</S.ToolNameFront>
+                <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
+                  {tool.toolName}
+                </S.ToolNameFront>
               </S.ToolFront>
               <S.KeywordsFront>
                 {tool.keywords?.map((keyword, index) => (
@@ -112,8 +116,11 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
             <S.CardBack>
               <S.CardBackBox>
                 <S.ToolNameBack>
-                  <S.ToolBackTitle>{tool.toolName}</S.ToolBackTitle>
-                  <S.BookMark onClick={() => toggleBookmark(tool.toolId)} bookmarked={tool.isScraped} />
+                  <S.ToolBackTitle isKorean={isKorean(tool.toolName)}>{tool.toolName}</S.ToolBackTitle>
+                  <S.BookMark
+                    onClick={(e) => toggleBookmark(e, tool.toolId)} // 이벤트 인수 전달
+                    bookmarked={tool.isScraped}
+                  />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
                 <S.LicenseBadge>

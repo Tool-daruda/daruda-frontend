@@ -113,7 +113,7 @@ export const ToolLogo = styled.img`
   height: 10rem;
 `;
 
-export const ToolNameFront = styled.h1<{ fontColor: boolean }>`
+export const ToolNameFront = styled.h1<{ fontColor: boolean; isKorean: boolean }>`
   position: absolute;
   top: 3.7rem;
   left: 3rem;
@@ -123,13 +123,12 @@ export const ToolNameFront = styled.h1<{ fontColor: boolean }>`
   height: 7.6rem;
 
   color: ${({ fontColor, theme }) => (fontColor ? theme.colors.black : theme.colors.white1)};
-  ${({ theme }) => theme.fonts.card_36_B};
+  ${({ isKorean, theme }) => (isKorean ? theme.fonts.head_32_b : theme.fonts.card_36_B)};
   white-space: normal;
   text-align: left;
   word-wrap: break-word;
   overflow-wrap: break-word;
 `;
-//한글은 글씨체 적용안되는 문제 있음
 
 export const ToolFront = styled.div`
   display: flex;
@@ -138,18 +137,18 @@ export const ToolFront = styled.div`
   width: 23.6rem;
   height: 7.6rem;
 `;
-export const ToolBackTitle = styled.h2`
+
+export const ToolBackTitle = styled.h2<{ isKorean: boolean }>`
   width: 15.6rem;
   height: auto;
 
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.fonts.card_18_B_20};
+  ${({ isKorean, theme }) => (isKorean ? theme.fonts.body_20_b : theme.fonts.card_18_B_20)};
   white-space: normal;
   text-align: left;
   word-wrap: break-word;
   overflow-wrap: break-word;
 `;
-//여기도 한글 글씨체
 
 export const ToolNameBack = styled.h2`
   display: flex;
