@@ -5,12 +5,12 @@ export const SidewingWrapper = styled.div`
   top: 8.2rem;
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 3.8rem;
   justify-content: center;
   width: 26.6rem;
   height: 62.2rem;
   margin-top: 1.8rem;
-  padding: 3.2rem 2.8rem;
+  padding: 3.2rem 0;
 
   background-color: ${({ theme }) => theme.colors.white1};
   border: 1px solid ${({ theme }) => theme.colors.gray4};
@@ -24,6 +24,7 @@ export const OrderContainer = styled.section`
   align-items: flex-start;
   width: 100%;
   height: 20.6rem;
+  padding: 0 2.8rem;
 
   h1 {
     padding-bottom: 0.4rem;
@@ -68,10 +69,10 @@ export const SimilarToolContainer = styled.section`
   flex-direction: column;
   gap: 1.6rem;
   width: 100%;
-  height: 32.8rem;
 
-  h1 {
+  .title {
     align-items: flex-start;
+    padding: 0 2.8rem;
 
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.fonts.body_16_b_3};
@@ -83,7 +84,7 @@ export const ToolContainer = styled.section`
   flex-direction: column;
   gap: 1rem;
   align-items: flex-start;
-  width: 20rem;
+  width: 100%;
 `;
 
 export const ToolBox = styled.section`

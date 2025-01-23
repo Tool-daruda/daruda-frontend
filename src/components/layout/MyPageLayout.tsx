@@ -1,5 +1,6 @@
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
+import Title from '@components/title/Title';
 import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import styled from '@emotion/styled';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
@@ -14,6 +15,7 @@ const MyPageLayout = () => {
   return (
     <>
       <Header headerState={headerState} forOnboarding={false} />
+      <Title title="마이 페이지" />
       <MyPageContainer>
         <Outlet />
       </MyPageContainer>
@@ -72,6 +74,8 @@ const S = {
     border-radius: 2rem;
   `,
   ContentBox: styled.section`
+    position: relative;
+    width: 100%;
     padding-top: 2.8rem;
 
     & > h2 {

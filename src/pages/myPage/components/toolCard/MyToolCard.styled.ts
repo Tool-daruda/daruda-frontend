@@ -37,7 +37,11 @@ export const CardKeyword = styled.div`
   position: absolute;
   bottom: 1.6rem;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.6rem;
+  width: 14.667rem;
+  height: 2.6rem;
+  overflow: hidden;
 `;
 
 export const BookmarkBtn = styled(IcBookmark32)`

@@ -6,31 +6,27 @@ export const CardWrapper = styled.article`
   gap: 1rem;
   align-items: flex-start;
   align-self: stretch;
-  width: 20rem;
-  padding: 1.6rem;
+  width: 100%;
+  padding: 1.2rem 2.8rem;
 
   background-color: ${({ theme }) => theme.colors.white1};
-  border-radius: 1.2rem;
 
   &:hover {
-    padding: 1.5rem;
-
     background-color: ${({ theme }) => theme.colors.white2};
-    border: 1px solid ${({ theme }) => theme.colors.gray5};
   }
 `;
 
 export const TopContainer = styled.section`
   display: flex;
   gap: 1rem;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const InfoBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-  align-items: flex-start;
+  align-items: center;
   width: 9.8rem;
   height: 5.6rem;
 `;
@@ -38,6 +34,7 @@ export const InfoBox = styled.div`
 export const CardLogo = styled.img`
   width: 6rem;
   height: 6rem;
+  object-fit: cover;
 
   border-radius: 1.2rem;
 `;
@@ -58,6 +55,8 @@ export const PlanBox = styled.div`
   display: flex;
   gap: 0.4rem;
   align-items: center;
+  justify-content: flex-start;
+  width: 100%;
 
   span {
     color: ${({ theme }) => theme.colors.orange1};
@@ -67,11 +66,8 @@ export const PlanBox = styled.div`
 
 export const KeyWordCardBox = styled.div`
   display: flex;
-  flex-wrap: wrap;
   gap: 0.4rem;
   align-content: center;
-  align-items: center;
-  align-self: stretch;
 `;
 
 export const KeyWordCard = styled.div`
@@ -81,7 +77,10 @@ export const KeyWordCard = styled.div`
   justify-content: center;
   padding: 0.4rem 0.7rem;
 
+  color: ${({ theme }) => theme.colors.gray2};
+
   background-color: ${({ theme }) => theme.colors.white2};
+  ${({ theme }) => theme.fonts.caption_12_m};
   border-radius: 0.6rem;
 
   ${CardWrapper}:hover & {

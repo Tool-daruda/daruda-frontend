@@ -82,7 +82,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               {content}
             </S.CardTextItem>
             <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
-              {images.map((image, idx) => (
+              {images?.map((image, idx) => (
                 <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
                   <img src={image} alt={`Post-card-img-${idx}`} />
                   {forDetail && (

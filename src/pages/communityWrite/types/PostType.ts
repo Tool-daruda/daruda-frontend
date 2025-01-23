@@ -23,3 +23,11 @@ export interface PostBoardResponse {
   message: string;
   data: string;
 }
+
+export interface FormDataType {
+  title: string;
+  body: string;
+  isFree: boolean;
+  selectedTool: number | null;
+  images: File[];
+}

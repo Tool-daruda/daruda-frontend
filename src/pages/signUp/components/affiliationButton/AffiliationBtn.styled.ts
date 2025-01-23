@@ -3,10 +3,9 @@ import SvgEllipse5276 from '@pages/login/assets/Ellipse5276';
 
 export const ButtonWrapper = styled.button<{ isActive: boolean }>`
   display: flex;
-  gap: 3.6rem;
+  gap: 2.8rem;
   align-items: center;
-  padding: 1.8rem 2rem;
-  padding: ${({ isActive }) => (isActive ? `1.7rem 1.9rem` : `1.8rem 2rem`)};
+  padding: ${({ isActive }) => (isActive ? `1.3rem 1.5rem` : `1.4rem 1.6rem`)};
 
   color: ${({ isActive, theme }) => (isActive ? theme.colors.iris1 : theme.colors.gray1)};
 

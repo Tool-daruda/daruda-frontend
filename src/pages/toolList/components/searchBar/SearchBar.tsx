@@ -20,7 +20,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
   const categoryFromParams = searchParams.get('category');
 
   useEffect(() => {
-    const updatedCategories = initialCategories.map((category) => ({
+    const updatedCategories = initialCategories?.map((category) => ({
       ...category,
       active: category.name === (categoryFromParams || '전체'),
     }));
@@ -29,7 +29,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
 
   const handleCategoryClick = (categoryName: string) => {
     const encodedCategoryName = encodeURIComponent(categoryName);
-    const updatedCategories = categoriesState.map((category) => ({
+    const updatedCategories = categoriesState?.map((category) => ({
       ...category,
       active: category.name === categoryName,
     }));
@@ -88,7 +88,7 @@ const SearchBar = ({ isSticky }: SearchBarProps) => {
             </S.ScrollButtonLeft>
           )}
           <S.SearchChip ref={chipContainerRef} isSticky={isSticky}>
-            {categoriesState.map((category) => (
+            {categoriesState?.map((category) => (
               <Chip
                 key={category.name}
                 size="large"

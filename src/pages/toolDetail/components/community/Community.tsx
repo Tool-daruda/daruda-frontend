@@ -21,7 +21,7 @@ const ToolCommunity = forwardRef<HTMLDivElement, CardProps>(({ cards }, ref) => 
           <h2>커뮤니티 글 보기 &gt;</h2>
         </S.CardTitle>
         <S.CardSection>
-          {cards.map((card, index) => {
+          {cards?.map((card, index) => {
             const firstImage = card.images[0];
 
             return (

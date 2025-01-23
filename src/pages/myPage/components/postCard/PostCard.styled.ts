@@ -4,18 +4,11 @@ export const CardWrapper = styled.article`
   display: inline-flex;
   gap: 3.8rem;
   align-items: center;
-  width: 83.2rem;
+  width: 84.2rem;
   height: 8.4rem;
-  padding: 0 3rem;
 
   background: ${({ theme }) => theme.colors.white1};
   cursor: pointer;
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
-  border-radius: 1.6rem;
-
-  &:hover {
-    box-shadow: 0 0 12px 0 ${({ theme }) => theme.colors.shadow1};
-  }
 `;
 
 export const Title = styled.h2`

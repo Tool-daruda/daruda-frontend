@@ -2,6 +2,11 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const PostWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  justify-content: space-between;
+  height: 52.6rem;
   padding-top: 1.2rem;
   padding-left: 3.6rem;
 `;
@@ -9,7 +14,13 @@ export const PostWrapper = styled.div`
 export const PostContainer = styled.article`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+`;
+
+export const Divider = styled.div`
+  width: 84.2rem;
+  height: 0.1rem;
+
+  background-color: ${({ theme }) => theme.colors.gray5};
 `;
 
 export const Pagination = styled.nav`
@@ -31,10 +42,15 @@ export const PageNum = styled.button<{ $isCurrent: boolean }>`
 `;
 
 export const NonTool = styled.figure`
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: inheriht;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
 
   & p:first-of-type {
     color: ${({ theme }) => theme.colors.gray1};
@@ -51,7 +67,7 @@ export const NonTool = styled.figure`
 
 export const ToastWrapper = styled.div`
   position: absolute;
-  top: 9.2rem;
+  bottom: 3.9rem;
   left: 50%;
 
   transform: translateX(-50%);

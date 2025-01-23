@@ -5,8 +5,7 @@ export const ButtonWrapper = styled.button<{ isActive: boolean }>`
   display: flex;
   gap: 3.6rem;
   align-items: center;
-  padding: 1.8rem 2rem;
-  padding: ${({ isActive }) => (isActive ? `1.7rem 1.9rem` : `1.8rem 2rem`)};
+  padding: ${({ isActive }) => (isActive ? `1.2rem 1.4rem` : `1.3rem 1.5rem`)};
 
   color: ${({ isActive, theme }) => (isActive ? theme.colors.iris1 : theme.colors.gray1)};
 

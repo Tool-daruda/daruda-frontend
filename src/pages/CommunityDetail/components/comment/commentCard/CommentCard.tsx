@@ -26,6 +26,18 @@ const CommentCard = ({ comment }: Comment) => {
   const { mutate, isError } = useCommentDelete(comment.commentId, id);
   const [IsToastOpen, setIsToastOpen] = useState(false);
 
+  const [isOwnPost, setIsOwnPost] = useState(false);
+
+  useEffect(() => {
+    const postOwner = localStorage.getItem('user');
+
+    if (postOwner) {
+      const user = JSON.parse(postOwner);
+      const ownPost = user.nickName === comment.nickname;
+      setIsOwnPost(ownPost);
+    }
+  }, [id, comment]);
+
   useEffect(() => {
     if (isError) {
       setIsToastOpen(true);
@@ -66,9 +78,15 @@ const CommentCard = ({ comment }: Comment) => {
             <IcOverflowGray24 />
           </DropDown.ToggleBtn>
           <DropDown.Content>
-            <DropDown.Item status="danger" onClick={handleModalOpen}>
-              삭제하기
-            </DropDown.Item>
+            {isOwnPost ? (
+              <DropDown.Item status="danger" onClick={handleModalOpen}>
+                삭제하기
+              </DropDown.Item>
+            ) : (
+              <DropDown.Item status="danger" onClick={handleModalOpen}>
+                신고하기
+              </DropDown.Item>
+            )}
           </DropDown.Content>
         </DropDown>
       </S.MetaInfo>
