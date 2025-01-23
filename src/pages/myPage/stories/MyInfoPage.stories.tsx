@@ -18,7 +18,7 @@ const meta: Meta<typeof MyInfoPage> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <MyPageContainerForStory activeMenu={1}>
           <Story />
         </MyPageContainerForStory>

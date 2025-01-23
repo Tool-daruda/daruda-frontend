@@ -1,4 +1,9 @@
+import { IcChevron, Union } from '@assets/svgs';
 import styled from '@emotion/styled';
+
+interface ChevronProps {
+  isSelected: boolean;
+}
 
 export const Container = styled.div<{ $forCommunity: boolean }>`
   display: flex;
@@ -144,4 +149,38 @@ export const IconContainer = styled.div`
   height: 2.4rem;
 
   border-radius: 0.4rem;
+`;
+
+export const Loading = styled.div`
+  margin-left: 2.3rem;
+
+  ${({ theme }) => theme.fonts.caption_12_b};
+  color: ${({ theme }) => theme.colors.gray2};
+  text-align: left;
+`;
+
+export const CloseBtn = styled.button`
+  display: flex;
+
+  cursor: pointer;
+`;
+
+export const CheckBox = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+export const Unions = styled(Union)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+`;
+
+export const Chevron = styled(IcChevron)<ChevronProps>`
+  transform: ${({ isSelected }) => (isSelected ? 'rotate(0deg)' : 'rotate(180deg)')};
+
+  transition: transform 0.3s ease;
 `;

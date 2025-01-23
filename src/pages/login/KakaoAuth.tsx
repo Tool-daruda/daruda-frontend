@@ -1,4 +1,5 @@
 import { ImgDarudalogo40 } from '@assets/svgs';
+import Title from '@components/title/Title';
 
 import { fetchKakaoLogin } from './apis/api';
 import SvgKakaoVector from './assets/KakaoVector';
@@ -13,20 +14,23 @@ const KakaoAuth = () => {
     }
   };
   return (
-    <S.LogintWrapper>
-      <S.Container>
-        <S.LogoSection>
-          <ImgDarudalogo40 width={407} height={120} />
-        </S.LogoSection>
-        <span>모든 대학생이 찾는 솔루션, 다루다에서 만나보세요.</span>
-        <S.LoginButtonContainer>
-          <S.LoginButton aria-label="카카오 로그인" onClick={handleKakaoLogin}>
-            <SvgKakaoVector />
-            <p>카카오 로그인</p>
-          </S.LoginButton>
-        </S.LoginButtonContainer>
-      </S.Container>
-    </S.LogintWrapper>
+    <>
+      <Title title="로그인" />
+      <S.LogintWrapper>
+        <S.Container>
+          <S.LogoSection>
+            <ImgDarudalogo40 width={407} height={120} />
+          </S.LogoSection>
+          <span>모든 대학생이 찾는 솔루션, 다루다에서 만나보세요.</span>
+          <S.LoginButtonContainer>
+            <S.LoginButton aria-label="카카오 로그인" onClick={handleKakaoLogin}>
+              <SvgKakaoVector />
+              <p>카카오 로그인</p>
+            </S.LoginButton>
+          </S.LoginButtonContainer>
+        </S.Container>
+      </S.LogintWrapper>
+    </>
   );
 };
 

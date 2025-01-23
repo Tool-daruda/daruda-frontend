@@ -19,7 +19,6 @@ export const NoImages: Story = {
   args: {
     post: {
       boardId: 0,
-      toolId: 0,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -28,8 +27,9 @@ export const NoImages: Story = {
         '대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박',
       images: [],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };
@@ -38,7 +38,6 @@ export const OneImage: Story = {
   args: {
     post: {
       boardId: 1,
-      toolId: 1,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -46,8 +45,9 @@ export const OneImage: Story = {
       content: '대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박',
       images: ['https://placehold.co/600x400'],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };
@@ -56,7 +56,6 @@ export const TwoImages: Story = {
   args: {
     post: {
       boardId: 2,
-      toolId: 2,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -64,8 +63,9 @@ export const TwoImages: Story = {
       content: '대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박',
       images: ['https://placehold.co/600x400', 'https://placehold.co/600x400'],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };
@@ -74,7 +74,6 @@ export const ThreeImages: Story = {
   args: {
     post: {
       boardId: 3,
-      toolId: 3,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -82,8 +81,9 @@ export const ThreeImages: Story = {
       content: '대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박대박',
       images: ['https://placehold.co/600x400', 'https://placehold.co/600x400', 'https://placehold.co/600x400'],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };
@@ -92,7 +92,6 @@ export const FourImages: Story = {
   args: {
     post: {
       boardId: 4,
-      toolId: 4,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -106,8 +105,9 @@ export const FourImages: Story = {
         'https://placehold.co/600x400',
       ],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };
@@ -116,7 +116,6 @@ export const FiveImages: Story = {
   args: {
     post: {
       boardId: 5,
-      toolId: 5,
       toolName: 'ChatGPT',
       toolLogo:
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/ChatGPT-Logo.svg/2048px-ChatGPT-Logo.svg.png',
@@ -131,8 +130,9 @@ export const FiveImages: Story = {
         'https://placehold.co/600x400',
       ],
       updatedAt: '2024-12-21',
-      nickName: '내이름은고은',
       commentCount: 63,
+      author: '뇽이',
+      isScraped: true,
     },
   },
 };

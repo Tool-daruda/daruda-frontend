@@ -7,7 +7,7 @@ import * as S from './Header.styled';
 
 interface HeaderProps {
   headerState: HeaderState;
-  forOnboarding: boolean;
+  forOnboarding?: boolean;
 }
 
 const HEADER_TEXTS = {
@@ -15,7 +15,7 @@ const HEADER_TEXTS = {
   login: '시작하기',
 } as const;
 
-const Header = ({ headerState, forOnboarding }: HeaderProps) => {
+const Header = ({ headerState, forOnboarding = false }: HeaderProps) => {
   return (
     <S.HeaderWrapper $forOnboarding={forOnboarding}>
       <S.HeaderContainer>

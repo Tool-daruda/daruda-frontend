@@ -31,7 +31,7 @@ colorGroups.etc = Object.keys(colors).filter((key) => !categorizedColors.has(key
 export const Introduction = {
   render: () => {
     const renderColorChips = (colorKeys: string[]) => {
-      return colorKeys.map((colorName) => (
+      return colorKeys?.map((colorName) => (
         <a
           key={colorName}
           title={`${colorName} (${colors[colorName as keyof typeof colors]})`}

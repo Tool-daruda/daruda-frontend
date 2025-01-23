@@ -34,7 +34,6 @@ export const DropDownToggleBtn = styled.button<{ $isOpen: boolean }>`
 
 export const DropDownWrapper = styled.ul<{ $display: 'top' | 'bottom' }>`
   position: absolute;
-  ${({ $display }) => $display}: 4.5rem;
   z-index: 1;
   width: min-content;
 
@@ -42,6 +41,7 @@ export const DropDownWrapper = styled.ul<{ $display: 'top' | 'bottom' }>`
   box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
   border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
+  ${({ $display }) => $display}: 4.5rem;
 `;
 
 export const DropDownItem = styled.li<{ $status?: string }>`

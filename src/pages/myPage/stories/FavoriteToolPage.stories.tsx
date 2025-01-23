@@ -18,7 +18,7 @@ const meta: Meta<typeof MyToolPage> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <MyPageContainerForStory activeMenu={2}>
           <Story />
         </MyPageContainerForStory>

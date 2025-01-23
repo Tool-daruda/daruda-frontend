@@ -31,8 +31,8 @@ export const IntroImgBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: 17.8rem;
+  height: 10rem;
   margin: 1rem 0;
   overflow: hidden;
 
@@ -43,7 +43,7 @@ export const IntroImgBox = styled.div`
   img {
     width: inherit;
     height: inherit;
-    object-fit: fill;
+    object-fit: cover;
   }
 
   .hover-icon {
@@ -85,6 +85,8 @@ export const IntroImgBox = styled.div`
   }
 `;
 export const CommentImg = styled.img`
+  object-fit: cover;
+
   border: 0.75px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 0.8rem;
 `;
@@ -95,4 +97,12 @@ export const CommentContent = styled.pre`
 
   color: ${({ theme }) => theme.colors.gray1};
   white-space: pre-wrap;
+`;
+
+export const ToastWrapper = styled.div`
+  position: absolute;
+  bottom: 10vh;
+  left: 50%;
+
+  transform: translateX(-50%);
 `;
