@@ -9,6 +9,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   stroke?: boolean;
   handleClick?: () => void;
   forBookMark?: boolean;
+  isBook?: boolean;
 }
 
 const SquareButton = ({
@@ -18,10 +19,18 @@ const SquareButton = ({
   stroke = false,
   handleClick,
   forBookMark = false,
+  isBook = false,
   ...rest
 }: ButtonProps) => {
   return (
-    <S.ButtonWrapper size={size} stroke={stroke} {...rest} onClick={handleClick} $forBookMark={forBookMark}>
+    <S.ButtonWrapper
+      size={size}
+      stroke={stroke}
+      {...rest}
+      onClick={handleClick}
+      $forBookMark={forBookMark}
+      $isBook={isBook}
+    >
       {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
       <span>{children}</span>
     </S.ButtonWrapper>

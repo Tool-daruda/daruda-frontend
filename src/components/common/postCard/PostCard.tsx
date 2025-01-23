@@ -1,4 +1,12 @@
-import { IcCommentGray24, IcBookmark, IcOverflowGray44, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
+import { useBoardScrap } from '@apis/board/queries';
+import {
+  IcCommentGray24,
+  IcBookmark,
+  IcOverflowGray44,
+  IcWatchWhite40,
+  ImgModalcheck,
+  ImgPopupDelete84,
+} from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
@@ -19,13 +27,15 @@ interface CardDataProp {
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   const { post, forDetail = false } = props;
-  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount } = post;
+  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount, isScraped } = post;
   const [isOwnPost, setIsOwnPost] = useState(false);
 
-  const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
+  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
+  const { mutate: srapMutate } = useBoardScrap();
+  const [isClicked, setIsClicked] = useState(isScraped);
 
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
@@ -47,6 +57,11 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   const handleImgModalClose = () => {
     setIsImgModalOpen(false);
+  };
+
+  const handleScrap = (boardId: number) => {
+    setIsClicked((prev) => !prev);
+    srapMutate(boardId);
   };
 
   return (
@@ -109,7 +124,14 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                   navigate(`/community/${boardId}`);
                 }}
               >{`${commentCount}개`}</SquareButton>
-              <SquareButton icon={<IcBookmark />} size="small" stroke={false} forBookMark={true}>
+              <SquareButton
+                icon={<IcBookmark />}
+                isBook={isClicked}
+                size="small"
+                stroke={false}
+                forBookMark={true}
+                handleClick={() => handleScrap(boardId)}
+              >
                 북마크
               </SquareButton>
             </S.BottomBarLeft>
@@ -117,7 +139,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               <DropDown.Content $display="top">
                 {isOwnPost ? (
                   <>
-                    <DropDown.Item status="danger" onClick={handleModalOpen}>
+                    <DropDown.Item status="danger" onClick={() => handleModal('삭제')}>
                       삭제하기
                     </DropDown.Item>
                     <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: post })}>
@@ -125,7 +147,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                     </DropDown.Item>
                   </>
                 ) : (
-                  <DropDown.Item status="danger" onClick={handleModalOpen}>
+                  <DropDown.Item status="danger" onClick={() => handleModal('신고')}>
                     신고하기
                   </DropDown.Item>
                 )}
@@ -137,19 +159,30 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           </S.CardBottomBar>
         </S.CardLayout>
       </Link>
-      <AlterModal
-        modalTitle="글을 삭제하시겠어요?"
-        isOpen={isOpen}
-        handleClose={handleModalClose}
-        isSingleModal={false}
-        ImgPopupModal={ImgModalexit}
-        modalContent="삭제된 글은 다시 볼 수 없어요"
-        DoublebtnProps={{
-          isPrimaryRight: false,
-          primaryBtnContent: '한 번 더 생각할게요',
-          secondaryBtnContent: '삭제하기',
-        }}
-      />
+      {modalType === '신고' ? (
+        <AlterModal
+          modalTitle="신고 접수가 완료되었어요"
+          isOpen={isOpen}
+          handleClose={handleModalClose}
+          isSingleModal={true}
+          ImgPopupModal={ImgModalcheck}
+          singleBtnContent="확인했어요"
+        />
+      ) : (
+        <AlterModal
+          modalTitle="글을 삭제하시겠어요?"
+          isOpen={isOpen}
+          handleClose={handleModalClose}
+          isSingleModal={false}
+          ImgPopupModal={ImgPopupDelete84}
+          modalContent="삭제된 글은 다시 볼 수 없어요"
+          DoublebtnProps={{
+            isPrimaryRight: false,
+            primaryBtnContent: '한 번 더 생각할게요',
+            secondaryBtnContent: '삭제하기',
+          }}
+        />
+      )}
     </S.CardWrapper>
   );
 });

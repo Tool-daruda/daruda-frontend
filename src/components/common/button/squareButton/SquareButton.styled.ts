@@ -4,6 +4,7 @@ export const ButtonWrapper = styled.button<{
   size: 'large' | 'small';
   stroke: boolean;
   $forBookMark: boolean;
+  $isBook: boolean;
 }>`
   display: flex;
   gap: 0.8rem;
@@ -44,6 +45,12 @@ export const ButtonWrapper = styled.button<{
         return '';
     }
   }}
+
+
+  & span svg path {
+    fill: ${({ theme, $isBook }) => $isBook && theme.colors.iris1_click};
+    stroke: ${({ theme, $isBook }) => ($isBook ? theme.colors.iris1_click : theme.colors.gray1)};
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.iris1_hover};
