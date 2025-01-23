@@ -6,29 +6,20 @@ import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
 import { forwardRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Post } from 'src/types/post';
 
 import * as S from './PostCard.styled';
 
 interface CardDataProp {
-  post: {
-    boardId: number;
-    toolId: number;
-    toolName: string;
-    toolLogo: string;
-    title: string;
-    content: string;
-    images: string[];
-    updatedAt: string;
-    nickName: string;
-    commentCount: number;
-  };
+  post: Post;
   forDetail?: boolean;
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
+  const navigate = useNavigate();
   const { post, forDetail = false } = props;
-  const { boardId, toolName, toolLogo, title, content, images, updatedAt, nickName, commentCount } = post;
+  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount } = post;
 
   const { isOpen, handleModalOpen, handleModalClose, preventPropogation } = useModal();
 
@@ -71,7 +62,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 </Chip.RectContainer>
               </Chip>
               <S.MetaInfo>
-                <span>{nickName}</span>
+                <span>{author}</span>
                 <span>{updatedAt}</span>
               </S.MetaInfo>
             </header>
@@ -80,7 +71,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               {content}
             </S.CardTextItem>
             <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
-              {images.map((image, idx) => (
+              {images?.map((image, idx) => (
                 <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
                   <img src={image} alt={`Post-card-img-${idx}`} />
                   {forDetail && (
@@ -106,11 +97,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             </S.BottomBarLeft>
             <DropDown position="end">
               <DropDown.Content $display="top">
-                <DropDown.Item
-                  onClick={() => {
-                    alert('클릭!');
-                  }}
-                >
+                <DropDown.Item onClick={() => navigate('/community/modify/:id', { state: post })}>
                   수정하기
                 </DropDown.Item>
                 <DropDown.Item status="danger" onClick={handleModalOpen}>

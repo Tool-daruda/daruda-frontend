@@ -26,12 +26,12 @@ export const CategorySection = styled.div`
   }
 `;
 
-export const ToggleIcon = styled.button<{ isOpen: boolean }>`
+export const ToggleIcon = styled.button<{ $isOpen: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  transform: ${({ isOpen }) => (isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${({ $isOpen }) => ($isOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
 
   transition: transform 0.3s ease;
 `;

@@ -1,5 +1,6 @@
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -47,29 +48,32 @@ const CommunityWrite = () => {
   };
 
   return (
-    <S.WriteWrapper>
-      <S.WriteTitle>글쓰기</S.WriteTitle>
-      <S.WriteContainer>
-        <S.WriteBox>
-          <WritingTitle setTitle={setTitle} />
-          <WritingBody setBody={setBody} />
-          <WritingImg onImageUpload={setImages} />
-        </S.WriteBox>
-        <S.SideBanner>
-          <ToolListBanner onToolSelect={handleToolSelect} />
-          <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
-            글 게시하기
-          </CircleButton>
-        </S.SideBanner>
-      </S.WriteContainer>
-      {isToastVisible && (
-        <S.ToastBox>
-          <Toast isVisible={true} isWarning={true}>
-            {toastMessage}
-          </Toast>
-        </S.ToastBox>
-      )}
-    </S.WriteWrapper>
+    <>
+      <Title title="글쓰기" />
+      <S.WriteWrapper>
+        <S.WriteTitle>글쓰기</S.WriteTitle>
+        <S.WriteContainer>
+          <S.WriteBox>
+            <WritingTitle setTitle={setTitle} />
+            <WritingBody setBody={setBody} />
+            <WritingImg onImageUpload={setImages} />
+          </S.WriteBox>
+          <S.SideBanner>
+            <ToolListBanner onToolSelect={handleToolSelect} />
+            <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
+              글 게시하기
+            </CircleButton>
+          </S.SideBanner>
+        </S.WriteContainer>
+        {isToastVisible && (
+          <S.ToastBox>
+            <Toast isVisible={true} isWarning={true}>
+              {toastMessage}
+            </Toast>
+          </S.ToastBox>
+        )}
+      </S.WriteWrapper>
+    </>
   );
 };
 

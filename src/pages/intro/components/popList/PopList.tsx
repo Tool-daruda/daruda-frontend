@@ -57,7 +57,7 @@ const PopList = () => {
         </S.MainContent>
       </S.PageContainer>
       <S.ImageContainer $position={position}>
-        {cardList.map((Image, index) => (
+        {cardList?.map((Image, index) => (
           <S.Image
             as={Image}
             key={`popList-${index}`}

@@ -21,11 +21,7 @@ export const Default: Story = {
   args: {
     toolLogo: 'https://via.placeholder.com/20',
     toolNameMain: 'Perplexity',
-    keyWordList: [
-      { keyWordId: 1, keyWordName: 'AI' },
-      { keyWordId: 2, keyWordName: '리서치' },
-      { keyWordId: 3, keyWordName: '리서치' },
-    ],
+    keyWordList: ['AI', '리서치', '리서치'],
   },
 };
 
@@ -33,10 +29,6 @@ export const MultiLine: Story = {
   args: {
     toolLogo: 'https://via.placeholder.com/20',
     toolNameMain: 'Adobe illustrator',
-    keyWordList: [
-      { keyWordId: 1, keyWordName: 'AI' },
-      { keyWordId: 2, keyWordName: '리서치' },
-      { keyWordId: 3, keyWordName: '리서치' },
-    ],
+    keyWordList: ['AI', '리서치', '리서치'],
   },
 };

@@ -47,14 +47,14 @@ const ToolCard = () => {
 
   const toggleBookmark = (toolId: number) => {
     setTools((prevTools) =>
-      prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, bookmarked: !tool.bookmarked } : tool)),
+      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, bookmarked: !tool.bookmarked } : tool)),
     );
   };
 
   return (
     <S.Container>
       <S.CardList>
-        {tools.map((tool) => (
+        {tools?.map((tool) => (
           <S.Card key={tool.toolId}>
             <S.CardFront bgColor={tool.backgroundColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
@@ -62,7 +62,7 @@ const ToolCard = () => {
                 <S.ToolNameFront textColor={tool.textColor}>{tool.toolName}</S.ToolNameFront>
               </S.ToolFront>
               <S.KeywordsFront>
-                {tool.keywords.map((keyword, index) => (
+                {tool.keywords?.map((keyword, index) => (
                   <Chip key={index} size="xsmall" stroke={false} active={false}>
                     <Chip.RectContainer>
                       <Chip.Label>{keyword}</Chip.Label>
@@ -83,7 +83,7 @@ const ToolCard = () => {
                   {getLicenseBadgeContent(tool.license).text}
                 </S.LicenseBadge>
                 <S.Keywords>
-                  {tool.keywords.map((keyword, index) => (
+                  {tool.keywords?.map((keyword, index) => (
                     <Chip key={index} size="xsmall" stroke={true} active={true}>
                       <Chip.RectContainer>
                         <Chip.Label>{keyword}</Chip.Label>

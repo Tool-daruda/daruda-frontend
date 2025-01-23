@@ -16,7 +16,7 @@ const meta: Meta<typeof Community> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <Story />
         <Footer />
       </>

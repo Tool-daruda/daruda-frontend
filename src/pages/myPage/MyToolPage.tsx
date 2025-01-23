@@ -1,59 +1,42 @@
+import { useToolScrap } from '@apis/tool/queries';
+import { ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import Spacing from '@components/spacing/Spacing';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 
+import { useGetFavoriteTool } from './apis/queries';
 import MyToolCard from './components/toolCard/MyToolCard';
-import { FAVORITE_TOOLS } from './mocks/favoriteToolList';
-
-interface keyWord {
-  keyWordId: number;
-  keyWordName: string;
-}
-
-interface Tool {
-  toolId: number;
-  toolLogo: string;
-  toolNameMain: string;
-  keyWordList: keyWord[];
-}
 
 const MyToolPage = () => {
-  const [toolList, setToolList] = useState<Tool[]>(FAVORITE_TOOLS);
+  const { data: favoriteToolData } = useGetFavoriteTool();
+  const { mutateAsync: scrapMutate } = useToolScrap();
 
-  // 추후에 API 연결을 위해 useState를 사용하기 위해 set함수를 임의로 넣었습니다!!!
-  // API 연결할 때 삭제하겠습니다.
-  useEffect(() => {
-    setToolList((prevToolList) => [...prevToolList]);
-  }, []);
-
-  return (
-    <S.MyToolWrapper>
-      {toolList.length > 0 ? (
-        <S.MyToolContainer>
-          {toolList.map((tool) => (
-            <MyToolCard
-              key={tool.toolId}
-              toolLogo={tool.toolLogo}
-              toolNameMain={tool.toolNameMain}
-              keyWordList={tool.keyWordList}
-            />
-          ))}
-        </S.MyToolContainer>
-      ) : (
-        <S.NonTool>
-          {/* TODO: 이미지 갈아끼우기 */}
-          <img
-            src="https://mblogthumb-phinf.pstatic.net/MjAxOTEwMTFfNjEg/MDAxNTcwNzg1ODM3Nzc0.zxDXm20VlPdQv8GQi9LWOdPwkqoBdiEmf8aBTWTsPF8g.FqMQTiF6ufydkQxrLBgET3kNYAyyKGJTWTyi1qd1-_Ag.PNG.kkson50/sample_images_01.png?type=w800"
-            alt=""
-          />
-          <Spacing size="4.2" />
-          <p>관심있는 툴이 없어요</p>
-          <Spacing size="1" />
-          <p>북마크를 통해 관심있는 툴을 저장해보세요</p>
-        </S.NonTool>
-      )}
-    </S.MyToolWrapper>
-  );
+  if (favoriteToolData) {
+    return (
+      <S.MyToolWrapper>
+        {favoriteToolData.toolList?.length > 0 ? (
+          <S.MyToolContainer>
+            {favoriteToolData.toolList?.map((tool) => (
+              <MyToolCard
+                key={tool.toolId}
+                toolLogo={tool.toolLogo}
+                toolNameMain={tool.toolName}
+                keyWordList={tool.keywords}
+                onClick={() => scrapMutate(tool.toolId)}
+              />
+            ))}
+          </S.MyToolContainer>
+        ) : (
+          <S.NonTool>
+            <ImgPopupNonebookmarkScraptool />
+            <Spacing size="4.2" />
+            <p>관심있는 툴이 없어요</p>
+            <Spacing size="1" />
+            <p>북마크를 통해 관심있는 툴을 저장해보세요</p>
+          </S.NonTool>
+        )}
+      </S.MyToolWrapper>
+    );
+  }
 };
 
 export default MyToolPage;
@@ -94,11 +77,16 @@ const S = {
     margin: 1.2rem 0;
   `,
   NonTool: styled.div`
+    position: absolute;
+    top: 50%;
+    left: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: inheriht;
     margin-left: -3.6rem;
+
+    transform: translate(-50%, -50%);
 
     & p:first-of-type {
       color: ${({ theme }) => theme.colors.gray1};

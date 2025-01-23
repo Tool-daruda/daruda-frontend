@@ -1,37 +1,22 @@
-import { ImgPopupDelete84 } from '@assets/svgs/index.ts';
+import { useBoardDelete } from '@apis/board/queries.ts';
+import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
+import { useGetMyPost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
-import { MYPOST_RESPONSE } from './mocks/myPostList.ts';
 import * as S from './Post.styled.ts';
 
-interface Post {
-  boardId: number;
-  title: string;
-  content: string;
-  updatedAt: string;
-  toolId: number;
-  toolLogo: string;
-  toolName: string;
-  scrapId: number;
-}
-
 const MyPostPage = () => {
-  const [postList, setPostList] = useState<Post[]>(MYPOST_RESPONSE.boardList);
-  const [pages, setPages] = useState(MYPOST_RESPONSE.pagination.totalPages);
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: postData } = useGetMyPost(currentPage);
+  const { mutateAsync: delMuatate } = useBoardDelete();
+
   const [isToast, setIsToast] = useState(false);
   const [isModal, setIsModal] = useState(false);
-
-  // 추후에 API 연결을 위해 useState를 사용하기 위해 set함수를 임의로 넣었습니다!!!
-  // API 연결할 때 삭제하겠습니다.
-  useEffect(() => {
-    setPostList((prevToolList) => [...prevToolList]);
-    setPages((prev) => prev);
-  }, []);
+  const [selectedBoard, setSelectedBoard] = useState<number | null>(null);
 
   const handleDeleteModal = () => {
     setIsModal((prev) => !prev);
@@ -40,9 +25,12 @@ const MyPostPage = () => {
   const deleteModalProps = {
     modalTitle: '선택한 글을 삭제하시겠어요??',
     isOpen: isModal,
-    handleClose: () => {
+    handleClose: async () => {
       handleDeleteModal();
-      setIsToast(true);
+      if (selectedBoard !== null) {
+        await delMuatate(selectedBoard);
+        setIsToast(true);
+      }
     },
     ImgPopupModal: ImgPopupDelete84,
     isSingleModal: false,
@@ -55,18 +43,19 @@ const MyPostPage = () => {
     },
   };
 
-  const handleDelete = () => {
+  const handleDelete = (boardId: number) => {
+    setSelectedBoard(boardId);
     handleDeleteModal();
     setTimeout(() => setIsToast(false), 3000);
   };
 
-  return (
-    <>
-      <S.PostWrapper>
-        {postList.length > 0 ? (
-          <>
+  if (postData) {
+    return (
+      <>
+        {postData.boardList?.length > 0 ? (
+          <S.PostWrapper>
             <S.PostContainer>
-              {postList.map((post) => (
+              {postData.boardList?.map((post) => (
                 <PostCard
                   key={post.boardId}
                   isMine={true}
@@ -74,47 +63,45 @@ const MyPostPage = () => {
                   updatedAt={post.updatedAt}
                   toolLogo={post.toolLogo}
                   toolName={post.toolName}
-                  onClick={handleDelete}
+                  onClick={() => handleDelete(post.boardId)}
                 />
               ))}
             </S.PostContainer>
-            <Spacing size="3" />
             <S.Pagination>
               <button disabled={currentPage === 1} onClick={() => setCurrentPage((prev) => prev - 1)}>
                 &lt;
               </button>
-              {Array.from(Array(pages), (_, index) => (
-                <S.PageNum key={index} $isCurrent={currentPage === index + 1}>
+              {Array.from(Array(postData.pageInfo.totalPages), (_, index) => (
+                <S.PageNum key={index} $isCurrent={currentPage === index + 1} onClick={() => setCurrentPage(index + 1)}>
                   {index + 1}
                 </S.PageNum>
               ))}
-              <button disabled={currentPage === pages} onClick={() => setCurrentPage((prev) => prev + 1)}>
+              <button
+                disabled={currentPage === postData.pageInfo.totalPages}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+              >
                 &gt;
               </button>
             </S.Pagination>
-          </>
+          </S.PostWrapper>
         ) : (
           <S.NonTool>
-            {/* TODO: 이미지 갈아끼우기 */}
-            <img
-              src="https://mblogthumb-phinf.pstatic.net/MjAxOTEwMTFfNjEg/MDAxNTcwNzg1ODM3Nzc0.zxDXm20VlPdQv8GQi9LWOdPwkqoBdiEmf8aBTWTsPF8g.FqMQTiF6ufydkQxrLBgET3kNYAyyKGJTWTyi1qd1-_Ag.PNG.kkson50/sample_images_01.png?type=w800"
-              alt=""
-            />
+            <ImgPopupNonebookmarkMypost />
             <Spacing size="4.2" />
             <p>작성한 글이 없어요</p>
             <Spacing size="1" />
             <p>커뮤니티에서 궁금한 점을 물어보세요</p>
           </S.NonTool>
         )}
-      </S.PostWrapper>
-      <AlterModal {...deleteModalProps} />
-      <S.ToastWrapper>
-        <Toast isVisible={isToast} isWarning={false}>
-          삭제가 완료되었어요.
-        </Toast>
-      </S.ToastWrapper>
-    </>
-  );
+        <AlterModal {...deleteModalProps} />
+        <S.ToastWrapper>
+          <Toast isVisible={isToast} isWarning={false}>
+            삭제가 완료되었어요.
+          </Toast>
+        </S.ToastWrapper>
+      </>
+    );
+  }
 };
 
 export default MyPostPage;

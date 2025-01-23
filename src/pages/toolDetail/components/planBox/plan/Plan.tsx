@@ -1,11 +1,11 @@
-import { planData } from '@pages/toolDetail/mocks/planData';
-import { useState } from 'react';
+import { ToolPlan } from '@pages/toolDetail/types';
+import { forwardRef, useState } from 'react';
 
 import * as S from './Plan.styled';
 
 import Toggle from '../../toggle/Toggle';
 
-const Plan = () => {
+const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ toolPlans }, ref) => {
   const [isAnnual, setIsAnnual] = useState(false);
 
   return (
@@ -19,18 +19,18 @@ const Plan = () => {
           연간
         </S.PlanBtn>
       </S.PlanTab>
-      <S.PlanWrapper>
-        {planData.map((plan) => {
-          const price = isAnnual ? plan.price_annual : plan.price_monthly;
+      <S.PlanWrapper ref={ref}>
+        {toolPlans?.map((plan) => {
+          const price = isAnnual ? plan.annualPrice : plan.monthlyPrice;
           if (isAnnual && price === null) return null;
           return (
             <Toggle
-              key={plan.plan_id}
+              key={plan.planId}
               isSingleLine={false}
-              planName={plan.plan_name}
-              label={price}
-              dollar={plan.is_dollar ? Math.round(price / 1300) : undefined}
-              isdollar={plan.is_dollar === 1}
+              planName={plan.planName}
+              label={plan.price}
+              dollar={plan.isDollar ? Math.round((price ?? 0) / 1300) : undefined}
+              isdollar={plan.isDollar}
               description={plan.description}
               zIndex={1}
             />
@@ -39,6 +39,8 @@ const Plan = () => {
       </S.PlanWrapper>
     </>
   );
-};
+});
+
+Plan.displayName = 'Plan';
 
 export default Plan;

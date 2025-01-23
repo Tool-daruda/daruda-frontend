@@ -1,9 +1,5 @@
 import styled from '@emotion/styled';
 
-export const WrapperLayout = styled.section`
-  position: relative;
-`;
-
 export const PageHeader = styled.section`
   display: flex;
   align-items: center;
