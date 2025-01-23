@@ -6,7 +6,7 @@ import { fetchPostList } from './api';
 export const usePostListQuery = (toolId: number | null, noTopic: boolean) =>
   useInfiniteQuery<GetPostListResponse>({
     // 기본 쿼리 키 설정 (size에 따라서 가져올 값 갯수 결정가능 / toolId를 통해 필터링 가능 )
-    queryKey: ['boards', { noTopic, size: 6, lastBoardId: -1, toolId }],
+    queryKey: ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }],
     queryFn: ({ pageParam }) =>
       fetchPostList({
         pageParam,
