@@ -6,6 +6,7 @@ const KakaoRedirectHandler = () => {
   useEffect(() => {
     const handleAuthorization = async () => {
       const code = new URL(window.location.href).searchParams.get('code');
+      console.log(code);
 
       if (code) {
         try {
@@ -18,7 +19,7 @@ const KakaoRedirectHandler = () => {
             if (error.message === 'Authorization code가 만료되었습니다.') {
               alert('인가 코드가 만료되었습니다. 다시 로그인해주세요.');
               // 카카오 로그인 페이지로 리다이렉트
-              window.location.href = '/kakao-login'; // 리다이렉트 전에 setIsProcessing(false)를 호출
+              window.location.href = '/kakao-login';
             } else {
               alert('로그인 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
             }
