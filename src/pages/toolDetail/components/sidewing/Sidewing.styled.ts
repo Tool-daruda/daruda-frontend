@@ -46,7 +46,7 @@ export const OrderBtn = styled.button<{ $isActive: boolean }>`
     gap 0.3s ease-in-out,
     color 0.3s ease-in-out;
 
-  ${({ theme }) => theme.fonts.caption_14_m};
+  ${({ theme, $isActive }) => ($isActive ? theme.fonts.caption_14_b : theme.fonts.caption_14_m)};
 
   &:hover {
     color: ${({ theme, $isActive }) => ($isActive ? theme.colors.black : theme.colors.gray4)};
