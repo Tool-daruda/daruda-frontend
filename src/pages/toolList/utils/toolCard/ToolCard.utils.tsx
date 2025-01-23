@@ -20,7 +20,6 @@ export interface Tool {
   description?: string;
   license: string;
   keywords: string[];
-  bookmarked: boolean;
   bgColor: string;
   fontColor: boolean;
   isScraped: boolean;

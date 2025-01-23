@@ -20,18 +20,28 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<number | null>(null);
 
-  const fetchTools = async () => {
-    if (isLoading || !hasMore) return;
+  const fetchTools = async (isReset = false) => {
+    if (isLoading || (!hasMore && !isReset)) return;
 
     setIsLoading(true);
+
     try {
-      const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, cursor);
+      const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, isReset ? null : cursor);
       const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
 
-      setTools((prevTools) => [
-        ...prevTools,
-        ...newTools.filter((tool) => !prevTools.some((t) => t.toolId === tool.toolId)),
-      ]);
+      const formattedTools: Tool[] = newTools.map((tool) => ({
+        toolId: tool.toolId,
+        toolLogo: tool.toolLogo,
+        toolName: tool.toolName,
+        license: tool.license || 'unknown',
+        keywords: tool.keywords || [],
+        isScraped: tool.isScraped || false,
+        bgColor: tool.bgColor || '#FFFFFF',
+        fontColor: tool.fontColor || false,
+        description: tool.description || '',
+      }));
+
+      setTools((prevTools: Tool[]) => (isReset ? formattedTools : [...prevTools, ...formattedTools]));
       setCursor(scrollPaginationDto.nextCursor);
       setHasMore(scrollPaginationDto.nextCursor !== -1);
     } catch (error) {
@@ -40,17 +50,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 10 && hasMore) {
-        fetchTools();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [fetchTools, hasMore]);
 
   const handleScroll = useCallback(() => {
     const { scrollTop, scrollHeight } = document.documentElement;
@@ -62,10 +61,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   }, [isLoading, hasMore, selectedCategory, isFree, criteria, cursor]);
 
   useEffect(() => {
-    setTools([]);
-    setCursor(null);
-    setHasMore(true);
-    fetchTools();
+    fetchTools(true);
   }, [selectedCategory, isFree, criteria]);
 
   useEffect(() => {

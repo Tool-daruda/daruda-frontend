@@ -16,6 +16,7 @@ export const CardList = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   width: 86rem;
+  margin-bottom: 8rem;
 `;
 
 export const Card = styled.div`
@@ -25,6 +26,7 @@ export const Card = styled.div`
   overflow: hidden;
 
   background-color: white;
+  cursor: pointer;
   border-radius: 2rem;
 
   transition: box-shadow 0.3s ease-in-out;
