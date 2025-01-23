@@ -1,7 +1,8 @@
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Toast from '@components/toast/Toast';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useBoardUpdate } from './apis/queries';
 import * as S from './CommunityModify.styled';
@@ -9,26 +10,30 @@ import WritingBody from './components/writingBody/WritingBody';
 import WritingImg from './components/writingImg/WritingImg';
 import WritingTitle from './components/writingTitle/WritingTitle';
 import useCommunityModify from './hooks/UseCommunityModify';
+import { PostType } from './types/PostType';
 import { createPostFormData } from './utils/FormDataUtils';
 
 const CommunityModify = () => {
-  // TODO: state 맞춰주기
-  const post = {
-    boardId: 136,
-    toolName: 'Suno',
-    toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/SunoAi+1.svg',
-    author: '또이또이또이',
-    title: 'ㄴㅇ',
-    content: 'ㄴㅇㄴㅇ',
-    images: ['https://t4.ftcdn.net/jpg/01/43/42/83/360_F_143428338_gcxw3Jcd0tJpkvvb53pfEztwtU9sxsgT.jpg'],
-    isScraped: false,
-    updatedAt: '2025.01.22',
-    commentCount: 0,
-    toolId: null,
-  };
+  const [post, setPost] = useState<PostType | null>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.state?.post) {
+      setPost(location.state.post);
+    } else {
+      navigate('/');
+    }
+  }, []);
+
+  const originTool = useMemo(() => {
+    return post
+      ? { toolId: post.toolId, toolName: post.toolName, toolLogo: post.toolLogo }
+      : { toolId: 0, toolName: '알 수 없음', toolLogo: '' }; // 기본값 설정
+  }, [post]);
 
   const { title, setTitle, body, setBody, images, setImages, selectedTool, isFree, handleToolSelect } =
-    useCommunityModify(post.toolId);
+    useCommunityModify(post?.toolId as number);
 
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -37,7 +42,7 @@ const CommunityModify = () => {
   const { mutate: patchMutate } = useBoardUpdate();
 
   const handlePostSubmit = async () => {
-    if (isButtonDisabled) return;
+    if (isButtonDisabled || !post) return;
 
     const formData = createPostFormData(title, body, isFree, selectedTool, images);
 
@@ -48,9 +53,12 @@ const CommunityModify = () => {
   };
 
   useEffect(() => {
-    setTitle(post.title);
-    setBody(post.content);
-  }, []);
+    if (post) {
+      setTitle(post.title);
+      setBody(post.content);
+      handleToolSelect(post.toolId);
+    }
+  }, [post]);
 
   // 이미지 URL → File 변환
   const fetchFiles = async (imageUrls: string[]): Promise<File[]> => {
@@ -65,25 +73,33 @@ const CommunityModify = () => {
 
   // post.images를 File[]로 변환하여 상태 저장
   useEffect(() => {
-    fetchFiles(post.images).then(setImageFiles);
+    if (post?.images) {
+      fetchFiles(post.images).then(setImageFiles);
+    }
   }, []);
 
   useEffect(() => {
-    // 하나라도 비어있으면 비활성화
+    if (!post) return;
     const isNull = title.trim() === '' || body.trim() === '';
+    const isSame = title === post?.title && body === post.content && isImgSame && selectedTool === post.toolId;
 
-    // 모든 내용이 이전과 같으면 비활성화
-    const isSame = title === post.title && body === post.content && isImgSame && selectedTool === post.toolId;
+    console.log('isNull:', isNull);
+    console.log('isSame:', isSame);
+    console.log('isImgSame:', isImgSame);
+    console.log('selectedTool:', selectedTool, 'post.toolId:', post?.toolId);
+    console.log(isButtonDisabled);
 
     setIsButtonDisabled(isNull || isSame);
-  }, [title, body, isFree, selectedTool, isImgSame]);
+  }, [title, body, selectedTool, isImgSame]);
 
   const handleImageUpload = (newImages: File[]) => {
     setImages(newImages);
     setIsImgSame(false); // 이미지 변경 플래그
   };
 
-  const originTool = { toolId: post.toolId, toolName: post.toolName, toolLogo: post.toolLogo };
+  if (!post) {
+    return <div>로딩 중...</div>;
+  }
 
   return (
     <S.WriteWrapper>

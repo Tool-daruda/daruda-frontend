@@ -23,3 +23,17 @@ export interface PostBoardResponse {
   message: string;
   data: string;
 }
+
+export interface PostType {
+  boardId: number;
+  toolName: string;
+  toolLogo: string;
+  author: string;
+  title: string;
+  content: string;
+  images: string[];
+  isScraped: boolean;
+  updatedAt: string;
+  commentCount: number;
+  toolId: number | null;
+}
