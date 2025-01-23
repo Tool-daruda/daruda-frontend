@@ -5,6 +5,7 @@ import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
+import { useLocation } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
@@ -17,6 +18,8 @@ const Community = () => {
   const [noTopic, setIsNoTopic] = useState<boolean>(false);
   const { data, fetchNextPage, hasNextPage } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
+  const location = useLocation();
+  const originTool = location.state;
 
   // 자유페이지만 랜더링 하는 로직이 필요함. 다음 이슈때 추가 바로 하겠습니다
   const postList = data?.pages.map((item) => item.contents).flat();
@@ -37,7 +40,7 @@ const Community = () => {
       <S.CommunityWrapper>
         <Banner />
         <S.CommunityContainer>
-          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
+          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={originTool} />
           <S.CardList>
             {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
             {hasNextPage ? <div ref={ref} /> : null}

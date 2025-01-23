@@ -119,7 +119,7 @@ export const CardTitle = styled.div`
     color: ${({ theme }) => theme.colors.black};
   }
 
-  h2 {
+  button {
     ${({ theme }) => theme.fonts.body_16_r};
     color: ${({ theme }) => theme.colors.iris1};
 

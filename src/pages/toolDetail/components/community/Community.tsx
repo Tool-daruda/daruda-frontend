@@ -8,9 +8,10 @@ import * as S from './Community.styled';
 type ToolCommunityProps = {
   toolId: number;
   boardId: number;
+  onClick: () => void;
 };
 
-const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId }, ref) => {
+const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, onClick }, ref) => {
   const { data, fetchNextPage, hasNextPage } = usePostListQuery(toolId, false);
   const { ref: inViewRef, inView } = useInView();
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId }
       <S.CardSectionWrapper>
         <S.CardTitle>
           <h1>사람들은 이런 이야기를 하고 있습니다</h1>
-          <h2>커뮤니티 글 보기 &gt;</h2>
+          <button onClick={onClick}>커뮤니티 글 더보기&gt;</button>
         </S.CardTitle>
         <S.CardSection>
           {postList?.map((post) => {
