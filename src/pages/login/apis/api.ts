@@ -8,6 +8,7 @@ interface SuccessUserResponse {
   data: {
     jwtTokenResponse: { accessToken: string; refreshToken: string };
     isUser: true;
+    nickname: string;
   };
 }
 
@@ -17,6 +18,7 @@ interface NonRegisteredUserResponse {
   data: {
     email: string;
     isUser: false;
+    nickname: string;
   };
 }
 
@@ -68,8 +70,12 @@ export const sendAuthorization = async function sendAuthorizationCode(code: stri
     );
     if (response.data.isUser) {
       // 이미 등록된 유저인 경우
+      const { nickname } = response.data;
       const { accessToken, refreshToken } = response.data.jwtTokenResponse;
-      localStorage.setItem('user', JSON.stringify({ accessToken: accessToken, refreshToken: refreshToken }));
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ nickname: nickname, accessToken: accessToken, refreshToken: refreshToken }),
+      );
       window.location.href = '/';
     } else {
       // 등록된 유저가 아닌 경우
