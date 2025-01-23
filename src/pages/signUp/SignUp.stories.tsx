@@ -16,7 +16,7 @@ const meta: Meta<typeof SignUp> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header headerState={headerState} forOnboarding={false} />
         <Story />
         <Footer />
       </>

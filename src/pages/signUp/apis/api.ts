@@ -12,13 +12,13 @@ const signup = async (requestBody: SignupRequest): Promise<void> => {
     });
 
     // 성공 응답 처리
-    const { data } = response.data.data;
-    console.log('회원가입 성공:', data);
+    const data = response.data;
 
     // 토큰 가져오기
     localStorage.getItem(data.jwtTokenResponse.accessToken);
     localStorage.getItem(data.jwtTokenResponse.refreshToken);
     localStorage.getItem(data.email);
+    localStorage.getItem(data.nickname);
 
     alert('회원가입 성공! 메인 페이지로 이동합니다.');
     window.location.href = '/';

@@ -24,10 +24,16 @@ export interface PostBoardResponse {
   data: string;
 }
 
-export interface FormDataType {
+export interface PostType {
+  boardId: number;
+  toolName: string;
+  toolLogo: string;
+  author: string;
   title: string;
-  body: string;
-  isFree: boolean;
-  selectedTool: number | null;
-  images: File[];
+  content: string;
+  images: string[];
+  isScraped: boolean;
+  updatedAt: string;
+  commentCount: number;
+  toolId: number | null;
 }

@@ -4,8 +4,10 @@ export const LogintWrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
-  padding: 3.2rem 16rem 4.8rem;
+  height: calc(100vh - 7.2rem);
+  padding: 3.2rem 16rem;
 `;
 
 export const Container = styled.div`
@@ -16,8 +18,7 @@ export const Container = styled.div`
   ${({ theme }) => theme.fonts.body_20_m};
 
   background-color: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
-  border: 0.1rem solid ${({ theme }) => theme.colors.gray4};
+  border: 0.1rem solid ${({ theme }) => theme.colors.gray6};
   border-radius: 2rem;
 `;
 

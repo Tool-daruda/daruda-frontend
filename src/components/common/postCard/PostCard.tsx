@@ -97,7 +97,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             </S.BottomBarLeft>
             <DropDown position="end">
               <DropDown.Content $display="top">
-                <DropDown.Item onClick={() => navigate('/community/modify/:id', { state: post })}>
+                <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
                   수정하기
                 </DropDown.Item>
                 <DropDown.Item status="danger" onClick={handleModalOpen}>

@@ -27,16 +27,19 @@ const MyFavoritePostPage = () => {
           {favoritePostData.boardList?.length > 0 ? (
             <>
               <S.PostContainer>
-                {favoritePostData.boardList.map((post) => (
-                  <PostCard
-                    key={post.boardId}
-                    isMine={false}
-                    title={post.title}
-                    updatedAt={post.updatedAt}
-                    toolLogo={post.toolLogo}
-                    toolName={post.toolName}
-                    onClick={() => handleScrap(post.boardId)}
-                  />
+                {favoritePostData.boardList.map((post, index) => (
+                  <>
+                    {index !== 0 && <S.Divider />}
+                    <PostCard
+                      key={post.boardId}
+                      isMine={false}
+                      title={post.title}
+                      updatedAt={post.updatedAt}
+                      toolLogo={post.toolLogo}
+                      toolName={post.toolName}
+                      onClick={() => handleScrap(post.boardId)}
+                    />
+                  </>
                 ))}
               </S.PostContainer>
               <S.Pagination>

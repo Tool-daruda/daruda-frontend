@@ -44,6 +44,7 @@ const MyInfoPage = () => {
   }, [data]);
 
   const handleSaveInfo = async () => {
+    if (!data) return;
     const updatedData: { nickname?: string; position?: string } = {};
 
     if (nickname !== data?.nickname) {
@@ -131,7 +132,9 @@ const MyInfoPage = () => {
     <>
       <S.InfoWrapper>
         <S.AffiliationBtnBox>
-          <S.InfoLabel>소속*</S.InfoLabel>
+          <S.InfoLabel>
+            소속<span>*</span>
+          </S.InfoLabel>
           {Object.keys(AFFILIATION_OPTIONS).map((label) => (
             <AffiliationBtn
               key={label}
@@ -141,9 +144,12 @@ const MyInfoPage = () => {
             />
           ))}
         </S.AffiliationBtnBox>
-        <Spacing size="3.2" />
+        <Spacing size="4" />
         <S.NickNameWrapper>
-          <S.InfoLabel>닉네임*</S.InfoLabel>
+          <S.InfoLabel>
+            <Spacing size="1" />
+            닉네임<span>*</span>
+          </S.InfoLabel>
           <S.NicknameInputBox>
             <NamingInput
               value={nickname}
@@ -186,11 +192,15 @@ const S = {
     gap: 1.6rem;
     align-items: center;
     width: 100%;
-    height: 5.6rem;
+    height: 4.8rem;
   `,
   InfoLabel: styled.p`
     width: 5rem;
     ${({ theme }) => theme.fonts.body_16_m};
+
+    & > span {
+      color: ${({ theme }) => theme.colors.orange1};
+    }
   `,
   NickNameWrapper: styled.div`
     display: flex;
@@ -198,7 +208,7 @@ const S = {
   `,
   NicknameInputBox: styled.div`
     display: flex;
-    gap: 1.5rem;
+    gap: 1.2rem;
     width: 40.8rem;
   `,
   Withdraw: styled.button`
