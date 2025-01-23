@@ -105,6 +105,7 @@ const CommnetInput = () => {
             onFocus={handleInputFocus}
             onBlur={handleInputOutfocus}
             placeholder="글을 작성해주세요."
+            maxLength={1001}
           />
           <S.CountingWords $isOverflowed={isOverflowed}>
             <span>{text.length}</span>/<span>1,000자</span>

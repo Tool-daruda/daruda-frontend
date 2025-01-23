@@ -46,8 +46,8 @@ export const NonTool = styled.figure`
 
 export const FollowingBtns = styled.div`
   position: fixed;
-  top: 60.9rem;
   right: 8.7rem;
+  bottom: 8rem;
   z-index: 999;
   display: inline-flex;
   flex-direction: column;

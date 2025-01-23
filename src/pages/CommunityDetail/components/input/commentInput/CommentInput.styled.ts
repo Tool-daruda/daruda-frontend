@@ -49,7 +49,7 @@ export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocu
       $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
   border-radius: 0.8rem;
 
-  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
+  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s linear' : 'none')};
   ${errAnimation}
 `;
 
