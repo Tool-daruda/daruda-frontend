@@ -81,18 +81,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     e.stopPropagation(); // 북마크 하기 위해서 !
 
     try {
-      let response;
-
-      if (isScraped) {
-        console.log(`북마크 삭제: toolId = ${toolId}`);
-        response = await addBookmark(toolId);
-      } else {
-        console.log(`북마크 추가: toolId = ${toolId}`);
-        response = await addBookmark(toolId);
-      }
-
-      console.log('북마크 응답:', response);
-
+      await addBookmark(toolId);
       setTools((prevTools) =>
         prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
       );
