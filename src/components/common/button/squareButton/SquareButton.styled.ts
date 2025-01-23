@@ -5,11 +5,13 @@ export const ButtonWrapper = styled.button<{
   stroke: boolean;
   $forBookMark: boolean;
   $isBook: boolean;
+  $status: boolean;
 }>`
   display: flex;
   gap: 0.8rem;
   align-items: center;
   justify-content: flex-start;
+  padding-left: ${({ $status }) => $status && '5%'};
 
   ${({ theme }) => theme.fonts.body_16_m};
   color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};

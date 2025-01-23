@@ -81,7 +81,14 @@ const CommnetInput = () => {
       이미지 첨부
     </InputButton>
   ) : (
-    <SquareButton type="button" icon={<IcCmtimgGray24 />} size="large" stroke={true} handleClick={handleImgReSubmit}>
+    <SquareButton
+      type="button"
+      status={imageSelected}
+      icon={<IcCmtimgGray24 />}
+      size="large"
+      stroke={true}
+      handleClick={handleImgReSubmit}
+    >
       이미지 첨부
     </SquareButton>
   );
