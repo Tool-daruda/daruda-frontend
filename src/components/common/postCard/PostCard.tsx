@@ -94,9 +94,8 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 icon={<IcCommentGray24 />}
                 size="small"
                 stroke={false}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/community/${boardId}`);
+                handleClick={() => {
+                  navigate(`/community/${boardId}#target-section`);
                 }}
               >{`${commentCount}개`}</SquareButton>
               <SquareButton icon={<IcBookmark />} size="small" stroke={false} forBookMark={true}>

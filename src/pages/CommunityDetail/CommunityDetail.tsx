@@ -1,7 +1,7 @@
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
-import { handleScrollDown } from '@utils';
+import { handleScrollDown, handleScrollUp } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
@@ -29,6 +29,10 @@ const CommunityDetail = () => {
   }, []);
 
   useEffect(() => {
+    handleScrollUp();
+  }, []);
+
+  useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
@@ -37,11 +41,11 @@ const CommunityDetail = () => {
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
     <>
-      <S.PageWrapper>
+      <S.PageWrapper id="target-section">
         <S.PageHeader>
           <h1>글 상세보기</h1>
         </S.PageHeader>
-        <S.BoardContainer id="target-section">
+        <S.BoardContainer>
           <S.PostItem>
             {data && <Card post={data} forDetail={true} ref={postareaRef} />}
             {CommentData && (
