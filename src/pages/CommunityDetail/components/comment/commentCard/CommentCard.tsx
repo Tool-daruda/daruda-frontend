@@ -3,7 +3,7 @@ import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
-import useCommentDelete from '@pages/CommunityDetail/apis/DeletePost/queries';
+import useCommentDelete from '@pages/CommunityDetail/apis/deletePost/queries';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
