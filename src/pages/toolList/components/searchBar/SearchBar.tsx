@@ -5,7 +5,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
 
-import { fetchCategories } from '../../apis/api';
+import { fetchCategories, fetchToolsByCategory } from '../../apis/api';
 
 interface Category {
   name: string;
@@ -43,9 +43,14 @@ const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
 
     loadCategories();
     onCategoryChange(categoryFromParams);
-  }, [categoryFromParams, onCategoryChange]);
+  }, [categoryFromParams]);
 
-  const handleCategoryClick = (categoryName: string) => {
+  const isFetching = useRef(false);
+
+  const handleCategoryClick = async (categoryName: string) => {
+    if (isFetching.current) return;
+    isFetching.current = true;
+
     const encodedCategoryName = encodeURIComponent(categoryName);
 
     const updatedCategories = categoriesState.map((category) => ({
@@ -55,8 +60,16 @@ const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
     setCategoriesState(updatedCategories);
 
     onCategoryChange(categoryName);
-
     navigate(`/toollist?category=${encodedCategoryName}`);
+
+    try {
+      const tools = await fetchToolsByCategory(categoryName);
+      console.log('선택된 카테고리 데이터:', tools);
+    } catch (error) {
+      console.error('데이터를 가져오는 중 오류 발생:', error);
+    } finally {
+      isFetching.current = false;
+    }
   };
 
   const handleScroll = (direction: 'start' | 'end') => {
@@ -113,7 +126,9 @@ const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
                 key={category.name}
                 size="large"
                 active={category.active}
-                onClick={() => handleCategoryClick(category.name)}
+                onClick={() => {
+                  handleCategoryClick(category.name);
+                }}
               >
                 <Chip.RoundContainer>
                   <Chip.Label>{category.koreanName}</Chip.Label>
