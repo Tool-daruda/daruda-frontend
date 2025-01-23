@@ -68,7 +68,6 @@ export const useBoardDelete = (boardId: number | undefined, toolId: number | nul
       const queryKey = ['boards', { noTopic, size: 6, lastBoardId: -1, toolId }];
       await queryClient.cancelQueries({ queryKey });
       const prevList = queryClient.getQueryData<InfiniteQueryResponse>(queryKey);
-      console.log(prevList);
 
       if (prevList && Array.isArray(prevList.pages)) {
         const updatedList = {

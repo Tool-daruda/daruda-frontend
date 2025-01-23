@@ -31,8 +31,6 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     post;
   const [isOwnPost, setIsOwnPost] = useState(false);
 
-  console.log(post);
-
   const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
