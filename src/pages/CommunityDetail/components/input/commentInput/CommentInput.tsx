@@ -138,11 +138,11 @@ const CommnetInput = () => {
       <S.CautionWrpper>
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
       </S.CautionWrpper>
-      <S.ToastWrapper>
+      {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={true}>
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
-      </S.ToastWrapper>
+      )}
       {isImgModalOpen && (
         <ImgDetail
           handleModalClose={handleImgModalClose}

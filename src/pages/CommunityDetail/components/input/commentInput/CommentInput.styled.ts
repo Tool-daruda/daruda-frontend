@@ -135,14 +135,6 @@ export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
   }
 `;
 
-export const ToastWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-
-  transform: translateX(-50%);
-`;
-
 export const CautionWrpper = styled.div`
   display: flex;
   width: 100%;
