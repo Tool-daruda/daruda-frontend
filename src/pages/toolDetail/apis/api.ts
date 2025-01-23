@@ -6,6 +6,7 @@ export const DETAIL_QUERY_KEY = {
   CORE_FEATURES: (coreID: number) => ['corefeature', coreID],
   TOOL_PLAN: (planID: number) => ['toolplan', planID],
   RELATED_TOOLS: (toolID: number) => ['relatedtool', toolID],
+  SCRAPPED_TOOLS: (toolId: number) => ['scrappedtool', toolId],
 };
 
 // 핵심 기능 조회하기

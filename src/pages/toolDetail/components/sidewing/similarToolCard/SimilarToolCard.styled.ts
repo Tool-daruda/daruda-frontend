@@ -18,7 +18,7 @@ export const CardWrapper = styled.article`
 
 export const TopContainer = styled.section`
   display: flex;
-  gap: 1rem;
+  gap: 1.6rem;
   align-items: center;
 `;
 

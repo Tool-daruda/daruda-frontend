@@ -35,7 +35,6 @@ const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(({ toolImage, a
       </S.ToolIntroWrapper>
       <S.DividingLine />
 
-      {/* ImgDetail 모달 */}
       {isModalOpen && <ImgDetail handleModalClose={handleModalClose} imgList={toolImage} index={0} />}
     </div>
   );
