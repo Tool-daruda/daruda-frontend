@@ -1,15 +1,24 @@
 import { Free, Half, Paid } from '@assets/svgs';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './SimilarToolCard.styled';
 
 interface SimilarToolCardPropTypes {
+  toolId: number;
   toolLogo: string;
   toolNameMain: string;
   license: '무료' | '부분 무료' | '유료';
   keyWordList: string[];
 }
 
-const SimilarToolCard = ({ toolLogo, toolNameMain, license, keyWordList }: SimilarToolCardPropTypes) => {
+const SimilarToolCard = ({ toolId, toolLogo, toolNameMain, license, keyWordList }: SimilarToolCardPropTypes) => {
+  const navigate = useNavigate();
+
+  const handleToolCardClick = () => {
+    // 해당 toolId로 이동
+    navigate(`/toollist/${toolId}`);
+  };
+
   const renderLicenseIcon = () => {
     switch (license) {
       case '무료':
@@ -24,7 +33,7 @@ const SimilarToolCard = ({ toolLogo, toolNameMain, license, keyWordList }: Simil
   };
 
   return (
-    <S.CardWrapper>
+    <S.CardWrapper onClick={handleToolCardClick}>
       <S.TopContainer>
         <S.CardLogo src={toolLogo} alt={`${toolNameMain} 로고`} />
         <S.InfoBox>

@@ -18,6 +18,7 @@ const SimilarToolCardList = ({ data }: SimilarToolCardListProps) => {
       {relatedToolResList?.map((tool) => (
         <SimilarToolCard
           key={tool.toolId}
+          toolId={tool.toolId}
           toolLogo={tool.toolLogo}
           toolNameMain={tool.toolName}
           license={tool.license}
