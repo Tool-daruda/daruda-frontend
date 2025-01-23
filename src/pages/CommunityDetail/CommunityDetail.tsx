@@ -1,6 +1,5 @@
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
-import Loading from '@components/lottie/Loading';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
 import { handleScrollDown, handleScrollUp } from '@utils';
@@ -59,7 +58,6 @@ const CommunityDetail = () => {
                   hasNextPage={hasNextPage}
                   commentCount={data?.commentCount}
                 />
-                {1 && <Loading />}
               </>
             )}
           </S.PostItem>
