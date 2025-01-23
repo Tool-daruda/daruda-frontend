@@ -6,7 +6,7 @@ import { chipColors } from './chipColors';
 
 export const ChipRoundContainer = styled.button<{
   $stroke?: boolean;
-  $size?: 'xsmall' | 'small' | 'medium' | 'large';
+  $size?: 'xsmall' | 'small' | 'medium' | 'large' | 'custom';
   $active?: boolean;
 }>`
   display: grid;
@@ -50,7 +50,7 @@ export const ChipRoundContainer = styled.button<{
 
 export const ChipRectContainer = styled.button<{
   $stroke?: boolean;
-  $size?: 'xsmall' | 'small' | 'medium' | 'large';
+  $size?: 'xsmall' | 'small' | 'medium' | 'large' | 'custom';
   $active?: boolean;
 }>`
   display: grid;
@@ -81,6 +81,22 @@ export const ChipRectContainer = styled.button<{
             ${$active
               ? chipColors.rectChip.borderColor && theme.colors[chipColors.rectChip.borderColor]
               : theme.colors.white1};
+        `;
+      case 'custom':
+        //흰 배경 용 추가
+        return css`
+          height: 2.6rem;
+          padding: 0.4rem 1rem;
+
+          ${theme.fonts.caption_12_b};
+          color: ${$active ? theme.colors[chipColors.rectChip.color] : theme.colors.gray2};
+          line-height: 1;
+
+          background-color: ${theme.colors.white2};
+          border: 1px solid
+            ${$active
+              ? chipColors.rectChip.borderColor && theme.colors[chipColors.rectChip.borderColor]
+              : theme.colors.gray4};
         `;
       case 'small':
         return css`

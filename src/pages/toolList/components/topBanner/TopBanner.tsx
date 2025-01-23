@@ -5,8 +5,7 @@ import * as S from './TopBanner.styled';
 const TopBanner = () => {
   return (
     <S.BannerWrapper>
-      <S.CardListAppcardStyled />
-      <S.CardListAppcard1Styled />
+      <S.BackCards />
       <S.BannerContainer>
         <S.BannerTitle>
           대학생활에 필요한 툴을 다루다, <ImgTextlogo />{' '}

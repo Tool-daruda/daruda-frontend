@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   gap: 1.6rem;
   align-items: center;
-  margin-bottom: 7.8rem;
+  margin-bottom: 2rem;
 `;
 
 export const CardList = styled.div`
@@ -16,6 +16,7 @@ export const CardList = styled.div`
   align-content: flex-start;
   align-items: flex-start;
   width: 86rem;
+  margin-bottom: 8rem;
 `;
 
 export const Card = styled.div`
@@ -25,6 +26,7 @@ export const Card = styled.div`
   overflow: hidden;
 
   background-color: white;
+  cursor: pointer;
   border-radius: 2rem;
 
   transition: box-shadow 0.3s ease-in-out;
@@ -111,22 +113,23 @@ export const ToolLogo = styled.img`
   height: 10rem;
 `;
 
-export const ToolNameFront = styled.h2<{ textColor: boolean }>`
+export const ToolNameFront = styled.h1<{ fontColor: boolean; isKorean: boolean }>`
   position: absolute;
   top: 3.7rem;
   left: 3rem;
 
   align-items: left;
   width: 23.6rem;
-  height: auto;
+  height: 7.6rem;
 
-  color: ${({ textColor, theme }) => (textColor ? theme.colors.black : theme.colors.white1)};
-  ${({ theme }) => theme.fonts.card_32_B};
+  color: ${({ fontColor, theme }) => (fontColor ? theme.colors.black : theme.colors.white1)};
+  ${({ isKorean, theme }) => (isKorean ? theme.fonts.head_32_b : theme.fonts.card_36_B)};
   white-space: normal;
   text-align: left;
   word-wrap: break-word;
   overflow-wrap: break-word;
 `;
+
 export const ToolFront = styled.div`
   display: flex;
   align-items: center;
@@ -134,12 +137,13 @@ export const ToolFront = styled.div`
   width: 23.6rem;
   height: 7.6rem;
 `;
-export const ToolBackTitle = styled.h2`
+
+export const ToolBackTitle = styled.h2<{ isKorean: boolean }>`
   width: 15.6rem;
   height: auto;
 
   color: ${({ theme }) => theme.colors.black};
-  ${({ theme }) => theme.fonts.card_18_B_20};
+  ${({ isKorean, theme }) => (isKorean ? theme.fonts.body_20_b : theme.fonts.card_18_B_20)};
   white-space: normal;
   text-align: left;
   word-wrap: break-word;
@@ -219,4 +223,16 @@ export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
   cursor: pointer;
 
   fill: ${({ bookmarked, theme }) => (bookmarked ? theme.colors.iris1 : 'none')};
+`;
+
+export const EmptyMessage = styled.h1`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  ${({ theme }) => theme.fonts.body_20_m}
+  margin-top:5rem;
+`;
+
+export const Lottie = styled.div`
+  margin-bottom: 4rem;
 `;
