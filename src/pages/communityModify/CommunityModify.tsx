@@ -83,12 +83,6 @@ const CommunityModify = () => {
     const isNull = title.trim() === '' || body.trim() === '';
     const isSame = title === post?.title && body === post.content && isImgSame && selectedTool === post.toolId;
 
-    console.log('isNull:', isNull);
-    console.log('isSame:', isSame);
-    console.log('isImgSame:', isImgSame);
-    console.log('selectedTool:', selectedTool, 'post.toolId:', post?.toolId);
-    console.log(isButtonDisabled);
-
     setIsButtonDisabled(isNull || isSame);
   }, [title, body, selectedTool, isImgSame]);
 
