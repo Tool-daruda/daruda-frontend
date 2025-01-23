@@ -150,7 +150,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                     <DropDown.Item status="danger" onClick={() => handleModal('삭제')}>
                       삭제하기
                     </DropDown.Item>
-                    <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: post })}>
+                    <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
                       수정하기
                     </DropDown.Item>
                   </>
