@@ -11,16 +11,11 @@ interface PlanPropTypes {
 const PlanBox = forwardRef<HTMLDivElement, PlanPropTypes>(({ toolId, ...props }, ref) => {
   const { data } = usePlan(toolId);
 
-  // 데이터가 없거나 비어있는 경우 null 반환
-  if (!data || !data.toolPlans) {
-    return null;
-  }
-
   return (
     <div ref={ref} {...props}>
       <S.PlanBoxWrapper>
         <h1>플랜</h1>
-        <Plan toolPlans={data.toolPlans} />
+        <Plan toolPlans={data?.toolPlans || []} />
       </S.PlanBoxWrapper>
     </div>
   );
