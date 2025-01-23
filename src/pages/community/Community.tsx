@@ -29,9 +29,9 @@ const Community = () => {
     }
   }, [inView]);
 
-  const handleToolSelect = (toolId: number | null) => {
+  const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setPickedtool(toolId);
-    setIsNoTopic(toolId === null);
+    setIsNoTopic(toolId === null && noTopic);
   };
   return (
     <>
