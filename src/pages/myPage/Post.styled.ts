@@ -14,7 +14,13 @@ export const PostWrapper = styled.div`
 export const PostContainer = styled.article`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+`;
+
+export const Divider = styled.div`
+  width: 84.2rem;
+  height: 0.1rem;
+
+  background-color: ${({ theme }) => theme.colors.gray5};
 `;
 
 export const Pagination = styled.nav`

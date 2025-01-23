@@ -26,7 +26,7 @@ const NamingInput = ({
   ...props
 }: NamingInputPropTypes) => {
   const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
-  const count = value.length;
+  const count = value?.length;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) {

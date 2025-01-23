@@ -2,14 +2,14 @@ import { del, get, patch, post } from '@apis/index';
 import type { AxiosResponse } from 'axios';
 
 import { BoardResponseData } from '../types/board';
-import { Info } from '../types/info';
+import { Info, InfoResponse } from '../types/info';
 import { ToolList } from '../types/tool';
 
 // 회원정보 조회
 export const getUserInfo = async (): Promise<Info | null> => {
   try {
-    const response: Info = await get(`users/profile/me`);
-    return response;
+    const response: InfoResponse = await get(`users/profile/me`);
+    return response.data;
   } catch (error) {
     console.error('Error:', error);
     return null;

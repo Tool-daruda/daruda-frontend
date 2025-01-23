@@ -55,16 +55,19 @@ const MyPostPage = () => {
         {postData.boardList?.length > 0 ? (
           <S.PostWrapper>
             <S.PostContainer>
-              {postData.boardList?.map((post) => (
-                <PostCard
-                  key={post.boardId}
-                  isMine={true}
-                  title={post.title}
-                  updatedAt={post.updatedAt}
-                  toolLogo={post.toolLogo}
-                  toolName={post.toolName}
-                  onClick={() => handleDelete(post.boardId)}
-                />
+              {postData.boardList?.map((post, index) => (
+                <>
+                  {index !== 0 && <S.Divider />}
+                  <PostCard
+                    key={post.boardId}
+                    isMine={true}
+                    title={post.title}
+                    updatedAt={post.updatedAt}
+                    toolLogo={post.toolLogo}
+                    toolName={post.toolName}
+                    onClick={() => handleDelete(post.boardId)}
+                  />
+                </>
               ))}
             </S.PostContainer>
             <S.Pagination>
