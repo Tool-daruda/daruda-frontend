@@ -36,6 +36,7 @@ const useTextInput = (maxChars: number = 1000) => {
     handleInput,
     handleInputFocus,
     handleInputOutfocus,
+    setText,
   };
 };
 

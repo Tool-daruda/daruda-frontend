@@ -3,8 +3,10 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
+import usePostComment from '@pages/CommunityDetail/apis/postComment/queries';
 import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
+import { useParams } from 'react-router-dom';
 
 import * as S from './CommentInput.styled';
 
@@ -23,6 +25,7 @@ const CommnetInput = () => {
     handleInput,
     handleInputFocus,
     handleInputOutfocus,
+    setText,
   } = useTextInput(DEFAULT_MAX_CHARS);
   const {
     toastType,
@@ -37,14 +40,20 @@ const CommnetInput = () => {
     handleModalOpen,
   } = useImageUpload();
 
-  const handleCommentPost = () => {
+  const { id: boardId } = useParams();
+  const { mutate: postComment } = usePostComment(boardId);
+
+  const handleCommentPost = (e: FormEvent) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append('text', text);
+    formData.append('content', text);
     if (imageFile) {
       formData.append('image', imageFile);
     }
-    // TODO: POST 요청 연결
-    alert('댓글 뿅');
+
+    postComment(formData);
+
+    setText('');
   };
 
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
