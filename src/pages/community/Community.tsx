@@ -1,6 +1,7 @@
-import { IcPlusWhite20, IcChevron } from '@assets/svgs';
+import { IcPlusWhite20, IcChevron, ImgPopupNonebookmark } from '@assets/svgs';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
 import { useEffect, useState } from 'react';
@@ -41,7 +42,17 @@ const Community = () => {
         <S.CommunityContainer>
           <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
           <S.CardList>
-            {postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)}
+            {postList && postList.length > 1 ? (
+              postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
+            ) : (
+              <S.NonTool>
+                <ImgPopupNonebookmark />
+                <Spacing size="4.2" />
+                <p>작성된 글이 없어요</p>
+                <Spacing size="1" />
+                <p>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</p>
+              </S.NonTool>
+            )}
             {hasNextPage ? <div ref={ref} /> : null}
           </S.CardList>
         </S.CommunityContainer>

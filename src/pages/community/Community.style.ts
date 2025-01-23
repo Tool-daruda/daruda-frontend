@@ -24,6 +24,26 @@ export const CardList = styled.ul`
   margin: 2.4rem 0;
 `;
 
+export const NonTool = styled.figure`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3.6rem;
+
+  & p:first-of-type {
+    color: ${({ theme }) => theme.colors.gray1};
+
+    ${({ theme }) => theme.fonts.body_20_b};
+  }
+
+  & p:last-of-type {
+    color: ${({ theme }) => theme.colors.gray2};
+
+    ${({ theme }) => theme.fonts.caption_14_m};
+  }
+`;
+
 export const FollowingBtns = styled.div`
   position: fixed;
   top: 60.9rem;
