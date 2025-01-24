@@ -8,11 +8,13 @@ const LastPage = () => {
   return (
     <S.PageWrapper>
       <S.PageContainer>
-        <h1>
-          세상을 다루는 첫 번째 클릭
-          <br />
-          다루다에서 시작하세요
-        </h1>
+        <S.cursorContainer>
+          <img src="/gif_landing_lastlogo.gif" alt="cursor_spinning" />
+        </S.cursorContainer>
+        <S.Title>
+          <h1>세상을 다루는 첫 번째 클릭</h1>
+          <h1>다루다에서 시작하세요</h1>
+        </S.Title>
         <CircleButton shadow={false} size="large" whiteBtn={true} onClick={() => navigate('/toollist')}>
           <span> 시작하기</span>
         </CircleButton>

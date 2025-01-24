@@ -20,11 +20,10 @@ export const PageWrapper = styled.section`
 export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 9rem;
+  gap: 2.4rem;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding-bottom: 9.6rem;
 
   h1 {
     ${({ theme }) => theme.fonts.head_28_b};
@@ -38,4 +37,20 @@ export const PageContainer = styled.div`
     ${({ theme }) => theme.fonts.head_28_b};
     color: ${({ theme }) => theme.colors.iris1};
   }
+`;
+export const cursorContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & > img {
+    width: 40%;
+  }
+`;
+
+export const Title = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin-bottom: 5rem;
 `;
