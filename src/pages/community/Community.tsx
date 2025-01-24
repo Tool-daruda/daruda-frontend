@@ -93,13 +93,20 @@ const Community = () => {
         </S.CommunityContainer>
         <S.FollowingBtns>
           <CircleButton
-            onClick={() => navigate(`/community/write`)}
+            onClick={() => {
+              const user = localStorage.getItem('user');
+              if (user) {
+                navigate(`/community/write`);
+              }
+            }}
             size="small"
             shadow={true}
             icon={<IcPlusWhite20 />}
+            disabled={!localStorage.getItem('user')}
           >
             글쓰기
           </CircleButton>
+
           <S.TopBtn type="button" onClick={handleScrollUp}>
             <IcChevron />
           </S.TopBtn>
