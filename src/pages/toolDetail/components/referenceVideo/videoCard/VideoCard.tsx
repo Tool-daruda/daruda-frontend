@@ -1,5 +1,5 @@
 import { IcPlayWhite40 } from '@assets/svgs';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ReactPlayer from 'react-player';
 
 import * as S from './VideoCard.styled';
@@ -40,29 +40,16 @@ const VideoCard = ({ video, alternate }: { video: string | null; alternate: stri
 
 export default VideoCard;
 
-const getYouTubeThumbnail = async (url: string) => {
-  const videoIdMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
-
+const getYouTubeThumbnail = (videoUrl: string): string | null => {
+  const videoIdMatch = videoUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
   if (!videoIdMatch) return null;
 
-  const thumbnailUrl = `https://img.youtube.com/vi/${videoIdMatch[1]}/maxresdefault.jpg`;
-
-  const response = await fetch(thumbnailUrl, { method: 'HEAD' });
-  if (response.ok) {
-    return thumbnailUrl;
-  } else {
-    return null;
-  }
+  const videoId = videoIdMatch[1];
+  return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`; // 항상 hqdefault 사용
 };
 
 const YouTubeThumbnail = ({ videoUrl, alternate }: { videoUrl: string; alternate: string }) => {
-  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
+  const thumbnailUrl = getYouTubeThumbnail(videoUrl) ?? alternate;
 
-  useEffect(() => {
-    getYouTubeThumbnail(videoUrl).then((url) => {
-      setThumbnailUrl(url);
-    });
-  }, [videoUrl]);
-
-  return <img src={thumbnailUrl ?? alternate} alt="YouTube Thumbnail" />;
+  return <img src={thumbnailUrl} alt="YouTube Thumbnail" />;
 };
