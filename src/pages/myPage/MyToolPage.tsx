@@ -84,8 +84,9 @@ const S = {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: inheriht;
-    margin-left: -3.6rem;
+    margin-left: 1rem;
 
     transform: translate(-50%, -50%);
 

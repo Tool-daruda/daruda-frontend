@@ -58,6 +58,9 @@ const S = {
     color: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.white1 : theme.colors.black)};
 
     background: ${({ theme, $isPrimary }) => ($isPrimary ? theme.colors.iris1 : theme.colors.gray6)};
+    border-right: ${({ order, theme }) => (order === 1 ? `1px solid ${theme.colors.gray4}` : '0')};
+    border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
+    border-left: ${({ order, theme }) => (order === 0 ? `1px solid ${theme.colors.gray4}` : '0')};
     border-bottom-right-radius: ${({ order }) => (order ? '2rem' : '0')};
     border-bottom-left-radius: ${({ order }) => (order ? '0' : '2rem')};
   `,
