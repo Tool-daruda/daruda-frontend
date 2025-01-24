@@ -43,7 +43,8 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap();
-  const [isClicked, setIsClicked] = useState(isScraped);
+  // const [isClicked, setIsClicked] = useState(isScraped);
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
@@ -69,9 +70,6 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   const handleScrap = (boardId: number) => {
     srapMutate(boardId);
-    if (isBookMarkSuccess) {
-      setIsClicked((prev) => !prev);
-    }
 
     const postOwner = localStorage.getItem('user');
     if (postOwner == null || postOwner == undefined) {
@@ -80,6 +78,12 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
     handleToastOpen();
   };
+
+  useEffect(() => {
+    if (isBookMarkSuccess) {
+      setToastMessage(isScraped ? '북마크가 취소되었어요' : '북마크가 되었어요');
+    }
+  }, [isBookMarkSuccess]);
 
   const handleWarnnig = () => {
     setIsWarning(true);
@@ -103,6 +107,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
       },
     });
   };
+
   return (
     <S.CardWrapper $forDetail={forDetail} ref={ref}>
       <Link
@@ -165,7 +170,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               >{`${commentCount}개`}</SquareButton>
               <SquareButton
                 icon={<IcBookmark />}
-                isBook={isClicked}
+                isBook={isScraped}
                 size="small"
                 stroke={false}
                 forBookMark={true}
@@ -225,7 +230,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
       )}
       {isToastOpen && isBookMarkSuccess && (
         <Toast isVisible={isToastOpen} isWarning={false}>
-          {isClicked ? '북마크되었어요' : '북마크가 취소되었어요'}
+          {toastMessage}
         </Toast>
       )}
       {isWarning && (

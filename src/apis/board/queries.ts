@@ -52,6 +52,7 @@ export const useBoardScrap = () => {
           );
         },
       });
+      queryClient.refetchQueries({ queryKey: ['boards'] });
     },
   });
 };
