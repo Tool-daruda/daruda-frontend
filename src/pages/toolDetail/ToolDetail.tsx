@@ -1,6 +1,7 @@
 import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
+import NotFound from '@pages/error/NotFound';
 import { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'; // useParams 가져오기
 
@@ -25,7 +26,7 @@ const ToolDetail = () => {
 
   // toolId를 숫자로 변환하여 전달
   const numericToolId = Number(toolId);
-  const { data } = useToolData(numericToolId);
+  const { data, isError } = useToolData(numericToolId);
 
   const sectionRefs = {
     1: ToolIntroRef,
@@ -34,6 +35,10 @@ const ToolDetail = () => {
     4: PlanBoxRef,
     5: ToolCommunityRef,
   };
+
+  if (isError) {
+    return <NotFound />;
+  }
 
   if (data) {
     const goCommunity = () => {

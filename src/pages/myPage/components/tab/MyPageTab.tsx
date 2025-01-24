@@ -1,4 +1,4 @@
-import { ImgPopupLogout84, ImgPopupLogoutcheck84 } from '@assets/svgs';
+import { Frame2087327349, ImgPopupLogoutcheck84 } from '@assets/svgs';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import { useLogout } from '@pages/myPage/apis/queries';
@@ -35,7 +35,7 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
       handleLogoutModal();
       handleLogoutCheckModal();
     },
-    ImgPopupModal: ImgPopupLogout84,
+    ImgPopupModal: Frame2087327349,
     isSingleModal: false,
     modalContent: '재로그인하면 다루다를 다시 이용할 수 있어요',
     DoublebtnProps: {

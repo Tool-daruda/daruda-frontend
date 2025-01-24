@@ -72,17 +72,17 @@ const Community = () => {
         <S.CommunityContainer>
           <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
-            {postList && postList.length > 1 ? (
-              postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
-            ) : (
-              <S.NonTool>
-                <ImgPopupNonebookmarkScraptool />
-                <Spacing size="4.2" />
-                <p>작성된 글이 없어요</p>
-                <Spacing size="1" />
-                <p>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</p>
-              </S.NonTool>
-            )}
+            {postList && postList.length > 1
+              ? postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
+              : !isLoading && (
+                  <S.NonTool>
+                    <ImgPopupNonebookmarkScraptool />
+                    <Spacing size="4.2" />
+                    <p>작성된 글이 없어요</p>
+                    <Spacing size="1" />
+                    <p>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</p>
+                  </S.NonTool>
+                )}
             {isLoading && (
               <S.LoadingSection>
                 <Loading />

@@ -12,7 +12,9 @@ import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
+import Toast from '@components/toast/Toast';
 import { useModal } from '@pages/community/hooks';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import { useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,6 +35,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
   const [isOwnPost, setIsOwnPost] = useState(false);
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
@@ -66,6 +69,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const handleScrap = (boardId: number) => {
     setIsClicked((prev) => !prev);
     srapMutate(boardId);
+    handleToastOpen();
   };
 
   const noTopic = toolId === null;
@@ -201,6 +205,11 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             handleSecondClose: handleModalClose,
           }}
         />
+      )}
+      {isToastOpen && (
+        <Toast isVisible={isToastOpen} isWarning={false}>
+          {isClicked ? '북마크되었어요' : '북마크가 취소되었어요'}
+        </Toast>
       )}
     </S.CardWrapper>
   );

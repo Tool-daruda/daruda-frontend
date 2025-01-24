@@ -33,7 +33,7 @@ const CommnetInput = () => {
     imageSelected,
     imageName,
     imageFile,
-
+    setToastType,
     handleImageChange,
     handleImgReSubmit,
     handleImageRemove,
@@ -55,6 +55,8 @@ const CommnetInput = () => {
 
     setText('');
     handleImageRemove();
+    setToastType('postComment');
+    handleModalOpen();
   };
 
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
@@ -139,7 +141,7 @@ const CommnetInput = () => {
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
       </S.CautionWrpper>
       {isToastOpen && (
-        <Toast isVisible={isToastOpen} isWarning={true}>
+        <Toast isVisible={isToastOpen} isWarning={toastType === 'postComment' ? false : true}>
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
       )}

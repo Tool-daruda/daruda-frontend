@@ -215,10 +215,10 @@ export const CardBackBox = styled.div`
   text-align: left;
 `;
 
-export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
+export const BookMark = styled(NotFill)<{ bookmarked: boolean; isToastOpen: boolean }>`
   cursor: pointer;
 
-  fill: ${(props) => (props.bookmarked ? props.theme.colors.iris1 : 'none')};
+  fill: ${(props) => (props.isToastOpen ? 'none' : props.bookmarked ? props.theme.colors.iris1 : 'none')};
 `;
 
 export const EmptyMessage = styled.h1`
@@ -231,4 +231,13 @@ export const EmptyMessage = styled.h1`
 
 export const Lottie = styled.div`
   margin-bottom: 4rem;
+`;
+
+export const Toast = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+
+  transform: translate(-50%, -50%);
 `;

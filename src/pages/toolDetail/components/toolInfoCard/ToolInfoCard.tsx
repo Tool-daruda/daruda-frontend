@@ -133,7 +133,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
           <S.TopBox>
             <S.License>
               <span>라이센스</span>
-              <Chip size="xsmall" active={true}>
+              <Chip size="xsmall" active={true} $forNoCursor={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{license}</Chip.Label>
                 </Chip.RectContainer>
@@ -141,7 +141,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
             </S.License>
             <S.KoreanSupport>
               <span>한국어 지원</span>
-              <Chip size="xsmall" active={true}>
+              <Chip size="xsmall" active={true} $forNoCursor={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{supportKorea ? 'O' : 'X'}</Chip.Label>
                 </Chip.RectContainer>
@@ -155,7 +155,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
                 Object.entries(platform[0])
                   .filter(([, value]) => value)
                   .map(([key]) => (
-                    <Chip key={key} size="xsmall" active={true}>
+                    <Chip key={key} size="xsmall" active={true} $forNoCursor={true}>
                       <Chip.RectContainer>
                         <Chip.Label>{key}</Chip.Label>
                       </Chip.RectContainer>

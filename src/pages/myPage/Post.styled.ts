@@ -28,6 +28,7 @@ export const Pagination = styled.nav`
   gap: 2rem;
   align-items: center;
   justify-content: center;
+  margin-left: -3.6rem;
 
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.fonts.body_16_m};
