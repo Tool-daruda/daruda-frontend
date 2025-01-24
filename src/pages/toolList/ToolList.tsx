@@ -1,5 +1,6 @@
-import { Tooltip } from '@assets/svgs';
+import { Tooltip, IcChevron } from '@assets/svgs';
 import Title from '@components/title/Title';
+import { handleScrollUp } from '@utils';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -33,6 +34,7 @@ const ToolList = () => {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
+    window.scrollTo({ top: 230, behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -88,6 +90,11 @@ const ToolList = () => {
           criteria={activeButton}
         />
       </S.ToolCardWrapper>
+      <S.FollowingBtns>
+        <S.TopBtn type="button" onClick={handleScrollUp}>
+          <IcChevron />
+        </S.TopBtn>
+      </S.FollowingBtns>
     </S.ToolListWrapper>
   );
 };
