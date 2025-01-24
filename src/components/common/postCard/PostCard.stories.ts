@@ -30,6 +30,7 @@ export const NoImages: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 1,
     },
   },
 };
@@ -48,6 +49,7 @@ export const OneImage: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 2,
     },
   },
 };
@@ -66,6 +68,7 @@ export const TwoImages: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 3,
     },
   },
 };
@@ -84,6 +87,7 @@ export const ThreeImages: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 10,
     },
   },
 };
@@ -108,6 +112,7 @@ export const FourImages: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 12,
     },
   },
 };
@@ -133,6 +138,7 @@ export const FiveImages: Story = {
       commentCount: 63,
       author: '뇽이',
       isScraped: true,
+      toolId: 3,
     },
   },
 };

@@ -55,7 +55,7 @@ export const useBoardScrap = () => {
   });
 };
 
-export const useBoardDelete = (boardId: number, toolId: number | null, noTopic: boolean) => {
+export const useBoardDelete = (boardId?: number, toolId?: number | null, noTopic?: boolean) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
