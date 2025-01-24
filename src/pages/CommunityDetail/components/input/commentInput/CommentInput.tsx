@@ -3,8 +3,10 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
-import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
-import { useState } from 'react';
+import usePostComment from '@pages/CommunityDetail/apis/postComment/queries';
+import { useImageUpload, useTextInput, useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useState, FormEvent } from 'react';
+import { useParams } from 'react-router-dom';
 
 import * as S from './CommentInput.styled';
 
@@ -14,6 +16,7 @@ import { MODAL_ERR } from '../../../constants';
 
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
+  const { isToastOpen, handleModalOpen } = useToastOpen();
   const {
     isFocus,
     text,
@@ -23,28 +26,35 @@ const CommnetInput = () => {
     handleInput,
     handleInputFocus,
     handleInputOutfocus,
+    setText,
   } = useTextInput(DEFAULT_MAX_CHARS);
   const {
     toastType,
     imageSelected,
     imageName,
     imageFile,
-    isToastOpen,
+
     handleImageChange,
     handleImgReSubmit,
     handleImageRemove,
     handleSizeError,
-    handleModalOpen,
-  } = useImageUpload();
+  } = useImageUpload(handleModalOpen);
 
-  const handleCommentPost = () => {
+  const { id: boardId } = useParams();
+  const { mutate: postComment } = usePostComment(boardId);
+
+  const handleCommentPost = (e: FormEvent) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append('text', text);
+    formData.append('content', text);
     if (imageFile) {
       formData.append('image', imageFile);
     }
-    // TODO: POST 요청 연결
-    alert('댓글 뿅');
+
+    postComment(formData);
+
+    setText('');
+    handleImageRemove();
   };
 
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
@@ -71,7 +81,14 @@ const CommnetInput = () => {
       이미지 첨부
     </InputButton>
   ) : (
-    <SquareButton type="button" icon={<IcCmtimgGray24 />} size="large" stroke={true} handleClick={handleImgReSubmit}>
+    <SquareButton
+      type="button"
+      status={imageSelected}
+      icon={<IcCmtimgGray24 />}
+      size="large"
+      stroke={true}
+      handleClick={handleImgReSubmit}
+    >
       이미지 첨부
     </SquareButton>
   );
@@ -88,6 +105,7 @@ const CommnetInput = () => {
             onFocus={handleInputFocus}
             onBlur={handleInputOutfocus}
             placeholder="글을 작성해주세요."
+            maxLength={1001}
           />
           <S.CountingWords $isOverflowed={isOverflowed}>
             <span>{text.length}</span>/<span>1,000자</span>
@@ -120,11 +138,11 @@ const CommnetInput = () => {
       <S.CautionWrpper>
         <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
       </S.CautionWrpper>
-      <S.ToastWrapper>
+      {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={true}>
           {toastType ? MODAL_ERR[toastType] : ''}
         </Toast>
-      </S.ToastWrapper>
+      )}
       {isImgModalOpen && (
         <ImgDetail
           handleModalClose={handleImgModalClose}

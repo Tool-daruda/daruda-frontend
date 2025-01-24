@@ -75,7 +75,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
       selectedCategory: isChecked ? '자유' : null, // 자유를 클릭했다면 자유 보여주고, 자유 체크를 해제했다면 모두 리셋
     }));
 
-    onToolSelect(null);
+    onToolSelect(null, isChecked);
   };
 
   return (
@@ -189,7 +189,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
                             selectedTool: tool.toolId,
                             isFree: false,
                           }));
-                          onToolSelect(tool.toolId);
+                          onToolSelect(tool.toolId, false);
                         }}
                         isSelected={toolState.selectedTool === tool.toolId}
                       >

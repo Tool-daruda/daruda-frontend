@@ -1,8 +1,14 @@
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { BoardList } from '@pages/myPage/types/board';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { GetPostListResponse } from 'src/types/post';
 
 import { delBoard, postBoardScrap } from './api';
+
+export interface InfiniteQueryResponse {
+  pages: GetPostListResponse[];
+  pageParams: number[];
+}
 
 export const useBoardScrap = () => {
   const userItem = localStorage.getItem('user');
@@ -49,7 +55,7 @@ export const useBoardScrap = () => {
   });
 };
 
-export const useBoardDelete = () => {
+export const useBoardDelete = (boardId?: number, toolId?: number | null, noTopic?: boolean) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -58,6 +64,39 @@ export const useBoardDelete = () => {
 
   return useMutation({
     mutationFn: (boardId: number) => delBoard(boardId),
+    onMutate: async () => {
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
+      await queryClient.cancelQueries({ queryKey });
+      const prevList = queryClient.getQueryData<InfiniteQueryResponse>(queryKey);
+
+      if (prevList && Array.isArray(prevList.pages)) {
+        const updatedList = {
+          ...prevList,
+          pages: prevList.pages.map((page) => ({
+            ...page,
+            contents: Array.isArray(page.contents) ? page.contents.filter((post) => post.boardId !== boardId) : [],
+          })),
+        };
+
+        queryClient.setQueryData<InfiniteQueryResponse>(queryKey, updatedList);
+      }
+
+      return { prevList };
+    },
+
+    onError: (error, _, context) => {
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
+      if (context?.prevList) {
+        queryClient.setQueryData(queryKey, context.prevList);
+      }
+      console.error(error);
+    },
+
+    onSettled: () => {
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
+      queryClient.invalidateQueries({ queryKey });
+    },
+
     onSuccess: () => {
       queryClient.refetchQueries({
         predicate: (query) => {

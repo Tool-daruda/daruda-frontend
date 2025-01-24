@@ -8,8 +8,10 @@ type ToastProps = {
 
 const Toast = ({ isVisible, children, isWarning }: ToastProps) => {
   return (
-    <S.ToastWrapper $isVisible={isVisible} $isWarning={isWarning}>
-      <S.ToastMessage>{children}</S.ToastMessage>
+    <S.ToastWrapper $isVisible={isVisible}>
+      <S.ToastLayout $isVisible={isVisible} $isWarning={isWarning}>
+        <S.ToastMessage>{children}</S.ToastMessage>
+      </S.ToastLayout>
     </S.ToastWrapper>
   );
 };

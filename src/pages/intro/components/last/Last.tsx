@@ -2,13 +2,11 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './Last.styled';
-// import BoxLoader from './Render3D.js';
 
 const LastPage = () => {
   const navigate = useNavigate();
   return (
     <S.PageWrapper>
-      {/* <BoxLoader /> */}
       <S.PageContainer>
         <h1>
           세상을 다루는 첫 번째 클릭

@@ -15,7 +15,7 @@ const fetchPostList = async ({
 
     const url =
       `/boards/board/list?` +
-      `${noTopic ? `noTopic=${noTopic}` : ''}` +
+      `${noTopic === false && toolId === null ? '' : `noTopic=${noTopic}`}` +
       `${size ? `&size=${size}` : ''}` +
       `${toolId && !noTopic ? `&toolId=${toolId}` : ''}` +
       `${pageParam ? `&lastBoardId=${pageParam}` : ''}`;
