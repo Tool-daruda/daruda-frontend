@@ -42,7 +42,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap();
+  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap(handleToastOpen);
   const [isClicked, setIsClicked] = useState(isScraped);
 
   useEffect(() => {
@@ -71,9 +71,13 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     srapMutate(boardId);
     if (isBookMarkSuccess) {
       setIsClicked((prev) => !prev);
-    } else {
+    }
+
+    const postOwner = localStorage.getItem('user');
+    if (postOwner == null || postOwner == undefined) {
       handleWarnnig();
     }
+
     handleToastOpen();
   };
 

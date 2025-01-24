@@ -1,4 +1,4 @@
-import { ImgBannerAttached } from '@assets/svgs';
+import { Group2085665069 } from '@assets/svgs';
 import styled from '@emotion/styled';
 
 export const BannerWrapper = styled.section`
@@ -10,8 +10,7 @@ export const BannerWrapper = styled.section`
   background: ${({ theme }) => theme.colors.orange1};
 `;
 
-export const MainImgBanner = styled(ImgBannerAttached)`
-  width: 51.4rem;
+export const MainImgBanner = styled(Group2085665069)`
   margin: 2.6rem 0 0 21.6rem;
 `;
 
@@ -23,6 +22,7 @@ export const BannerContainer = styled.div`
   justify-content: center;
   padding: 5.2rem 0 5.2rem 6.4rem;
 `;
+
 export const BannerTitle = styled.h1`
   ${({ theme }) => theme.fonts.body_20_b};
   color: ${({ theme }) => theme.colors.white1};

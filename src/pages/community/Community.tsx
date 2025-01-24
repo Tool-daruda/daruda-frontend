@@ -76,7 +76,7 @@ const Community = () => {
         <S.CommunityContainer>
           <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
-            {postList && postList.length > 1
+            {postList && postList.length >= 1
               ? postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
               : !isLoading && (
                   <S.NonTool>

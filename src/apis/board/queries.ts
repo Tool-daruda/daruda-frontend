@@ -10,7 +10,7 @@ export interface InfiniteQueryResponse {
   pageParams: number[];
 }
 
-export const useBoardScrap = () => {
+export const useBoardScrap = (handleModalOpen: () => void) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -39,6 +39,7 @@ export const useBoardScrap = () => {
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
       }
+      handleModalOpen();
     },
     onSettled: () => {
       // 서버 동기화를 위해 캐시 무효화

@@ -29,9 +29,6 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
         isFree: false,
         selectedTool: originTool?.toolId,
         selectedCategory: originTool.toolName,
-        tools: originTool
-          ? [{ toolId: originTool.toolId as number, toolName: originTool.toolName, toolLogo: originTool.toolLogo }]
-          : [],
       }));
     }
   }, [originTool]);
