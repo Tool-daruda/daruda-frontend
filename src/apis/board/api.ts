@@ -1,4 +1,5 @@
 import { del, post } from '@apis/index';
+import { AxiosError } from 'axios';
 
 export const postBoardScrap = async (boardId: number) => {
   try {
@@ -12,7 +13,10 @@ export const postBoardScrap = async (boardId: number) => {
     }>(`users/boards/${boardId}/scrap`);
     return response.data;
   } catch (error) {
-    console.error('Error:', error);
+    if (error instanceof AxiosError) {
+      console.error('err:', error.message);
+    }
+    throw error;
   }
 };
 
@@ -21,6 +25,9 @@ export const delBoard = async (boardId: number) => {
     const response = await del(`boards/${boardId}`);
     return response;
   } catch (error) {
-    console.error('Error:', error);
+    if (error instanceof AxiosError) {
+      console.error('err:', error.message);
+    }
+    throw error;
   }
 };

@@ -9,7 +9,13 @@ export interface InfiniteQueryResponse {
   pageParams: number[]; // 페이지 매개변수
 }
 
-const usePostComment = (boardId: string | undefined) => {
+type ToastType = 'sizeErr' | 'ResubmitErr' | 'postComment' | 'postErr' | null;
+
+const usePostComment = (
+  boardId: string | undefined,
+  setToastType: (type: ToastType) => void,
+  handleModalOpen: () => void,
+) => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -47,16 +53,23 @@ const usePostComment = (boardId: string | undefined) => {
         ...prevDetail,
         commentCount: commentCount,
       });
-      return { prevComments };
+      return { prevComments, prevDetail };
     },
     onError: (error, _, context) => {
       if (context?.prevComments) {
         queryClient.setQueryData(['comment', boardId], context.prevComments);
       }
+      if (context?.prevDetail) {
+        queryClient.setQueryData(['detailPost', boardId], context.prevDetail);
+      }
+      setToastType('postErr');
+      handleModalOpen();
       console.error(error);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comment', boardId] });
+      setToastType('postComment');
+      handleModalOpen();
     },
   });
 };

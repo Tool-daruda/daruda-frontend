@@ -40,8 +40,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
+  const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { mutate: srapMutate } = useBoardScrap();
+  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap();
   const [isClicked, setIsClicked] = useState(isScraped);
 
   useEffect(() => {
@@ -67,9 +68,21 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   };
 
   const handleScrap = (boardId: number) => {
-    setIsClicked((prev) => !prev);
     srapMutate(boardId);
+    if (isBookMarkSuccess) {
+      setIsClicked((prev) => !prev);
+    } else {
+      handleWarnnig();
+    }
     handleToastOpen();
+  };
+
+  const handleWarnnig = () => {
+    setIsWarning(true);
+
+    setTimeout(() => {
+      setIsWarning(false);
+    }, 3000);
   };
 
   const noTopic = toolId === null;
@@ -206,9 +219,14 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {isToastOpen && (
+      {isToastOpen && isBookMarkSuccess && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {isClicked ? '북마크되었어요' : '북마크가 취소되었어요'}
+        </Toast>
+      )}
+      {isWarning && (
+        <Toast isVisible={isWarning} isWarning={true}>
+          로그인 후 가능한 서비스입니다.
         </Toast>
       )}
     </S.CardWrapper>

@@ -130,7 +130,7 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      {isImgModalOpen && (
+      {IsToastOpen && (
         <Toast isVisible={IsToastOpen} isWarning={true}>
           삭제 불가합니다. 권한을 확인해주세요
         </Toast>

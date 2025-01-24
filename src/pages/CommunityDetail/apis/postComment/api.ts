@@ -1,4 +1,5 @@
 import { post } from '@apis/index';
+import { AxiosError } from 'axios';
 // import { Comment } from '@pages/CommunityDetail/types';
 
 const postComment = async (boardId: string | undefined, postConent: FormData) => {
@@ -9,7 +10,10 @@ const postComment = async (boardId: string | undefined, postConent: FormData) =>
       },
     });
   } catch (err) {
-    console.error(err);
+    if (err instanceof AxiosError) {
+      console.error('err:', err.message);
+    }
+    throw err;
   }
 };
 
