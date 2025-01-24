@@ -29,7 +29,12 @@ const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick }: My
           </Chip>
         ))}
       </S.CardKeyword>
-      <S.BookmarkBtn onClick={onClick} />
+      <S.BookmarkBtn
+        onClick={(event) => {
+          event.stopPropagation();
+          onClick?.();
+        }}
+      />
     </S.CardWrapper>
   );
 };
