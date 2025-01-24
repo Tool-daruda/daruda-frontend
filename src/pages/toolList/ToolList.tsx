@@ -34,6 +34,7 @@ const ToolList = () => {
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
+    window.scrollTo({ top: 230, behavior: 'smooth' });
   };
 
   useEffect(() => {
