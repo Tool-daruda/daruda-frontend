@@ -1,6 +1,7 @@
 import { Img } from '@assets/svgs';
 import { INITIAL_TOOL_STATE } from '@constants/toolListBanner/ToolListBannerConstants';
 import React, { useEffect, useState } from 'react';
+import Spinner from 'src/components/skeleton/ToolBannerSkeleton';
 
 import * as S from './ToolListBanner.styled';
 
@@ -197,14 +198,14 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
                       </S.ToolItem>
                     ))
                   ) : (
-                    <S.Loading>툴 목록을 불러오는 중입니다 !</S.Loading>
+                    <Spinner />
                   )}
                 </S.ToolList>
               )}
             </S.CategoryItem>
           ))
         ) : (
-          <S.Loading>카테고리 데이터를 불러오는 중입니다...</S.Loading>
+          <Spinner />
         )}
       </S.CategoryList>
     </S.Container>

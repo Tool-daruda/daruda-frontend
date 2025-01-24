@@ -1,7 +1,8 @@
 import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
-import React, { useEffect, useState, useCallback } from 'react';
+import Toast from '@components/toast/Toast';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
@@ -23,8 +24,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [cursor, setCursor] = useState<number | null>(null);
   const navigate = useNavigate();
   const { mutate: addBookmark } = useToolScrap();
+  const [isToastVisible, setIsToastVisible] = useState(false);
 
-  const isKorean = (text: string): boolean => /[가-힣]/.test(text); // 한국어 제목 들어올 때 폰트 설정 위해서
+  const isKorean = (text: string): boolean => /[가-힣]/.test(text);
 
   const fetchTools = async (isReset = false) => {
     if (isLoading || (!hasMore && !isReset)) return;
@@ -77,7 +79,17 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   }, [handleScroll]);
 
   const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
-    e.stopPropagation(); // 북마크 하기 위해서 !
+    e.stopPropagation();
+
+    const isLoggedIn = localStorage.getItem('user') !== null;
+
+    if (!isLoggedIn) {
+      setIsToastVisible(true);
+      setTimeout(() => {
+        setIsToastVisible(false);
+      }, 2000);
+      return;
+    }
 
     try {
       await addBookmark(toolId);
@@ -148,6 +160,13 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
         ))}
       </S.CardList>
       <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
+      {isToastVisible && (
+        <S.Toast>
+          <Toast isVisible={true} isWarning={true}>
+            로그인 후 이용해주세요
+          </Toast>
+        </S.Toast>
+      )}
     </S.Container>
   );
 };

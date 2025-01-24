@@ -232,3 +232,12 @@ export const EmptyMessage = styled.h1`
 export const Lottie = styled.div`
   margin-bottom: 4rem;
 `;
+
+export const Toast = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+
+  transform: translate(-50%, -50%);
+`;
