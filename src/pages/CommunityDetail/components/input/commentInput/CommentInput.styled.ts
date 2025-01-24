@@ -39,11 +39,17 @@ const errAnimation = `
   }
 `;
 
-export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocus: boolean }>`
+export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocus: boolean; $isDisabled: boolean }>`
   width: 100%;
   padding: 2.2rem 5rem 3rem 2rem;
 
-  background: ${({ theme }) => theme.colors.white2};
+  background: ${({ theme, $isDisabled }) => ($isDisabled ? theme.colors.gray6 : theme.colors.white2)};
+
+  & > textarea {
+    color: ${({ theme, $isDisabled }) => ($isDisabled ? theme.colors.gray2 : theme.colors.gray1)};
+
+    background: ${({ theme, $isDisabled }) => ($isDisabled ? theme.colors.gray6 : theme.colors.white2)};
+  }
   border: 1px solid
     ${({ theme, $isOverflowed, $isFocus }) =>
       $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
@@ -62,8 +68,6 @@ export const CardInput = styled.textarea`
   overflow-y: auto;
 
   color: ${({ theme }) => theme.colors.gray2};
-
-  background: ${({ theme }) => theme.colors.white2};
 
   resize: none;
 

@@ -22,6 +22,7 @@ const CommnetInput = () => {
     text,
     isOverflowed,
     textareaRef,
+    isLogin,
     handleTextChange,
     handleInput,
     handleInputFocus,
@@ -98,7 +99,7 @@ const CommnetInput = () => {
   return (
     <S.CardWrapper>
       <S.CardSendContainer>
-        <S.CardInputWrapper $isOverflowed={isOverflowed} $isFocus={isFocus}>
+        <S.CardInputWrapper $isOverflowed={isOverflowed} $isFocus={isFocus} $isDisabled={!isLogin}>
           <S.CardInput
             value={text}
             onChange={handleTextChange}
@@ -106,8 +107,9 @@ const CommnetInput = () => {
             onInput={handleInput}
             onFocus={handleInputFocus}
             onBlur={handleInputOutfocus}
-            placeholder="글을 작성해주세요."
+            placeholder={isLogin ? '글을 작성해주세요.' : '로그인 후 작성 가능합니다'}
             maxLength={1001}
+            disabled={!isLogin}
           />
           <S.CountingWords $isOverflowed={isOverflowed}>
             <span>{text.length}</span>/<span>1,000자</span>

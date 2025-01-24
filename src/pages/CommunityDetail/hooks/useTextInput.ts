@@ -1,11 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const useTextInput = (maxChars: number = 1000) => {
   const [text, setText] = useState('');
   const [isOverflowed, setIsOverflowed] = useState<boolean>(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocus, setIsFocus] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState(false);
 
+  useEffect(() => {
+    const localKey = localStorage.getItem('user');
+    if (localKey) {
+      setIsLogin(true);
+    }
+  }, []);
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setText(value);
@@ -32,6 +39,7 @@ const useTextInput = (maxChars: number = 1000) => {
     text,
     isOverflowed,
     textareaRef,
+    isLogin,
     handleTextChange,
     handleInput,
     handleInputFocus,
