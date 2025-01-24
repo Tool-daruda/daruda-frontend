@@ -35,7 +35,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
   const [isOwnPost, setIsOwnPost] = useState(false);
-  const { isToastOpen, handleModalOpen } = useToastOpen();
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
@@ -69,7 +69,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const handleScrap = (boardId: number) => {
     setIsClicked((prev) => !prev);
     srapMutate(boardId);
-    handleModalOpen();
+    handleToastOpen();
   };
 
   const noTopic = toolId === null;
