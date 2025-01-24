@@ -29,7 +29,7 @@ export const NonTool = styled.figure`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 3.6rem;
+  margin-top: 6rem;
 
   & p:first-of-type {
     color: ${({ theme }) => theme.colors.gray1};
@@ -73,4 +73,5 @@ export const LoadingSection = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 10rem 0;
 `;
