@@ -1,4 +1,5 @@
-import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40 } from '@assets/svgs';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, ImgSpeakBubble } from '@assets/svgs';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
@@ -44,11 +45,17 @@ const Community = () => (
 
 const Auth = () => {
   const user = localStorage.getItem('user');
+  const [isHover, setIsHovered] = useState(false);
+
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>
-          <S.NotificationButton aria-label="알림 확인">
+          <S.NotificationButton
+            aria-label="알림 확인"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <IcAlarmBlack24 />
           </S.NotificationButton>
           <S.StyledLink to="/mypage">
@@ -56,6 +63,13 @@ const Auth = () => {
               <IcProfileBlack24 />
             </S.MyPageButton>
           </S.StyledLink>
+          <S.HoverContent $visible={isHover}>
+            <S.HoverLayout>
+              <div>
+                <ImgSpeakBubble /> <p>지금은 준비 중이에요</p>
+              </div>
+            </S.HoverLayout>
+          </S.HoverContent>
         </S.MyPageSection>
       </S.AuthSection>
     );

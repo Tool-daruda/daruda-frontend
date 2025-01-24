@@ -66,6 +66,34 @@ export const StyledLink = styled(Link)`
   ${({ theme }) => theme.fonts.body_16_b_1};
 `;
 
+export const HoverContent = styled.section<{ $visible: boolean }>`
+  position: absolute;
+  top: 4.1rem;
+  right: 18.8rem;
+  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
+
+  p {
+    color: ${({ theme }) => theme.colors.white1};
+  }
+`;
+
+export const HoverLayout = styled.div`
+  position: relative;
+
+  p {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    z-index: 99;
+    width: max-content;
+
+    color: ${({ theme }) => theme.colors.white1};
+    ${({ theme }) => theme.fonts.body_16_b_1};
+
+    transform: translate(-50%, -50%);
+  }
+`;
+
 export const AuthDivider = styled.span`
   margin: 0 0.8rem;
 
