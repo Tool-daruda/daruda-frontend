@@ -4,7 +4,7 @@ import SquareButton from '@components/button/squareButton/SquareButton';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
 import usePostComment from '@pages/CommunityDetail/apis/postComment/queries';
-import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
+import { useImageUpload, useTextInput, useToastOpen } from '@pages/CommunityDetail/hooks';
 import { useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ import { MODAL_ERR } from '../../../constants';
 
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
+  const { isToastOpen, handleModalOpen } = useToastOpen();
   const {
     isFocus,
     text,
@@ -32,13 +33,12 @@ const CommnetInput = () => {
     imageSelected,
     imageName,
     imageFile,
-    isToastOpen,
+
     handleImageChange,
     handleImgReSubmit,
     handleImageRemove,
     handleSizeError,
-    handleModalOpen,
-  } = useImageUpload();
+  } = useImageUpload(handleModalOpen);
 
   const { id: boardId } = useParams();
   const { mutate: postComment } = usePostComment(boardId);
