@@ -27,17 +27,16 @@ export const WriteTitle = styled.div`
   width: 104.8rem;
   height: 6.4rem;
   margin: 0.8rem 0;
+  padding: 1.6rem;
 
   ${({ theme }) => theme.fonts.body_24_b};
   color: ${({ theme }) => theme.colors.black};
-
-  cursor: pointer;
 `;
 
 export const SideBanner = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  justify-content: space-between;
 `;
 
 export const ToastBox = styled.div`

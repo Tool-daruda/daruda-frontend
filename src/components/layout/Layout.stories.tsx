@@ -1,6 +1,5 @@
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
-import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import styled from '@emotion/styled';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -48,10 +47,9 @@ export const Default: Story = {
   },
   decorators: [
     () => {
-      const headerState: HeaderState = HEADER_STATE.LOGGED_OUT;
       return (
         <Layout>
-          <Header headerState={headerState} forOnboarding={false} />
+          <Header forOnboarding={false} />
           <Content />
           <Footer />
         </Layout>

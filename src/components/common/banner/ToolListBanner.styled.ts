@@ -15,8 +15,6 @@ export const Container = styled.div<{ $forCommunity: boolean }>`
   margin-top: ${({ $forCommunity }) => $forCommunity && '2.4rem'};
   overflow: ${({ $forCommunity }) => ($forCommunity ? 'auto' : 'hidden auto')};
 
-  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
-  border: 1px solid ${({ theme, $forCommunity }) => ($forCommunity ? 'none' : theme.colors.gray4)};
   border-radius: 2rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -39,11 +37,10 @@ export const TitleBox = styled.div`
   flex-shrink: 0;
   align-items: flex-start;
   width: 100%;
-  height: 10rem;
   padding: 1.6rem 2.4rem;
 
   background: ${({ theme }) => theme.colors.white1};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray2};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray4};
   border-radius: 2rem 2rem 0 0;
 `;
 
@@ -83,7 +80,7 @@ export const CategoryHeader = styled.div<{ isFreeChecked: boolean }>`
   padding: 1.9rem 2.4rem;
 
   cursor: pointer;
-  border-top: 1px solid ${({ theme }) => theme.colors.gray4};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray6};
 
   & svg path {
     fill: ${({ theme, isFreeChecked }) => (isFreeChecked ? theme.colors.white1 : theme.colors.black)};
@@ -97,10 +94,6 @@ export const ToolList = styled.ul`
   margin: 0;
 
   list-style: none;
-  border-top: 0;
-  border-right: 1px solid ${({ theme }) => theme.colors.gray4};
-  border-bottom: 0;
-  border-left: 1px solid ${({ theme }) => theme.colors.gray4};
 `;
 
 export const ToolItem = styled.li<{ isSelected: boolean }>`

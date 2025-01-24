@@ -18,6 +18,7 @@ const MyToolPage = () => {
             {favoriteToolData.toolList?.map((tool) => (
               <MyToolCard
                 key={tool.toolId}
+                toolId={tool.toolId}
                 toolLogo={tool.toolLogo}
                 toolNameMain={tool.toolName}
                 keyWordList={tool.keywords}

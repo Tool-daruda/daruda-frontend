@@ -1,10 +1,10 @@
 import { IcPlayWhite40 } from '@assets/svgs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 
 import * as S from './VideoCard.styled';
 
-const VideoCard = ({ video }: { video: string | null }) => {
+const VideoCard = ({ video, alternate }: { video: string | null; alternate: string }) => {
   const [isPlay, setIsPlay] = useState(false);
   const [isReady, setIsReady] = useState(false);
 
@@ -30,7 +30,7 @@ const VideoCard = ({ video }: { video: string | null }) => {
 
       {!isPlay || !isReady ? (
         <S.ThumbnailWrapper>
-          <YouTubeThumbnail videoUrl={video} />
+          <YouTubeThumbnail videoUrl={video} alternate={alternate} />
           {!isPlay && <IcPlayWhite40 onClick={() => setIsPlay(true)} />}
         </S.ThumbnailWrapper>
       ) : null}
@@ -40,17 +40,29 @@ const VideoCard = ({ video }: { video: string | null }) => {
 
 export default VideoCard;
 
-const getYouTubeThumbnail = (url: string) => {
+const getYouTubeThumbnail = async (url: string) => {
   const videoIdMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
-  return videoIdMatch ? `https://img.youtube.com/vi/${videoIdMatch[1]}/maxresdefault.jpg` : null;
+
+  if (!videoIdMatch) return null;
+
+  const thumbnailUrl = `https://img.youtube.com/vi/${videoIdMatch[1]}/maxresdefault.jpg`;
+
+  const response = await fetch(thumbnailUrl, { method: 'HEAD' });
+  if (response.ok) {
+    return thumbnailUrl;
+  } else {
+    return null;
+  }
 };
 
-const YouTubeThumbnail = ({ videoUrl }: { videoUrl: string }) => {
-  const thumbnailUrl = getYouTubeThumbnail(videoUrl);
+const YouTubeThumbnail = ({ videoUrl, alternate }: { videoUrl: string; alternate: string }) => {
+  const [thumbnailUrl, setThumbnailUrl] = useState<string | null>(null);
 
-  if (!thumbnailUrl) {
-    return <p>Invalid YouTube URL</p>;
-  }
+  useEffect(() => {
+    getYouTubeThumbnail(videoUrl).then((url) => {
+      setThumbnailUrl(url);
+    });
+  }, [videoUrl]);
 
-  return <img src={thumbnailUrl} alt="YouTube Thumbnail" />;
+  return <img src={thumbnailUrl ?? alternate} alt="YouTube Thumbnail" />;
 };

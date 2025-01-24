@@ -11,14 +11,12 @@ export const Container = styled.div<{
   padding: 2.4rem 4rem;
 
   background: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
   border: ${({ isExceedingLimit, isActive, theme }) =>
     isExceedingLimit
       ? `2px solid ${theme.colors.sys_red}`
       : isActive
         ? `2px solid ${theme.colors.gray1}`
-        : `1px solid ${theme.colors.gray4}`};
+        : `1px solid ${theme.colors.gray6}`};
   border-radius: 1.6rem;
 
   animation: ${({ triggerShake }) => (triggerShake ? `shake 0.3s ease` : 'none')};

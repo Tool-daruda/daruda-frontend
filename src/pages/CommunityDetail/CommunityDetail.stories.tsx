@@ -1,11 +1,9 @@
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
-import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import CommunityDetail from './CommunityDetail';
 
-const headerState: HeaderState = HEADER_STATE.LOGGED_IN;
 const meta: Meta<typeof CommunityDetail> = {
   title: 'Pages/CommunityDetail',
   component: CommunityDetail,
@@ -15,7 +13,7 @@ const meta: Meta<typeof CommunityDetail> = {
   decorators: [
     (Story) => (
       <>
-        <Header headerState={headerState} />
+        <Header />
         <Story />
         <Footer />
       </>

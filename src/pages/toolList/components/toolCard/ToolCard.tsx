@@ -1,3 +1,4 @@
+import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import React, { useEffect, useState, useCallback } from 'react';
@@ -21,7 +22,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<number | null>(null);
   const navigate = useNavigate();
-  const isKorean = (text: string): boolean => /[가-힣]/.test(text); //한국어 제목 들어올 때 폰트 설정 위해서
+  const { mutate: addBookmark } = useToolScrap();
+
+  const isKorean = (text: string): boolean => /[가-힣]/.test(text); // 한국어 제목 들어올 때 폰트 설정 위해서
 
   const fetchTools = async (isReset = false) => {
     if (isLoading || (!hasMore && !isReset)) return;
@@ -74,11 +77,17 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     };
   }, [handleScroll]);
 
-  const toggleBookmark = (e: React.MouseEvent, toolId: number) => {
-    e.stopPropagation(); //세부페이지 이동 X, 북마크 작동 위함
-    setTools((prevTools) =>
-      prevTools?.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !tool.isScraped } : tool)),
-    );
+  const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
+    e.stopPropagation(); // 북마크 하기 위해서 !
+
+    try {
+      await addBookmark(toolId);
+      setTools((prevTools) =>
+        prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
+      );
+    } catch (error) {
+      console.error('북마크 처리 중 오류 발생:', error);
+    }
   };
 
   const navigateToDetail = (toolId: number) => {
@@ -118,7 +127,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
                 <S.ToolNameBack>
                   <S.ToolBackTitle isKorean={isKorean(tool.toolName)}>{tool.toolName}</S.ToolBackTitle>
                   <S.BookMark
-                    onClick={(e) => toggleBookmark(e, tool.toolId)} // 이벤트 인수 전달
+                    onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped)}
                     bookmarked={tool.isScraped}
                   />
                 </S.ToolNameBack>
