@@ -1,6 +1,7 @@
 import { useToolScrap } from '@apis/tool/queries';
 import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import { ToolType } from '@pages/toolDetail/types';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -31,6 +32,8 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isToastWarning, setIsToastWarning] = useState(false);
 
+  const { handleModalOpen, isToastOpen } = useToastOpen(); // useToastOpen 훅 사용
+
   const toolScrapMutation = useToolScrap();
 
   const darudaToolLink = useLocation();
@@ -41,10 +44,12 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       await navigator.clipboard.writeText(darudaToolLink);
       setToastMessage('클립보드에 링크가 복사되었어요.');
       setIsToastWarning(false);
+      handleModalOpen();
     } catch (err) {
       console.error('클립보드 복사 실패:', err);
       setToastMessage('링크 복사에 실패했어요.');
       setIsToastWarning(true);
+      handleModalOpen();
     }
   };
 
@@ -54,11 +59,10 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       if (!user) return false;
 
       const parsedUser = JSON.parse(user);
-      // accessToken이 존재하면 true 반환
       return !!parsedUser.accessToken;
     } catch (error) {
       console.error('로그인 상태 확인 중 오류 발생:', error);
-      return false; // 파싱 오류 시 false 반환
+      return false;
     }
   };
 
@@ -69,13 +73,12 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
 
   const handleBookmark = async () => {
     if (!isUserLoggedIn()) {
-      // 로그인하지 않은 경우
       setIsToastWarning(true);
       setToastMessage('로그인 후 이용해주세요');
+      handleModalOpen();
       return;
     }
 
-    // 로그인한 경우 북마크 상태 토글
     setIsBookmark((prev) => !prev);
     try {
       await toolScrapMutation.mutateAsync(toolId);
@@ -85,11 +88,13 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
         setToastMessage('북마크가 추가되었어요');
       }
       setIsToastWarning(false);
+      handleModalOpen();
     } catch (error) {
       console.error('북마크 업데이트 실패:', error);
       setIsBookmark((prev) => !prev);
       setIsToastWarning(true);
       setToastMessage('북마크 업데이트 실패');
+      handleModalOpen();
     }
   };
 
@@ -126,7 +131,6 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
         </S.LeftContainer>
         <S.RightContainer>
           <S.TopBox>
-            {/* 라이센스 정보 */}
             <S.License>
               <span>라이센스</span>
               <Chip size="xsmall" active={true} $forNoCursor={true}>
@@ -135,8 +139,6 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
                 </Chip.RectContainer>
               </Chip>
             </S.License>
-
-            {/* 한국어 지원 여부 */}
             <S.KoreanSupport>
               <span>한국어 지원</span>
               <Chip size="xsmall" active={true} $forNoCursor={true}>
@@ -146,16 +148,12 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
               </Chip>
             </S.KoreanSupport>
           </S.TopBox>
-
           <S.BottomBox>
             <span>플랫폼</span>
             <S.PlatformBtn>
               {platform.length > 0 &&
                 Object.entries(platform[0])
-                  .filter(([_, value]) => {
-                    void _;
-                    return value;
-                  })
+                  .filter(([, value]) => value)
                   .map(([key]) => (
                     <Chip key={key} size="xsmall" active={true} $forNoCursor={true}>
                       <Chip.RectContainer>
@@ -167,7 +165,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
           </S.BottomBox>
         </S.RightContainer>
       </S.ToolInfoCardWrapper>
-      {toastMessage && (
+      {toastMessage && isToastOpen && (
         <S.StyledToast isVisible={!!toastMessage} isWarning={isToastWarning}>
           {toastMessage}
         </S.StyledToast>

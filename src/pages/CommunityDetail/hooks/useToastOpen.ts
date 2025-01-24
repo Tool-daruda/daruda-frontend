@@ -5,7 +5,7 @@ const useToastOpen = () => {
 
   const handleModalOpen = () => {
     setIsToastOpen(true);
-    setTimeout(() => setIsToastOpen(false), 3000);
+    setTimeout(() => setIsToastOpen(false), 1500);
   };
   return {
     isToastOpen,
