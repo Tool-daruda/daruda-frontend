@@ -130,11 +130,11 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      <S.ToastWrapper>
+      {isImgModalOpen && (
         <Toast isVisible={IsToastOpen} isWarning={true}>
           삭제 불가합니다. 권한을 확인해주세요
         </Toast>
-      </S.ToastWrapper>
+      )}
     </S.Wrapper>
   );
 };

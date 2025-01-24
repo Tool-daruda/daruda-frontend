@@ -13,6 +13,7 @@ import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import { useModal } from '@pages/community/hooks';
+import { useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Post } from 'src/types/post';
@@ -27,12 +28,13 @@ interface CardDataProp {
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { post, forDetail = false } = props;
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
   const [isOwnPost, setIsOwnPost] = useState(false);
 
-  const { isOpen, setIsOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
+  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
@@ -70,11 +72,16 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, noTopic);
 
   const handleImgModalDel = () => {
-    DeleteMutate(boardId);
-    setIsOpen(false);
-    window.location.reload();
+    DeleteMutate(boardId, {
+      onSuccess: () => {
+        queryClient.refetchQueries({
+          queryKey: ['boards'],
+          filters: { noTopic, size: 10, lastBoardId: -1, toolId },
+        });
+        handleModalClose();
+      },
+    });
   };
-
   return (
     <S.CardWrapper $forDetail={forDetail} ref={ref}>
       <Link
