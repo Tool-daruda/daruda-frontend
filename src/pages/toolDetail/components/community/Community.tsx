@@ -1,4 +1,5 @@
 import { usePostListQuery } from '@apis/fetchPostList/queries';
+import { ImgPopupNonebookmark120 } from '@assets/svgs';
 import { forwardRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
@@ -58,7 +59,9 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
           ) : (
             // postList가 비어 있을 때 표시
             <S.NullBox>
-              <S.NullText>작성된 글이 없습니다.</S.NullText>
+              <ImgPopupNonebookmark120 />
+              <S.NullAlertText>작성된 글이 없습니다.</S.NullAlertText>
+              <S.NullText>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</S.NullText>
             </S.NullBox>
           )}
           {hasNextPage && <div ref={inViewRef} />}
