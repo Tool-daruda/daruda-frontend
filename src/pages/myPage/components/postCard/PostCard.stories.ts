@@ -21,6 +21,7 @@ export const MyPost: Story = {
     updatedAt: '2025.01.01',
     toolLogo: '',
     toolName: 'ChatGPT',
+    boardId: 1,
     onClick: () => alert('클릭'),
   },
 };
@@ -33,5 +34,6 @@ export const FavoritePost: Story = {
     toolLogo: '',
     toolName: 'ChatGPT',
     onClick: () => alert('클릭'),
+    boardId: 1,
   },
 };
