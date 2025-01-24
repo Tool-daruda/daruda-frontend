@@ -12,7 +12,7 @@ const WritingTitle = ({ setTitle }: WritingTitleProps) => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const isExceedingLimit = text.length >= MAX_CHAR_LIMIT;
+  const isExceedingLimit = text.length > MAX_CHAR_LIMIT;
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;

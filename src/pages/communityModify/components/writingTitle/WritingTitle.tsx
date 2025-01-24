@@ -18,7 +18,7 @@ const WritingTitle = ({ originTitle, setTitle }: WritingTitleProps) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputText = e.target.value;
 
-    if (inputText.length <= MAX_CHAR_LIMIT) {
+    if (inputText.length < MAX_CHAR_LIMIT) {
       setText(inputText);
       setTitle(inputText);
     }

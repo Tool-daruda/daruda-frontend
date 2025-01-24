@@ -19,6 +19,16 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
     toolLogo: originTool?.toolLogo ?? null,
   });
 
+  useEffect(() => {
+    if (originTool?.toolId === null) {
+      setToolState((prev) => ({
+        ...prev,
+        isFree: true,
+        selectedTool: null,
+      }));
+    }
+  }, [originTool]);
+
   // 툴 카테고리(아코디언) 조회
   useEffect(() => {
     const getCategories = async () => {
