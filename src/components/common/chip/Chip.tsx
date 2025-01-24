@@ -16,6 +16,7 @@ interface ChipPropType {
   active?: boolean;
   children: ReactNode;
   onClick?: () => void;
+  $forNoCursor?: boolean;
 }
 
 const ChipContext = createContext<ChipContextType | undefined>(undefined);
@@ -38,7 +39,7 @@ const RectContainer = ({ children }: Omit<ChipPropType, 'stroke' | 'size' | 'act
   const { onClick, stroke, size, active } = useComponentContext(ChipContext, 'Chip');
 
   return (
-    <S.ChipRectContainer onClick={onClick} $stroke={stroke} $size={size} $active={active}>
+    <S.ChipRectContainer onClick={onClick} $stroke={stroke} $size={size} $active={active} $forNoCursor={false}>
       {children}
     </S.ChipRectContainer>
   );

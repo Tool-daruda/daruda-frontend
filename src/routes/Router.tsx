@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       { path: 'community/modify/:id', element: <CommunityModify /> }, // 글 수정
       { path: 'login', element: <KakaoAuth /> }, // 로그인
       { path: 'signUp', element: <SignUp /> }, // 회원가입
-      { path: '*', element: <NotFound /> },
+      { path: '*', element: <NotFound /> }, // 404 페이지
       { path: '/api/v1/users/kakao/login-url', element: <KakaoRedirectHandler /> },
     ],
   },

@@ -129,7 +129,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
             {/* 라이센스 정보 */}
             <S.License>
               <span>라이센스</span>
-              <Chip size="xsmall" active={true}>
+              <Chip size="xsmall" active={true} $forNoCursor={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{license}</Chip.Label>
                 </Chip.RectContainer>
@@ -139,7 +139,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
             {/* 한국어 지원 여부 */}
             <S.KoreanSupport>
               <span>한국어 지원</span>
-              <Chip size="xsmall" active={true}>
+              <Chip size="xsmall" active={true} $forNoCursor={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{supportKorea ? 'O' : 'X'}</Chip.Label>
                 </Chip.RectContainer>
@@ -157,7 +157,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
                     return value;
                   })
                   .map(([key]) => (
-                    <Chip key={key} size="xsmall" active={true}>
+                    <Chip key={key} size="xsmall" active={true} $forNoCursor={true}>
                       <Chip.RectContainer>
                         <Chip.Label>{key}</Chip.Label>
                       </Chip.RectContainer>
