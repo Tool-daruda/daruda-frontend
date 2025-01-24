@@ -2,6 +2,7 @@ import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +25,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [cursor, setCursor] = useState<number | null>(null);
   const navigate = useNavigate();
   const { mutate: addBookmark } = useToolScrap();
-  const [isToastVisible, setIsToastVisible] = useState(false);
+  const { isToastOpen, handleModalOpen } = useToastOpen();
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
 
@@ -84,10 +85,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     const isLoggedIn = localStorage.getItem('user') !== null;
 
     if (!isLoggedIn) {
-      setIsToastVisible(true);
-      setTimeout(() => {
-        setIsToastVisible(false);
-      }, 2000);
+      handleModalOpen();
       return;
     }
 
@@ -138,6 +136,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
                   <S.BookMark
                     onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped)}
                     bookmarked={tool.isScraped}
+                    isToastOpen={isToastOpen}
                   />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
@@ -160,12 +159,10 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
         ))}
       </S.CardList>
       <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
-      {isToastVisible && (
-        <S.Toast>
-          <Toast isVisible={true} isWarning={true}>
-            로그인 후 이용해주세요
-          </Toast>
-        </S.Toast>
+      {isToastOpen && (
+        <Toast isVisible={isToastOpen} isWarning={true}>
+          로그인 후 이용가능합니다.
+        </Toast>
       )}
     </S.Container>
   );
