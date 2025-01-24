@@ -40,7 +40,7 @@ const ToolList = () => {
     const handleScroll = () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsSticky(window.scrollY > 304);
+          setIsSticky(window.scrollY > 270);
           ticking = false;
         });
         ticking = true;
