@@ -6,6 +6,7 @@ import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import styled from '@emotion/styled';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import React, { useEffect, useState } from 'react';
 
 import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
@@ -24,7 +25,7 @@ const MyInfoPage = () => {
   const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error'>('default');
   const [nicknameMessage, setNicknameMessage] = useState<string>('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
-  const [isToast, setIsToast] = useState(false);
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -62,10 +63,7 @@ const MyInfoPage = () => {
     if (Object.keys(updatedData).length > 0) {
       const updateResponse = await patchMutate(updatedData);
       if (updateResponse) {
-        setIsToast(true);
-        setTimeout(() => {
-          setIsToast(false);
-        }, 3000);
+        handleToastOpen();
       }
     }
   };
@@ -171,11 +169,11 @@ const MyInfoPage = () => {
         </S.Withdraw>
         <AlterModal {...withdrawModalProps} />
       </S.InfoWrapper>
-      <S.ToastWrapper>
-        <Toast isVisible={isToast} isWarning={false}>
+      {isToastOpen && (
+        <Toast isVisible={isToastOpen} isWarning={false}>
           기본 정보 수정이 완료되었어요.
         </Toast>
-      </S.ToastWrapper>
+      )}
     </>
   );
 };

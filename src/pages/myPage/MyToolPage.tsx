@@ -1,7 +1,9 @@
 import { useToolScrap } from '@apis/tool/queries';
 import { ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import Spacing from '@components/spacing/Spacing';
+import Toast from '@components/toast/Toast';
 import styled from '@emotion/styled';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 
 import { useGetFavoriteTool } from './apis/queries';
 import MyToolCard from './components/toolCard/MyToolCard';
@@ -9,6 +11,7 @@ import MyToolCard from './components/toolCard/MyToolCard';
 const MyToolPage = () => {
   const { data: favoriteToolData } = useGetFavoriteTool();
   const { mutateAsync: scrapMutate } = useToolScrap();
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   if (favoriteToolData) {
     return (
@@ -22,7 +25,10 @@ const MyToolPage = () => {
                 toolLogo={tool.toolLogo}
                 toolNameMain={tool.toolName}
                 keyWordList={tool.keywords}
-                onClick={() => scrapMutate(tool.toolId)}
+                onClick={() => {
+                  scrapMutate(tool.toolId);
+                  handleToastOpen();
+                }}
               />
             ))}
           </S.MyToolContainer>
@@ -34,6 +40,11 @@ const MyToolPage = () => {
             <Spacing size="1" />
             <p>북마크를 통해 관심있는 툴을 저장해보세요</p>
           </S.NonTool>
+        )}
+        {isToastOpen && (
+          <Toast isVisible={isToastOpen} isWarning={false}>
+            북마크가 취소되었어요.
+          </Toast>
         )}
       </S.MyToolWrapper>
     );

@@ -15,6 +15,7 @@ export const Container = styled.div<{ $forCommunity: boolean }>`
   margin-top: ${({ $forCommunity }) => $forCommunity && '2.4rem'};
   overflow: ${({ $forCommunity }) => ($forCommunity ? 'auto' : 'hidden auto')};
 
+  background-color: ${({ theme }) => theme.colors.white1};
   border-radius: 2rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -57,7 +58,7 @@ export const Subtitle = styled.p`
 export const CategoryList = styled.ul`
   ${({ theme }) => theme.fonts.body_16_b_2};
   width: 24.6rem;
-  height: 100%;
+  height: inherit;
   margin: 0;
   padding: 0;
 

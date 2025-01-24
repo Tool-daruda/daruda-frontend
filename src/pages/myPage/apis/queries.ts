@@ -36,7 +36,14 @@ export const usePatchInfo = () => {
       const response = await patchInfo({ nickname, position });
       return response;
     },
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
+      const { nickname } = variables;
+
+      if (nickname) {
+        const updatedUser = { ...userData, nickname };
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      }
+
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
     },
   });

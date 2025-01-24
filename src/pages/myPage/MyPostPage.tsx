@@ -3,6 +3,7 @@ import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
+import { useToastOpen } from '@pages/CommunityDetail/hooks/index.ts';
 import { useState } from 'react';
 
 import { useGetMyPost } from './apis/queries.ts';
@@ -14,7 +15,7 @@ const MyPostPage = () => {
   const { data: postData } = useGetMyPost(currentPage);
   const { mutateAsync: delMuatate } = useBoardDelete();
 
-  const [isToast, setIsToast] = useState(false);
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
   const [isModal, setIsModal] = useState(false);
   const [selectedBoard, setSelectedBoard] = useState<number | null>(null);
 
@@ -29,7 +30,6 @@ const MyPostPage = () => {
       handleDeleteModal();
       if (selectedBoard !== null) {
         await delMuatate(selectedBoard);
-        setIsToast(true);
       }
     },
     ImgPopupModal: ImgPopupDelete84,
@@ -46,7 +46,7 @@ const MyPostPage = () => {
   const handleDelete = (boardId: number) => {
     setSelectedBoard(boardId);
     handleDeleteModal();
-    setTimeout(() => setIsToast(false), 3000);
+    handleToastOpen();
   };
 
   if (postData) {
@@ -98,11 +98,11 @@ const MyPostPage = () => {
           </S.NonTool>
         )}
         <AlterModal {...deleteModalProps} />
-        <S.ToastWrapper>
-          <Toast isVisible={isToast} isWarning={false}>
+        {isToastOpen && (
+          <Toast isVisible={isToastOpen} isWarning={false}>
             삭제가 완료되었어요.
           </Toast>
-        </S.ToastWrapper>
+        )}
       </>
     );
   }
