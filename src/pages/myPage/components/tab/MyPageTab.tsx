@@ -24,14 +24,18 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
   };
 
   const handleLogoutModal = () => {
-    mutate();
     setIsLogoutOpen((prev) => !prev);
+  };
+
+  const handleLogoutCheckModal = () => {
+    setIsLogoutCheckOpen((prev) => !prev);
   };
 
   const logoutModalProps = {
     modalTitle: '로그아웃하시겠어요?',
     isOpen: isLogoutOpen,
     handleClose: () => {
+      mutate();
       handleLogoutModal();
       handleLogoutCheckModal();
     },
@@ -44,10 +48,6 @@ const MyPageTab = ({ activeMenu }: MyPageTabPropsType) => {
       secondaryBtnContent: '로그아웃',
       handleSecondClose: handleLogoutModal,
     },
-  };
-
-  const handleLogoutCheckModal = () => {
-    setIsLogoutCheckOpen((prev) => !prev);
   };
 
   const logoutCheckModalProps = {
