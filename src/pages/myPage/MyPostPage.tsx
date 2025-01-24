@@ -60,6 +60,7 @@ const MyPostPage = () => {
                   {index !== 0 && <S.Divider />}
                   <PostCard
                     key={post.boardId}
+                    boardId={post.boardId}
                     isMine={true}
                     title={post.title}
                     updatedAt={post.updatedAt}

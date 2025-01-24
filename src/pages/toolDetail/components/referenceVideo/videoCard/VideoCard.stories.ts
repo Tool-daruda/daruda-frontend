@@ -17,5 +17,6 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     video: 'https://youtu.be/IWPjpE8shZw?si=kjliLJFS6p1mEmvg',
+    alternate: 'https://daruda.s3.ap-northeast-2.amazonaws.com/MockupPhotos.svg',
   },
 };

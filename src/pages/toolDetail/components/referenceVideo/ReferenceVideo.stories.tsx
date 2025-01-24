@@ -14,4 +14,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  args: {
+    toolId: 1,
+    alternate: 'https://daruda.s3.ap-northeast-2.amazonaws.com/MockupPhotos.svg',
+  },
+};

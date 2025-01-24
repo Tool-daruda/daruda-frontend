@@ -222,7 +222,7 @@ export const CardBackBox = styled.div`
 export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
   cursor: pointer;
 
-  fill: ${({ bookmarked, theme }) => (bookmarked ? theme.colors.iris1 : 'none')};
+  fill: ${(props) => (props.bookmarked ? props.theme.colors.iris1 : 'none')};
 `;
 
 export const EmptyMessage = styled.h1`

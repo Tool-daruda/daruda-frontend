@@ -1,12 +1,10 @@
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40 } from '@assets/svgs';
-import { HEADER_STATE, HeaderState } from '@constants/headerState';
 import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
 
 interface HeaderProps {
-  headerState: HeaderState;
   forOnboarding?: boolean;
 }
 
@@ -15,14 +13,14 @@ const HEADER_TEXTS = {
   login: '시작하기',
 } as const;
 
-const Header = ({ headerState, forOnboarding = false }: HeaderProps) => {
+const Header = ({ forOnboarding = false }: HeaderProps) => {
   return (
     <S.HeaderWrapper $forOnboarding={forOnboarding}>
       <S.HeaderContainer>
         <Logo />
         <Category />
         <Community />
-        <Auth headerState={headerState} />
+        <Auth />
       </S.HeaderContainer>
     </S.HeaderWrapper>
   );
@@ -44,12 +42,9 @@ const Community = () => (
   </S.CommunityNav>
 );
 
-interface AuthProps {
-  headerState: HeaderState;
-}
-
-const Auth = ({ headerState }: AuthProps) => {
-  if (headerState === HEADER_STATE.LOGGED_IN) {
+const Auth = () => {
+  const user = localStorage.getItem('user');
+  if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>

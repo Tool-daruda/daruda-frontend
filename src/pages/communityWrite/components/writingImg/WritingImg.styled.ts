@@ -10,8 +10,7 @@ export const Container = styled.div`
   padding-left: 4rem;
 
   background: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 1.2rem 0 ${({ theme }) => theme.colors.shadow1};
-  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border: 1px solid ${({ theme }) => theme.colors.gray6};
   border-radius: 1.6rem;
 `;
 
@@ -26,7 +25,7 @@ export const Button = styled.button<{ isHovered: boolean; isClicked: boolean }>`
   justify-content: center;
   width: 10rem;
   height: 10rem;
-  padding: 2.8rem;
+  padding: 3rem 2.6rem 2.4rem 3.2rem;
 
   background: ${({ theme }) => theme.colors.white2};
   cursor: pointer;
@@ -37,10 +36,14 @@ export const Button = styled.button<{ isHovered: boolean; isClicked: boolean }>`
     transform 0.2s;
 
   &:hover {
+    padding: 2.8rem;
+
     background-color: ${({ theme }) => theme.colors.gray4};
   }
 
   &:active {
+    padding: 2.8rem;
+
     background-color: ${({ theme }) => theme.colors.gray4};
     transform: scale(0.95);
   }
