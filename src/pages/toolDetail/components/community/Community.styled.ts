@@ -4,12 +4,12 @@ interface ImageWrapperProps {
   imageUrl?: string;
 }
 
-export const CardSectionWrapper = styled.div`
+export const CardSectionWrapper = styled.div<{ $forShort: boolean | undefined }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 76.8rem;
-  padding-bottom: 11.2rem;
+  padding-bottom: ${({ $forShort }) => ($forShort ? '52rem' : '11.2rem')};
 
   background-color: ${({ theme }) => theme.colors.white1};
   border-radius: 1.6rem;

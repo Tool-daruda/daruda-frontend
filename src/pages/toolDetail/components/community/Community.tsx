@@ -30,7 +30,7 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
 
   return (
     <div ref={ref}>
-      <S.CardSectionWrapper>
+      <S.CardSectionWrapper $forShort={postList && postList?.length < 6}>
         <S.CardTitle>
           <h1>사람들은 이런 이야기를 하고 있습니다</h1>
           <button onClick={onClick}>커뮤니티 글 더보기&gt;</button>
