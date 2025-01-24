@@ -9,7 +9,7 @@ const fetchDeatilPost = async (postId: string | undefined): Promise<PostResponse
     return res.data;
   } catch (err) {
     console.error(err);
-    return null;
+    throw new Error('게시글 상세 정보 조회 실패');
   }
 };
 

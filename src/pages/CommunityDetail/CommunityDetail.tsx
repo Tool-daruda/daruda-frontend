@@ -2,6 +2,7 @@ import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
+import NotFound from '@pages/error/NotFound';
 import { handleScrollDown, handleScrollUp } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -19,7 +20,7 @@ const CommunityDetail = () => {
   const postareaRef = useRef<HTMLLIElement>(null);
   const { ref, inView } = useInView();
 
-  const { data } = useGetDetailPost(id);
+  const { data, isError } = useGetDetailPost(id);
   const { data: CommentData, fetchNextPage, hasNextPage } = useGetComment(id);
 
   useEffect(() => {
@@ -39,6 +40,11 @@ const CommunityDetail = () => {
     }
   }, [inView]);
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
+
+  if (isError) {
+    return <NotFound />;
+  }
+
   return (
     <>
       <Title title={data?.title as string} />

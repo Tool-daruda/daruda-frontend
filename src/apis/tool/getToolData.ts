@@ -14,5 +14,6 @@ export const useToolData = (toolId: number) => {
     staleTime: 1000 * 60 * 60,
     gcTime: 1000 * 60 * 60 * 24,
     enabled: !!toolId,
+    retry: false,
   });
 };
