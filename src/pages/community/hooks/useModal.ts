@@ -19,6 +19,7 @@ const useModal = () => {
 
   return {
     isOpen,
+    setIsOpen,
     modalType,
     handleModalClose,
     preventPropogation,

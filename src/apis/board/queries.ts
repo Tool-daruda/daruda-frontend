@@ -55,7 +55,7 @@ export const useBoardScrap = () => {
   });
 };
 
-export const useBoardDelete = (boardId?: number | undefined, toolId?: number | null, noTopic?: boolean) => {
+export const useBoardDelete = (boardId: number, toolId: number | null, noTopic: boolean) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -65,7 +65,7 @@ export const useBoardDelete = (boardId?: number | undefined, toolId?: number | n
   return useMutation({
     mutationFn: (boardId: number) => delBoard(boardId),
     onMutate: async () => {
-      const queryKey = ['boards', { noTopic, size: 6, lastBoardId: -1, toolId }];
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
       await queryClient.cancelQueries({ queryKey });
       const prevList = queryClient.getQueryData<InfiniteQueryResponse>(queryKey);
 
@@ -85,15 +85,15 @@ export const useBoardDelete = (boardId?: number | undefined, toolId?: number | n
     },
 
     onError: (error, _, context) => {
-      const queryKey = ['boards', { noTopic, size: 6, lastBoardId: -1, toolId }];
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
       if (context?.prevList) {
         queryClient.setQueryData(queryKey, context.prevList);
       }
-      console.error('Error during mutation:', error);
+      console.error(error);
     },
 
     onSettled: () => {
-      const queryKey = ['boards', { noTopic, size: 6, lastBoardId: -1, toolId }];
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
       queryClient.invalidateQueries({ queryKey });
     },
 

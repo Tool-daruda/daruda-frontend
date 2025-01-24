@@ -10,7 +10,7 @@ export const usePostListQuery = (toolId: number | null, noTopic: boolean) =>
     queryFn: ({ pageParam }) =>
       fetchPostList({
         pageParam,
-        queryKey: ['boards', { noTopic: noTopic, size: 6, lastBoardId: -1, toolId: toolId }],
+        queryKey: ['boards', { noTopic: noTopic, size: 10, lastBoardId: -1, toolId: toolId }],
       }),
 
     getNextPageParam: (lastPage) => {

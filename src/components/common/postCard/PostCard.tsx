@@ -32,7 +32,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     post;
   const [isOwnPost, setIsOwnPost] = useState(false);
 
-  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
+  const { isOpen, setIsOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
 
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
@@ -65,12 +65,14 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsClicked((prev) => !prev);
     srapMutate(boardId);
   };
+
   const noTopic = toolId === null;
   const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, noTopic);
 
   const handleImgModalDel = () => {
     DeleteMutate(boardId);
-    setIsImgModalOpen(false);
+    setIsOpen(false);
+    window.location.reload();
   };
 
   return (
