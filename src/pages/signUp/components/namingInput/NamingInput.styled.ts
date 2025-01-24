@@ -22,9 +22,9 @@ export const InputBox = styled.div`
   margin-bottom: 0.6rem;
 `;
 
-export const DescriptionBox = styled.div`
+export const DescriptionBox = styled.div<{ $description: boolean }>`
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: ${({ $description }) => ($description ? '' : 'row-reverse')};
   justify-content: space-between;
   width: 30.1rem;
   height: 1.8rem;
@@ -40,11 +40,11 @@ export const Input = styled.input<{ state: 'default' | 'act' | 'error' | 'succes
   border-color: ${({ state, theme }) => {
     switch (state) {
       case 'act':
-        return theme.colors.sys_green;
+        return theme.colors.gray1;
       case 'error':
         return theme.colors.sys_red;
       case 'success':
-        return null;
+        return theme.colors.sys_green;
       default:
         return theme.colors.gray4;
     }
@@ -60,7 +60,7 @@ export const Description = styled.span<{ state: 'default' | 'act' | 'error' | 's
   color: ${({ state, theme }) => {
     switch (state) {
       case 'act':
-        return theme.colors.sys_green;
+        return theme.colors.gray1;
       case 'error':
         return theme.colors.sys_red;
       case 'success':

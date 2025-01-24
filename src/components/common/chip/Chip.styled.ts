@@ -44,7 +44,6 @@ export const ChipRoundContainer = styled.button<{
     $active
       ? chipColors.categoryChip.backgroundColor && theme.colors[chipColors.categoryChip.backgroundColor]
       : theme.colors.white2};
-  cursor: pointer;
   border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
 `;
 
@@ -52,6 +51,7 @@ export const ChipRectContainer = styled.button<{
   $stroke?: boolean;
   $size?: 'xsmall' | 'small' | 'medium' | 'large' | 'custom';
   $active?: boolean;
+  $forNoCursor?: boolean;
 }>`
   display: grid;
   place-items: center;
@@ -60,7 +60,7 @@ export const ChipRectContainer = styled.button<{
 
   white-space: nowrap;
 
-  cursor: pointer;
+  cursor: ${($forNoCursor) => ($forNoCursor ? 'default' : 'pointer')};
   border: 1px solid ${({ theme, $stroke }) => ($stroke ? theme.colors.gray4 : 'transparent')};
   border-radius: 8px;
 

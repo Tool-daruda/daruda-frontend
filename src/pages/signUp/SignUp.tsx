@@ -1,3 +1,4 @@
+import { usePostNicknameCheck } from '@apis/users/queries';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import { AlterModal } from '@components/modal';
@@ -14,17 +15,12 @@ import * as S from './SignUp.styled';
 const SignUp = () => {
   const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
+  const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error' | 'success'>('default');
+  const [nicknameMessage, setNicknameMessage] = useState<string>('');
+  const { mutateAsync: checkMutate } = usePostNicknameCheck();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false); // 중복 클릭 방지용
-
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(e.target.value);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const userString = localStorage.getItem('user');
@@ -47,6 +43,57 @@ const SignUp = () => {
     }
   }, [navigate]);
 
+  // 닉네임 입력 핸들러
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setNickname(value);
+
+    // 닉네임 변경 시 중복 확인 상태 초기화
+    if (value.length === 0) {
+      setNicknameState('default'); // 입력값 없음
+    } else {
+      setNicknameState('act'); // 입력값 있음
+    }
+    setNicknameMessage('');
+  };
+
+  // 닉네임 중복 확인
+  const handleNicknameCheck = async () => {
+    if (!nickname.trim()) {
+      setNicknameState('error');
+      setNicknameMessage('닉네임을 입력해주세요.');
+      return;
+    }
+
+    if (!/^[가-힣a-zA-Z0-9]+$/.test(nickname)) {
+      setNicknameState('error');
+      setNicknameMessage('초성 또는 모음만으로 구성된 닉네임은 사용할 수 없어요.');
+      return;
+    }
+
+    setNicknameState('act');
+    setNicknameMessage('중복 확인 중...');
+
+    try {
+      const checkResponse = await checkMutate(nickname);
+      if (checkResponse?.statusCode === 200 && checkResponse?.data) {
+        setNicknameState('error'); // 중복된 닉네임
+        setNicknameMessage('이미 사용 중인 닉네임이에요.');
+      } else {
+        setNicknameState('success'); // 사용 가능 상태
+        setNicknameMessage('사용 가능한 닉네임이에요.');
+      }
+    } catch (error) {
+      console.error('닉네임 체크 실패:', error);
+      setNicknameState('error'); // 사용 불가능 상태
+      setNicknameMessage('중복 확인 중 오류가 발생했어요.');
+    }
+  };
+
+  // 회원가입 버튼 활성화 조건
+  const isCircleBtnActive = nickname.length >= 1 && selectedAffiliation !== null && nicknameState === 'success';
+
+  // 회원가입 요청
   const handleCircleBtnClick = async () => {
     if (!nickname || !selectedAffiliation) {
       alert('닉네임과 소속을 모두 입력해주세요.');
@@ -54,29 +101,36 @@ const SignUp = () => {
     }
 
     const userString = localStorage.getItem('user');
-    if (userString) {
-      const user = JSON.parse(userString);
-      if (!user.email) {
-        alert('이메일 정보가 없습니다. 다시 로그인해주세요.');
-        return;
-      }
-      setIsSubmitting(true); // 버튼 중복 클릭 방지
-      try {
-        await signup({
-          nickname,
-          positions: selectedAffiliation,
-          email: user.email,
-        });
-        setIsModalOpen(true); // 회원가입 성공 시 모달 열기
-      } catch (error) {
-        console.error('회원가입 실패:', error);
-      } finally {
-        setIsSubmitting(false);
-      }
+    if (!userString) {
+      alert('로그인이 필요합니다. 다시 시도해주세요.');
+      return;
+    }
+
+    const user = JSON.parse(userString);
+    if (!user.email) {
+      alert('이메일 정보가 없습니다. 다시 로그인해주세요.');
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await signup({
+        nickname,
+        positions: selectedAffiliation,
+        email: user.email,
+      });
+      setIsModalOpen(true); // 회원가입 성공 시 모달 열기
+    } catch (error) {
+      console.error('회원가입 실패:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const isCircleBtnActive = nickname.length >= 1 && selectedAffiliation !== null;
+  // 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const modalProps = {
     modalTitle: '회원가입이 완료되었어요.',
@@ -127,7 +181,13 @@ const SignUp = () => {
               </S.AffiliationBtnBox>
             </S.AffiliationBox>
             <S.NicknameInputBox>
-              <NamingInput value={nickname} onChange={handleNicknameChange} />
+              <NamingInput
+                value={nickname}
+                state={nicknameState}
+                description={nicknameMessage}
+                onChange={handleNicknameChange}
+                onNicknameCheck={handleNicknameCheck}
+              />
             </S.NicknameInputBox>
             <S.SignUpBtn>
               <CircleButton size="mini" disabled={!isCircleBtnActive || isSubmitting} onClick={handleCircleBtnClick}>

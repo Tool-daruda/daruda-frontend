@@ -67,6 +67,7 @@ export { default as ImgModalexit2 } from './ImgModalexit2';
 export { default as ImgPopupDelete84 } from './ImgPopupDelete84';
 export { default as ImgPopupLogout84 } from './ImgPopupLogout84';
 export { default as ImgPopupLogoutcheck84 } from './ImgPopupLogoutcheck84';
+export { default as ImgPopupNonebookmark120 } from './ImgPopupNonebookmark120';
 export { default as ImgPopupNonebookmarkMypost } from './ImgPopupNonebookmarkMypost';
 export { default as ImgPopupNonebookmarkScrappost } from './ImgPopupNonebookmarkScrappost';
 export { default as ImgPopupNonebookmarkScraptool } from './ImgPopupNonebookmarkScraptool';
@@ -76,6 +77,8 @@ export { default as ImgSymbollogo } from './ImgSymbollogo';
 export { default as ImgTextlogo } from './ImgTextlogo';
 export { default as ImgTextlogo177 } from './ImgTextlogo177';
 export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
+
 export { default as IsBooked } from './IsBooked';
+
 export { default as Paid } from './Paid';
 export { default as Tooltip } from './Tooltip';

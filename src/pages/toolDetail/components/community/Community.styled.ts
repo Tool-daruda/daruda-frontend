@@ -124,19 +124,36 @@ export const CardTitle = styled.div`
     color: ${({ theme }) => theme.colors.iris1};
 
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
 export const NullBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
   align-items: center;
   justify-content: center;
   width: 100%;
+  padding: 5rem 10.8rem 0;
+`;
+
+export const NullAlertText = styled.span`
+  width: 100%;
+
+  color: ${({ theme }) => theme.colors.gray1};
+  text-align: center;
+  ${({ theme }) => theme.fonts.body_20_b};
 `;
 
 export const NullText = styled.span`
-  color: ${({ theme }) => theme.colors.gray3};
+  width: 100%;
+  margin-top: 1rem;
+
+  color: ${({ theme }) => theme.colors.gray2};
   text-align: center;
-  ${({ theme }) => theme.fonts.body_20_b};
+  ${({ theme }) => theme.fonts.caption_14_m};
 `;
