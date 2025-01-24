@@ -124,8 +124,12 @@ export const Search = styled.input<StickyProps>`
   width: ${({ isSticky }) => (isSticky ? '19.5rem' : '78rem')};
   margin-right: 2.5rem;
 
+  background: ${({ theme }) => theme.colors.white2};
+
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray2};
+
     ${({ theme }) => theme.fonts.body_16_m};
+    background: ${({ theme }) => theme.colors.white2};
   }
 `;

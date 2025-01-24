@@ -1,4 +1,5 @@
 export { default as Backcards } from './Backcards';
+export { default as Bigtext } from './Bigtext';
 export { default as BlurLeft } from './BlurLeft';
 export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
 export { default as BtnWritingChipx56 } from './BtnWritingChipx56';
