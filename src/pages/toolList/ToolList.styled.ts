@@ -63,3 +63,28 @@ export const HoverComponent = styled.div`
   left: 4rem;
   z-index: 10;
 `;
+
+export const FollowingBtns = styled.div`
+  position: fixed;
+  right: 8.7rem;
+  bottom: 8rem;
+  z-index: 999;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  align-items: flex-end;
+  justify-content: flex-end;
+`;
+
+export const TopBtn = styled.button`
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+  width: 5.6rem;
+  height: 5.6rem;
+
+  background: ${({ theme }) => theme.colors.black_toast};
+  box-shadow: 0 0 12px 0 ${({ theme }) => theme.colors.shadow1};
+  border-radius: 3.2rem;
+`;
