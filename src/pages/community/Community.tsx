@@ -88,7 +88,6 @@ const Community = () => {
                 <Loading />
               </S.LoadingSection>
             )}
-
             {hasNextPage ? <div ref={ref} /> : null}
           </S.CardList>
         </S.CommunityContainer>

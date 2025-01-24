@@ -4,7 +4,7 @@ const useImageUpload = (handleModalOpen: () => void) => {
   const [imageSelected, setImageSelected] = useState<boolean>(false);
   const [imageName, setImageName] = useState<string>('');
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [toastType, setToastType] = useState<'sizeErr' | 'ResubmitErr' | null>(null);
+  const [toastType, setToastType] = useState<'sizeErr' | 'ResubmitErr' | 'postComment' | null>(null);
 
   const handleImageChange = (isSelected: boolean, fileName: string, file: File | null) => {
     setImageSelected(isSelected);
@@ -37,6 +37,7 @@ const useImageUpload = (handleModalOpen: () => void) => {
     imageSelected,
     imageName,
     imageFile,
+    setToastType,
     handleImageChange,
     handleImgReSubmit,
     handleImageRemove,
