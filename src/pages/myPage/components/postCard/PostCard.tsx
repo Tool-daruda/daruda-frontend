@@ -27,7 +27,23 @@ const PostCard = ({ boardId, isMine, title, updatedAt, toolLogo, toolName, onCli
       <S.Title>{title}</S.Title>
       <S.Date>{updatedAt}</S.Date>
       <S.ButtonWrapper>
-        {isMine ? <button onClick={onClick}>삭제</button> : <IcMypageBookmark32 onClick={onClick} />}
+        {isMine ? (
+          <button
+            onClick={(event) => {
+              event.stopPropagation();
+              onClick?.();
+            }}
+          >
+            삭제
+          </button>
+        ) : (
+          <IcMypageBookmark32
+            onClick={(event) => {
+              event.stopPropagation();
+              onClick?.();
+            }}
+          />
+        )}
       </S.ButtonWrapper>
     </S.CardWrapper>
   );
