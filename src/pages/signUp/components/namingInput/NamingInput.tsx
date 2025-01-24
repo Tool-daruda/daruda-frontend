@@ -10,6 +10,7 @@ type NamingInputPropTypes = {
   inputRestrictions?: string[];
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onNicknameCheck: () => void; // 닉네임 중복 확인 함수
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const NamingInput = ({
@@ -23,6 +24,7 @@ const NamingInput = ({
   ],
   value,
   onChange,
+  onNicknameCheck,
   ...props
 }: NamingInputPropTypes) => {
   const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
@@ -34,16 +36,16 @@ const NamingInput = ({
     }
   };
 
-  const isActive = count > 0; // 입력값이 1글자 이상일 때만 active
+  const isActive = count > 0; // 입력값이 1글자 이상일 때만 활성화
 
   return (
     <S.InputWrapper>
       {label && <S.Label>{label}</S.Label>}
       <S.InputBox>
         <S.Input state={state} value={value} onChange={handleInputChange} placeholder={placeholder} {...props} />
-        <ConfirmBtn isActive={isActive} />
+        <ConfirmBtn isActive={isActive} onClick={onNicknameCheck} />
       </S.InputBox>
-      <S.DescriptionBox>
+      <S.DescriptionBox $description={!!description}>
         {description && <S.Description state={state}>{description}</S.Description>}
         <S.LetterCount>{count}/10</S.LetterCount>
       </S.DescriptionBox>
