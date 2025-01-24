@@ -60,6 +60,10 @@ const Community = () => {
     }
   }, [inView]);
 
+  useEffect(() => {
+    handleScrollUp();
+  }, [pickedtool, noTopic]);
+
   const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setPickedtool(toolId);
     setIsNoTopic(toolId === null && noTopic);
