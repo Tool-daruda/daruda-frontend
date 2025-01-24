@@ -3,7 +3,7 @@ import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
 import { useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // useParams 가져오기
+import { useNavigate, useParams } from 'react-router-dom';
 
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
 import ToolCommunity from './components/community/Community';
@@ -16,7 +16,7 @@ import ToolIntro from './components/toolIntro/ToolIntro';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
-  const { toolId } = useParams(); // URL에서 toolId 가져오기
+  const { toolId } = useParams<{ toolId: string }>(); // useParams 타입 명시
   const ToolIntroRef = useRef<HTMLDivElement>(null);
   const CoreFeatureRef = useRef<HTMLDivElement>(null);
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
@@ -24,7 +24,6 @@ const ToolDetail = () => {
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // toolId를 숫자로 변환하여 전달
   const numericToolId = Number(toolId);
   const { data, isError } = useToolData(numericToolId);
 
@@ -55,12 +54,12 @@ const ToolDetail = () => {
       <>
         <Title title={data.toolMainName} tool={data.toolMainName} />
         <S.ToolDetailWrapper>
-          <Spacing size={'1.8'} />
+          <Spacing size="1.8" />
           <BreadCrumb activeTopic={data.category} activeTool={data.toolMainName} />
-          <Spacing size={'1.8'} />
+          <Spacing size="1.8" />
           <ToolInfoCard toolData={data} />
 
-          <Spacing size={'1'} />
+          <Spacing size="1" />
 
           <S.ToolDetailContainer>
             <section>
@@ -75,16 +74,14 @@ const ToolDetail = () => {
                 <ReferenceVideo ref={ReferenceVideoRef} toolId={numericToolId} alternate={data.toolLogo} />
                 <PlanBox ref={PlanBoxRef} toolId={numericToolId} />
 
-                <Spacing size={'1'} />
+                <Spacing size="1" />
               </S.ToolDetailBox>
-              <Spacing size={'1'} />
+              <Spacing size="1" />
 
               <S.ToolCommunityBox>
-                <S.ToolCommunityBox>
-                  <ToolCommunity toolId={numericToolId} ref={ToolCommunityRef} boardId={0} onClick={goCommunity} />
-                </S.ToolCommunityBox>
+                <ToolCommunity toolId={numericToolId} ref={ToolCommunityRef} boardId={0} onClick={goCommunity} />
               </S.ToolCommunityBox>
-              <Spacing size={'7.2'} />
+              <Spacing size="7.2" />
             </section>
             <Sidewing sectionRefs={sectionRefs} toolId={numericToolId} />
           </S.ToolDetailContainer>
@@ -92,7 +89,7 @@ const ToolDetail = () => {
       </>
     );
   }
-  // 데이터가 로드되지 않은 경우 null 반환
+
   return null;
 };
 

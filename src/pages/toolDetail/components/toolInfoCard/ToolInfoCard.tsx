@@ -28,13 +28,12 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
   } = toolData;
 
   const [isClickBtn, setIsClickBtn] = useState(false);
-  const [isBookmark, setIsBookmark] = useState(isScrapped);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isToastWarning, setIsToastWarning] = useState(false);
 
   const { handleModalOpen, isToastOpen } = useToastOpen(); // useToastOpen 훅 사용
 
-  const toolScrapMutation = useToolScrap();
+  const { mutateAsync } = useToolScrap();
 
   const darudaToolLink = useLocation();
   const baseURL = import.meta.env.VITE_CLIENT_URL;
@@ -79,10 +78,9 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       return;
     }
 
-    setIsBookmark((prev) => !prev);
     try {
-      await toolScrapMutation.mutateAsync(toolId);
-      if (isBookmark) {
+      await mutateAsync(toolId);
+      if (isScrapped) {
         setToastMessage('북마크가 취소되었어요');
       } else {
         setToastMessage('북마크가 추가되었어요');
@@ -91,7 +89,6 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       handleModalOpen();
     } catch (error) {
       console.error('북마크 업데이트 실패:', error);
-      setIsBookmark((prev) => !prev);
       setIsToastWarning(true);
       setToastMessage('북마크 업데이트 실패');
       handleModalOpen();
@@ -120,7 +117,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
                 <IcArrowRightupWhite24 />
                 직접 체험해보기
               </S.GoSiteBtn>
-              <S.BookmarkIconBox $isBookmark={isBookmark} onClick={() => handleBookmark()}>
+              <S.BookmarkIconBox $isBookmark={isScrapped} onClick={() => handleBookmark()}>
                 <IcBookmarkIris121Default />
               </S.BookmarkIconBox>
               <S.ShareIconBox onClick={() => handleCopyClipBoard(`${baseURL}${darudaToolLink.pathname}`)}>
