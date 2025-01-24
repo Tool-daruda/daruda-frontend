@@ -2,6 +2,8 @@ import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
+import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +32,7 @@ const CommunityWrite = () => {
   const navigate = useNavigate();
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const queryClient = useQueryClient();
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
@@ -38,6 +41,12 @@ const CommunityWrite = () => {
 
     try {
       await postBoard(formData);
+
+      const userItem = localStorage.getItem('user');
+      const userData = userItem ? JSON.parse(userItem) : null;
+      const userId = userData?.accessToken || null;
+
+      queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId, 1) });
       navigate('/community');
     } catch (error: unknown) {
       console.error('에러 발생:', error);

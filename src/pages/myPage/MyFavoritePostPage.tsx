@@ -2,6 +2,7 @@ import { useBoardScrap } from '@apis/board/queries.ts';
 import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
+import { useToastOpen } from '@pages/CommunityDetail/hooks/index.ts';
 import { useState } from 'react';
 
 import { useGetFavoritePost } from './apis/queries.ts';
@@ -10,14 +11,13 @@ import * as S from './Post.styled.ts';
 
 const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [isToast, setIsToast] = useState(false);
   const { data: favoritePostData } = useGetFavoritePost(currentPage);
   const { mutateAsync: scrapMutate } = useBoardScrap();
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   const handleScrap = async (boardId: number) => {
     await scrapMutate(boardId);
-    setIsToast(true);
-    setTimeout(() => setIsToast(false), 3000);
+    handleToastOpen();
   };
 
   if (favoritePostData) {
@@ -74,11 +74,11 @@ const MyFavoritePostPage = () => {
             </S.NonTool>
           )}
         </S.PostWrapper>
-        <S.ToastWrapper>
-          <Toast isVisible={isToast} isWarning={false}>
+        {isToastOpen && (
+          <Toast isVisible={isToastOpen} isWarning={false}>
             북마크가 취소되었어요.
           </Toast>
-        </S.ToastWrapper>
+        )}
       </>
     );
   }
