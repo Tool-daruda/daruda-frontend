@@ -34,7 +34,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     try {
       const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, isReset ? null : cursor);
       const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
-
       const formattedTools: Tool[] = newTools.map((tool) => ({
         toolId: tool.toolId,
         toolLogo: tool.toolLogo,
@@ -102,11 +101,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
           <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
-              <S.ToolFront>
-                <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
-                  {tool.toolName}
-                </S.ToolNameFront>
-              </S.ToolFront>
+              <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
+                {tool.toolName}
+              </S.ToolNameFront>
               <S.KeywordsFront>
                 {tool.keywords?.map((keyword, index) => (
                   <Chip

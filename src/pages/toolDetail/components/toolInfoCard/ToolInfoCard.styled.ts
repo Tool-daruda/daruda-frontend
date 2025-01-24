@@ -1,3 +1,4 @@
+import Toast from '@components/toast/Toast';
 import styled from '@emotion/styled';
 
 export const ToolInfoCardWrapper = styled.div`
@@ -84,6 +85,7 @@ export const ButtonBox = styled.div`
   width: 29.8rem;
   height: 4.8rem;
 `;
+
 export const GoSiteBtn = styled.button<{ $isClickBtn: boolean }>`
   display: flex;
   gap: 0.4rem;
@@ -131,20 +133,26 @@ export const BookmarkIconBox = styled(IconBox)<{ $isBookmark: boolean }>`
 
   &:active {
     background-color: ${({ theme }) => theme.colors.white1};
-
-    svg {
-      fill: ${({ theme }) => theme.colors.iris1};
-    }
   }
 
   ${({ $isBookmark, theme }) =>
-    $isBookmark &&
-    `
+    $isBookmark
+      ? `
     background-color: ${theme.colors.white1};
+    
     svg {
       fill: ${theme.colors.iris1};
     }
-    `};
+    `
+      : `
+    svg {
+      fill: none;
+    }
+  `};
+
+  svg {
+    transition: fill 0.3s ease;
+  }
 `;
 
 export const ShareIconBox = styled(IconBox)`
@@ -201,4 +209,9 @@ export const PlatformBtn = styled.div`
   gap: 0.8rem;
   align-items: center;
   align-self: stretch;
+`;
+
+export const StyledToast = styled(Toast)`
+  top: 10rem;
+  z-index: 1000;
 `;

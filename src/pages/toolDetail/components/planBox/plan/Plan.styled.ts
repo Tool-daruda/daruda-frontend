@@ -18,4 +18,24 @@ export const PlanBtn = styled.button<{ $isSelected: boolean }>`
 export const PlanWrapper = styled.section`
   display: flex;
   gap: 1rem;
+  justify-content: center;
+`;
+
+export const NullWrapper = styled.span`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 1.4rem;
+`;
+
+export const NullText = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: ${({ theme }) => theme.colors.orange1};
+  ${({ theme }) => theme.fonts.body_20_b};
 `;

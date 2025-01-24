@@ -1,9 +1,11 @@
 import { get } from '@apis/index';
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { ToolList } from '@pages/myPage/types/tool';
+import { DETAIL_QUERY_KEY } from '@pages/toolDetail/apis/api';
 import { ToolType } from '@pages/toolDetail/types';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AxiosResponse } from 'axios';
+import { useState } from 'react';
 
 import { postToolScrap } from './api';
 
@@ -11,11 +13,13 @@ export const useToolScrap = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
+  const [toolId, setToolId] = useState<number | null>(null);
 
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (toolId: number) => postToolScrap(toolId),
     onMutate: async (toolId: number) => {
+      setToolId(toolId);
       // 캐시 백업
       const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId));
 
@@ -41,6 +45,9 @@ export const useToolScrap = () => {
       // 서버 동기화를 위해 캐시 무효화
       // TODO: 민이가 작업하는 툴 리스트 페이지, 찬영언니가 작업하는 툴 디테일 페이지의 쿼리키도 무효화해주기
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
+      if (toolId) {
+        queryClient.refetchQueries({ queryKey: DETAIL_QUERY_KEY.SCRAPPED_TOOLS(toolId) });
+      }
     },
   });
 };

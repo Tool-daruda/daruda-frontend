@@ -23,6 +23,7 @@ export const Default: Story = {
     toolNameMain: 'Perplexity',
     license: '부분 무료',
     keyWordList: ['AI', '음성', '내레이션'],
+    toolId: 1,
   },
 };
 
@@ -32,5 +33,6 @@ export const MultiLine: Story = {
     toolNameMain: 'Adobe Illustrator',
     license: '부분 무료',
     keyWordList: ['프레젠테이션', 'UI/UX', '스프레드시트'],
+    toolId: 1,
   },
 };

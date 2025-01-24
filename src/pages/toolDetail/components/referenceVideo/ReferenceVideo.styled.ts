@@ -16,16 +16,16 @@ export const ReferenceVideoWrapper = styled.div`
   }
 `;
 
-export const ReferenceVideoContainer = styled.div`
+export const ReferenceVideoContainer = styled.div<{ count: number }>`
   display: flex;
-  gap: 1.2rem;
+  gap: ${({ count }) => (count === 1 ? '0' : '1.2rem')};
+  justify-content: ${({ count }) => (count === 1 ? 'center' : 'flex-start')};
   width: 100%;
   height: 18rem;
 `;
 
 export const DividingLine = styled.span`
   display: flex;
-  flex-direction: column;
   width: 68.8rem;
   height: 0.2rem;
   margin: 0 4rem;

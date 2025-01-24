@@ -13,11 +13,11 @@ import { clearSelectedTool } from '../../../utils/toolListBanner/ToolListBannerU
 const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const [toolState, setToolState] = useState<ToolSelectState>(INITIAL_TOOL_STATE);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [initialTool, setInitialTool] = useState<OriginToolType>({
-    toolId: originTool?.toolId ?? null,
-    toolName: originTool?.toolName ?? null,
-    toolLogo: originTool?.toolLogo ?? null,
-  });
+  const [initialTool, setInitialTool] = useState<OriginToolType>();
+
+  useEffect(() => {
+    setInitialTool(originTool);
+  }, [originTool]);
 
   // 툴 카테고리(아코디언) 조회
   useEffect(() => {
@@ -113,7 +113,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
                 </S.CloseBtn>
               </Chip.RectContainer>
             </Chip>
-          ) : initialTool.toolLogo && initialTool.toolName ? (
+          ) : initialTool?.toolLogo && initialTool?.toolName ? (
             // 선택한 tool이 없지만 originTool이 있을 때 (게시글 수정 페이지 초기 상태)
             <Chip size="medium" stroke>
               <Chip.RectContainer>

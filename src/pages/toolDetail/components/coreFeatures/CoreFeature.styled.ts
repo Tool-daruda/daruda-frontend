@@ -17,11 +17,11 @@ export const CoreFeatureWrapper = styled.section`
 `;
 
 export const CoreFeatureContainer = styled.div`
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  width: 100%;
+  justify-content: center;
+  width: 69.2rem;
 
   ${({ theme }) => theme.fonts.body_16_b_2};
 `;

@@ -1,5 +1,6 @@
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
+import ScrollToTop from '@components/scrollTop/ScrollTop';
 import Title from '@components/title/Title';
 import styled from '@emotion/styled';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
@@ -10,6 +11,7 @@ import { Outlet, useLocation } from 'react-router';
 const MyPageLayout = () => {
   return (
     <>
+      <ScrollToTop />
       <Header forOnboarding={false} />
       <Title title="마이 페이지" />
       <MyPageContainer>

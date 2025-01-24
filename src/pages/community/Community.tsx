@@ -7,7 +7,7 @@ import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
 import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
@@ -21,6 +21,36 @@ const Community = () => {
   const [noTopic, setIsNoTopic] = useState<boolean>(false);
   const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
+  const location = useLocation();
+  const [originTool, setOriginTool] = useState<{
+    toolId: number | null;
+    toolLogo: string;
+    toolMainName: string;
+  }>();
+  const [initialTool, setInitialTool] = useState<{
+    toolId: number | null;
+    toolLogo: string;
+    toolName: string;
+  }>();
+
+  useEffect(() => {
+    if (location.state) {
+      setOriginTool(location.state);
+      if (originTool) {
+        setPickedtool(originTool?.toolId);
+      }
+    }
+  }, [location.state, originTool]);
+
+  useEffect(() => {
+    if (originTool) {
+      setInitialTool({
+        toolId: originTool.toolId,
+        toolName: originTool.toolMainName,
+        toolLogo: originTool.toolLogo,
+      });
+    }
+  }, [originTool]);
 
   const postList = data?.pages.map((item) => item.contents).flat();
 
@@ -40,7 +70,7 @@ const Community = () => {
       <S.CommunityWrapper>
         <Banner />
         <S.CommunityContainer>
-          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} />
+          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
             {postList && postList.length > 1 ? (
               postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)

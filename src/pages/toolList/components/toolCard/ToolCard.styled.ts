@@ -47,6 +47,7 @@ export const CardFront = styled.div<{ bgColor: string }>`
   height: 20rem;
 
   background-color: ${({ bgColor }) => bgColor};
+  border-left: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: 2rem;
 
   transition:
@@ -117,10 +118,10 @@ export const ToolNameFront = styled.h1<{ fontColor: boolean; isKorean: boolean }
   position: absolute;
   top: 3.7rem;
   left: 3rem;
-
-  align-items: left;
+  display: flex;
+  align-items: center;
   width: 23.6rem;
-  height: 7.6rem;
+  height: 6rem;
 
   color: ${({ fontColor, theme }) => (fontColor ? theme.colors.black : theme.colors.white1)};
   ${({ isKorean, theme }) => (isKorean ? theme.fonts.head_32_b : theme.fonts.card_36_B)};
@@ -130,17 +131,11 @@ export const ToolNameFront = styled.h1<{ fontColor: boolean; isKorean: boolean }
   overflow-wrap: break-word;
 `;
 
-export const ToolFront = styled.div`
+export const ToolBackTitle = styled.h2<{ isKorean: boolean }>`
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 23.6rem;
-  height: 7.6rem;
-`;
-
-export const ToolBackTitle = styled.h2<{ isKorean: boolean }>`
   width: 15.6rem;
-  height: auto;
+  height: 4rem;
 
   color: ${({ theme }) => theme.colors.black};
   ${({ isKorean, theme }) => (isKorean ? theme.fonts.body_20_b : theme.fonts.card_18_B_20)};
@@ -157,7 +152,6 @@ export const ToolNameBack = styled.h2`
   justify-content: space-between;
   width: 20rem;
   height: 4rem;
-  margin-bottom: 0.4rem;
 
   ${({ theme }) => theme.fonts.head_28_b};
   color: ${({ theme }) => theme.colors.black};
@@ -168,7 +162,6 @@ export const Description = styled.p`
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  align-items: center;
   width: 16rem;
   height: 3.2rem;
   margin-top: 0.4rem;
@@ -176,9 +169,10 @@ export const Description = styled.p`
 
   ${({ theme }) => theme.fonts.caption_12_r};
   color: ${({ theme }) => theme.colors.gray2};
-  text-align: left;
+  text-align: left !important;
   text-overflow: ellipsis;
 `;
+//사파리에서 정렬 확인해보기
 
 export const Keywords = styled.div`
   display: flex;
@@ -187,7 +181,7 @@ export const Keywords = styled.div`
 
 export const KeywordsFront = styled.div`
   position: absolute;
-  bottom: 3.3rem;
+  bottom: 2.9rem;
   left: 3rem;
   display: flex;
   gap: 0.8rem;
@@ -197,8 +191,8 @@ export const LicenseBadge = styled.span`
   display: flex;
   gap: 0.6rem;
   align-items: center;
-  margin-top: 0.6rem;
-  margin-bottom: 0.6rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 
   color: ${({ theme }) => theme.colors.orange1};
   ${({ theme }) => theme.fonts.body_16_b_2};
@@ -216,7 +210,9 @@ export const CardBackBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 20rem;
-  height: 13.4rem;
+  height: 14.2rem;
+
+  text-align: left;
 `;
 
 export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`

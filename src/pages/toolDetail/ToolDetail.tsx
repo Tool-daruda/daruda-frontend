@@ -2,7 +2,7 @@ import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import { useRef } from 'react';
-import { useParams } from 'react-router-dom'; // useParams 가져오기
+import { useNavigate, useParams } from 'react-router-dom'; // useParams 가져오기
 
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
 import ToolCommunity from './components/community/Community';
@@ -12,7 +12,6 @@ import ReferenceVideo from './components/referenceVideo/ReferenceVideo';
 import Sidewing from './components/sidewing/Sidewing';
 import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
-import { COMMUNITY_RESPONSE } from './mocks/community';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
@@ -22,6 +21,7 @@ const ToolDetail = () => {
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
   const PlanBoxRef = useRef<HTMLDivElement>(null);
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   // toolId를 숫자로 변환하여 전달
   const numericToolId = Number(toolId);
@@ -36,6 +36,16 @@ const ToolDetail = () => {
   };
 
   if (data) {
+    const goCommunity = () => {
+      navigate('/community', {
+        state: {
+          toolId: data.toolId,
+          toolLogo: data.toolLogo,
+          toolMainName: data.toolMainName,
+        },
+      });
+    };
+
     return (
       <>
         <Title title={data.toolMainName} tool={data.toolMainName} />
@@ -65,7 +75,9 @@ const ToolDetail = () => {
               <Spacing size={'1'} />
 
               <S.ToolCommunityBox>
-                <ToolCommunity cards={COMMUNITY_RESPONSE.data.contents} ref={ToolCommunityRef} />
+                <S.ToolCommunityBox>
+                  <ToolCommunity toolId={numericToolId} ref={ToolCommunityRef} boardId={0} onClick={goCommunity} />
+                </S.ToolCommunityBox>
               </S.ToolCommunityBox>
               <Spacing size={'7.2'} />
             </section>
