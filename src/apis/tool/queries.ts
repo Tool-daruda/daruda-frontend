@@ -58,6 +58,6 @@ export const getDetail = async (toolId: number): Promise<ToolType | null> => {
     return response.data;
   } catch (error) {
     console.error('툴 상세 정보 조회 오류:', error);
-    return null;
+    throw new Error('툴 상세정보 조회 실패');
   }
 };
