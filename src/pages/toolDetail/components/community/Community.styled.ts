@@ -124,6 +124,10 @@ export const CardTitle = styled.div`
     color: ${({ theme }) => theme.colors.iris1};
 
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
