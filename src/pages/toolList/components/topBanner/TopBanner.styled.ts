@@ -3,9 +3,16 @@ import styled from '@emotion/styled';
 
 export const BannerWrapper = styled.div`
   position: relative;
+  z-index: 0;
   align-self: stretch;
   height: 20.8rem;
   overflow: hidden;
+
+  background-color: ${({ theme }) => theme.colors.black};
+`;
+
+export const BannerBackground = styled.div`
+  height: 20.8rem;
 
   background: linear-gradient(90deg, #4d4ecd 40.5%, rgb(77 78 205 / 20%) 69.5%, rgb(77 78 205 / 5%) 100%);
 `;
