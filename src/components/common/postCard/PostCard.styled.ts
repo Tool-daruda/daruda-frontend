@@ -6,6 +6,10 @@ export const CardWrapper = styled.li<{ $forDetail: boolean }>`
   min-height: ${({ $forDetail }) => $forDetail && '694px'};
 
   background: ${({ theme }) => theme.colors.white1};
+
+  a {
+    cursor: ${({ $forDetail }) => $forDetail && 'default'};
+  }
   border: 1px solid ${({ theme, $forDetail }) => ($forDetail ? 'none' : theme.colors.gray6)};
   border-radius: 1.6rem;
 `;

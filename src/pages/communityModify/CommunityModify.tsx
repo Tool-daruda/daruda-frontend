@@ -98,7 +98,7 @@ const CommunityModify = () => {
 
   return (
     <>
-      <Title title={`(수정중)${post.title}`} />
+      <Title title={`(수정중) ${post.title}`} />
       <S.WriteWrapper>
         <S.WriteTitle>글 수정하기</S.WriteTitle>
         <S.WriteContainer>

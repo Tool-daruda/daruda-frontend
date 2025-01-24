@@ -2,7 +2,7 @@ import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
-import { handleScrollDown } from '@utils';
+import { handleScrollDown, handleScrollUp } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';
@@ -30,11 +30,14 @@ const CommunityDetail = () => {
   }, []);
 
   useEffect(() => {
+    handleScrollUp();
+  }, []);
+
+  useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [inView]);
-
   const comments = CommentData?.pages.flatMap((page) => page.commentList) || [];
   return (
     <>
@@ -47,13 +50,15 @@ const CommunityDetail = () => {
           <S.PostItem>
             {data && <Card post={data} forDetail={true} ref={postareaRef} />}
             {CommentData && (
-              <CommentBoard
-                ref={ref}
-                commentList={comments}
-                height={height}
-                hasNextPage={hasNextPage}
-                commentCount={data?.commentCount}
-              />
+              <>
+                <CommentBoard
+                  ref={ref}
+                  commentList={comments}
+                  height={height}
+                  hasNextPage={hasNextPage}
+                  commentCount={data?.commentCount}
+                />
+              </>
             )}
           </S.PostItem>
           <CommnetInput />

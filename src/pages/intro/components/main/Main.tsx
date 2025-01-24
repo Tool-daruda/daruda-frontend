@@ -2,13 +2,18 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import IntroRender from '@components/lottie/IntroRender';
 import Scroll from '@components/lottie/Scroll';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import * as S from './Main.styled';
 
 const Main = () => {
-  const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+
+  const handleScrollToSection = (sectionId: string) => {
+    const sectionElement = document.getElementById(sectionId);
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -24,8 +29,15 @@ const Main = () => {
         <h1>대학생활에 필요한 툴을 다루다</h1>
       </S.PageTitle>
       <S.BottomContainer className={isVisible ? 'visible' : ''}>
-        <CircleButton shadow={false} size="large" onClick={() => navigate('/toollist')}>
-          <span>시작하기</span>
+        <CircleButton
+          type="button"
+          shadow={false}
+          size="large"
+          handleClick={() => {
+            handleScrollToSection('target');
+          }}
+        >
+          <span>살펴보기</span>
         </CircleButton>
         <S.Scroll>Scroll Down</S.Scroll>
         <Scroll />

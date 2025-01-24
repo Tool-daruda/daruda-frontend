@@ -49,7 +49,7 @@ export const CardInputWrapper = styled.section<{ $isOverflowed: boolean; $isFocu
       $isOverflowed ? theme.colors.sys_red : $isFocus ? theme.colors.gray4 : 'none'};
   border-radius: 0.8rem;
 
-  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s infinite' : 'none')};
+  animation: ${({ $isOverflowed }) => ($isOverflowed ? 'err 0.5s linear' : 'none')};
   ${errAnimation}
 `;
 
@@ -133,14 +133,6 @@ export const ImgNameItem = styled.div<{ $imageSelected: boolean }>`
     color: ${({ $imageSelected, theme }) => ($imageSelected ? theme.colors.iris1 : theme.colors.gray2)};
     text-decoration: ${({ $imageSelected }) => ($imageSelected ? 'underline' : 'none')};
   }
-`;
-
-export const ToastWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-
-  transform: translateX(-50%);
 `;
 
 export const CautionWrpper = styled.div`

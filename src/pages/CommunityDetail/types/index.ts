@@ -2,7 +2,7 @@ export interface Comment {
   content: string;
   commentId: number;
   nickname: string;
-  image: string;
+  image: string | null;
   updatedAt: string;
 }
 

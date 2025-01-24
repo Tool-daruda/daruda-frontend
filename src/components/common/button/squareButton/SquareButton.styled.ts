@@ -4,11 +4,14 @@ export const ButtonWrapper = styled.button<{
   size: 'large' | 'small';
   stroke: boolean;
   $forBookMark: boolean;
+  $isBook: boolean;
+  $status: boolean | undefined;
 }>`
   display: flex;
   gap: 0.8rem;
   align-items: center;
   justify-content: flex-start;
+  padding-left: ${({ $status }) => $status && '5%'};
 
   ${({ theme }) => theme.fonts.body_16_m};
   color: ${({ theme, size }) => (size === 'large' ? theme.colors.gray2 : theme.colors.gray1)};
@@ -44,6 +47,12 @@ export const ButtonWrapper = styled.button<{
         return '';
     }
   }}
+
+
+  & span svg path {
+    fill: ${({ theme, $isBook }) => $isBook && theme.colors.iris1_click};
+    stroke: ${({ theme, $isBook }) => ($isBook ? theme.colors.iris1_click : theme.colors.gray1)};
+  }
 
   &:hover {
     color: ${({ theme }) => theme.colors.iris1_hover};

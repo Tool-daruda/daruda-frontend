@@ -16,7 +16,13 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
   const [initialTool, setInitialTool] = useState<OriginToolType>();
 
   useEffect(() => {
-    setInitialTool(originTool);
+    if (originTool?.toolId === null) {
+      setToolState((prev) => ({
+        ...prev,
+        isFree: true,
+        selectedTool: null,
+      }));
+    }
   }, [originTool]);
 
   // 툴 카테고리(아코디언) 조회
@@ -68,7 +74,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
       selectedCategory: isChecked ? '자유' : null, // 자유를 클릭했다면 자유 보여주고, 자유 체크를 해제했다면 모두 리셋
     }));
 
-    onToolSelect(null);
+    onToolSelect(null, isChecked);
   };
 
   return (
@@ -182,7 +188,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
                             selectedTool: tool.toolId,
                             isFree: false,
                           }));
-                          onToolSelect(tool.toolId);
+                          onToolSelect(tool.toolId, false);
                         }}
                         isSelected={toolState.selectedTool === tool.toolId}
                       >

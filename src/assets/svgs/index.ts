@@ -77,5 +77,8 @@ export { default as ImgSymbollogo } from './ImgSymbollogo';
 export { default as ImgTextlogo } from './ImgTextlogo';
 export { default as ImgTextlogo177 } from './ImgTextlogo177';
 export { default as ImgUploadWhite48 } from './ImgUploadWhite48';
+
+export { default as IsBooked } from './IsBooked';
+
 export { default as Paid } from './Paid';
 export { default as Tooltip } from './Tooltip';

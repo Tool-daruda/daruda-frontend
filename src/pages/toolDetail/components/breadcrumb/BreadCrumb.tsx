@@ -1,4 +1,6 @@
 import { IcArrowRightGray20 } from '@assets/svgs';
+import { CategorList } from '@components/header/category/types';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './BreadCrumb.styled';
@@ -10,6 +12,11 @@ interface BreadCrumbPropTypes {
 
 const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const categories = queryClient.getQueryData<CategorList[]>(['category']);
+
+  const matchedCategory = categories?.find((category) => category.koreanName === activeTopic);
+  const categoryName = matchedCategory ? matchedCategory.name : '';
 
   return (
     <S.BreadCrumbWrapper>
@@ -19,7 +26,7 @@ const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
 
         {/* 활성화된 주제를 클릭하면 주제별 리스트로 이동 */}
         {activeTopic && (
-          <S.CategoryItem onClick={() => navigate(`/toollist?category=${activeTopic}`)}>
+          <S.CategoryItem onClick={() => navigate(`/toollist?category=${categoryName}`)}>
             <IcArrowRightGray20 />
             {activeTopic}
           </S.CategoryItem>

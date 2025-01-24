@@ -24,10 +24,30 @@ export const CardList = styled.ul`
   margin: 2.4rem 0;
 `;
 
+export const NonTool = styled.figure`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3.6rem;
+
+  & p:first-of-type {
+    color: ${({ theme }) => theme.colors.gray1};
+
+    ${({ theme }) => theme.fonts.body_20_b};
+  }
+
+  & p:last-of-type {
+    color: ${({ theme }) => theme.colors.gray2};
+
+    ${({ theme }) => theme.fonts.caption_14_m};
+  }
+`;
+
 export const FollowingBtns = styled.div`
   position: fixed;
-  top: 60.9rem;
   right: 8.7rem;
+  bottom: 8rem;
   z-index: 999;
   display: inline-flex;
   flex-direction: column;
@@ -47,4 +67,10 @@ export const TopBtn = styled.button`
   background: ${({ theme }) => theme.colors.black_toast};
   box-shadow: 0 0 12px 0 ${({ theme }) => theme.colors.shadow1};
   border-radius: 3.2rem;
+`;
+
+export const LoadingSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

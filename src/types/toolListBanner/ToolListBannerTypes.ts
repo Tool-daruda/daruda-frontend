@@ -16,7 +16,7 @@ export type ToolSelectState = {
 export interface ToolProp {
   originTool?: { toolId: number | null; toolLogo: string; toolName: string };
   forCommunity?: boolean;
-  onToolSelect?: (tool: number | null) => void;
+  onToolSelect?: (tool: number | null, noTopic: boolean) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTopicSelect?: (isChecked: boolean) => void;
 }

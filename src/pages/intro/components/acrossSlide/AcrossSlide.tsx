@@ -34,7 +34,7 @@ const AcorossSlide = () => {
   }, []);
 
   return (
-    <S.PageWrapper>
+    <S.PageWrapper id="target">
       <S.PageContainer ref={containerRef}>
         <S.MainContent>
           <p>툴을 다루다</p>
