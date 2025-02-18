@@ -28,6 +28,11 @@ interface RequestLoginURLResonse {
   data: string;
 }
 
+interface TokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 // 카카오 로그인 URL 요청
 export const fetchKakaoLogin = async function fetchKakaoLoginUrl() {
   try {
@@ -103,21 +108,16 @@ export const sendAuthorization = async function sendAuthorizationCode(code: stri
 };
 
 // 토큰 갱신
-export const reissueToken = async function reissueToken(refreshToken: string) {
+export const reissueToken = async (refreshToken: string): Promise<TokenResponse> => {
   try {
-    const response: { accessToken: string; refreshToken: string } = await post('/reissue', null, {
+    const response = await post<TokenResponse>('users/reissue', null, {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        Authorization: refreshToken,
+        Authorization: `Bearer ${refreshToken}`,
       },
     });
-
-    const { accessToken, refreshToken: newRefreshToken } = response;
-    console.log('토큰 갱신 성공:', { accessToken, newRefreshToken });
-
-    // 갱신된 토큰 저장
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', newRefreshToken);
+    console.log('토큰 갱신 성공:', response);
+    return response;
   } catch (error: unknown) {
     if (isAxiosError(error)) {
       console.error('토큰 갱신 실패:', error.message || '알 수 없는 서버 에러');
@@ -126,5 +126,6 @@ export const reissueToken = async function reissueToken(refreshToken: string) {
     } else {
       console.error('알 수 없는 에러:', error);
     }
+    throw error;
   }
 };

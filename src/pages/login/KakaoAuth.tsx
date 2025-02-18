@@ -8,6 +8,8 @@ import * as S from './KakaoAuth.styled';
 const KakaoAuth = () => {
   const handleKakaoLogin = async () => {
     try {
+      // 기존 로그인 정보 제거
+      localStorage.removeItem('user');
       await fetchKakaoLogin();
     } catch (error) {
       console.error('카카오 로그인 요청 처리 중 에러 발생:', error);
