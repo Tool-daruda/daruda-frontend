@@ -5,7 +5,7 @@ import CommunityWrite from '@pages/communityWrite/CommunityWrite';
 import NotFound from '@pages/error/NotFound';
 import Intro from '@pages/intro/Intro';
 import KakaoAuth from '@pages/login/KakaoAuth';
-import KakaoRedirectHandler from '@pages/login/KakaoRedirectHandler.';
+import KakaoRedirectHandler from '@pages/login/KakaoRedirectHandler';
 import SignUp from '@pages/signUp/SignUp';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
