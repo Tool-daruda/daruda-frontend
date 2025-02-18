@@ -8,6 +8,8 @@ export const CardWrapper = styled.li<{ $forDetail: boolean }>`
   background: ${({ theme }) => theme.colors.white1};
 
   a {
+    text-decoration: none;
+
     cursor: ${({ $forDetail }) => $forDetail && 'default'};
   }
   border: 1px solid ${({ theme, $forDetail }) => ($forDetail ? 'none' : theme.colors.gray6)};
