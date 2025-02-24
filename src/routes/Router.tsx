@@ -1,3 +1,4 @@
+import { useTokenRefresher } from '@hooks/useTokenRefresher';
 import Community from '@pages/community/Community';
 import CommunityDetail from '@pages/CommunityDetail/CommunityDetail';
 import CommunityModify from '@pages/communityModify/CommunityModify';
@@ -15,6 +16,13 @@ import MyPageLayout from 'src/components/layout/MyPageLayout';
 
 import MYPAGE_ROUTES from './MyPageRoutes';
 
+// 라우트 내부에서 useTokenRefresher 훅을 실행
+const RouterWrapper = () => {
+  useTokenRefresher();
+
+  return <Layout />;
+};
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -25,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/',
-    element: <Layout />,
+    element: <RouterWrapper />, // TokenRefresher를 내부에서 실행하는 컴포넌트 사용
     children: [
       { path: 'toollist', element: <ToolList /> }, // 툴 리스트
       { path: 'toollist/:toolId', element: <ToolDetail /> }, // 툴 상세
@@ -35,8 +43,9 @@ const router = createBrowserRouter([
       { path: 'community/modify/:id', element: <CommunityModify /> }, // 글 수정
       { path: 'login', element: <KakaoAuth /> }, // 로그인
       { path: 'signUp', element: <SignUp /> }, // 회원가입
+      { path: 'kakao-redirect', element: <KakaoRedirectHandler /> }, // 카카오 리다이렉트 경로
+
       { path: '*', element: <NotFound /> }, // 404 페이지
-      { path: '/api/v1/users/kakao/login-url', element: <KakaoRedirectHandler /> },
     ],
   },
   {

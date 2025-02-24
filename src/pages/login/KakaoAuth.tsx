@@ -1,7 +1,7 @@
 import { ImgDarudalogo40 } from '@assets/svgs';
 import Title from '@components/title/Title';
 
-import { fetchKakaoLogin } from './apis/api';
+import { fetchKakaoLogin } from './apis/getKakaoData';
 import SvgKakaoVector from './assets/KakaoVector';
 import * as S from './KakaoAuth.styled';
 
