@@ -5,52 +5,23 @@ import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
+import { useToolCategorySelect } from './hooks';
 
 import { usePostListQuery } from '../../apis/fetchPostList/queries';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
+  const { handleToolSelect, pickedtool, setPickedtool, noTopic, initialTool } = useToolCategorySelect();
+
   const navigate = useNavigate();
-  const [pickedtool, setPickedtool] = useState<number | null>(null);
-  const [noTopic, setIsNoTopic] = useState<boolean>(false);
   const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
-  const location = useLocation();
-  const [originTool, setOriginTool] = useState<{
-    toolId: number | null;
-    toolLogo: string;
-    toolMainName: string;
-  }>();
-  const [initialTool, setInitialTool] = useState<{
-    toolId: number | null;
-    toolLogo: string;
-    toolName: string;
-  }>();
-
-  useEffect(() => {
-    if (location.state) {
-      setOriginTool(location.state);
-      if (originTool) {
-        setPickedtool(originTool?.toolId);
-      }
-    }
-  }, [location.state, originTool]);
-
-  useEffect(() => {
-    if (originTool) {
-      setInitialTool({
-        toolId: originTool.toolId,
-        toolName: originTool.toolMainName,
-        toolLogo: originTool.toolLogo,
-      });
-    }
-  }, [originTool]);
 
   const postList = data?.pages.map((item) => item.contents).flat();
 
@@ -60,6 +31,7 @@ const Community = () => {
     }
   }, [inView]);
 
+  // 스크롤 관련 로직
   useEffect(() => {
     const storedSrollPos = sessionStorage.getItem('scrollPosition');
     const storedToolType = sessionStorage.getItem('toolType');
@@ -77,11 +49,6 @@ const Community = () => {
       handleScrollUp();
     }
   }, [pickedtool, noTopic]);
-
-  const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
-    setPickedtool(toolId);
-    setIsNoTopic(toolId === null && noTopic);
-  };
 
   return (
     <>
