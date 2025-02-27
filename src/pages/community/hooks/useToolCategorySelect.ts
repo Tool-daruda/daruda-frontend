@@ -14,14 +14,12 @@ const useToolCategorySelect = () => {
 
   useEffect(() => {
     if (location.state) {
-      if (location.state) {
-        setPickedtool(location.state.toolId);
-        setInitialTool({
-          toolId: location.state.toolId,
-          toolName: location.state.toolMainName,
-          toolLogo: location.state.toolLogo,
-        });
-      }
+      setPickedtool(location.state.toolId);
+      setInitialTool({
+        toolId: location.state.toolId,
+        toolName: location.state.toolMainName,
+        toolLogo: location.state.toolLogo,
+      });
     }
   }, [location.state]);
 
@@ -36,6 +34,7 @@ const useToolCategorySelect = () => {
     setPickedtool,
     noTopic,
     initialTool,
+    setInitialTool,
   };
 };
 
