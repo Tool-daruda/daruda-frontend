@@ -1,7 +1,7 @@
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { BoardList } from '@pages/myPage/types/board';
 import { useMutation, useQueryClient, InfiniteData } from '@tanstack/react-query';
-import { GetPostListResponse } from 'src/types/post';
+import { GetPostListResponse, Post as PostResponse } from 'src/types/post';
 
 import { delBoard, postBoardScrap } from './api';
 
@@ -41,9 +41,19 @@ export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean) => 
           ) ?? [],
       });
 
-      // 캐시 백업
+      // 세부 페이지 낙관적 업데이트
+      await queryClient.cancelQueries({ queryKey: ['detailPost', boardId.toString()] });
+      const previousDetail = queryClient.getQueryData<PostResponse>(['detailPost', boardId.toString()]);
+
+      const updatedDetail = {
+        ...previousDetail,
+        isScraped: !previousDetail?.isScraped,
+      };
+
+      queryClient.setQueryData(['detailPost', boardId.toString()], updatedDetail);
+
+      // 마이페이지 BoardList 캐시 낙관적 업데이트
       const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
-      // BoardList 캐시 낙관적 업데이트
       queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), (old: BoardList) => {
         if (!old) return old;
         const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
