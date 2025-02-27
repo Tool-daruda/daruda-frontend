@@ -61,13 +61,28 @@ const Community = () => {
   }, [inView]);
 
   useEffect(() => {
-    handleScrollUp();
+    const storedSrollPos = sessionStorage.getItem('scrollPosition');
+    const storedToolType = sessionStorage.getItem('toolType');
+
+    if (storedSrollPos) {
+      window.scrollTo(0, parseInt(storedSrollPos, 10));
+      sessionStorage.removeItem('scrollPosition');
+    }
+
+    if (storedToolType) {
+      const ToolType = storedToolType === 'null' ? null : Number(storedToolType);
+      setPickedtool(ToolType);
+      sessionStorage.removeItem('toolType');
+    } else {
+      handleScrollUp();
+    }
   }, [pickedtool, noTopic]);
 
   const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setPickedtool(toolId);
     setIsNoTopic(toolId === null && noTopic);
   };
+
   return (
     <>
       <Title title="커뮤니티" />

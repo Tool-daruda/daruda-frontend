@@ -119,6 +119,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         onClick={(e) => {
           if (forDetail) {
             e.preventDefault();
+          } else {
+            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+            sessionStorage.setItem('toolType', pickedtool ? pickedtool.toString() : 'null');
           }
         }}
       >
