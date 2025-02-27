@@ -10,7 +10,7 @@ export interface InfiniteQueryResponse {
   pageParams: number[];
 }
 
-export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean) => {
+export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean, boardId?: number) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -64,7 +64,7 @@ export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean) => 
         return newBoardList;
       });
 
-      return { previousBoardList, updatedPopularList };
+      return { previousBoardList, updatedPopularList, previousDetail };
     },
     onError: (_error, _id, context) => {
       // 에러 발생 시 캐시 롤백
@@ -73,6 +73,9 @@ export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean) => 
       }
       if (context?.updatedPopularList) {
         queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], context.updatedPopularList);
+      }
+      if (context?.previousDetail && boardId) {
+        queryClient.setQueryData(['detailPost', boardId.toString()], context.updatedPopularList);
       }
       // handleModalOpen();
     },

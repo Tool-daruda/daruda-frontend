@@ -47,7 +47,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap(pickedtool, noTopic);
+  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap(pickedtool, noTopic, boardId);
 
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
