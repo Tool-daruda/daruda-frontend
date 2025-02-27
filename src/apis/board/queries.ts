@@ -1,6 +1,6 @@
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { BoardList } from '@pages/myPage/types/board';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, InfiniteData } from '@tanstack/react-query';
 import { GetPostListResponse } from 'src/types/post';
 
 import { delBoard, postBoardScrap } from './api';
@@ -10,7 +10,7 @@ export interface InfiniteQueryResponse {
   pageParams: number[];
 }
 
-export const useBoardScrap = () => {
+export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -19,9 +19,30 @@ export const useBoardScrap = () => {
   return useMutation({
     mutationFn: (boardId: number) => postBoardScrap(boardId),
     onMutate: async (boardId: number) => {
+      // 커뮤니티 리스트 페이지 부분, 북마크 낙관적 업데이트
+      await queryClient.cancelQueries({ queryKey: ['boards', { noTopic: noTopic, toolId: pickedtool }] });
+
+      const previousCommuList = queryClient.getQueryData<InfiniteData<GetPostListResponse>>([
+        'boards',
+        { noTopic: noTopic, toolId: pickedtool },
+      ]);
+
+      const flatedCommuList = previousCommuList?.pages.map((item) => item.contents ?? []).flat() ?? [];
+
+      const updatedPopularList = flatedCommuList?.map((notice) =>
+        notice.boardId === boardId ? { ...notice, isScraped: !notice.isScraped } : notice,
+      );
+
+      queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], {
+        ...previousCommuList,
+        pages:
+          previousCommuList?.pages.map((page, index) =>
+            index === 0 ? { ...page, contents: updatedPopularList } : page,
+          ) ?? [],
+      });
+
       // 캐시 백업
       const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
-
       // BoardList 캐시 낙관적 업데이트
       queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), (old: BoardList) => {
         if (!old) return old;
@@ -32,12 +53,16 @@ export const useBoardScrap = () => {
         };
         return newBoardList;
       });
-      return { previousBoardList };
+
+      return { previousBoardList, updatedPopularList };
     },
     onError: (_error, _id, context) => {
       // 에러 발생 시 캐시 롤백
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
+      }
+      if (context?.updatedPopularList) {
+        queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], context.updatedPopularList);
       }
       // handleModalOpen();
     },
@@ -52,8 +77,6 @@ export const useBoardScrap = () => {
           );
         },
       });
-      queryClient.refetchQueries({ queryKey: ['boards'] });
-      queryClient.refetchQueries({ queryKey: ['detailPost'] });
     },
   });
 };

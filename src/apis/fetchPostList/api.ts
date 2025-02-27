@@ -8,7 +8,7 @@ const fetchPostList = async ({
   queryKey,
 }: {
   pageParam: number | null | unknown;
-  queryKey: [string, { noTopic?: boolean; lastBoardId?: number | null; size?: number; toolId?: number | null }];
+  queryKey: [string, { noTopic?: boolean; size?: number; toolId?: number | null }];
 }): Promise<GetPostListResponse> => {
   try {
     const [, { noTopic, size, toolId }] = queryKey;

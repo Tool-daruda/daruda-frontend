@@ -77,7 +77,9 @@ const Community = () => {
           <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
             {postList && postList.length >= 1
-              ? postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
+              ? postList?.map((post) => (
+                  <Card key={`community-post-${post.boardId}`} post={post} noTopic={noTopic} pickedtool={pickedtool} />
+                ))
               : !isLoading && (
                   <S.NonTool>
                     <ImgPopupNonebookmarkScraptool />
