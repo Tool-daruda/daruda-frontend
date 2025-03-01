@@ -11,7 +11,7 @@ export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   border-bottom: 0.1rem solid ${({ theme, $forOnboarding }) => ($forOnboarding ? 'none' : theme.colors.gray4)};
 `;
 
-export const HeaderContainer = styled.section`
+export const HeaderContainer = styled.nav`
   display: flex;
   gap: 5.6rem;
   align-items: center;
@@ -21,15 +21,11 @@ export const HeaderContainer = styled.section`
   margin: 0 auto;
 `;
 
-export const LogoSection = styled.section`
+export const NavLeftSection = styled.ul`
   display: flex;
-  width: 11.2rem;
-  height: 3.3rem;
-`;
-
-export const CommunityNav = styled.nav`
-  z-index: 3;
-  margin-right: auto;
+  gap: 5.4rem;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 export const AuthSection = styled.nav`

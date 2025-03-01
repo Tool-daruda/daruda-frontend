@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const CategoryNav = styled.nav`
+export const CategoryNav = styled.li`
   position: relative;
   display: flex;
   gap: 0.4rem;

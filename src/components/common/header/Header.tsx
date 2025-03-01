@@ -12,15 +12,19 @@ interface HeaderProps {
 const HEADER_TEXTS = {
   community: '커뮤니티',
   login: '시작하기',
+  onboard: '서비스 소개',
 } as const;
 
 const Header = ({ forOnboarding = false }: HeaderProps) => {
   return (
     <S.HeaderWrapper $forOnboarding={forOnboarding}>
       <S.HeaderContainer>
-        <Logo />
-        <Category />
-        <Community />
+        <S.NavLeftSection>
+          <Logo />
+          <Category />
+          <Community />
+          <Onboarding />
+        </S.NavLeftSection>
         <Auth />
       </S.HeaderContainer>
     </S.HeaderWrapper>
@@ -28,19 +32,27 @@ const Header = ({ forOnboarding = false }: HeaderProps) => {
 };
 
 const Logo = () => (
-  <S.LogoSection>
+  <li>
     <Link to="/" aria-label="홈으로 이동">
       <ImgDarudalogo40 width="11.2rem" height="3.3rem" />
     </Link>
-  </S.LogoSection>
+  </li>
 );
 
 const Community = () => (
-  <S.CommunityNav>
+  <li>
     <S.StyledLink to="/community" aria-label="커뮤니티로 이동">
       {HEADER_TEXTS.community}
     </S.StyledLink>
-  </S.CommunityNav>
+  </li>
+);
+
+const Onboarding = () => (
+  <li>
+    <S.StyledLink to="/onboarding" aria-label="온보딩페이지로 이동">
+      {HEADER_TEXTS.onboard}
+    </S.StyledLink>
+  </li>
 );
 
 const Auth = () => {
