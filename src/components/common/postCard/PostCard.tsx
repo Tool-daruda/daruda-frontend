@@ -131,7 +131,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           )}
           <S.CardTopContent>
             <header>
-              <Chip size="medium" stroke={true}>
+              <Chip size="medium" stroke>
                 <Chip.RectContainer>
                   <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
                   <Chip.Label>{toolName}</Chip.Label>
@@ -179,7 +179,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 isBook={isScraped}
                 size="small"
                 stroke={false}
-                forBookMark={true}
+                forBookMark
                 handleClick={() => handleScrap(boardId)}
               >
                 북마크
@@ -214,7 +214,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           modalTitle="신고 접수가 완료되었어요"
           isOpen={isOpen}
           handleClose={handleModalClose}
-          isSingleModal={true}
+          isSingleModal
           ImgPopupModal={ImgModalcheck}
           singleBtnContent="확인했어요"
         />
@@ -240,7 +240,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         </Toast>
       )}
       {isWarning && (
-        <Toast isVisible={isWarning} isWarning={true}>
+        <Toast isVisible={isWarning} isWarning>
           로그인 후 가능한 서비스입니다.
         </Toast>
       )}
