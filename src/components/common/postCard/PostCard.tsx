@@ -143,10 +143,10 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               </S.MetaInfo>
             </header>
             <S.CardTitleItem>{title}</S.CardTitleItem>
-            <S.CardTextItem $isImgInclude={images.length >= 1} $forDetail={forDetail}>
+            <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
               {content}
             </S.CardTextItem>
-            <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
+            <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
               {images?.map((image, idx) => (
                 <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
                   <img src={image} alt={`Post-card-img-${idx}`} />
