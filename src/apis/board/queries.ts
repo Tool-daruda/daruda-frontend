@@ -64,18 +64,18 @@ export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean, boa
         return newBoardList;
       });
 
-      return { previousBoardList, updatedPopularList, previousDetail };
+      return { previousBoardList, previousCommuList, previousDetail };
     },
     onError: (_error, _id, context) => {
       // 에러 발생 시 캐시 롤백
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
       }
-      if (context?.updatedPopularList) {
-        queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], context.updatedPopularList);
+      if (context?.previousCommuList) {
+        queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], context.previousCommuList);
       }
       if (context?.previousDetail && boardId) {
-        queryClient.setQueryData(['detailPost', boardId.toString()], context.updatedPopularList);
+        queryClient.setQueryData(['detailPost', boardId.toString()], context.previousDetail);
       }
       // handleModalOpen();
     },
