@@ -2,9 +2,12 @@ import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
 import ScrollToTop from '@components/scrollTop/ScrollTop';
 import styled from '@emotion/styled';
+import { useTokenRefresher } from '@hooks/useTokenRefresher';
 import { Outlet } from 'react-router';
 
 const Layout = () => {
+  useTokenRefresher();
+
   return (
     <>
       <ScrollToTop />
