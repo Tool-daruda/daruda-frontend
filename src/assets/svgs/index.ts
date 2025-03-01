@@ -75,6 +75,7 @@ export { default as ImgPopupNonebookmarkScrappost } from './ImgPopupNonebookmark
 export { default as ImgPopupNonebookmarkScraptool } from './ImgPopupNonebookmarkScraptool';
 export { default as ImgPopupQuit84 } from './ImgPopupQuit84';
 export { default as ImgPopupWithdrawal84 } from './ImgPopupWithdrawal84';
+export { default as ImgPopupmodal284 } from './ImgPopupmodal284';
 export { default as ImgSpeakBubble } from './ImgSpeakBubble';
 export { default as ImgSymbollogo } from './ImgSymbollogo';
 export { default as ImgTextlogo } from './ImgTextlogo';

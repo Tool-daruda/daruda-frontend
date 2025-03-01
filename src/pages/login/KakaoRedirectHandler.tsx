@@ -1,15 +1,26 @@
-import { useEffect } from 'react';
+import { ImgPopupmodal284, ImgModalcheck } from '@assets/svgs';
+import { AlterModal } from '@components/modal';
+import { useEffect, useState } from 'react';
 
 import { sendAuthorization } from './apis/postKakaoToken';
 
 const KakaoRedirectHandler = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalContent, setModalContent] = useState('');
+  const [onConfirm, setOnConfirm] = useState<() => void>(() => () => {});
+  const [modalImage, setModalImage] = useState(() => ImgPopupmodal284);
+  const [buttonText, setButtonText] = useState('다시 시도하기');
+
   useEffect(() => {
     const handleAuthorization = async () => {
       const code = new URL(window.location.href).searchParams.get('code');
 
       if (!code) {
-        alert('인가 코드가 없습니다. 로그인 페이지로 돌아갑니다.');
-        window.location.href = '/login';
+        setModalTitle('로그인 실패');
+        setModalContent('인가 코드가 없습니다.');
+        setOnConfirm(() => () => (window.location.href = '/login'));
+        setIsOpen(true);
         return;
       }
 
@@ -25,24 +36,44 @@ const KakaoRedirectHandler = () => {
               refreshToken: response.jwtTokenResponse?.refreshToken,
             }),
           );
-          window.location.href = '/';
+          setModalTitle('로그인 성공');
+          setModalContent('로그인이 완료되었습니다.');
+          setModalImage(() => ImgModalcheck);
+          setButtonText('툴 다루러 가기');
+          setOnConfirm(() => () => (window.location.href = '/'));
         } else {
           // 신규 유저
           localStorage.setItem('user', JSON.stringify({ email: response.data?.email }));
-          alert('회원가입이 필요합니다. 회원가입 페이지로 이동합니다.');
-          window.location.href = '/signup';
+          setModalTitle('회원가입 필요');
+          setModalContent('회원가입이 필요합니다.');
+          setButtonText('회원가입 페이지로 돌아가기');
+          setOnConfirm(() => () => (window.location.href = '/signup'));
         }
+        setIsOpen(true);
       } catch (error) {
         console.error('인가 코드 처리 중 에러 발생:', error);
-        alert('로그인 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
-        window.location.href = '/login';
+        setModalTitle('로그인 실패');
+        setModalContent('로그인 처리 중 문제가 발생했습니다.');
+        setModalImage(() => ImgPopupmodal284);
+        setOnConfirm(() => () => (window.location.href = '/login'));
+        setIsOpen(true);
       }
     };
 
     handleAuthorization();
   }, []);
 
-  return <></>;
+  return (
+    <AlterModal
+      modalTitle={modalTitle}
+      modalContent={modalContent}
+      isOpen={isOpen}
+      handleClose={onConfirm}
+      isSingleModal={true}
+      ImgPopupModal={modalImage}
+      singleBtnContent={buttonText}
+    />
+  );
 };
 
 export default KakaoRedirectHandler;
