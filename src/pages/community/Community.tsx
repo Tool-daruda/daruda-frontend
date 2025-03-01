@@ -33,22 +33,14 @@ const Community = () => {
 
   // 스크롤 관련 로직
   useEffect(() => {
-    const storedSrollPos = sessionStorage.getItem('scrollPosition');
     const storedToolType = sessionStorage.getItem('toolType');
-
-    if (storedSrollPos) {
-      window.scrollTo(0, parseInt(storedSrollPos, 10));
-      sessionStorage.removeItem('scrollPosition');
-    }
 
     if (storedToolType) {
       const ToolType = storedToolType === 'null' ? null : Number(storedToolType);
       setPickedtool(ToolType);
       sessionStorage.removeItem('toolType');
-    } else {
-      handleScrollUp();
     }
-  }, [pickedtool, noTopic]);
+  }, []);
 
   return (
     <>
