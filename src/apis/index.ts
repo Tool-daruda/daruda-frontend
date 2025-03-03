@@ -1,4 +1,3 @@
-import { reissueToken } from '@pages/login/apis/postTokenRefresh';
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
 import { ErrorResponse } from './errorResponse';
@@ -14,15 +13,38 @@ export class ApiError extends Error {
   }
 }
 
-// 토큰 가져오기
+// 토큰 캐싱 (불필요한 localStorage 접근 방지)
+let cachedToken: string | null = null;
+
+// accessToken 가져오기
 const getAccessToken = (): string | null => {
+  if (!cachedToken) {
+    const user = localStorage.getItem('user');
+    if (user) {
+      try {
+        const userObj = JSON.parse(user);
+        cachedToken = userObj.accessToken || null;
+      } catch (error) {
+        console.error('유저의 토큰 정보를 가져올 수 없습니다', error);
+        return null;
+      }
+    }
+  }
+  return cachedToken;
+};
+
+// accessToken 저장
+const setAccessToken = (token: string) => {
+  cachedToken = token;
   const user = localStorage.getItem('user');
-  if (!user) return null;
-  try {
-    return JSON.parse(user)?.accessToken || null;
-  } catch (error) {
-    console.error('유저 토큰 파싱 실패:', error);
-    return null;
+  if (user) {
+    try {
+      const userObj = JSON.parse(user);
+      userObj.accessToken = token;
+      localStorage.setItem('user', JSON.stringify(userObj));
+    } catch (error) {
+      console.error('토큰 업데이트 중 문제가 발생했습니다', error);
+    }
   }
 };
 
@@ -32,7 +54,7 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
-// 요청 인터셉터
+// 요청 인터셉터: 모든 요청에 토큰 추가
 instance.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {
@@ -41,11 +63,34 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 응답 인터셉터
+// 토큰 갱신 API
+const reissueToken = async (refreshToken: string) => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/reissue`, null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+
+    console.log('토큰 갱신 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('토큰 갱신 실패:', error);
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+    throw error;
+  }
+};
+
+// 응답 인터셉터: 401 오류 발생 시 토큰 갱신 로직 처리
 instance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError<ErrorResponse>) => {
-    if (error.response?.status === 401) {
+    const httpStatus = error.response?.status;
+    const customStatus = error.response?.data?.status;
+
+    if (httpStatus === 401 && customStatus === 'E401001') {
       console.warn('액세스 토큰 만료. 토큰 갱신 중...');
 
       const user = localStorage.getItem('user');
@@ -55,39 +100,36 @@ instance.interceptors.response.use(
         return Promise.reject(error);
       }
 
-      const { refreshToken } = JSON.parse(user);
-      if (!refreshToken) {
-        console.warn('리프레시 토큰 없음');
-        window.location.href = '/login';
-        return Promise.reject(error);
-      }
-
       try {
-        const newTokens = await reissueToken(refreshToken);
-
-        // 새로운 토큰을 localStorage에 저장
-        const updatedUser = { ...JSON.parse(user), ...newTokens };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-
-        // 기존 요청에 새로운 accessToken을 적용
-        const originalRequest = error.config as AxiosRequestConfig;
-
-        // originalRequest와 headers가 존재하는지 체크
-        if (originalRequest && originalRequest.headers) {
-          originalRequest.headers['Authorization'] = `Bearer ${newTokens.accessToken}`;
-          return instance(originalRequest);
-        } else {
+        const { refreshToken } = JSON.parse(user);
+        if (!refreshToken) {
+          console.warn('리프레시 토큰 없음');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
           return Promise.reject(error);
         }
+
+        // 리프레시 토큰으로 새로운 액세스 토큰 요청
+        const newTokens = await reissueToken(refreshToken);
+        setAccessToken(newTokens.accessToken);
+
+        // 기존 요청을 새로운 액세스 토큰으로 재시도
+        const originalRequest = error.config as AxiosRequestConfig;
+        if (originalRequest?.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
+          return instance(originalRequest);
+        }
       } catch (refreshError) {
-        console.error('토큰 갱신 실패:', refreshError);
+        console.error('리프레시 토큰 갱신 실패:', refreshError);
         localStorage.removeItem('user');
         window.location.href = '/login';
-        return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error);
+    // 일반적인 에러 처리
+    return Promise.reject(
+      new ApiError(httpStatus || 500, error.response?.data?.message || '알 수 없는 오류가 발생했습니다.'),
+    );
   },
 );
 

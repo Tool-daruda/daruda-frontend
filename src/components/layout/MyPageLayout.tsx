@@ -3,15 +3,12 @@ import Header from '@components/header/Header';
 import ScrollToTop from '@components/scrollTop/ScrollTop';
 import Title from '@components/title/Title';
 import styled from '@emotion/styled';
-import { useTokenRefresher } from '@hooks/useTokenRefresher';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
 import { ReactNode } from 'react';
 import { Outlet, useLocation } from 'react-router';
 
 const MyPageLayout = () => {
-  useTokenRefresher();
-
   return (
     <>
       <ScrollToTop />
