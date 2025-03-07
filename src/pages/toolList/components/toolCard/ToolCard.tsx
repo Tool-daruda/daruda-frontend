@@ -27,6 +27,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const { mutate: addBookmark } = useToolScrap();
   const { isToastOpen, handleModalOpen } = useToastOpen();
 
+  const [isFailed, setIsFailed] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
 
   const fetchTools = async (isReset = false) => {
@@ -85,6 +88,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     const isLoggedIn = localStorage.getItem('user') !== null;
 
     if (!isLoggedIn) {
+      setIsFailed(true);
+      setToastMessage('로그인 후 이용가능합니다.');
       handleModalOpen();
       return;
     }
@@ -94,6 +99,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       setTools((prevTools) =>
         prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
       );
+      setIsFailed(false);
+      setToastMessage(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      handleModalOpen();
     } catch (error) {
       console.error('북마크 처리 중 오류 발생:', error);
     }
@@ -160,8 +168,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       </S.CardList>
       <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
       {isToastOpen && (
-        <Toast isVisible={isToastOpen} isWarning={true}>
-          로그인 후 이용가능합니다.
+        <Toast isVisible={isToastOpen} isWarning={isFailed}>
+          {toastMessage}
         </Toast>
       )}
     </S.Container>
