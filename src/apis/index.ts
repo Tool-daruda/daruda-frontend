@@ -1,4 +1,4 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
 import { ErrorResponse } from './errorResponse';
 
@@ -13,13 +13,13 @@ export class ApiError extends Error {
   }
 }
 
-// accessToken 가져오기
+// 토큰 캐싱 (불필요한 localStorage 접근 방지)
 let cachedToken: string | null = null;
 
+// accessToken 가져오기
 const getAccessToken = (): string | null => {
   if (!cachedToken) {
     const user = localStorage.getItem('user');
-
     if (user) {
       try {
         const userObj = JSON.parse(user);
@@ -33,6 +33,7 @@ const getAccessToken = (): string | null => {
   return cachedToken;
 };
 
+// accessToken 저장
 const setAccessToken = (token: string) => {
   cachedToken = token;
   const user = localStorage.getItem('user');
@@ -47,13 +48,13 @@ const setAccessToken = (token: string) => {
   }
 };
 
-// api 클라이언트 생성
+// API 클라이언트 생성
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
 });
 
-// 요청 인터셉터
+// 요청 인터셉터: 모든 요청에 토큰 추가
 instance.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {
@@ -62,62 +63,72 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 응답 인터셉터
+// 토큰 갱신 API
+const reissueToken = async (refreshToken: string) => {
+  try {
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/reissue`, null, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    });
+
+    console.log('토큰 갱신 성공:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('토큰 갱신 실패:', error);
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+    throw error;
+  }
+};
+
+// 응답 인터셉터: 401 오류 발생 시 토큰 갱신 로직 처리
 instance.interceptors.response.use(
   (response) => response,
   async (error: AxiosError<ErrorResponse>) => {
-    const httpStatus = error.response?.status; // HTTP 상태 코드
-    const customStatus = error.response?.data?.status; // 응답의 상태 코드
+    const httpStatus = error.response?.status;
+    const customStatus = error.response?.data?.status;
 
     if (httpStatus === 401 && customStatus === 'E401001') {
-      // 액세스 토큰 만료 처리
+      console.warn('액세스 토큰 만료. 토큰 갱신 중...');
+
       const user = localStorage.getItem('user');
-
-      if (user) {
-        try {
-          const userObj = JSON.parse(user);
-          const refreshToken = userObj.refreshToken;
-
-          if (refreshToken) {
-            // 리프레시 토큰으로 새로운 액세스 토큰 요청
-            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/reissue`, {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-                Authorization: refreshToken,
-              },
-            });
-
-            const newAccessToken = response.data?.accessToken;
-
-            if (newAccessToken) {
-              // 새 액세스 토큰 저장
-              setAccessToken(newAccessToken);
-
-              // 원래 요청 재시도
-              if (error.config) {
-                error.config.headers.Authorization = `Bearer ${newAccessToken}`;
-                return instance.request(error.config);
-              }
-            }
-          }
-        } catch (refreshError) {
-          console.error('리프레시 토큰 갱신 중 에러 발생:', refreshError);
-          localStorage.removeItem('user');
-          window.location.href = '/login';
-        }
+      if (!user) {
+        console.warn('유저 정보 없음');
+        window.location.href = '/login';
+        return Promise.reject(error);
       }
 
-      // 리프레시 실패 시 재로그인
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      try {
+        const { refreshToken } = JSON.parse(user);
+        if (!refreshToken) {
+          console.warn('리프레시 토큰 없음');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
+          return Promise.reject(error);
+        }
+
+        // 리프레시 토큰으로 새로운 액세스 토큰 요청
+        const newTokens = await reissueToken(refreshToken);
+        setAccessToken(newTokens.accessToken);
+
+        // 기존 요청을 새로운 액세스 토큰으로 재시도
+        const originalRequest = error.config as AxiosRequestConfig;
+        if (originalRequest?.headers) {
+          originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
+          return instance(originalRequest);
+        }
+      } catch (refreshError) {
+        console.error('리프레시 토큰 갱신 실패:', refreshError);
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
     }
 
     // 일반적인 에러 처리
     return Promise.reject(
-      new ApiError(
-        httpStatus || 500, // 상태 코드 없으면 500
-        error.response?.data?.message || '알 수 없는 오류가 발생했습니다.', // 에러 메시지 없으면 기본 메시지
-      ),
+      new ApiError(httpStatus || 500, error.response?.data?.message || '알 수 없는 오류가 발생했습니다.'),
     );
   },
 );

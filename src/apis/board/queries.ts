@@ -1,7 +1,7 @@
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { BoardList } from '@pages/myPage/types/board';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GetPostListResponse } from 'src/types/post';
+import { useMutation, useQueryClient, InfiniteData } from '@tanstack/react-query';
+import { GetPostListResponse, Post as PostResponse } from 'src/types/post';
 
 import { delBoard, postBoardScrap } from './api';
 
@@ -10,7 +10,7 @@ export interface InfiniteQueryResponse {
   pageParams: number[];
 }
 
-export const useBoardScrap = () => {
+export const useBoardScrap = (pickedtool?: number | null, noTopic?: boolean, boardId?: number) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -19,10 +19,41 @@ export const useBoardScrap = () => {
   return useMutation({
     mutationFn: (boardId: number) => postBoardScrap(boardId),
     onMutate: async (boardId: number) => {
-      // 캐시 백업
-      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
+      // 커뮤니티 리스트 페이지 부분, 북마크 낙관적 업데이트
+      await queryClient.cancelQueries({ queryKey: ['boards', { noTopic: noTopic, toolId: pickedtool }] });
 
-      // BoardList 캐시 낙관적 업데이트
+      const previousCommuList = queryClient.getQueryData<InfiniteData<GetPostListResponse>>([
+        'boards',
+        { noTopic: noTopic, toolId: pickedtool },
+      ]);
+
+      const flatedCommuList = previousCommuList?.pages.map((item) => item.contents ?? []).flat() ?? [];
+
+      const updatedPopularList = flatedCommuList?.map((notice) =>
+        notice.boardId === boardId ? { ...notice, isScraped: !notice.isScraped } : notice,
+      );
+
+      queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], {
+        ...previousCommuList,
+        pages:
+          previousCommuList?.pages.map((page, index) =>
+            index === 0 ? { ...page, contents: updatedPopularList } : page,
+          ) ?? [],
+      });
+
+      // 세부 페이지 낙관적 업데이트
+      await queryClient.cancelQueries({ queryKey: ['detailPost', boardId.toString()] });
+      const previousDetail = queryClient.getQueryData<PostResponse>(['detailPost', boardId.toString()]);
+
+      const updatedDetail = {
+        ...previousDetail,
+        isScraped: !previousDetail?.isScraped,
+      };
+
+      queryClient.setQueryData(['detailPost', boardId.toString()], updatedDetail);
+
+      // 마이페이지 BoardList 캐시 낙관적 업데이트
+      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
       queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), (old: BoardList) => {
         if (!old) return old;
         const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
@@ -32,12 +63,19 @@ export const useBoardScrap = () => {
         };
         return newBoardList;
       });
-      return { previousBoardList };
+
+      return { previousBoardList, previousCommuList, previousDetail };
     },
     onError: (_error, _id, context) => {
       // 에러 발생 시 캐시 롤백
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
+      }
+      if (context?.previousCommuList) {
+        queryClient.setQueryData(['boards', { noTopic: noTopic, toolId: pickedtool }], context.previousCommuList);
+      }
+      if (context?.previousDetail && boardId) {
+        queryClient.setQueryData(['detailPost', boardId.toString()], context.previousDetail);
       }
       // handleModalOpen();
     },
@@ -52,8 +90,6 @@ export const useBoardScrap = () => {
           );
         },
       });
-      queryClient.refetchQueries({ queryKey: ['boards'] });
-      queryClient.refetchQueries({ queryKey: ['detailPost'] });
     },
   });
 };

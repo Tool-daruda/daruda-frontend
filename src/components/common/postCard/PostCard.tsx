@@ -26,25 +26,28 @@ interface CardDataProp {
   post: Post;
   forDetail?: boolean;
   isLoading?: boolean;
+  pickedtool?: number | null;
+  noTopic?: boolean;
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { post, forDetail = false } = props;
+  // prop 으로 전달 받은 board 정보
+  const { post, forDetail = false, pickedtool, noTopic } = props;
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
-  const [isOwnPost, setIsOwnPost] = useState(false);
-  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
+  const [isOwnPost, setIsOwnPost] = useState(false); // 작성자 여부 판별
+  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen(); // 토스트 팝업 훅
 
-  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal();
+  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal(); // 삭제/ 신고 모달 관련 훅
 
   const [clickedIdx, setClickedIdx] = useState(0);
   const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap();
-  // const [isClicked, setIsClicked] = useState(isScraped);
   const [toastMessage, setToastMessage] = useState('');
+
+  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap(pickedtool, noTopic, boardId);
 
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
@@ -68,6 +71,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsImgModalOpen(false);
   };
 
+  // 북마크 추가 / 삭제 함수
   const handleScrap = (boardId: number) => {
     srapMutate(boardId);
 
@@ -81,9 +85,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   useEffect(() => {
     if (isBookMarkSuccess) {
-      setToastMessage(isScraped ? '북마크가 취소되었어요' : '북마크가 되었어요');
+      setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
     }
-  }, [isBookMarkSuccess]);
+  }, [isBookMarkSuccess, isScraped]);
 
   const handleWarnnig = () => {
     setIsWarning(true);
@@ -93,15 +97,14 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     }, 3000);
   };
 
-  const noTopic = toolId === null;
-  const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, noTopic);
+  const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, toolId === null);
 
   const handleImgModalDel = () => {
     DeleteMutate(boardId, {
       onSuccess: () => {
         queryClient.refetchQueries({
           queryKey: ['boards'],
-          filters: { noTopic, size: 10, lastBoardId: -1, toolId },
+          filters: { size: 10, lastBoardId: -1, toolId },
         });
         handleModalClose();
       },
@@ -116,6 +119,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         onClick={(e) => {
           if (forDetail) {
             e.preventDefault();
+          } else {
+            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+            sessionStorage.setItem('toolType', pickedtool ? pickedtool.toString() : 'null');
           }
         }}
       >
@@ -125,7 +131,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           )}
           <S.CardTopContent>
             <header>
-              <Chip size="medium" stroke={true}>
+              <Chip size="medium" stroke>
                 <Chip.RectContainer>
                   <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
                   <Chip.Label>{toolName}</Chip.Label>
@@ -137,10 +143,10 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               </S.MetaInfo>
             </header>
             <S.CardTitleItem>{title}</S.CardTitleItem>
-            <S.CardTextItem $isImgInclude={images.length >= 1} $forDetail={forDetail}>
+            <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
               {content}
             </S.CardTextItem>
-            <S.ImageGrid $imageCount={images.length} $forDetail={forDetail}>
+            <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
               {images?.map((image, idx) => (
                 <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
                   <img src={image} alt={`Post-card-img-${idx}`} />
@@ -173,7 +179,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 isBook={isScraped}
                 size="small"
                 stroke={false}
-                forBookMark={true}
+                forBookMark
                 handleClick={() => handleScrap(boardId)}
               >
                 북마크
@@ -208,7 +214,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           modalTitle="신고 접수가 완료되었어요"
           isOpen={isOpen}
           handleClose={handleModalClose}
-          isSingleModal={true}
+          isSingleModal
           ImgPopupModal={ImgModalcheck}
           singleBtnContent="확인했어요"
         />
@@ -234,7 +240,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         </Toast>
       )}
       {isWarning && (
-        <Toast isVisible={isWarning} isWarning={true}>
+        <Toast isVisible={isWarning} isWarning>
           로그인 후 가능한 서비스입니다.
         </Toast>
       )}

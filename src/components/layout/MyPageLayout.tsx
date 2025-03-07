@@ -59,7 +59,6 @@ const S = {
       padding: 2.8rem 0;
 
       color: ${({ theme }) => theme.colors.black};
-
       ${({ theme }) => theme.fonts.body_24_b};
     }
   `,
@@ -81,7 +80,6 @@ const S = {
       padding-left: 3.6rem;
 
       color: ${({ theme }) => theme.colors.black};
-
       ${({ theme }) => theme.fonts.body_20_b};
     }
   `,

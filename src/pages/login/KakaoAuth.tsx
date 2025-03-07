@@ -1,13 +1,15 @@
 import { ImgDarudalogo40 } from '@assets/svgs';
 import Title from '@components/title/Title';
 
-import { fetchKakaoLogin } from './apis/api';
+import { fetchKakaoLogin } from './apis/getKakaoData';
 import SvgKakaoVector from './assets/KakaoVector';
 import * as S from './KakaoAuth.styled';
 
 const KakaoAuth = () => {
   const handleKakaoLogin = async () => {
     try {
+      // 기존 로그인 정보 제거
+      localStorage.removeItem('user');
       await fetchKakaoLogin();
     } catch (error) {
       console.error('카카오 로그인 요청 처리 중 에러 발생:', error);

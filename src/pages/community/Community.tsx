@@ -5,79 +5,65 @@ import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './Community.style';
 import Banner from './components/banner/Banner';
+import { useToolCategorySelect } from './hooks';
 
 import { usePostListQuery } from '../../apis/fetchPostList/queries';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
+  const { handleToolSelect, pickedtool, setPickedtool, noTopic, initialTool } = useToolCategorySelect();
+
   const navigate = useNavigate();
-  const [pickedtool, setPickedtool] = useState<number | null>(null);
-  const [noTopic, setIsNoTopic] = useState<boolean>(false);
   const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
-  const location = useLocation();
-  const [originTool, setOriginTool] = useState<{
-    toolId: number | null;
-    toolLogo: string;
-    toolMainName: string;
-  }>();
-  const [initialTool, setInitialTool] = useState<{
-    toolId: number | null;
-    toolLogo: string;
-    toolName: string;
-  }>();
-
-  useEffect(() => {
-    if (location.state) {
-      setOriginTool(location.state);
-      if (originTool) {
-        setPickedtool(originTool?.toolId);
-      }
-    }
-  }, [location.state, originTool]);
-
-  useEffect(() => {
-    if (originTool) {
-      setInitialTool({
-        toolId: originTool.toolId,
-        toolName: originTool.toolMainName,
-        toolLogo: originTool.toolLogo,
-      });
-    }
-  }, [originTool]);
 
   const postList = data?.pages.map((item) => item.contents).flat();
 
   useEffect(() => {
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        nickname: '곤이곤이',
+        accessToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MTY2MjI0NywidXNlcklkIjoxMzJ9._y6LnG-MlZlR0t_qNAvH1hon_EGx3XuR7t8LuYcRG7L4yybHbERQBrgUpBR-l_5qhJyc461BtQEok9kqrLMJ4g',
+        refreshToken:
+          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MzA0NDY0NywidXNlcklkIjoxMzJ9.f_SBo1ii8_iINV8RlYcTw_gxG92o4Em1VwM5e7-z4eAHx_u06FzYzaOEo_13ogVYtZLtpxPKnmtuuPyuKJ2jMA',
+      }),
+    );
     if (inView) {
       fetchNextPage();
     }
   }, [inView]);
 
+  // 스크롤 관련 로직
   useEffect(() => {
-    handleScrollUp();
-  }, [pickedtool, noTopic]);
+    const storedToolType = sessionStorage.getItem('toolType');
 
-  const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
-    setPickedtool(toolId);
-    setIsNoTopic(toolId === null && noTopic);
-  };
+    if (storedToolType) {
+      const ToolType = storedToolType === 'null' ? null : Number(storedToolType);
+      setPickedtool(ToolType);
+      sessionStorage.removeItem('toolType');
+    }
+  }, []);
+
   return (
     <>
       <Title title="커뮤니티" />
       <S.CommunityWrapper>
         <Banner />
         <S.CommunityContainer>
-          <ToolListBanner forCommunity={true} onToolSelect={handleToolSelect} originTool={initialTool} />
+          <ToolListBanner forCommunity onToolSelect={handleToolSelect} originTool={initialTool} />
           <S.CardList>
             {postList && postList.length >= 1
-              ? postList?.map((post) => <Card key={`community-post-${post.boardId}`} post={post} />)
+              ? postList?.map((post) => (
+                  <Card key={`community-post-${post.boardId}`} post={post} noTopic={noTopic} pickedtool={pickedtool} />
+                ))
               : !isLoading && (
                   <S.NonTool>
                     <ImgPopupNonebookmarkScraptool />
@@ -104,7 +90,7 @@ const Community = () => {
               }
             }}
             size="small"
-            shadow={true}
+            shadow
             icon={<IcPlusWhite20 />}
             disabled={!localStorage.getItem('user')}
           >
