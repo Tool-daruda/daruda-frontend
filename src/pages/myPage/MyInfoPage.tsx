@@ -15,7 +15,7 @@ import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
-  const { data } = useGetInfo();
+  const { data: userInfo } = useGetInfo();
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | undefined>();
   const [nickname, setNickname] = useState('');
   const [isOpenWithdrawModal, setIsOpenWithdrawModal] = useState(false);
@@ -38,30 +38,30 @@ const MyInfoPage = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      setSelectedAffiliation(data.positions);
-      setNickname(data.nickname);
+    if (userInfo) {
+      setSelectedAffiliation(userInfo.positions);
+      setNickname(userInfo.nickname);
     }
-  }, [data]);
+  }, [userInfo]);
 
   const handleSaveInfo = async () => {
-    if (!data) return;
-    const updatedData: { nickname?: string; position?: string } = {};
+    if (!userInfo) return;
+    const updateduserInfo: { nickname?: string; position?: string } = {};
 
-    if (nickname !== data?.nickname) {
-      updatedData.nickname = nickname;
+    if (nickname !== userInfo?.nickname) {
+      updateduserInfo.nickname = nickname;
     }
 
-    if (selectedAffiliation !== data?.positions) {
+    if (selectedAffiliation !== userInfo?.positions) {
       const affiliationKey = Object.keys(AFFILIATION_OPTIONS).find(
         (key) => AFFILIATION_OPTIONS[key as keyof typeof AFFILIATION_OPTIONS] === selectedAffiliation,
       );
 
-      updatedData.position = affiliationKey ?? selectedAffiliation;
+      updateduserInfo.position = affiliationKey ?? selectedAffiliation;
     }
 
-    if (Object.keys(updatedData).length > 0) {
-      const updateResponse = await patchMutate(updatedData);
+    if (Object.keys(updateduserInfo).length > 0) {
+      const updateResponse = await patchMutate(updateduserInfo);
       if (updateResponse) {
         handleToastOpen();
       }
@@ -93,8 +93,8 @@ const MyInfoPage = () => {
   };
 
   useEffect(() => {
-    const isNicknameChanged = nickname !== data?.nickname;
-    const isAffiliationChanged = selectedAffiliation !== data?.positions;
+    const isNicknameChanged = nickname !== userInfo?.nickname;
+    const isAffiliationChanged = selectedAffiliation !== userInfo?.positions;
 
     // 닉네임이 바뀌었으면 중복확인 필수
     if (isNicknameChanged && isAffiliationChanged) {
@@ -106,7 +106,7 @@ const MyInfoPage = () => {
     } else {
       setIsButtonDisable(true);
     }
-  }, [nickname, selectedAffiliation, nicknameState, data]);
+  }, [nickname, selectedAffiliation, nicknameState, userInfo]);
 
   const withdrawModalProps = {
     modalTitle: '정말 다루다의 회원을 탈퇴하시겠어요?',
@@ -155,7 +155,7 @@ const MyInfoPage = () => {
               description={nicknameMessage}
               onClick={handleNicknameCheck}
               onChange={handleNicknameChange}
-              placeholder={data?.nickname}
+              placeholder={userInfo?.nickname}
             />
           </S.NicknameInputBox>
         </S.NickNameWrapper>

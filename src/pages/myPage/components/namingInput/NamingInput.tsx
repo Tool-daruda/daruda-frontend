@@ -25,25 +25,26 @@ const NamingInput = ({
   onClick,
   ...props
 }: NamingInputPropTypes) => {
-  const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
-  const count = value?.length;
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) {
       onChange?.(e);
     }
   };
 
-  const isActive = count > 0; // 입력값이 1글자 이상일 때만 active
-
   return (
     <S.InputWrapper>
       <S.InputBox>
-        <S.Input state={state} value={value} onChange={handleInputChange} placeholder={placeholder} {...props} />
-        <ConfirmBtn isActive={isActive} onClick={onClick} />
+        <S.Input
+          state={state}
+          value={value}
+          onChange={handleInputChange}
+          placeholder={state === 'default' ? '닉네임을 입력해주세요.' : ''}
+          {...props}
+        />
+        <ConfirmBtn isActive={value.length > 0} onClick={onClick} />
       </S.InputBox>
       <S.DescriptionBox>
-        <S.LetterCount>{count}/10</S.LetterCount>
+        <S.LetterCount>{value.length}/10</S.LetterCount>
         {description && <S.Description state={state}>{description}</S.Description>}
       </S.DescriptionBox>
       {inputRestrictions.length > 0 && (
