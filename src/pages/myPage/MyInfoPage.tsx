@@ -7,7 +7,7 @@ import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import styled from '@emotion/styled';
 import { useToastOpen } from '@pages/CommunityDetail/hooks';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
@@ -15,7 +15,7 @@ import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
-  const { data: userInfo } = useGetInfo();
+  const { data } = useGetInfo();
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | undefined>();
   const [nickname, setNickname] = useState('');
   const [isOpenWithdrawModal, setIsOpenWithdrawModal] = useState(false);
@@ -33,37 +33,41 @@ const MyInfoPage = () => {
     setNicknameMessage('');
   };
 
-  const handleWithdrawModal = () => {
+  const handleWithdrawModal = useCallback(() => {
     setIsOpenWithdrawModal((prev) => !prev);
-  };
+  }, []);
 
   useEffect(() => {
-    if (userInfo) {
-      setSelectedAffiliation(userInfo.positions);
-      setNickname(userInfo.nickname);
+    if (data) {
+      setSelectedAffiliation(data.positions);
+      setNickname(data.nickname);
     }
-  }, [userInfo]);
+  }, [data]);
 
   const handleSaveInfo = async () => {
-    if (!userInfo) return;
-    const updateduserInfo: { nickname?: string; position?: string } = {};
+    if (!data) return;
+    const updatedData: { nickname?: string; position?: string } = {};
 
-    if (nickname !== userInfo?.nickname) {
-      updateduserInfo.nickname = nickname;
+    if (nickname !== data?.nickname) {
+      updatedData.nickname = nickname;
     }
 
-    if (selectedAffiliation !== userInfo?.positions) {
+    if (selectedAffiliation !== data?.positions) {
       const affiliationKey = Object.keys(AFFILIATION_OPTIONS).find(
         (key) => AFFILIATION_OPTIONS[key as keyof typeof AFFILIATION_OPTIONS] === selectedAffiliation,
       );
 
-      updateduserInfo.position = affiliationKey ?? selectedAffiliation;
+      updatedData.position = affiliationKey ?? selectedAffiliation;
     }
 
-    if (Object.keys(updateduserInfo).length > 0) {
-      const updateResponse = await patchMutate(updateduserInfo);
-      if (updateResponse) {
-        handleToastOpen();
+    if (Object.keys(updatedData).length > 0) {
+      try {
+        const updateResponse = await patchMutate(updatedData);
+        if (updateResponse) {
+          handleToastOpen();
+        }
+      } catch (error) {
+        console.error('정보 저장 실패:', error);
       }
     }
   };
@@ -93,8 +97,8 @@ const MyInfoPage = () => {
   };
 
   useEffect(() => {
-    const isNicknameChanged = nickname !== userInfo?.nickname;
-    const isAffiliationChanged = selectedAffiliation !== userInfo?.positions;
+    const isNicknameChanged = nickname !== data?.nickname;
+    const isAffiliationChanged = selectedAffiliation !== data?.positions;
 
     // 닉네임이 바뀌었으면 중복확인 필수
     if (isNicknameChanged && isAffiliationChanged) {
@@ -106,7 +110,7 @@ const MyInfoPage = () => {
     } else {
       setIsButtonDisable(true);
     }
-  }, [nickname, selectedAffiliation, nicknameState, userInfo]);
+  }, [nickname, selectedAffiliation, nicknameState, data]);
 
   const withdrawModalProps = {
     modalTitle: '정말 다루다의 회원을 탈퇴하시겠어요?',
@@ -155,7 +159,7 @@ const MyInfoPage = () => {
               description={nicknameMessage}
               onClick={handleNicknameCheck}
               onChange={handleNicknameChange}
-              placeholder={userInfo?.nickname}
+              placeholder={data?.nickname}
             />
           </S.NicknameInputBox>
         </S.NickNameWrapper>
@@ -167,6 +171,7 @@ const MyInfoPage = () => {
         <S.Withdraw type="button" onClick={handleWithdrawModal}>
           회원탈퇴
         </S.Withdraw>
+        <AlterModal {...withdrawModalProps} />
         <AlterModal {...withdrawModalProps} />
       </S.InfoWrapper>
       {isToastOpen && (
