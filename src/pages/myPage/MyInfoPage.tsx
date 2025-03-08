@@ -172,7 +172,6 @@ const MyInfoPage = () => {
           회원탈퇴
         </S.Withdraw>
         <AlterModal {...withdrawModalProps} />
-        <AlterModal {...withdrawModalProps} />
       </S.InfoWrapper>
       {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
