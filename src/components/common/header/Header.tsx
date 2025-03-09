@@ -40,19 +40,19 @@ const Logo = () => (
 );
 
 const Community = () => (
-  <li>
+  <S.NavContainer>
     <S.StyledLink to="/community" aria-label="커뮤니티로 이동">
       {HEADER_TEXTS.community}
     </S.StyledLink>
-  </li>
+  </S.NavContainer>
 );
 
 const Onboarding = () => (
-  <li>
+  <S.NavContainer>
     <S.StyledLink to="/onboarding" aria-label="온보딩페이지로 이동">
       {HEADER_TEXTS.onboard}
     </S.StyledLink>
-  </li>
+  </S.NavContainer>
 );
 
 const Auth = () => {

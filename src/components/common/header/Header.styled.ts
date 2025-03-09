@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 3;
   padding: 1.95rem 16rem;
 
   background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? 'transparent' : theme.colors.white1)};
@@ -26,6 +26,10 @@ export const NavLeftSection = styled.ul`
   gap: 5.4rem;
   align-items: center;
   justify-content: flex-start;
+`;
+
+export const NavContainer = styled.li`
+  z-index: 2;
 `;
 
 export const AuthSection = styled.nav`
