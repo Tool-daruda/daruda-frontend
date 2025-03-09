@@ -26,16 +26,6 @@ const Community = () => {
   const postList = data?.pages.map((item) => item.contents).flat();
 
   useEffect(() => {
-    localStorage.setItem(
-      'user',
-      JSON.stringify({
-        nickname: '곤이곤이',
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MTY2MjI0NywidXNlcklkIjoxMzJ9._y6LnG-MlZlR0t_qNAvH1hon_EGx3XuR7t8LuYcRG7L4yybHbERQBrgUpBR-l_5qhJyc461BtQEok9kqrLMJ4g',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MzA0NDY0NywidXNlcklkIjoxMzJ9.f_SBo1ii8_iINV8RlYcTw_gxG92o4Em1VwM5e7-z4eAHx_u06FzYzaOEo_13ogVYtZLtpxPKnmtuuPyuKJ2jMA',
-      }),
-    );
     if (inView) {
       fetchNextPage();
     }
