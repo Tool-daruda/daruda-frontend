@@ -48,8 +48,11 @@ export const NotificationButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  padding: 6%;
+
+  cursor: pointer;
 `;
 
 export const MyPageButton = styled.button`
