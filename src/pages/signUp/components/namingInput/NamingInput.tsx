@@ -1,5 +1,5 @@
 import ConfirmBtn from '@pages/login/components/confirmButton/ConfirmBtn';
-import React, { InputHTMLAttributes } from 'react';
+import React, { ChangeEvent, InputHTMLAttributes } from 'react';
 
 import * as S from './NamingInput.styled';
 
@@ -30,9 +30,19 @@ const NamingInput = ({
   const placeholder = state === 'default' ? '닉네임을 입력해주세요.' : '';
   const count = value.length;
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.length <= 10) {
-      onChange?.(e);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value.replace(/\s/g, '');
+
+    if (newValue.length <= 10) {
+      const newEvent = {
+        ...e,
+        target: {
+          ...e.target,
+          value: newValue,
+        },
+      } as ChangeEvent<HTMLInputElement>;
+
+      onChange?.(newEvent);
     }
   };
 
