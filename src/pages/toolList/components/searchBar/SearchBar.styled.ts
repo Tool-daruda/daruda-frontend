@@ -22,7 +22,7 @@ export const SearchBarContainer = styled.div<StickyProps>`
     isSticky
       ? `
       top: 7.125rem;
-      z-index: 20;
+      z-index: 3;
       width: 117.2rem;
       padding: 1.9rem 0;
       box-shadow: 0 0 1.2rem 0 ${theme.colors.shadow1};     

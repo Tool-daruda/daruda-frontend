@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
-  z-index: 3;
+  z-index: 4;
   padding: 1.95rem 16rem;
 
   background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? 'transparent' : theme.colors.white1)};
