@@ -64,8 +64,8 @@ const CommunityWrite = () => {
         <S.WriteContainer>
           <S.WriteBox>
             <WritingTitle setTitle={setTitle} />
-            <WritingBody setBody={setBody} />
-            <WritingImg onImageUpload={setImages} />
+            <WritingBody setBody={setBody} onImageUpload={(files) => setImages((prev) => [...prev, ...files])} />
+            <WritingImg onImageUpload={(files) => setImages(files)} images={images} />
           </S.WriteBox>
           <S.SideBanner>
             <ToolListBanner onToolSelect={handleToolSelect} />

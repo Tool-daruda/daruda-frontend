@@ -6,10 +6,10 @@ import * as S from './WritingImg.styled';
 
 interface WritingImgProps {
   onImageUpload: (files: File[]) => void;
+  images: File[];
 }
 
-const WritingImg = ({ onImageUpload }: WritingImgProps) => {
-  const [images, setImages] = useState<File[]>([]);
+const WritingImg = ({ onImageUpload, images }: WritingImgProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -45,7 +45,6 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
 
     // 기존 이미지에 추가
     const updatedImages: File[] = [...images, ...newImages];
-    setImages(updatedImages);
     onImageUpload(updatedImages);
 
     e.target.value = ''; // input 초기화
@@ -53,7 +52,6 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
 
   const handleRemoveImage = (index: number) => {
     const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
     onImageUpload(updatedImages);
   };
 

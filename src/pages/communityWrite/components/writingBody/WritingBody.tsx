@@ -4,11 +4,12 @@ import * as S from './WritingBody.styled';
 
 interface WritingBodyProps {
   setBody: (text: string) => void;
+  onImageUpload: (files: File[]) => void;
 }
 
 const MAX_CHAR_LIMIT = 10000;
 
-const WritingBody = ({ setBody }: WritingBodyProps) => {
+const WritingBody = ({ setBody, onImageUpload }: WritingBodyProps) => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -34,6 +35,20 @@ const WritingBody = ({ setBody }: WritingBodyProps) => {
   const handleFocus = () => setIsFocused(true);
   const handleBlur = () => setIsFocused(false);
 
+  const handleImagePaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData.items;
+
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.startsWith('image/')) {
+        const blob = items[i].getAsFile();
+        if (blob) {
+          onImageUpload([blob]);
+        }
+        break;
+      }
+    }
+  };
+
   return (
     <S.Container
       isActive={isFocused}
@@ -48,6 +63,7 @@ const WritingBody = ({ setBody }: WritingBodyProps) => {
         onChange={handleTextChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
+        onPaste={handleImagePaste}
       />
       <S.CharCount isExceedingLimit={isExceedingLimit}>
         {text.length} / {MAX_CHAR_LIMIT}
