@@ -22,10 +22,34 @@ export const ModalInnerWrapper = styled.div`
   margin-left: -10rem;
 `;
 
-export const CloseBtn = styled(BtnWritingChipx56)`
+export const CloseBtn = styled(BtnWritingChipx56)<{ strokeColor?: string }>`
   position: absolute;
   top: 2.4rem;
   right: 2.4rem;
+  width: 5.6rem;
+  height: 5.6rem;
+
+  border-radius: 12px;
+
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease,
+    opacity 0.2s ease;
+
+  stroke: ${({ strokeColor, theme }) => strokeColor || theme.colors.white1};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.gray4};
+
+    stroke: ${({ theme }) => theme.colors.gray6};
+  }
+
+  &:active {
+    background: ${({ theme }) => theme.colors.gray4};
+    transform: scale(0.95);
+
+    stroke: ${({ theme }) => theme.colors.gray2};
+  }
 `;
 
 export const ImgThumb = styled.ul`
