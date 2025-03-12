@@ -1,27 +1,18 @@
 import { IcAddimgGray344, PlusImg, Group2085664966 } from '@assets/svgs';
 import Toast from '@components/toast/Toast';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import * as S from './WritingImg.styled';
 
 interface WritingImgProps {
-  originImages: File[];
+  images: File[];
   onImageUpload: (files: File[]) => void;
 }
 
-const WritingImg = ({ originImages, onImageUpload }: WritingImgProps) => {
-  const [images, setImages] = useState<File[]>([]);
+const WritingImg = ({ images, onImageUpload }: WritingImgProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
-
-  // 초기 이미지에 원래 업로드했던 이미지 추가
-  useEffect(() => {
-    if (originImages.length > 0) {
-      setImages(originImages);
-      onImageUpload(originImages);
-    }
-  }, [originImages]);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -54,7 +45,6 @@ const WritingImg = ({ originImages, onImageUpload }: WritingImgProps) => {
 
     // 기존 이미지에 추가
     const updatedImages: File[] = [...images, ...newImages];
-    setImages(updatedImages);
     onImageUpload(updatedImages);
 
     e.target.value = ''; // input 초기화
@@ -62,7 +52,6 @@ const WritingImg = ({ originImages, onImageUpload }: WritingImgProps) => {
 
   const handleRemoveImage = (index: number) => {
     const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
     onImageUpload(updatedImages);
   };
 
