@@ -6,11 +6,14 @@ import * as S from './WritingBody.styled';
 interface WritingBodyProps {
   setBody: (text: string) => void;
   onImageUpload: (files: File[]) => void;
+  images: File[];
 }
 
 const MAX_CHAR_LIMIT = 10000;
+const MAX_IMG_SIZE_LIMIT = 7;
+const MAX_IMG_COUNT_LIMIT = 5;
 
-const WritingBody = ({ setBody, onImageUpload }: WritingBodyProps) => {
+const WritingBody = ({ setBody, onImageUpload, images }: WritingBodyProps) => {
   const [text, setText] = useState('');
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -44,7 +47,14 @@ const WritingBody = ({ setBody, onImageUpload }: WritingBodyProps) => {
       if (items[i].type.startsWith('image/')) {
         const blob = items[i].getAsFile();
         if (blob) {
-          if (blob.size > 7 * 1024 * 1024) {
+          if (blob.size > MAX_IMG_SIZE_LIMIT * 1024 * 1024) {
+            setIsVisible(true);
+            setTimeout(() => {
+              setIsVisible(false);
+            }, 3000);
+            return;
+          }
+          if (images.length === MAX_IMG_COUNT_LIMIT) {
             setIsVisible(true);
             setTimeout(() => {
               setIsVisible(false);
