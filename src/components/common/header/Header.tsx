@@ -1,5 +1,5 @@
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, ImgSpeakBubble } from '@assets/svgs';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
@@ -40,34 +40,44 @@ const Logo = () => (
 );
 
 const Community = () => (
-  <li>
+  <S.NavContainer>
     <S.StyledLink to="/community" aria-label="커뮤니티로 이동">
       {HEADER_TEXTS.community}
     </S.StyledLink>
-  </li>
+  </S.NavContainer>
 );
 
 const Onboarding = () => (
-  <li>
+  <S.NavContainer>
     <S.StyledLink to="/onboarding" aria-label="온보딩페이지로 이동">
       {HEADER_TEXTS.onboard}
     </S.StyledLink>
-  </li>
+  </S.NavContainer>
 );
 
 const Auth = () => {
   const user = localStorage.getItem('user');
   const [isHover, setIsHovered] = useState(false);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.relatedTarget as HTMLElement | null;
+
+    if (target && target.closest('.hover-content')) {
+      return;
+    }
+
+    setIsHovered(false);
+  };
+
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
         <S.MyPageSection>
-          <S.NotificationButton
-            aria-label="알림 확인"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
+          <S.NotificationButton aria-label="알림 확인" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <IcAlarmBlack24 />
           </S.NotificationButton>
           <S.StyledLink to="/mypage">
@@ -75,7 +85,12 @@ const Auth = () => {
               <IcProfileBlack24 />
             </S.MyPageButton>
           </S.StyledLink>
-          <S.HoverContent $visible={isHover}>
+          <S.HoverContent
+            className="hover-content"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            $visible={isHover}
+          >
             <S.HoverLayout>
               <div>
                 <ImgSpeakBubble /> <p>지금은 준비 중이에요</p>
