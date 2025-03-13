@@ -1,10 +1,13 @@
+import ImgPopupl84 from '@assets/svgs/ImgPopupLogout84';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import { AlterModal } from '@components/modal';
 import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
+import { useModal } from '@pages/community/hooks';
 import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
 import { useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import postBoard from './apis/PostApi';
@@ -32,7 +35,16 @@ const CommunityWrite = () => {
   const navigate = useNavigate();
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
+  const { isOpen, handleModal } = useModal();
   const queryClient = useQueryClient();
+
+  const user = localStorage.getItem('user');
+
+  useEffect(() => {
+    if (!user) {
+      handleModal('guest');
+    }
+  }, [user]);
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
@@ -81,6 +93,20 @@ const CommunityWrite = () => {
             </Toast>
           </S.ToastBox>
         )}
+        <AlterModal
+          modalTitle="로그인 후 이용해주세요"
+          isOpen={isOpen}
+          handleClose={() => navigate(-1)}
+          isSingleModal={false}
+          ImgPopupModal={ImgPopupl84}
+          modalContent="글쓰기 페이지는 다루다의 회원만 접속할 수 있어요"
+          DoublebtnProps={{
+            isPrimaryRight: false,
+            primaryBtnContent: '로그인할게요',
+            secondaryBtnContent: '나중에할게요',
+            handleSecondClose: () => navigate('/login'),
+          }}
+        />
       </S.WriteWrapper>
     </>
   );
