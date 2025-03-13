@@ -62,7 +62,8 @@ const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBody
             }, 3000);
             return;
           }
-          onImageUpload([blob]);
+          // 기존 이미지에 추가
+          onImageUpload([...images, blob]);
         }
         break;
       }

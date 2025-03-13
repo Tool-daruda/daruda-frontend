@@ -108,7 +108,7 @@ const CommunityModify = () => {
             <WritingBody
               originBody={post.content}
               setBody={setBody}
-              onImageUpload={(files) => setImageFiles((prev) => [...prev, ...files])}
+              onImageUpload={handleImageUpload}
               images={imageFiles}
             />
             <WritingImg images={imageFiles} onImageUpload={handleImageUpload} />
@@ -116,7 +116,7 @@ const CommunityModify = () => {
           <S.SideBanner>
             <ToolListBanner originTool={originTool} onToolSelect={handleToolSelect} />
             <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
-              글 게시하기
+              글 수정하기
             </CircleButton>
           </S.SideBanner>
         </S.WriteContainer>
