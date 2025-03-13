@@ -31,18 +31,14 @@ const NamingInput = ({
   const count = value.length;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value.replace(/\s/g, '');
+    const value = e.target.value;
 
-    if (newValue.length <= 10) {
-      const newEvent = {
-        ...e,
-        target: {
-          ...e.target,
-          value: newValue,
-        },
-      } as ChangeEvent<HTMLInputElement>;
+    if (/\s/.test(value)) {
+      return;
+    }
 
-      onChange?.(newEvent);
+    if (value.length <= 10) {
+      onChange?.(e);
     }
   };
 
