@@ -13,6 +13,6 @@ export const postToolScrap = async (toolId: number) => {
     return response.data;
   } catch (error) {
     console.error('Error:', error);
-    return false;
+    throw new Error();
   }
 };

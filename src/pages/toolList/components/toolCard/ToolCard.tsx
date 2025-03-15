@@ -50,18 +50,17 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
 
     const isLoggedIn = localStorage.getItem('user') !== null;
 
-    if (!isLoggedIn) {
-      setToastMessage('로그인 후 이용가능합니다.');
-      handleModalOpen();
-      return;
-    }
-
     addBookmark(toolId, {
       onSuccess: () => {
         handleModalOpen();
-        setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+        setToastMessage(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
       },
       onError: (error) => {
+        if (!isLoggedIn) {
+          setToastMessage('로그인 후 이용가능합니다.');
+          handleModalOpen();
+          return;
+        }
         console.error('북마크 추가 실패:', error);
       },
     });
@@ -104,7 +103,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
                   <S.BookMark
                     onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped)}
                     bookmarked={tool.isScraped}
-                    isToastOpen={isToastOpen}
                   />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>

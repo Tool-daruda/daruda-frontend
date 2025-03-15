@@ -215,10 +215,10 @@ export const CardBackBox = styled.div`
   text-align: left;
 `;
 
-export const BookMark = styled(NotFill)<{ bookmarked: boolean; isToastOpen: boolean }>`
+export const BookMark = styled(NotFill)<{ bookmarked: boolean }>`
   cursor: pointer;
 
-  fill: ${(props) => (props.bookmarked ? 'none' : props.theme.colors.iris1)};
+  fill: ${(props) => (!props.bookmarked ? 'none' : props.theme.colors.iris1)};
 `;
 
 export const EmptyMessage = styled.h1`
