@@ -12,31 +12,3 @@ export const getLicenseBadgeContent = (license: string) => {
       return { icon: null, text: '' };
   }
 };
-
-export interface Tool {
-  toolId: number;
-  toolName: string;
-  toolLogo: string;
-  description?: string;
-  license: string;
-  keywords: string[];
-  bgColor: string;
-  fontColor: boolean;
-  isScraped: boolean;
-}
-
-export interface ScrollPaginationDto {
-  nextCursor: number;
-  totalElements: number;
-}
-
-export interface ToolResponse {
-  tools: Tool[];
-  scrollPaginationDto: ScrollPaginationDto;
-}
-export interface FetchToolsResponse {
-  tools: Tool[];
-  scrollPaginationDto: {
-    nextCursor: number;
-  };
-}

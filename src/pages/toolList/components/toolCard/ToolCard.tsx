@@ -1,6 +1,6 @@
 import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
-// import LoadingLottie from '@components/lottie/Loading';
+import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import { useGetToolListQuery } from '@pages/toolList/apis/queries';
@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
-// import { fetchToolsByCategory } from '../../apis/api';
-import { Tool, getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
+import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
 
 interface ToolCardProps {
   selectedCategory: string;
@@ -21,17 +20,18 @@ interface ToolCardProps {
 }
 
 const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
-  const [tools, setTools] = useState<Tool[]>([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [hasMore, setHasMore] = useState(true);
-  // const [cursor, setCursor] = useState<number | null>(null);
   const navigate = useNavigate();
   const { mutate: addBookmark } = useToolScrap();
   const { isToastOpen, handleModalOpen } = useToastOpen();
 
-  const { inView } = useInView();
+  const { inView, ref } = useInView();
 
-  const { data, fetchNextPage } = useGetToolListQuery(selectedCategory, isFree, criteria);
+  const {
+    data: fetchListData,
+    fetchNextPage,
+    isLoading,
+    hasNextPage,
+  } = useGetToolListQuery(selectedCategory, isFree, criteria);
 
   useEffect(() => {
     if (inView) {
@@ -39,62 +39,12 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     }
   }, [inView]);
 
-  console.log(data);
+  const ToolList = fetchListData?.pages.map((item) => item.tools).flat();
 
   const [isFailed, setIsFailed] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
-
-  // const fetchTools = async (isReset = false) => {
-  //   if (isLoading || (!hasMore && !isReset)) return;
-
-  //   setIsLoading(true);
-
-  //   try {
-  //     const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, isReset ? null : cursor);
-  //     const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
-  //     const formattedTools: Tool[] = newTools.map((tool) => ({
-  //       toolId: tool.toolId,
-  //       toolLogo: tool.toolLogo,
-  //       toolName: tool.toolName,
-  //       license: tool.license || 'unknown',
-  //       keywords: tool.keywords || [],
-  //       isScraped: tool.isScraped || false,
-  //       bgColor: tool.bgColor || '#FFFFFF',
-  //       fontColor: tool.fontColor || false,
-  //       description: tool.description || '',
-  //     }));
-
-  //     setTools((prevTools: Tool[]) => (isReset ? formattedTools : [...prevTools, ...formattedTools]));
-  //     setCursor(scrollPaginationDto.nextCursor);
-  //     setHasMore(scrollPaginationDto.nextCursor !== -1);
-  //   } catch (error) {
-  //     console.error('Error fetching tools:', error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const handleScroll = useCallback(() => {
-  //   const { scrollTop, scrollHeight } = document.documentElement;
-  //   const clientHeight = window.innerHeight;
-
-  //   if (scrollHeight - scrollTop <= clientHeight + 10 && hasMore) {
-  //     fetchTools();
-  //   }
-  // }, [isLoading, hasMore, selectedCategory, isFree, criteria, cursor]);
-
-  // useEffect(() => {
-  //   fetchTools(true);
-  // }, [selectedCategory, isFree, criteria]);
-
-  // useEffect(() => {
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll);
-  //   };
-  // }, [handleScroll]);
 
   const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
     e.stopPropagation();
@@ -110,9 +60,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
 
     try {
       await addBookmark(toolId);
-      setTools((prevTools) =>
-        prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
-      );
+      // setTools((prevTools) =>
+      //   prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
+      // );
       setIsFailed(false);
       setToastMessage(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
       handleModalOpen();
@@ -128,8 +78,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   return (
     <S.Container>
       <S.CardList>
-        {/* {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>} */}
-        {tools?.map((tool) => (
+        {ToolList?.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
+        {ToolList?.map((tool) => (
           <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
@@ -180,7 +130,12 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
           </S.Card>
         ))}
       </S.CardList>
-      {/* <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie> */}
+      {isLoading && (
+        <S.Lottie>
+          <LoadingLottie />
+        </S.Lottie>
+      )}
+      {hasNextPage ? <div ref={ref} /> : null}
       {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={isFailed}>
           {toastMessage}

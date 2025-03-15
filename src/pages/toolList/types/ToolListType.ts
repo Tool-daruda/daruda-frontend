@@ -4,10 +4,15 @@ export interface Category {
 }
 
 export interface Tool {
-  id: string;
-  name: string;
-  category: string;
-  isFree: boolean;
+  toolId: number;
+  toolName: string;
+  toolLogo: string;
+  description?: string;
+  license: string;
+  keywords: string[];
+  bgColor: string;
+  fontColor: boolean;
+  isScraped: boolean;
 }
 
 export interface ToolResponse {
@@ -39,6 +44,6 @@ export interface Pagenation {
 }
 
 export interface GetToolListResponse {
-  contents: Tool[];
+  tools: Tool[];
   scrollPaginationDto: Pagenation;
 }
