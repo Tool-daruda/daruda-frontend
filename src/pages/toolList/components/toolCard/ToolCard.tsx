@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
-import { getLicenseBadgeContent } from '../../utils/toolCard/ToolCard.utils';
+import { getLicenseBadgeContent } from '../../utils/ToolCard.utils';
 
 interface ToolCardProps {
   selectedCategory: string;
@@ -23,7 +23,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const navigate = useNavigate();
   const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
   const { isToastOpen, handleModalOpen, toastMessage, handleMessageChange } = useToastOpen();
-
   const { inView, ref } = useInView();
 
   const {
