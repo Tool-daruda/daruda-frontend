@@ -45,9 +45,8 @@ export const useToolScrap = (isFree?: boolean, category?: string, criteria?: str
           ) ?? [],
       });
 
-      // 캐시 백업
+      // 마이페이지 찜한 툴 낙관적 업데이트
       const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId));
-      // BoardList 캐시 낙관적 업데이트
       queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId), (old: ToolList) => {
         if (!old) return old;
         const updatedToolList = old.toolList.filter((tool) => tool.toolId !== toolId);
@@ -60,7 +59,6 @@ export const useToolScrap = (isFree?: boolean, category?: string, criteria?: str
       return { previousBoardList, previousMainToolList };
     },
     onError: (_error, _id, context) => {
-      console.log('!');
       // 에러 발생 시 캐시 롤백
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId), context.previousBoardList);
