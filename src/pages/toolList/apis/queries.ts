@@ -1,6 +1,6 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 
-import { fetchToolsByCategory } from './api';
+import { fetchCategories, fetchToolsByCategory } from './api';
 
 import { GetToolListResponse } from '../types/ToolListType';
 
@@ -20,3 +20,10 @@ export const useGetToolListQuery = (
     staleTime: 0,
   });
 };
+
+export const useGetCategoriesQuery = () =>
+  useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    staleTime: Infinity,
+  });

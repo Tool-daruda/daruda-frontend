@@ -58,7 +58,7 @@ const ToolList = () => {
     <S.ToolListWrapper>
       <Title title="다루다(daruda)" />
       <TopBanner />
-      <SearchBar isSticky={isSticky} onCategoryChange={handleCategoryChange} />
+      <SearchBar isSticky={isSticky} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <S.ToolCardWrapper>
         <S.ToolCardTitle>
           <S.ToolCardTitleLeft>

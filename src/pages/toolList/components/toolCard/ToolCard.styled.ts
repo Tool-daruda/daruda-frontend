@@ -9,7 +9,7 @@ export const Container = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const CardList = styled.div`
+export const CardList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -19,7 +19,7 @@ export const CardList = styled.div`
   margin-bottom: 8rem;
 `;
 
-export const Card = styled.div`
+export const Card = styled.li`
   position: relative;
   width: 42rem;
   height: 20rem;
