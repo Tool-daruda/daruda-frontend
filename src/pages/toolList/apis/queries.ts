@@ -1,0 +1,21 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+import { fetchToolsByCategory } from './api';
+
+import { GetToolListResponse } from '../types/ToolListType';
+
+export const useGetToolListQuery = (
+  category: string = 'ALL',
+  isFree: boolean = false,
+  criteria: 'popular' | 'createdAt' = 'popular',
+) => {
+  return useInfiniteQuery<GetToolListResponse>({
+    queryKey: ['tools'],
+    queryFn: ({ pageParam }) => fetchToolsByCategory({ lastToolId: pageParam, criteria, isFree, category, size: 18 }),
+    getNextPageParam: (lastPage) => {
+      const nextCursor = lastPage.scrollPaginationDto.nextCursor;
+      return typeof nextCursor === 'number' && nextCursor !== -1 ? nextCursor - 1 : null;
+    },
+    initialPageParam: 0,
+  });
+};

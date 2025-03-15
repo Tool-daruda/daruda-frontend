@@ -1,5 +1,8 @@
 import { get } from '@apis/index';
-import { CategoryResponse, ToolResponse } from 'src/types/toolListBanner/ToolListBannerTypes';
+import type { AxiosResponse } from 'axios';
+import { CategoryResponse } from 'src/types/toolListBanner/ToolListBannerTypes';
+
+import { GetToolListResponse, ToolListRequest } from '../types/ToolListType';
 
 export const fetchCategories = async (): Promise<CategoryResponse> => {
   try {
@@ -10,29 +13,19 @@ export const fetchCategories = async (): Promise<CategoryResponse> => {
   }
 };
 
-export const fetchToolsByCategory = async (
-  category: string = 'ALL',
-  isFree: boolean = false,
-  criteria: 'popular' | 'createdAt' = 'popular',
-  lastToolId: number | null = null,
-  size: number = 18,
-): Promise<ToolResponse> => {
+export const fetchToolsByCategory = async (data: ToolListRequest): Promise<GetToolListResponse> => {
   try {
-    const params = new URLSearchParams({
-      category,
-      isFree: String(isFree),
-      criteria,
-      size: String(size),
-    });
+    const params =
+      `/tools?` +
+      `${data.lastToolId ? `lastToolId=${data.lastToolId}` : ''}` +
+      `${data.category ? `&category=${data.category}` : ''}` +
+      `&isFree=${data.isFree ? 'true' : 'false'}` +
+      `${data.criteria ? `&criteria=${data.criteria}` : ''}`;
 
-    if (lastToolId !== null) {
-      params.append('lastToolId', String(lastToolId));
-    }
-
-    const query = `/tools?${params.toString()}`;
-    return await get(query);
+    const res: AxiosResponse<GetToolListResponse> = await get(params);
+    return res.data;
   } catch (error: unknown) {
     console.error('Error fetching tools:', error);
-    throw new Error(`Failed to fetch tools for category "${category}".`);
+    throw new Error(`Failed to fetch tools for category "${data.category}".`);
   }
 };

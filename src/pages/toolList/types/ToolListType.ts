@@ -24,3 +24,21 @@ export interface CategoryResponse {
   message: string;
   data: CategoryItem[];
 }
+
+export interface ToolListRequest {
+  category: string;
+  isFree: boolean;
+  criteria: 'popular' | 'createdAt';
+  lastToolId: number | null | unknown;
+  size: number;
+}
+
+export interface Pagenation {
+  totalElements: number;
+  nextCursor: number | null;
+}
+
+export interface GetToolListResponse {
+  contents: Tool[];
+  scrollPaginationDto: Pagenation;
+}
