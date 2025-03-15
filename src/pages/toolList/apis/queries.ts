@@ -14,8 +14,9 @@ export const useGetToolListQuery = (
     queryFn: ({ pageParam }) => fetchToolsByCategory({ lastToolId: pageParam, criteria, isFree, category, size: 18 }),
     getNextPageParam: (lastPage) => {
       const nextCursor = lastPage.scrollPaginationDto.nextCursor;
-      return typeof nextCursor === 'number' && nextCursor !== -1 ? nextCursor - 1 : null;
+      return typeof nextCursor === 'number' && nextCursor !== -1 ? nextCursor : null;
     },
     initialPageParam: 0,
+    staleTime: 0,
   });
 };
