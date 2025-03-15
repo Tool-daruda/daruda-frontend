@@ -21,7 +21,7 @@ interface ToolCardProps {
 
 const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const navigate = useNavigate();
-  const { mutate: addBookmark } = useToolScrap();
+  const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
   const { isToastOpen, handleModalOpen } = useToastOpen();
 
   const { inView, ref } = useInView();
@@ -41,7 +41,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
 
   const ToolList = fetchListData?.pages.map((item) => item.tools).flat();
 
-  const [isFailed, setIsFailed] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
@@ -52,23 +51,20 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     const isLoggedIn = localStorage.getItem('user') !== null;
 
     if (!isLoggedIn) {
-      setIsFailed(true);
       setToastMessage('로그인 후 이용가능합니다.');
       handleModalOpen();
       return;
     }
 
-    try {
-      await addBookmark(toolId);
-      // setTools((prevTools) =>
-      //   prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
-      // );
-      setIsFailed(false);
-      setToastMessage(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
-      handleModalOpen();
-    } catch (error) {
-      console.error('북마크 처리 중 오류 발생:', error);
-    }
+    addBookmark(toolId, {
+      onSuccess: () => {
+        handleModalOpen();
+        setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      },
+      onError: (error) => {
+        console.error('북마크 추가 실패:', error);
+      },
+    });
   };
 
   const navigateToDetail = (toolId: number) => {
@@ -137,7 +133,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       )}
       {hasNextPage ? <div ref={ref} /> : null}
       {isToastOpen && (
-        <Toast isVisible={isToastOpen} isWarning={isFailed}>
+        <Toast isVisible={isToastOpen} isWarning={bookmarkFailed}>
           {toastMessage}
         </Toast>
       )}

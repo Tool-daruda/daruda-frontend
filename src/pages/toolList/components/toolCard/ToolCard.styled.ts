@@ -218,7 +218,7 @@ export const CardBackBox = styled.div`
 export const BookMark = styled(NotFill)<{ bookmarked: boolean; isToastOpen: boolean }>`
   cursor: pointer;
 
-  fill: ${(props) => (props.isToastOpen ? 'none' : props.bookmarked ? props.theme.colors.iris1 : 'none')};
+  fill: ${(props) => (props.bookmarked ? 'none' : props.theme.colors.iris1)};
 `;
 
 export const EmptyMessage = styled.h1`

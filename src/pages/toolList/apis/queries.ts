@@ -10,7 +10,7 @@ export const useGetToolListQuery = (
   criteria: 'popular' | 'createdAt' = 'popular',
 ) => {
   return useInfiniteQuery<GetToolListResponse>({
-    queryKey: ['tools', isFree, category, criteria],
+    queryKey: ['tools', { isFree, category, criteria }],
     queryFn: ({ pageParam }) => fetchToolsByCategory({ lastToolId: pageParam, criteria, isFree, category, size: 18 }),
     getNextPageParam: (lastPage) => {
       const nextCursor = lastPage.scrollPaginationDto.nextCursor;
