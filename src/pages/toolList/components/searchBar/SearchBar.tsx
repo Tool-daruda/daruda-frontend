@@ -2,7 +2,7 @@ import { BlurLeft, RightBlur } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { useGetCategoriesQuery } from '@pages/toolList/apis/queries';
 import { useRef, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
 
@@ -16,6 +16,8 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
   const [activeButton, setActiveButton] = useState<'left' | 'right'>('right');
   const chipContainerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const categoryFromParams = searchParams.get('category') || 'ALL';
 
   const { data: categoryData } = useGetCategoriesQuery();
 
@@ -23,6 +25,11 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
     onCategoryChange(categoryName);
     navigate(`/toollist?category=${categoryName}`);
   };
+
+  // 최상단 헤더 카테고리와 동기화를 위한 로직
+  useEffect(() => {
+    onCategoryChange(categoryFromParams);
+  }, [categoryFromParams]);
 
   // chip 컨테이너 스크롤 조정
   const handleScroll = (direction: 'start' | 'end') => {
