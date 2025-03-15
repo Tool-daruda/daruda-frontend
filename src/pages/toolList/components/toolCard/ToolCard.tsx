@@ -31,6 +31,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     fetchNextPage,
     isLoading,
     hasNextPage,
+    isFetching,
   } = useGetToolListQuery(selectedCategory, isFree, criteria);
 
   useEffect(() => {
@@ -122,7 +123,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
           </S.Card>
         ))}
       </S.CardList>
-      {isLoading && (
+      {(isLoading || isFetching) && (
         <S.Lottie>
           <LoadingLottie />
         </S.Lottie>
