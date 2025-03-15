@@ -4,7 +4,7 @@ import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import { useGetToolListQuery } from '@pages/toolList/apis/queries';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,7 @@ interface ToolCardProps {
 const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const navigate = useNavigate();
   const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
-  const { isToastOpen, handleModalOpen } = useToastOpen();
+  const { isToastOpen, handleModalOpen, toastMessage, handleMessageChange } = useToastOpen();
 
   const { inView, ref } = useInView();
 
@@ -41,8 +41,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
 
   const ToolList = fetchListData?.pages.map((item) => item.tools).flat();
 
-  const [toastMessage, setToastMessage] = useState('');
-
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
 
   const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
@@ -53,11 +51,11 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     addBookmark(toolId, {
       onSuccess: () => {
         handleModalOpen();
-        setToastMessage(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+        handleMessageChange(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
       },
       onError: (error) => {
         if (!isLoggedIn) {
-          setToastMessage('로그인 후 이용가능합니다.');
+          handleMessageChange('로그인 후 이용가능합니다.');
           handleModalOpen();
           return;
         }
