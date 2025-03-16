@@ -35,6 +35,7 @@ const getAccessToken = (): string | null => {
 
 // accessToken 저장
 const setAccessToken = (token: string) => {
+  cachedToken = token;
   const user = localStorage.getItem('user');
   if (user) {
     try {
