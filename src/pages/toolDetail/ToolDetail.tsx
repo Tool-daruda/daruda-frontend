@@ -2,7 +2,7 @@ import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
@@ -16,13 +16,14 @@ import ToolIntro from './components/toolIntro/ToolIntro';
 import * as S from './ToolDetail.styled';
 
 const ToolDetail = () => {
-  const { toolId } = useParams<{ toolId: string }>(); // useParams 타입 명시
+  const { toolId } = useParams<{ toolId: string }>();
+  const navigate = useNavigate();
+
   const ToolIntroRef = useRef<HTMLDivElement>(null);
   const CoreFeatureRef = useRef<HTMLDivElement>(null);
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
   const PlanBoxRef = useRef<HTMLDivElement>(null);
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
 
   const numericToolId = Number(toolId);
   const { data, isError } = useToolData(numericToolId);
@@ -35,21 +36,20 @@ const ToolDetail = () => {
     5: ToolCommunityRef,
   };
 
+  // 뒤로가기 시 스크롤 위치 복원
+  useEffect(() => {
+    const savedScrollY = sessionStorage.getItem('toolDetailScrollY');
+    if (savedScrollY) {
+      window.scrollTo(0, Number(savedScrollY));
+      sessionStorage.removeItem('toolDetailScrollY'); // 복원 후 삭제
+    }
+  }, []);
+
   if (isError) {
     return <NotFound />;
   }
 
   if (data) {
-    const goCommunity = () => {
-      navigate('/community', {
-        state: {
-          toolId: data.toolId,
-          toolLogo: data.toolLogo,
-          toolMainName: data.toolMainName,
-        },
-      });
-    };
-
     return (
       <>
         <Title title={data.toolMainName} tool={data.toolMainName} />
@@ -79,7 +79,23 @@ const ToolDetail = () => {
               <Spacing size="1" />
 
               <S.ToolCommunityBox>
-                <ToolCommunity toolId={numericToolId} ref={ToolCommunityRef} boardId={0} onClick={goCommunity} />
+                <ToolCommunity
+                  toolId={numericToolId}
+                  ref={ToolCommunityRef}
+                  boardId={0}
+                  onClick={() => {
+                    // 현재 스크롤 위치 저장
+                    sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
+
+                    navigate('/community', {
+                      state: {
+                        toolId: data.toolId,
+                        toolLogo: data.toolLogo,
+                        toolMainName: data.toolMainName,
+                      },
+                    });
+                  }}
+                />
               </S.ToolCommunityBox>
               <Spacing size="7.2" />
             </section>
