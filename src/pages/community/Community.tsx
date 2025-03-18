@@ -4,6 +4,8 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
+import Toast from '@components/toast/Toast';
+import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import { handleScrollUp } from '@utils';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -22,6 +24,9 @@ const Community = () => {
   const navigate = useNavigate();
   const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
+
+  const { isToastOpen, handleModalOpen } = useToastOpen();
+  const user = localStorage.getItem('user');
 
   const postList = data?.pages.map((item) => item.contents).flat();
 
@@ -74,23 +79,28 @@ const Community = () => {
         <S.FollowingBtns>
           <CircleButton
             onClick={() => {
-              const user = localStorage.getItem('user');
               if (user) {
                 navigate(`/community/write`);
+              } else {
+                handleModalOpen();
               }
             }}
             size="small"
             shadow
             icon={<IcPlusWhite20 />}
-            disabled={!localStorage.getItem('user')}
+            $disabled={!user}
           >
             글쓰기
           </CircleButton>
-
           <S.TopBtn type="button" onClick={handleScrollUp}>
             <IcChevron />
           </S.TopBtn>
         </S.FollowingBtns>
+        {isToastOpen && (
+          <Toast isVisible={isToastOpen} isWarning>
+            로그인 후 이용할 수 있습니다.
+          </Toast>
+        )}
       </S.CommunityWrapper>
     </>
   );
