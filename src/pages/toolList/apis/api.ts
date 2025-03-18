@@ -15,17 +15,17 @@ export const fetchCategories = async (): Promise<CategoryResponse> => {
 
 export const fetchToolsByCategory = async (data: ToolListRequest): Promise<GetToolListResponse> => {
   try {
-    const params =
-      `/tools?` +
-      `${data.lastToolId ? `lastToolId=${data.lastToolId}` : ''}` +
-      `${data.category ? `&category=${data.category}` : ''}` +
-      `&isFree=${data.isFree ? 'true' : 'false'}` +
-      `${data.criteria ? `&criteria=${data.criteria}` : ''}`;
+    const params = new URLSearchParams({
+      lastToolId: data.lastToolId ? String(data.lastToolId) : '',
+      category: data.category || '',
+      isFree: String(data.isFree),
+      criteria: data.criteria || '',
+    }).toString();
 
-    const res: AxiosResponse<GetToolListResponse> = await get(params);
+    const res: AxiosResponse<GetToolListResponse> = await get(`/tools?${params}`);
     return res.data;
   } catch (error: unknown) {
-    console.error('Error fetching tools:', error);
-    throw new Error(`Failed to fetch tools for category "${data.category}".`);
+    console.error('API 요청 오류:', error);
+    throw new Error(`툴 데이터를 가져오는 데 실패했습니다. "${data.category}".`);
   }
 };
