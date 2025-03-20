@@ -20,7 +20,10 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
   const postList = data?.pages.map((item) => item.contents).flat();
 
   const handlePostClick = (boardId: number) => {
-    navigate(`/community/${boardId}`); // 개별 게시물의 boardId를 사용
+    // 스크롤 위치 저장
+    sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
+
+    navigate(`/community/${boardId}`);
   };
 
   useEffect(() => {
@@ -57,7 +60,6 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
               );
             })
           ) : (
-            // postList가 비어 있을 때 표시
             <S.NullBox>
               <ImgPopupNonebookmark120 />
               <S.NullAlertText>작성된 글이 없습니다.</S.NullAlertText>

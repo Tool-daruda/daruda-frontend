@@ -2,7 +2,7 @@ import { Tooltip, IcChevron } from '@assets/svgs';
 import Title from '@components/title/Title';
 import { handleScrollUp } from '@utils';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import SearchBar from './components/searchBar/SearchBar';
 import Toggle from './components/toggle/Toggle';
@@ -22,6 +22,8 @@ const ToolList = () => {
   const [searchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') || 'ALL';
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
+  const navigate = useNavigate();
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const handleButtonClick = (button: 'popular' | 'createdAt') => {
     setActiveButton(button);
@@ -54,6 +56,25 @@ const ToolList = () => {
     };
   }, []);
 
+  const handleDataLoaded = () => {
+    setIsDataLoaded(true);
+  };
+
+  useEffect(() => {
+    if (isDataLoaded) {
+      const savedScrollY = sessionStorage.getItem('toolListScrollY');
+      if (savedScrollY) {
+        window.scrollTo(0, Number(savedScrollY));
+        sessionStorage.removeItem('toolListScrollY');
+      }
+    }
+  }, [isDataLoaded]);
+
+  const handleToolClick = (toolId: number) => {
+    sessionStorage.setItem('toolListScrollY', window.scrollY.toString());
+    navigate(`/toollist/${toolId}`);
+  };
+
   return (
     <S.ToolListWrapper>
       <Title title="다루다(daruda)" />
@@ -62,7 +83,7 @@ const ToolList = () => {
       <S.ToolCardWrapper>
         <S.ToolCardTitle>
           <S.ToolCardTitleLeft>
-            툴 리스트{' '}
+            툴 리스트
             <S.IconWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
               <Tooltip />
               {isHovered && (
@@ -88,8 +109,11 @@ const ToolList = () => {
           selectedCategory={selectedCategory}
           isFree={isFree}
           criteria={activeButton}
+          onToolClick={handleToolClick}
+          onDataLoaded={handleDataLoaded}
         />
       </S.ToolCardWrapper>
+
       <S.FollowingBtns>
         <S.TopBtn type="button" onClick={handleScrollUp}>
           <IcChevron />
