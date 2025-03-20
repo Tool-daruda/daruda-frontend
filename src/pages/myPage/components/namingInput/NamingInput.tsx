@@ -15,11 +15,7 @@ type NamingInputPropTypes = {
 const NamingInput = ({
   state = 'default',
   description,
-  inputRestrictions = [
-    '- 최대 10자 이내로 작성해 주세요.',
-    '- 띄어쓰기, 특수문자는 입력하실 수 없어요.',
-    '- 기본 정보는 추후에 마이페이지에서 변경하실 수 있어요.',
-  ],
+  inputRestrictions = ['- 최대 10자 이내로 작성해 주세요.', '- 띄어쓰기, 특수문자는 입력하실 수 없어요.'],
   value,
   onChange,
   onClick,

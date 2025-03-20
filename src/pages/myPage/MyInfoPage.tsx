@@ -79,6 +79,12 @@ const MyInfoPage = () => {
       return;
     }
 
+    if (nickname === data?.nickname) {
+      setNicknameState('error');
+      setNicknameMessage('현재 사용하고 있는 닉네임이에요.');
+      return;
+    }
+
     try {
       const checkResponse = await checkMutate(nickname);
 
@@ -121,7 +127,7 @@ const MyInfoPage = () => {
     },
     ImgPopupModal: ImgPopupWithdrawal84,
     isSingleModal: false,
-    modalContent: '회원 탈퇴 시, 기존의 모든 데이터가 삭제됩니다.',
+    modalContent: '회원 탈퇴 시, 작성한 글과 댓글은 남되, 계정을 복구할 수 없습니다.',
     DoublebtnProps: {
       isPrimaryRight: true,
       primaryBtnContent: '한 번 더 생각할게요',
