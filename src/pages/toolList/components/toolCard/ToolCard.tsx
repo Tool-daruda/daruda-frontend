@@ -4,7 +4,6 @@ import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@pages/CommunityDetail/hooks';
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
@@ -16,14 +15,15 @@ interface ToolCardProps {
   isFree: boolean;
   criteria: 'popular' | 'createdAt';
   onCategoryChange: (category: string) => void;
+  onToolClick: (toolId: number) => void;
+  onDataLoaded: () => void;
 }
 
-const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
+const ToolCard = ({ onDataLoaded, onToolClick, selectedCategory, isFree, criteria }: ToolCardProps) => {
   const [tools, setTools] = useState<Tool[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [cursor, setCursor] = useState<number | null>(null);
-  const navigate = useNavigate();
   const { mutate: addBookmark } = useToolScrap();
   const { isToastOpen, handleModalOpen } = useToastOpen();
 
@@ -50,6 +50,12 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       }));
 
       setTools((prevTools: Tool[]) => (isReset ? formattedTools : [...prevTools, ...formattedTools]));
+
+      if (isReset) {
+        setTimeout(() => {
+          onDataLoaded(); // 데이터 로드 완료 시점에서 호출
+        }, 100);
+      }
       setCursor(scrollPaginationDto.nextCursor);
       setHasMore(scrollPaginationDto.nextCursor !== -1);
     } catch (error) {
@@ -99,16 +105,12 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     }
   };
 
-  const navigateToDetail = (toolId: number) => {
-    navigate(`/toollist/${toolId}`);
-  };
-
   return (
     <S.Container>
       <S.CardList>
         {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {tools?.map((tool) => (
-          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
+          <S.Card key={tool.toolId} onClick={() => onToolClick(tool.toolId)}>
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
