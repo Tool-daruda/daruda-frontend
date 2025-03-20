@@ -1,4 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { deleteAccount, getBoardList, getFavoriteBoardList, getToolList, getUserInfo, logout, patchInfo } from './api';
 
@@ -101,6 +102,7 @@ export const useAccountDelete = () => {
   const userId = userData?.accessToken || null;
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationFn: () => deleteAccount(),
@@ -115,6 +117,7 @@ export const useAccountDelete = () => {
 
       // localStorage에서 'user' 삭제
       localStorage.removeItem('user');
+      navigate('/');
     },
   });
 };

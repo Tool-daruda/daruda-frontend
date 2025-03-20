@@ -1,6 +1,7 @@
 import { usePostNicknameCheck } from '@apis/users/queries';
 import { ImgPopupWithdrawal84 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import NameInput from '@components/input/nameInput/NameInput';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
@@ -11,7 +12,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
-import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
@@ -22,7 +22,7 @@ const MyInfoPage = () => {
   const { mutateAsync: deleteMutate } = useAccountDelete();
   const { mutateAsync: patchMutate } = usePatchInfo();
   const { mutateAsync: checkMutate } = usePostNicknameCheck();
-  const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error'>('default');
+  const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error' | 'success'>('default');
   const [nicknameMessage, setNicknameMessage] = useState<string>('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
@@ -159,12 +159,12 @@ const MyInfoPage = () => {
             닉네임<span>*</span>
           </S.InfoLabel>
           <S.NicknameInputBox>
-            <NamingInput
+            <NameInput
               value={nickname}
+              onChange={handleNicknameChange}
+              onButtonClick={handleNicknameCheck}
               state={nicknameState}
               description={nicknameMessage}
-              onClick={handleNicknameCheck}
-              onChange={handleNicknameChange}
               placeholder={data?.nickname}
             />
           </S.NicknameInputBox>

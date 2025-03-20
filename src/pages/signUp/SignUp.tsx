@@ -1,6 +1,7 @@
 import { usePostNicknameCheck } from '@apis/users/queries';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import NameInput from '@components/input/nameInput/NameInput';
 import { AlterModal } from '@components/modal';
 import Title from '@components/title/Title';
 import React, { useEffect, useState } from 'react';
@@ -8,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 import signup from './apis/api';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
-import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 import * as S from './SignUp.styled';
 
@@ -70,9 +70,6 @@ const SignUp = () => {
       setNicknameMessage('초성 또는 모음만으로 구성된 닉네임은 사용할 수 없어요.');
       return;
     }
-
-    setNicknameState('act');
-    setNicknameMessage('중복 확인 중...');
 
     try {
       const checkResponse = await checkMutate(nickname);
@@ -181,12 +178,18 @@ const SignUp = () => {
               </S.AffiliationBtnBox>
             </S.AffiliationBox>
             <S.NicknameInputBox>
-              <NamingInput
+              <NameInput
+                label="닉네임을 입력해주세요."
                 value={nickname}
+                onChange={handleNicknameChange}
+                onButtonClick={handleNicknameCheck}
                 state={nicknameState}
                 description={nicknameMessage}
-                onChange={handleNicknameChange}
-                onNicknameCheck={handleNicknameCheck}
+                inputRestrictions={[
+                  '- 최대 10자 이내로 작성해 주세요.',
+                  '- 띄어쓰기, 특수문자는 입력하실 수 없어요.',
+                  '- 기본 정보는 추후에 마이페이지에서 변경하실 수 있어요.',
+                ]}
               />
             </S.NicknameInputBox>
             <S.SignUpBtn>

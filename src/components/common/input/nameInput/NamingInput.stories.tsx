@@ -1,10 +1,11 @@
 import type { Meta, StoryFn } from '@storybook/react';
+import { useState } from 'react';
 
-import NamingInput from './NamingInput';
+import NameInput from './NameInput';
 
-const meta: Meta<typeof NamingInput> = {
-  title: 'Components/NamingInput',
-  component: NamingInput,
+const meta: Meta<typeof NameInput> = {
+  title: 'Components/NameInput',
+  component: NameInput,
   parameters: {
     layout: 'centered',
   },
@@ -36,7 +37,19 @@ const meta: Meta<typeof NamingInput> = {
 
 export default meta;
 
-const Template: StoryFn<typeof NamingInput> = (args) => <NamingInput {...args} />;
+const Template: StoryFn<typeof NameInput> = (args) => {
+  const [inputValue, setInputValue] = useState(args.value || '');
+  return (
+    <NameInput
+      {...args}
+      value={inputValue}
+      onChange={(e) => {
+        setInputValue(e.target.value);
+        args.onChange?.(e);
+      }}
+    />
+  );
+};
 
 export const Default = Template.bind({});
 Default.args = {
@@ -47,19 +60,11 @@ Default.args = {
   placeholder: '닉네임을 입력해주세요.',
 };
 
-export const Active = Template.bind({});
-Active.args = {
-  state: 'act',
-  label: '닉네임을 입력해주세요.',
-  value: '사용 가능 닉네임',
-  description: '사용할 수 있는 닉네임이에요.',
-};
-
 export const Error = Template.bind({});
 Error.args = {
   state: 'error',
   label: '닉네임을 입력해주세요.',
-  value: '중복 닉네임',
+  value: '중복된 닉네임',
   description: '이미 있는 닉네임입니다. 다른 닉네임을 입력해주세요.',
 };
 
@@ -67,6 +72,6 @@ export const Success = Template.bind({});
 Success.args = {
   state: 'success',
   label: '닉네임을 입력해주세요.',
-  value: '닉네임 성공',
-  description: '닉네임 등록 성공!',
+  value: '닉네임',
+  description: '사용할 수 있는 닉네임입니다.',
 };
