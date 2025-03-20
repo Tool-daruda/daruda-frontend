@@ -22,13 +22,14 @@ export const ModalInnerWrapper = styled.div`
   margin-left: -10rem;
 `;
 
-export const CloseBtn = styled(BtnWritingChipx56)<{ strokeColor?: string }>`
+export const CloseBtn = styled(BtnWritingChipx56)`
   position: absolute;
   top: 2.4rem;
   right: 2.4rem;
   width: 5.6rem;
   height: 5.6rem;
 
+  background: transparent;
   border-radius: 12px;
 
   transition:
@@ -36,18 +37,24 @@ export const CloseBtn = styled(BtnWritingChipx56)<{ strokeColor?: string }>`
     transform 0.1s ease,
     opacity 0.2s ease;
 
-  stroke: ${({ strokeColor, theme }) => strokeColor || theme.colors.white1};
-
   &:hover {
     background-color: ${({ theme }) => theme.colors.gray4};
+  }
 
+  path {
+    stroke: ${({ theme }) => theme.colors.white1};
+  }
+
+  &:hover path {
     stroke: ${({ theme }) => theme.colors.gray6};
   }
 
   &:active {
     background: ${({ theme }) => theme.colors.gray4};
     transform: scale(0.95);
+  }
 
+  &:active path {
     stroke: ${({ theme }) => theme.colors.gray2};
   }
 `;
