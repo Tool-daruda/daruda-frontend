@@ -2,7 +2,7 @@ import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
-import { useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useToastOpen } from '@hooks/index';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 

@@ -6,7 +6,7 @@ import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import styled from '@emotion/styled';
-import { useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useToastOpen } from '@hooks/index';
 import React, { useEffect, useState } from 'react';
 
 import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';

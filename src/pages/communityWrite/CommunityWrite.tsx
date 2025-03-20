@@ -50,7 +50,7 @@ const CommunityWrite = () => {
       navigate('/community');
     } catch (error: unknown) {
       console.error('에러 발생:', error);
-      setToastMessage('이미지의 용량을 줄이거나 개수를 줄여주세요.');
+      setToastMessage('다시 시도해주세요.');
       setIsToastVisible(true);
       setTimeout(() => setIsToastVisible(false), 3000);
     }

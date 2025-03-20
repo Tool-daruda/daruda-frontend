@@ -2,7 +2,7 @@ import { useBoardScrap } from '@apis/board/queries.ts';
 import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
-import { useToastOpen } from '@pages/CommunityDetail/hooks/index.ts';
+import { useToastOpen } from '@hooks/index';
 import { useState } from 'react';
 
 import { useGetFavoritePost } from './apis/queries.ts';

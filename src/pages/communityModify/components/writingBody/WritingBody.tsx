@@ -1,4 +1,5 @@
 import Toast from '@components/toast/Toast';
+import useToastOpen from '@hooks/useToastOpen';
 import React, { useState } from 'react';
 
 import * as S from './WritingBody.styled';
@@ -19,7 +20,8 @@ const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBody
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const isExceedingLimit = text.length >= MAX_CHAR_LIMIT;
-  const [isVisible, setIsVisible] = useState(false);
+  const { isToastOpen, handleModalOpen } = useToastOpen();
+  const [toastMessage, setToastMessage] = useState('');
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const inputText = e.target.value;
@@ -49,21 +51,19 @@ const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBody
         const blob = items[i].getAsFile();
         if (blob) {
           if (blob.size > MAX_IMG_SIZE_LIMIT * 1024 * 1024) {
-            setIsVisible(true);
-            setTimeout(() => {
-              setIsVisible(false);
-            }, 3000);
+            setToastMessage('이미지 업로드 용량은 한장 당 최대 7MB 입니다.');
+            handleModalOpen();
             return;
           }
           if (images.length === MAX_IMG_COUNT_LIMIT) {
-            setIsVisible(true);
-            setTimeout(() => {
-              setIsVisible(false);
-            }, 3000);
+            setToastMessage('이미지는 최대 5장까지 첨부할 수 있습니다.');
+            handleModalOpen();
             return;
           }
           // 기존 이미지에 추가
           onImageUpload([...images, blob]);
+          setToastMessage('이미지를 성공적으로 첨부했습니다.');
+          handleModalOpen();
         }
         break;
       }
@@ -89,9 +89,9 @@ const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBody
       <S.CharCount isExceedingLimit={isExceedingLimit}>
         {text.length} / {MAX_CHAR_LIMIT}
       </S.CharCount>
-      {isVisible && (
-        <Toast isVisible={isVisible} isWarning>
-          이미지 업로드 용량은 한장 당 최대 7MB 입니다.
+      {isToastOpen && (
+        <Toast isVisible={isToastOpen} isWarning={!toastMessage.includes('성공')}>
+          {toastMessage}
         </Toast>
       )}
     </S.Container>
