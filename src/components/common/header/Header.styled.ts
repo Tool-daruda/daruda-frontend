@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 4;
   padding: 1.95rem 16rem;
 
   background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? 'transparent' : theme.colors.white1)};
@@ -28,6 +28,10 @@ export const NavLeftSection = styled.ul`
   justify-content: flex-start;
 `;
 
+export const NavContainer = styled.li`
+  z-index: 2;
+`;
+
 export const AuthSection = styled.nav`
   display: flex;
   align-items: center;
@@ -44,8 +48,11 @@ export const NotificationButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.4rem;
-  height: 2.4rem;
+  width: 3.4rem;
+  height: 3.4rem;
+  padding: 6%;
+
+  cursor: pointer;
 `;
 
 export const MyPageButton = styled.button`
