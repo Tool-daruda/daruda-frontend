@@ -1,17 +1,17 @@
 import { usePostNicknameCheck } from '@apis/users/queries';
 import { ImgPopupWithdrawal84 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import NameInput from '@components/input/nameInput/NameInput';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import styled from '@emotion/styled';
 import { useToastOpen } from '@hooks/index';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
-import NamingInput from './components/namingInput/NamingInput';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
@@ -22,7 +22,7 @@ const MyInfoPage = () => {
   const { mutateAsync: deleteMutate } = useAccountDelete();
   const { mutateAsync: patchMutate } = usePatchInfo();
   const { mutateAsync: checkMutate } = usePostNicknameCheck();
-  const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error'>('default');
+  const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error' | 'success'>('default');
   const [nicknameMessage, setNicknameMessage] = useState<string>('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
@@ -33,9 +33,9 @@ const MyInfoPage = () => {
     setNicknameMessage('');
   };
 
-  const handleWithdrawModal = () => {
+  const handleWithdrawModal = useCallback(() => {
     setIsOpenWithdrawModal((prev) => !prev);
-  };
+  }, []);
 
   useEffect(() => {
     if (data) {
@@ -61,9 +61,13 @@ const MyInfoPage = () => {
     }
 
     if (Object.keys(updatedData).length > 0) {
-      const updateResponse = await patchMutate(updatedData);
-      if (updateResponse) {
-        handleToastOpen();
+      try {
+        const updateResponse = await patchMutate(updatedData);
+        if (updateResponse) {
+          handleToastOpen();
+        }
+      } catch (error) {
+        console.error('정보 저장 실패:', error);
       }
     }
   };
@@ -72,6 +76,12 @@ const MyInfoPage = () => {
     if (!/^[가-힣a-zA-Z0-9]+$/.test(nickname)) {
       setNicknameState('error');
       setNicknameMessage('초성 또는 모음만으로 구성된 닉네임은 사용할 수 없어요.');
+      return;
+    }
+
+    if (nickname === data?.nickname) {
+      setNicknameState('error');
+      setNicknameMessage('현재 사용하고 있는 닉네임이에요.');
       return;
     }
 
@@ -117,7 +127,7 @@ const MyInfoPage = () => {
     },
     ImgPopupModal: ImgPopupWithdrawal84,
     isSingleModal: false,
-    modalContent: '회원 탈퇴 시, 기존의 모든 데이터가 삭제됩니다.',
+    modalContent: '회원 탈퇴 시, 작성한 글과 댓글은 남되, 계정을 복구할 수 없습니다.',
     DoublebtnProps: {
       isPrimaryRight: true,
       primaryBtnContent: '한 번 더 생각할게요',
@@ -149,12 +159,12 @@ const MyInfoPage = () => {
             닉네임<span>*</span>
           </S.InfoLabel>
           <S.NicknameInputBox>
-            <NamingInput
+            <NameInput
               value={nickname}
+              onChange={handleNicknameChange}
+              onButtonClick={handleNicknameCheck}
               state={nicknameState}
               description={nicknameMessage}
-              onClick={handleNicknameCheck}
-              onChange={handleNicknameChange}
               placeholder={data?.nickname}
             />
           </S.NicknameInputBox>

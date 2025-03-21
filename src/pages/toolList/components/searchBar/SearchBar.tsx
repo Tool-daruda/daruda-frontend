@@ -1,77 +1,37 @@
 import { BlurLeft, RightBlur } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
+import { useGetCategoriesQuery } from '@pages/toolList/apis/queries';
 import { useRef, useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
-
-import { fetchCategories, fetchToolsByCategory } from '../../apis/api';
-
-export interface Category {
-  name: string;
-  koreanName: string;
-  active: boolean;
-}
 
 export interface SearchBarProps {
   isSticky: boolean;
   onCategoryChange: (category: string) => void;
+  selectedCategory: string;
 }
 
-const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
-  const [categoriesState, setCategoriesState] = useState<Category[]>([]);
+const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarProps) => {
   const [activeButton, setActiveButton] = useState<'left' | 'right'>('right');
   const chipContainerRef = useRef<HTMLDivElement>(null);
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-
+  const [searchParams] = useSearchParams();
   const categoryFromParams = searchParams.get('category') || 'ALL';
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const response = await fetchCategories();
-        const categories = response.data.map((category: { name: string; koreanName: string }) => ({
-          ...category,
-          active: category.name === categoryFromParams,
-        }));
-        setCategoriesState(categories);
-      } catch (error) {
-        console.error('카테고리를 불러오는 중 오류 발생:', error);
-      }
-    };
+  const { data: categoryData } = useGetCategoriesQuery();
 
-    loadCategories();
+  const handleCategoryClick = async (categoryName: string) => {
+    onCategoryChange(categoryName);
+    navigate(`/toollist?category=${categoryName}`);
+  };
+
+  // 최상단 헤더 카테고리와 동기화를 위한 로직
+  useEffect(() => {
     onCategoryChange(categoryFromParams);
   }, [categoryFromParams]);
 
-  const isFetching = useRef(false);
-
-  const handleCategoryClick = async (categoryName: string) => {
-    if (isFetching.current) return;
-    isFetching.current = true;
-
-    const encodedCategoryName = encodeURIComponent(categoryName);
-
-    const updatedCategories = categoriesState.map((category) => ({
-      ...category,
-      active: category.name === categoryName,
-    }));
-    setCategoriesState(updatedCategories);
-
-    onCategoryChange(categoryName);
-    navigate(`/toollist?category=${encodedCategoryName}`);
-
-    try {
-      const tools = await fetchToolsByCategory(categoryName);
-      console.log('선택된 카테고리 데이터:', tools);
-    } catch (error) {
-      console.error('데이터를 가져오는 중 오류 발생:', error);
-    } finally {
-      isFetching.current = false;
-    }
-  };
-
+  // chip 컨테이너 스크롤 조정
   const handleScroll = (direction: 'start' | 'end') => {
     if (chipContainerRef.current) {
       if (direction === 'end') {
@@ -90,6 +50,7 @@ const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
     }
   };
 
+  // arrow btn 위치 조정함수
   useEffect(() => {
     const handleScrollState = () => {
       if (chipContainerRef.current) {
@@ -121,11 +82,11 @@ const SearchBar = ({ isSticky, onCategoryChange }: SearchBarProps) => {
             </S.ScrollButtonLeft>
           )}
           <S.SearchChip ref={chipContainerRef} isSticky={isSticky}>
-            {categoriesState?.map((category) => (
+            {categoryData?.data.map((category) => (
               <Chip
                 key={category.name}
                 size="large"
-                active={category.active}
+                active={category.name === selectedCategory}
                 onClick={() => {
                   handleCategoryClick(category.name);
                 }}

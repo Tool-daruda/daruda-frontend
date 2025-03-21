@@ -8,6 +8,7 @@ type ButtonProps = {
   shadow?: boolean;
   size?: 'large' | 'medium' | 'small' | 'mini';
   whiteBtn?: boolean;
+  $disabled?: boolean;
   handleClick?: () => void;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -18,6 +19,7 @@ const CircleButton = ({
   size = 'large',
   whiteBtn = false,
   handleClick,
+  $disabled,
   ...props
 }: ButtonProps) => {
   return (
@@ -26,6 +28,7 @@ const CircleButton = ({
       size={size}
       disabled={props.disabled}
       $whiteBtn={whiteBtn}
+      $disabled={$disabled || false}
       onClick={handleClick}
       {...props}
     >
