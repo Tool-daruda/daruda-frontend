@@ -5,7 +5,7 @@ import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
-import { useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useToastOpen } from '@hooks/index';
 import { handleScrollUp } from '@utils';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
