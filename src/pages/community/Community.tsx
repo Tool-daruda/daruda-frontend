@@ -4,6 +4,8 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import Loading from '@components/lottie/Loading';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
+import Toast from '@components/toast/Toast';
+import { useToastOpen } from '@hooks/index';
 import { handleScrollUp } from '@utils';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
@@ -23,19 +25,12 @@ const Community = () => {
   const { data, fetchNextPage, hasNextPage, isLoading } = usePostListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
 
+  const { isToastOpen, handleModalOpen } = useToastOpen();
+  const user = localStorage.getItem('user');
+
   const postList = data?.pages.map((item) => item.contents).flat();
 
   useEffect(() => {
-    localStorage.setItem(
-      'user',
-      JSON.stringify({
-        nickname: '곤이곤이',
-        accessToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MTY2MjI0NywidXNlcklkIjoxMzJ9._y6LnG-MlZlR0t_qNAvH1hon_EGx3XuR7t8LuYcRG7L4yybHbERQBrgUpBR-l_5qhJyc461BtQEok9kqrLMJ4g',
-        refreshToken:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDA0NTI2NDcsImV4cCI6MTc0MzA0NDY0NywidXNlcklkIjoxMzJ9.f_SBo1ii8_iINV8RlYcTw_gxG92o4Em1VwM5e7-z4eAHx_u06FzYzaOEo_13ogVYtZLtpxPKnmtuuPyuKJ2jMA',
-      }),
-    );
     if (inView) {
       fetchNextPage();
     }
@@ -84,23 +79,28 @@ const Community = () => {
         <S.FollowingBtns>
           <CircleButton
             onClick={() => {
-              const user = localStorage.getItem('user');
               if (user) {
                 navigate(`/community/write`);
+              } else {
+                handleModalOpen();
               }
             }}
             size="small"
             shadow
             icon={<IcPlusWhite20 />}
-            disabled={!localStorage.getItem('user')}
+            $disabled={!user}
           >
             글쓰기
           </CircleButton>
-
           <S.TopBtn type="button" onClick={handleScrollUp}>
             <IcChevron />
           </S.TopBtn>
         </S.FollowingBtns>
+        {isToastOpen && (
+          <Toast isVisible={isToastOpen} isWarning>
+            로그인 후 이용할 수 있습니다.
+          </Toast>
+        )}
       </S.CommunityWrapper>
     </>
   );

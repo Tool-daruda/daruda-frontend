@@ -1,7 +1,7 @@
 import { useToolScrap } from '@apis/tool/queries';
 import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
-import { useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useToastOpen } from '@hooks/index';
 import { ToolType } from '@pages/toolDetail/types';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';

@@ -54,11 +54,21 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
+export const logout = () => {
+  localStorage.removeItem('user');
+
+  cachedToken = null;
+
+  instance.defaults.headers.Authorization = '';
+};
+
 // 요청 인터셉터: 모든 요청에 토큰 추가
 instance.interceptors.request.use((config) => {
   const token = getAccessToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    delete config.headers.Authorization;
   }
   return config;
 });

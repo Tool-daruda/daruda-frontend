@@ -5,6 +5,7 @@ export const ButtonWrapper = styled.button<{
   shadow: boolean;
   $whiteBtn: boolean;
   size: 'large' | 'medium' | 'small' | 'mini';
+  $disabled: boolean; //클릭은 반응하지만, 결과적으로 작동하지 않는 버튼
 }>`
   display: flex;
   align-items: center;
@@ -57,13 +58,20 @@ export const ButtonWrapper = styled.button<{
   &:hover {
     color: ${({ theme, $whiteBtn }) => $whiteBtn && theme.colors.white1};
 
-    background-color: ${({ theme }) => theme.colors.iris1_hover};
-    box-shadow: 0 0 12px 0 ${({ theme, $whiteBtn }) => $whiteBtn && theme.colors.shadow1};
+    background-color: ${({ theme, $disabled }) => !$disabled && theme.colors.iris1_hover};
+    box-shadow: 0 0 12px 0 ${({ theme, $whiteBtn, $disabled }) => !$disabled && $whiteBtn && theme.colors.shadow1};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.colors.iris1_click};
+    background-color: ${({ theme, $disabled }) => !$disabled && theme.colors.iris1_click};
   }
+
+  ${({ $disabled, theme }) =>
+    $disabled &&
+    `
+    color: ${theme.colors.gray4};
+    background-color: ${theme.colors.gray2};
+  `}
 
   &:disabled {
     color: ${({ theme }) => theme.colors.gray4};

@@ -142,11 +142,12 @@ export const RemoveButton = styled.button`
 
 export const Content = styled.div`
   position: absolute;
-  bottom: 1.3rem;
+  bottom: 0.5rem;
   left: 4rem;
 
   ${({ theme }) => theme.fonts.caption_12_m};
   color: ${({ theme }) => theme.colors.gray2};
+  white-space: pre-line;
 `;
 
 export const ToastBox = styled.div`

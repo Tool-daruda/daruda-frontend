@@ -20,14 +20,13 @@ export interface ToolProp {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTopicSelect?: (isChecked: boolean) => void;
 }
-
-export interface Category {
+export type Category = {
   name: string;
   koreanName: string;
-  tools?: { toolId: number; toolLogo: string; toolName: string }[];
-}
+};
+
 export interface CategoryResponse {
-  data: { name: string; koreanName: string }[];
+  data: Category[];
 }
 
 export interface ToolResponse {

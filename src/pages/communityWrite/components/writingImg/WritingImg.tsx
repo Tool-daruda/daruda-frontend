@@ -6,10 +6,10 @@ import * as S from './WritingImg.styled';
 
 interface WritingImgProps {
   onImageUpload: (files: File[]) => void;
+  images: File[];
 }
 
-const WritingImg = ({ onImageUpload }: WritingImgProps) => {
-  const [images, setImages] = useState<File[]>([]);
+const WritingImg = ({ onImageUpload, images }: WritingImgProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -45,7 +45,6 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
 
     // 기존 이미지에 추가
     const updatedImages: File[] = [...images, ...newImages];
-    setImages(updatedImages);
     onImageUpload(updatedImages);
 
     e.target.value = ''; // input 초기화
@@ -53,7 +52,6 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
 
   const handleRemoveImage = (index: number) => {
     const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
     onImageUpload(updatedImages);
   };
 
@@ -99,7 +97,9 @@ const WritingImg = ({ onImageUpload }: WritingImgProps) => {
           </S.ImagePreview>
         ))}
       </S.PreviewContainer>
-      <S.Content>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</S.Content>
+      <S.Content>
+        * 이미지를 추가하려면 붙여넣기 또는 클릭하세요. {'\n'} * 이미지 업로드 용량은 한장 당 최대 7MB 입니다.
+      </S.Content>
       {isToastVisible && (
         <S.ToastBox>
           <Toast isVisible={true} isWarning={true}>

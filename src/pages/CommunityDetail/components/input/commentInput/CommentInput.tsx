@@ -3,8 +3,9 @@ import CircleButton from '@components/button/circleButton/CircleButton';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
+import { useToastOpen } from '@hooks/index';
 import usePostComment from '@pages/CommunityDetail/apis/postComment/queries';
-import { useImageUpload, useTextInput, useToastOpen } from '@pages/CommunityDetail/hooks';
+import { useImageUpload, useTextInput } from '@pages/CommunityDetail/hooks';
 import { useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 

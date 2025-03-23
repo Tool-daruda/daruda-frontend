@@ -33,8 +33,9 @@ const CommunityModify = () => {
       : { toolId: 0, toolName: '알 수 없음', toolLogo: '' }; // 기본값 설정
   }, [post]);
 
-  const { title, setTitle, body, setBody, images, setImages, selectedTool, isFree, handleToolSelect } =
-    useCommunityModify(post?.toolId as number);
+  const { title, setTitle, body, setBody, selectedTool, isFree, handleToolSelect } = useCommunityModify(
+    post?.toolId as number,
+  );
 
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -45,7 +46,7 @@ const CommunityModify = () => {
   const handlePostSubmit = async () => {
     if (isButtonDisabled || !post) return;
 
-    const formData = createPostFormData(title, body, isFree, selectedTool, images ?? imageFiles);
+    const formData = createPostFormData(title, body, isFree, selectedTool, imageFiles);
 
     const req = { id: post.boardId, data: formData };
     await patchMutate(req);
@@ -88,7 +89,7 @@ const CommunityModify = () => {
   }, [title, body, selectedTool, isImgSame]);
 
   const handleImageUpload = (newImages: File[]) => {
-    setImages(newImages);
+    setImageFiles(newImages);
     setIsImgSame(false); // 이미지 변경 플래그
   };
 
@@ -104,13 +105,18 @@ const CommunityModify = () => {
         <S.WriteContainer>
           <S.WriteBox>
             <WritingTitle originTitle={post.title} setTitle={setTitle} />
-            <WritingBody originBody={post.content} setBody={setBody} />
-            <WritingImg originImages={imageFiles} onImageUpload={handleImageUpload} />
+            <WritingBody
+              originBody={post.content}
+              setBody={setBody}
+              onImageUpload={handleImageUpload}
+              images={imageFiles}
+            />
+            <WritingImg images={imageFiles} onImageUpload={handleImageUpload} />
           </S.WriteBox>
           <S.SideBanner>
             <ToolListBanner originTool={originTool} onToolSelect={handleToolSelect} />
             <CircleButton onClick={handlePostSubmit} size="large" disabled={isButtonDisabled}>
-              글 게시하기
+              글 수정하기
             </CircleButton>
           </S.SideBanner>
         </S.WriteContainer>

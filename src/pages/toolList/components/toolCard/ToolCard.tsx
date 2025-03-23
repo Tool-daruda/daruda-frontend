@@ -2,115 +2,78 @@ import { useToolScrap } from '@apis/tool/queries';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
-import { useToastOpen } from '@pages/CommunityDetail/hooks';
-import React, { useState, useEffect, useCallback } from 'react';
+import { useToastOpen } from '@hooks/index';
+import { useGetToolListQuery } from '@pages/toolList/apis/queries';
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './ToolCard.styled';
 
-import { fetchToolsByCategory } from '../../apis/api';
-import { Tool, getLicenseBadgeContent, FetchToolsResponse } from '../../utils/toolCard/ToolCard.utils';
+import { getLicenseBadgeContent } from '../../utils/ToolCard.utils';
 
 interface ToolCardProps {
   selectedCategory: string;
   isFree: boolean;
   criteria: 'popular' | 'createdAt';
   onCategoryChange: (category: string) => void;
-  onToolClick: (toolId: number) => void;
-  onDataLoaded: () => void;
 }
 
-const ToolCard = ({ onDataLoaded, onToolClick, selectedCategory, isFree, criteria }: ToolCardProps) => {
-  const [tools, setTools] = useState<Tool[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [cursor, setCursor] = useState<number | null>(null);
-  const { mutate: addBookmark } = useToolScrap();
-  const { isToastOpen, handleModalOpen } = useToastOpen();
+const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
+  const navigate = useNavigate();
+  const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
+  const { isToastOpen, handleModalOpen, toastMessage, handleMessageChange } = useToastOpen();
+  const { inView, ref } = useInView();
+
+  const {
+    data: fetchListData,
+    fetchNextPage,
+    isLoading,
+    hasNextPage,
+    isFetching,
+  } = useGetToolListQuery(selectedCategory, isFree, criteria);
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView]);
+
+  const ToolList = fetchListData?.pages.map((item) => item.tools).flat();
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
-
-  const fetchTools = async (isReset = false) => {
-    if (isLoading || (!hasMore && !isReset)) return;
-
-    setIsLoading(true);
-
-    try {
-      const response = await fetchToolsByCategory(selectedCategory, isFree, criteria, isReset ? null : cursor);
-      const { tools: newTools, scrollPaginationDto } = response.data as FetchToolsResponse;
-      const formattedTools: Tool[] = newTools.map((tool) => ({
-        toolId: tool.toolId,
-        toolLogo: tool.toolLogo,
-        toolName: tool.toolName,
-        license: tool.license || 'unknown',
-        keywords: tool.keywords || [],
-        isScraped: tool.isScraped || false,
-        bgColor: tool.bgColor || '#FFFFFF',
-        fontColor: tool.fontColor || false,
-        description: tool.description || '',
-      }));
-
-      setTools((prevTools: Tool[]) => (isReset ? formattedTools : [...prevTools, ...formattedTools]));
-
-      if (isReset) {
-        setTimeout(() => {
-          onDataLoaded(); // 데이터 로드 완료 시점에서 호출
-        }, 100);
-      }
-      setCursor(scrollPaginationDto.nextCursor);
-      setHasMore(scrollPaginationDto.nextCursor !== -1);
-    } catch (error) {
-      console.error('Error fetching tools:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleScroll = useCallback(() => {
-    const { scrollTop, scrollHeight } = document.documentElement;
-    const clientHeight = window.innerHeight;
-
-    if (scrollHeight - scrollTop <= clientHeight + 10 && hasMore) {
-      fetchTools();
-    }
-  }, [isLoading, hasMore, selectedCategory, isFree, criteria, cursor]);
-
-  useEffect(() => {
-    fetchTools(true);
-  }, [selectedCategory, isFree, criteria]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
 
   const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
     e.stopPropagation();
 
     const isLoggedIn = localStorage.getItem('user') !== null;
 
-    if (!isLoggedIn) {
-      handleModalOpen();
-      return;
-    }
+    addBookmark(toolId, {
+      onSuccess: () => {
+        handleModalOpen();
+        handleMessageChange(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      },
+      onError: (error) => {
+        if (!isLoggedIn) {
+          handleMessageChange('로그인 후 이용가능합니다.');
+          handleModalOpen();
+          return;
+        }
+        console.error('북마크 추가 실패:', error);
+      },
+    });
+  };
 
-    try {
-      await addBookmark(toolId);
-      setTools((prevTools) =>
-        prevTools.map((tool) => (tool.toolId === toolId ? { ...tool, isScraped: !isScraped } : tool)),
-      );
-    } catch (error) {
-      console.error('북마크 처리 중 오류 발생:', error);
-    }
+  const navigateToDetail = (toolId: number) => {
+    navigate(`/toollist/${toolId}`);
   };
 
   return (
     <S.Container>
       <S.CardList>
-        {tools.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
-        {tools?.map((tool) => (
-          <S.Card key={tool.toolId} onClick={() => onToolClick(tool.toolId)}>
+        {ToolList?.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
+        {ToolList?.map((tool) => (
+          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
@@ -138,7 +101,6 @@ const ToolCard = ({ onDataLoaded, onToolClick, selectedCategory, isFree, criteri
                   <S.BookMark
                     onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped)}
                     bookmarked={tool.isScraped}
-                    isToastOpen={isToastOpen}
                   />
                 </S.ToolNameBack>
                 <S.Description>{tool.description}</S.Description>
@@ -160,10 +122,15 @@ const ToolCard = ({ onDataLoaded, onToolClick, selectedCategory, isFree, criteri
           </S.Card>
         ))}
       </S.CardList>
-      <S.Lottie>{isLoading && <LoadingLottie />}</S.Lottie>
+      {(isLoading || isFetching) && (
+        <S.Lottie>
+          <LoadingLottie />
+        </S.Lottie>
+      )}
+      {hasNextPage ? <div ref={ref} /> : null}
       {isToastOpen && (
-        <Toast isVisible={isToastOpen} isWarning={true}>
-          로그인 후 이용가능합니다.
+        <Toast isVisible={isToastOpen} isWarning={bookmarkFailed}>
+          {toastMessage}
         </Toast>
       )}
     </S.Container>
