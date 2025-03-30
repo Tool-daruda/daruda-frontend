@@ -27,6 +27,7 @@ const KakaoRedirectHandler = () => {
       try {
         const response = await sendAuthorization(code);
 
+        console.log('카카오 인증 후, 유저 정보 확인용 console', response);
         if ('nickname' in response) {
           // 기존 유저
           localStorage.setItem(
