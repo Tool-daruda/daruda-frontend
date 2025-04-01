@@ -1,12 +1,22 @@
 import { IcPlayWhite40 } from '@assets/svgs';
 import { useState } from 'react';
 import ReactPlayer from 'react-player';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './VideoCard.styled';
 
-const VideoCard = ({ video, alternate }: { video: string | null; alternate: string }) => {
+const VideoCard = ({
+  video,
+  alternate,
+  toolName,
+}: {
+  video: string | null;
+  alternate: string;
+  toolName?: string | null;
+}) => {
   const [isPlay, setIsPlay] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   if (!video) {
     return (
@@ -31,7 +41,14 @@ const VideoCard = ({ video, alternate }: { video: string | null; alternate: stri
       {!isPlay || !isReady ? (
         <S.ThumbnailWrapper>
           <YouTubeThumbnail videoUrl={video} alternate={alternate} />
-          {!isPlay && <IcPlayWhite40 onClick={() => setIsPlay(true)} />}
+          {!isPlay && (
+            <IcPlayWhite40
+              onClick={() => {
+                trackEvent('Tool_Click', { Video: toolName });
+                setIsPlay(true);
+              }}
+            />
+          )}
         </S.ThumbnailWrapper>
       ) : null}
     </S.VideoWrapper>
