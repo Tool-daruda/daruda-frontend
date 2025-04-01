@@ -22,7 +22,9 @@ const ReferenceVideo = forwardRef<HTMLDivElement, ReferenceVideoProps>(({ toolId
 
         <S.ReferenceVideoContainer count={videos.length}>
           {videos.length > 0 ? (
-            videos.map((videoUrl, index) => <VideoCard key={index} video={videoUrl} alternate={alternate} />)
+            videos.map((videoUrl, index) => (
+              <VideoCard key={index} video={videoUrl} alternate={alternate} toolName={data?.toolMainName} />
+            ))
           ) : (
             <VideoCard video={null} alternate={alternate} />
           )}

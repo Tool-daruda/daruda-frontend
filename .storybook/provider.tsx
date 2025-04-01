@@ -5,6 +5,7 @@ import React, { ReactNode, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import AnalyticsProvider from '../src/hoc/useAnalytics';
 
 interface ProviderProps {
   children?: ReactNode;
@@ -19,7 +20,9 @@ export const Provider = ({ children }: ProviderProps) => {
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <GlobalStyle />
-          <BrowserRouter>{children}</BrowserRouter>
+          <BrowserRouter>
+            <AnalyticsProvider>{children}</AnalyticsProvider>
+          </BrowserRouter>
         </HelmetProvider>
       </QueryClientProvider>
     </ThemeProvider>

@@ -5,6 +5,7 @@ import { useToastOpen } from '@hooks/index';
 import { ToolType } from '@pages/toolDetail/types';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './ToolInfoCard.styled';
 
@@ -27,6 +28,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
     toolLink,
   } = toolData;
 
+  const { trackEvent } = useAnalytics();
   const [isClickBtn, setIsClickBtn] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [isToastWarning, setIsToastWarning] = useState(false);
@@ -44,6 +46,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       setToastMessage('클립보드에 링크가 복사되었어요.');
       setIsToastWarning(false);
       handleModalOpen();
+      trackEvent('Tool_Click', { Share: toolMainName });
     } catch (err) {
       console.error('클립보드 복사 실패:', err);
       setToastMessage('링크 복사에 실패했어요.');
@@ -66,6 +69,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
   };
 
   const handleClickBtn = () => {
+    trackEvent('Tool_Click', { Try_It_Out: toolMainName });
     setIsClickBtn((prev) => !prev);
     window.location.href = toolLink;
   };
@@ -87,6 +91,9 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       }
       setIsToastWarning(false);
       handleModalOpen();
+      trackEvent('Tool_Click', {
+        [!isScrapped ? 'Bookmark' : 'Bookmark_Cancel']: toolMainName,
+      });
     } catch (error) {
       console.error('북마크 업데이트 실패:', error);
       setIsToastWarning(true);

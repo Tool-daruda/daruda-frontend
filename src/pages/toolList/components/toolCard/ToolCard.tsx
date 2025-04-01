@@ -7,6 +7,7 @@ import { useGetToolListQuery } from '@pages/toolList/apis/queries';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './ToolCard.styled';
 
@@ -21,6 +22,7 @@ interface ToolCardProps {
 
 const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const navigate = useNavigate();
+  const { trackEvent } = useAnalytics();
   const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
   const { isToastOpen, handleModalOpen, toastMessage, handleMessageChange } = useToastOpen();
   const { inView, ref } = useInView();
@@ -43,7 +45,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
 
-  const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean) => {
+  const toggleBookmark = async (e: React.MouseEvent, toolId: number, isScraped: boolean, toolName: string) => {
     e.stopPropagation();
 
     const isLoggedIn = localStorage.getItem('user') !== null;
@@ -52,6 +54,9 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       onSuccess: () => {
         handleModalOpen();
         handleMessageChange(!isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+        trackEvent('Tool_Click', {
+          [!isScraped ? 'Bookmark' : 'Bookmark_Cancel']: toolName,
+        });
       },
       onError: (error) => {
         if (!isLoggedIn) {
@@ -74,7 +79,13 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       <S.CardList>
         {ToolList?.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {ToolList?.map((tool) => (
-          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId)}>
+          <S.Card
+            key={tool.toolId}
+            onClick={() => {
+              trackEvent('Tool_Click', { Tool_Card: tool.toolName });
+              navigateToDetail(tool.toolId);
+            }}
+          >
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
@@ -100,7 +111,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
                 <S.ToolNameBack>
                   <S.ToolBackTitle isKorean={isKorean(tool.toolName)}>{tool.toolName}</S.ToolBackTitle>
                   <S.BookMark
-                    onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped)}
+                    onClick={(e) => toggleBookmark(e, tool.toolId, tool.isScraped, tool.toolName)}
                     bookmarked={tool.isScraped}
                   />
                 </S.ToolNameBack>
