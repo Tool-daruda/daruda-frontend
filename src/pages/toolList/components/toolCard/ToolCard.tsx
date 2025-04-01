@@ -69,8 +69,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     });
   };
 
-  const navigateToDetail = (toolId: number, toolName: string) => {
-    trackEvent('Tool_Click', { Tool_Card: toolName });
+  const navigateToDetail = (toolId: number) => {
     sessionStorage.setItem('toolListScrollY', String(window.scrollY));
     navigate(`/toollist/${toolId}`);
   };
@@ -80,7 +79,13 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
       <S.CardList>
         {ToolList?.length === 0 && !isLoading && <S.EmptyMessage>등록된 무료 툴이 없어요</S.EmptyMessage>}
         {ToolList?.map((tool) => (
-          <S.Card key={tool.toolId} onClick={() => navigateToDetail(tool.toolId, tool.toolName)}>
+          <S.Card
+            key={tool.toolId}
+            onClick={() => {
+              trackEvent('Tool_Click', { Tool_Card: tool.toolName });
+              navigateToDetail(tool.toolId);
+            }}
+          >
             <S.CardFront bgColor={tool.bgColor}>
               <S.ToolLogo src={tool.toolLogo} alt={`${tool.toolName} 로고`} />
               <S.ToolNameFront fontColor={tool.fontColor} isKorean={isKorean(tool.toolName)}>
