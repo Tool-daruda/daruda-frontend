@@ -27,11 +27,11 @@ const NameInput = ({
   const count = value.length;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (/\s/.test(value)) {
-      return;
-    }
-    if (value.length <= 10) {
+    const newValue = e.target.value;
+
+    if (/^[ㄱ-ㅎ가-힣a-zA-Z0-9]*$/.test(newValue) && newValue.length <= 10) {
+      onChange?.(e);
+    } else if (newValue.length <= value.length) {
       onChange?.(e);
     }
   };
