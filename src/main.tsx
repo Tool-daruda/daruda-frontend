@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './App';
+import AnalyticsProvider from './hoc/useAnalytics';
 
 const queryClient = new QueryClient();
 
@@ -16,11 +17,13 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
-          <App />
-          <div style={{ fontSize: '1.6rem' }}>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </div>
+          <AnalyticsProvider>
+            <App />
+          </AnalyticsProvider>
         </HelmetProvider>
+        <div style={{ fontSize: '1.6rem' }}>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </div>
       </QueryClientProvider>
     </ThemeProvider>
   </>,
