@@ -1,14 +1,26 @@
 import mixpanel from 'mixpanel-browser';
 import React, { createContext, useContext, useEffect } from 'react';
 
-declare module 'mixpanel-browser' {
-  interface Config {
-    autocapture?: boolean;
-  }
-}
+export const eventNames = [
+  'Tool_Click',
+  'User',
+  'Tool_Category_Click',
+  'Integrated_Search_Enter',
+  'Banner_Click',
+  'Toggle_Click',
+  'Sorting_Click',
+  'Tool_Detail_Index_Click',
+  'Recommendation_Tool_Click',
+  'Community_Click',
+  'Post_Click',
+  'Signup_Click',
+  'Login_State',
+  'Signout_Click',
+] as const;
+type EventName = (typeof eventNames)[number];
 
 type AnalyticsContextProps = {
-  trackEvent: <T extends Record<string, unknown>>(eventName: string, eventProperties?: T) => void;
+  trackEvent: <T extends Record<string, unknown>>(eventName: EventName, eventProperties?: T) => void;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(undefined);
@@ -21,7 +33,7 @@ const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }
   }, []);
 
   if (import.meta.env.MODE === 'development') return;
-  const trackEvent = <T extends Record<string, unknown>>(eventName: string, eventProperties?: T) => {
+  const trackEvent = <T extends Record<string, unknown>>(eventName: EventName, eventProperties?: T) => {
     mixpanel.track(eventName, eventProperties);
   };
 
