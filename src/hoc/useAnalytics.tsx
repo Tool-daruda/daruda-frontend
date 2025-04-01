@@ -32,7 +32,6 @@ const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }
     });
   }, []);
 
-  if (import.meta.env.MODE === 'development') return;
   const trackEvent = <T extends Record<string, unknown>>(eventName: EventName, eventProperties?: T) => {
     mixpanel.track(eventName, eventProperties);
   };
