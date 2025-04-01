@@ -4,6 +4,7 @@ import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { useGetToolListQuery } from '@pages/toolList/apis/queries';
+import { saveScrollPosition } from '@utils/scrollStorage';
 import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
@@ -65,7 +66,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   };
 
   const navigateToDetail = (toolId: number) => {
-    sessionStorage.setItem('toolListScrollY', String(window.scrollY));
+    saveScrollPosition('toolListScrollY');
     navigate(`/toollist/${toolId}`);
   };
 
