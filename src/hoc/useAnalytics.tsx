@@ -14,15 +14,16 @@ type AnalyticsContextProps = {
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(undefined);
 
 const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const trackEvent = <T extends Record<string, unknown>>(eventName: string, eventProperties?: T) => {
-    mixpanel.track(eventName, eventProperties);
-  };
-
   useEffect(() => {
     mixpanel.init(import.meta.env.VITE_MIXPANEL_KEY, {
       debug: import.meta.env.MODE === 'development',
     });
   }, []);
+
+  if (import.meta.env.MODE === 'development') return;
+  const trackEvent = <T extends Record<string, unknown>>(eventName: string, eventProperties?: T) => {
+    mixpanel.track(eventName, eventProperties);
+  };
 
   return <AnalyticsContext.Provider value={{ trackEvent }}>{children}</AnalyticsContext.Provider>;
 };
