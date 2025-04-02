@@ -1,6 +1,7 @@
 import { IcWatchWhite40 } from '@assets/svgs';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { forwardRef, useState } from 'react';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './ToolIntro.styled';
 
@@ -12,8 +13,10 @@ export interface ToolIntroPropTypes {
 
 const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(({ toolImage, activeTool, description }, ref) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   const handleImgFocus = () => {
+    trackEvent('Tool_Click', { Image: activeTool });
     setIsModalOpen(true);
   };
 
