@@ -1,11 +1,6 @@
-import ToolListBanner from '@components/banner/ToolListBanner';
-import CircleButton from '@components/button/circleButton/CircleButton';
-import Title from '@components/title/Title';
-import Toast from '@components/toast/Toast';
 import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { useBoardUpdate } from './apis/queries';
 import * as S from './CommunityModify.styled';
 import WritingBody from './components/writingBody/WritingBody';
 import WritingImg from './components/writingImg/WritingImg';
@@ -13,6 +8,11 @@ import WritingTitle from './components/writingTitle/WritingTitle';
 import useCommunityModify from './hooks/UseCommunityModify';
 import { PostType } from './types/PostType';
 import { createPostFormData } from './utils/FormDataUtils';
+import { useBoardUpdateMutation } from '@apis/board';
+import ToolListBanner from '@components/banner/ToolListBanner';
+import CircleButton from '@components/button/circleButton/CircleButton';
+import Title from '@components/title/Title';
+import Toast from '@components/toast/Toast';
 
 const CommunityModify = () => {
   const [post, setPost] = useState<PostType | null>(null);
@@ -41,7 +41,7 @@ const CommunityModify = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isImgSame, setIsImgSame] = useState(true);
-  const { mutate: patchMutate } = useBoardUpdate();
+  const { mutate: patchMutate } = useBoardUpdateMutation();
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled || !post) return;

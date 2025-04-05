@@ -20,6 +20,11 @@
     },
     "sourceType": "module"
   },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
   "ignorePatterns": ["build", "dist", "public"], // ESLint가 무시할 디렉
   "rules": {
     "react/self-closing-comp": [

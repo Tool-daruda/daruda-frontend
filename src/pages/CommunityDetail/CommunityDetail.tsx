@@ -1,18 +1,18 @@
+import { useRef, useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useParams } from 'react-router-dom';
+
+import useGetComment from './apis/fetchComment/queries';
+import * as S from './CommunityDetail.styled';
+import CommentBoard from './components/comment/commentBoard/CommentBoard';
+import CommnetInput from './components/input/commentInput/CommentInput';
+import { useDetailBoardQuery } from '@apis/board';
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
 import { handleScrollDown, handleScrollUp } from '@utils';
-import { useRef, useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { useParams } from 'react-router-dom';
-
-import useGetComment from './apis/fetchComment/queries';
-import useGetDetailPost from './apis/fetchDetailPost/queries';
-import * as S from './CommunityDetail.styled';
-import CommentBoard from './components/comment/commentBoard/CommentBoard';
-import CommnetInput from './components/input/commentInput/CommentInput';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -20,7 +20,7 @@ const CommunityDetail = () => {
   const postareaRef = useRef<HTMLLIElement>(null);
   const { ref, inView } = useInView();
 
-  const { data, isError } = useGetDetailPost(id);
+  const { data, isError } = useDetailBoardQuery(id);
   const { data: CommentData, fetchNextPage, hasNextPage } = useGetComment(id);
 
   useEffect(() => {

@@ -1,13 +1,13 @@
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
+import * as S from './CommentCard.styled';
+import useCommentDelete from '@apis/comment/deletePost/queries';
 import { IcOverflowGray24, ImgModalexit, IcWatchWhite40, ImgModalcheck } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
-import useCommentDelete from '@pages/CommunityDetail/apis/deletePost/queries';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
-import * as S from './CommentCard.styled';
 
 interface Comment {
   comment: {
