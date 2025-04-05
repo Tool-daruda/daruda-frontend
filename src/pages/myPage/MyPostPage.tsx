@@ -1,14 +1,14 @@
-import { useBoardDelete } from '@apis/board/queries.ts';
-import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
-import { AlterModal } from '@components/modal/index.ts';
-import Spacing from '@components/spacing/Spacing.tsx';
-import Toast from '@components/toast/Toast.tsx';
-import { useToastOpen } from '@hooks/index';
 import { useState } from 'react';
 
 import { useGetMyPost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
 import * as S from './Post.styled.ts';
+import { useBoardDelete } from '@apis/board/board.queries.ts';
+import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
+import { AlterModal } from '@components/modal/index.ts';
+import Spacing from '@components/spacing/Spacing.tsx';
+import Toast from '@components/toast/Toast.tsx';
+import { useToastOpen } from '@hooks/index';
 
 const MyPostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);

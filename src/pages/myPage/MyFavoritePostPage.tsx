@@ -1,13 +1,13 @@
-import { useBoardScrap } from '@apis/board/queries.ts';
-import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
-import Spacing from '@components/spacing/Spacing.tsx';
-import Toast from '@components/toast/Toast.tsx';
-import { useToastOpen } from '@hooks/index';
 import { useState } from 'react';
 
 import { useGetFavoritePost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
 import * as S from './Post.styled.ts';
+import { useBoardScrap } from '@apis/board/board.queries.ts';
+import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
+import Spacing from '@components/spacing/Spacing.tsx';
+import Toast from '@components/toast/Toast.tsx';
+import { useToastOpen } from '@hooks/index';
 
 const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);

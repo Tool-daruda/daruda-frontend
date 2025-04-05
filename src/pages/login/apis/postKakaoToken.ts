@@ -25,7 +25,7 @@ interface SuccessNewbieResponse {
 export const sendAuthorization = async (code: string) => {
   try {
     const response = await axios.post<SuccessUserResponse | SuccessNewbieResponse>(
-      `${import.meta.env.VITE_API_BASE_URL}/users/token`,
+      `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
       { code: code },
       {
         headers: {

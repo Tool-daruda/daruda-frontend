@@ -10,10 +10,7 @@ interface RequestLoginURLResponse {
 export const fetchKakaoLogin = async () => {
   try {
     const response = await axios.get<RequestLoginURLResponse>(
-      `${import.meta.env.VITE_API_BASE_URL}/users/kakao/login-url`,
-      {
-        params: { 'social-type': 'kakao' },
-      },
+      `${import.meta.env.VITE_API_BASE_URL}/auth/login-url?socialType=KAKAO`,
     );
 
     const redirectUri = response.data.data;

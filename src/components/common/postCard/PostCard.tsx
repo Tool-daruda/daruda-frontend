@@ -1,4 +1,10 @@
-import { useBoardDelete, useBoardScrap } from '@apis/board/queries';
+import { useQueryClient } from '@tanstack/react-query';
+import { forwardRef, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import * as S from './PostCard.styled';
+import { Post } from '@apis/board/board.model';
+import { useBoardDelete, useBoardScrap } from '@apis/board/board.queries';
 import {
   IcCommentGray24,
   IcBookmark,
@@ -15,12 +21,6 @@ import { AlterModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { useModal } from '@pages/community/hooks';
-import { useQueryClient } from '@tanstack/react-query';
-import { forwardRef, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Post } from 'src/types/post';
-
-import * as S from './PostCard.styled';
 
 interface CardDataProp {
   post: Post;

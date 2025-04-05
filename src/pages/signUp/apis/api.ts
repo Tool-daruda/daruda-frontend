@@ -1,11 +1,12 @@
-import { post } from '@apis/index';
 import { type AxiosResponse, isAxiosError } from 'axios';
+
+import { post } from '@apis/index';
 
 import { ErrorResponse, SignupRequest } from '../types';
 
 const signup = async (requestBody: SignupRequest): Promise<void> => {
   try {
-    const response: AxiosResponse = await post('/users/signup', requestBody, {
+    const response: AxiosResponse = await post('/auth/sign-up', requestBody, {
       headers: {
         'Content-Type': 'application/json',
       },

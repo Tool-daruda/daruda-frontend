@@ -5,7 +5,7 @@ export const postNicknameCheck = async (
 ): Promise<{ statusCode: number; message: string; data: boolean } | undefined> => {
   try {
     const response = await post<{ statusCode: number; message: string; data: boolean }>(
-      `users/nickname?nickname=${nickname}`,
+      `user/nickname?nickname=${nickname}`,
     );
     return response;
   } catch (error) {

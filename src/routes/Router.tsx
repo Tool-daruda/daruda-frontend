@@ -1,5 +1,8 @@
+import { createBrowserRouter } from 'react-router';
+
+import MYPAGE_ROUTES from './MyPageRoutes';
 import Community from '@pages/community/Community';
-import CommunityDetail from '@pages/CommunityDetail/CommunityDetail';
+import CommunityDetail from '@pages/communityDetail/CommunityDetail';
 import CommunityModify from '@pages/communityModify/CommunityModify';
 import CommunityWrite from '@pages/communityWrite/CommunityWrite';
 import NotFound from '@pages/error/NotFound';
@@ -9,11 +12,8 @@ import KakaoRedirectHandler from '@pages/login/KakaoRedirectHandler';
 import SignUp from '@pages/signUp/SignUp';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
-import { createBrowserRouter } from 'react-router';
 import Layout from 'src/components/layout/Layout';
 import MyPageLayout from 'src/components/layout/MyPageLayout';
-
-import MYPAGE_ROUTES from './MyPageRoutes';
 
 const router = createBrowserRouter([
   {

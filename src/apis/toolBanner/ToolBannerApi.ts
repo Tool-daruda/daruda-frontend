@@ -4,7 +4,7 @@ import { get } from '../index';
 
 export const fetchCategories = async (): Promise<CategoryResponse> => {
   try {
-    return await get('/tools/category');
+    return await get('/tool/category');
   } catch (error) {
     console.error('API 요청 오류:', error);
     throw new Error('카테고리 데이터를 가져오는 데 실패했습니다.');
@@ -13,7 +13,7 @@ export const fetchCategories = async (): Promise<CategoryResponse> => {
 
 export const fetchToolsByCategory = async (category: string, isFree: boolean = false): Promise<ToolResponse> => {
   try {
-    const query = `/tools?category=${category}&isFree=${isFree}`;
+    const query = `/tool?category=${category}&isFree=${isFree}`;
     return await get(query);
   } catch (error: unknown) {
     if (error instanceof Error) {

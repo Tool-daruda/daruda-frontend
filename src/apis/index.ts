@@ -76,12 +76,15 @@ instance.interceptors.request.use((config) => {
 // 토큰 갱신 API
 const reissueToken = async (refreshToken: string) => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/reissue`, null, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        Authorization: `Bearer ${refreshToken}`,
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_BASE_URL}/auth/reissue`,
+      { refreshToken: refreshToken },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
 
     console.log('토큰 갱신 성공:', response.data);
     return response.data;
@@ -100,7 +103,7 @@ instance.interceptors.response.use(
     const httpStatus = error.response?.status;
     const customStatus = error.response?.data?.status;
 
-    if (httpStatus === 401 && customStatus === 'E401001') {
+    if (httpStatus === 401 || customStatus === 'E401001') {
       console.warn('액세스 토큰 만료. 토큰 갱신 중...');
 
       const user = localStorage.getItem('user');
@@ -131,8 +134,8 @@ instance.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+        // localStorage.removeItem('user');
+        // window.location.href = '/login';
       }
     }
 

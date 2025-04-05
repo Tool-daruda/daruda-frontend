@@ -9,7 +9,7 @@ export const postToolScrap = async (toolId: number) => {
         toolId: number;
         scrap: boolean;
       };
-    }>(`users/tools/${toolId}/scrap`);
+    }>(`tool/${toolId}/scrap`);
     return response.data;
   } catch (error) {
     console.error('Error:', error);
