@@ -1,5 +1,6 @@
 import { usePostListQuery } from '@apis/fetchPostList/queries';
 import { ImgPopupNonebookmark120 } from '@assets/svgs';
+import { saveScrollPosition } from '@utils';
 import { forwardRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
@@ -20,9 +21,7 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
   const postList = data?.pages.map((item) => item.contents).flat();
 
   const handlePostClick = (boardId: number) => {
-    // 스크롤 위치 저장
-    sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
-
+    saveScrollPosition('toolDetailScrollY');
     navigate(`/community/${boardId}`);
   };
 

@@ -1,6 +1,6 @@
 import { Tooltip, IcChevron } from '@assets/svgs';
 import Title from '@components/title/Title';
-import { handleScrollUp } from '@utils';
+import { handleScrollUp, restoreScrollPosition } from '@utils';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -61,16 +61,12 @@ const ToolList = () => {
     };
   }, []);
 
-  // 스크롤 복원
   useEffect(() => {
-    const savedY = sessionStorage.getItem('toolListScrollY');
-    if (savedY) {
-      window.scrollTo(0, Number(savedY));
-      sessionStorage.removeItem('toolListScrollY');
-      setHasRestoredScroll(true);
-    } else {
-      setHasRestoredScroll(true); // 복원할 게 없더라도 true 처리
+    const restoredY = restoreScrollPosition('toolListScrollY');
+    if (restoredY !== null) {
+      window.scrollTo(0, restoredY);
     }
+    setHasRestoredScroll(true);
   }, []);
 
   return (

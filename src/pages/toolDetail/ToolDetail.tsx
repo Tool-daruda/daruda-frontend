@@ -2,6 +2,7 @@ import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
+import { restoreScrollPosition, saveScrollPosition } from '@utils';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -36,12 +37,10 @@ const ToolDetail = () => {
     5: ToolCommunityRef,
   };
 
-  // 뒤로가기 시 스크롤 위치 복원
   useEffect(() => {
-    const savedScrollY = sessionStorage.getItem('toolDetailScrollY');
-    if (savedScrollY) {
-      window.scrollTo(0, Number(savedScrollY));
-      sessionStorage.removeItem('toolDetailScrollY'); // 복원 후 삭제
+    const restoredY = restoreScrollPosition('toolDetailScrollY');
+    if (restoredY !== null) {
+      window.scrollTo(0, restoredY);
     }
   }, []);
 
@@ -84,8 +83,7 @@ const ToolDetail = () => {
                   ref={ToolCommunityRef}
                   boardId={0}
                   onClick={() => {
-                    // 현재 스크롤 위치 저장
-                    sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
+                    saveScrollPosition('toolDetailScrollY');
 
                     navigate('/community', {
                       state: {
