@@ -3,7 +3,7 @@ import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
-import { handleScrollDown, handleScrollUp } from '@utils/handleScroll';
+import { handleScrollDown, handleScrollUp } from '@utils';
 import { useRef, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useParams } from 'react-router-dom';

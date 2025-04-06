@@ -2,7 +2,7 @@ import { useToolData } from '@apis/tool/getToolData';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
-import { restoreScrollPosition, saveScrollPosition } from '@utils/scrollStorage';
+import { restoreScrollPosition, saveScrollPosition } from '@utils';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 

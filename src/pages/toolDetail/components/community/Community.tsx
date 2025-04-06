@@ -1,6 +1,6 @@
 import { usePostListQuery } from '@apis/fetchPostList/queries';
 import { ImgPopupNonebookmark120 } from '@assets/svgs';
-import { saveScrollPosition } from '@utils/scrollStorage';
+import { saveScrollPosition } from '@utils';
 import { forwardRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';

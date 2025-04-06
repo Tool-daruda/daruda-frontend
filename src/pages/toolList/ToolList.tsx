@@ -1,7 +1,6 @@
 import { Tooltip, IcChevron } from '@assets/svgs';
 import Title from '@components/title/Title';
-import { handleScrollUp } from '@utils/handleScroll';
-import { restoreScrollPosition } from '@utils/scrollStorage';
+import { handleScrollUp, restoreScrollPosition } from '@utils';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
