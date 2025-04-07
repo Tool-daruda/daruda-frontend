@@ -1,10 +1,10 @@
-import { usePostListQuery } from '@apis/fetchPostList/queries';
-import { ImgPopupNonebookmark120 } from '@assets/svgs';
 import { forwardRef, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './Community.styled';
+import { useBoardListQuery } from '@apis/board';
+import { ImgPopupNonebookmark120 } from '@assets/svgs';
 
 type ToolCommunityProps = {
   toolId: number;
@@ -13,7 +13,7 @@ type ToolCommunityProps = {
 };
 
 const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, onClick }, ref) => {
-  const { data, fetchNextPage, hasNextPage } = usePostListQuery(toolId, false);
+  const { data, fetchNextPage, hasNextPage } = useBoardListQuery(toolId, false);
   const { ref: inViewRef, inView } = useInView();
   const navigate = useNavigate();
 

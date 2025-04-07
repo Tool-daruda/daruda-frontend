@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useGetFavoritePost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
 import * as S from './Post.styled.ts';
-import { useBoardScrap } from '@apis/board/board.queries.ts';
+import { useBoardScrapMutation } from '@apis/board/board.queries.ts';
 import { ImgPopupNonebookmarkScrappost } from '@assets/svgs/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
 import Toast from '@components/toast/Toast.tsx';
@@ -12,7 +12,7 @@ import { useToastOpen } from '@hooks/index';
 const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: favoritePostData } = useGetFavoritePost(currentPage);
-  const { mutateAsync: scrapMutate } = useBoardScrap();
+  const { mutateAsync: scrapMutate } = useBoardScrapMutation();
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   const handleScrap = async (boardId: number) => {

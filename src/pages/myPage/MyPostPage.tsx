@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useGetMyPost } from './apis/queries.ts';
 import PostCard from './components/postCard/PostCard.tsx';
 import * as S from './Post.styled.ts';
-import { useBoardDelete } from '@apis/board/board.queries.ts';
+import { useBoardDeleteMutation } from '@apis/board/board.queries.ts';
 import { ImgPopupDelete84, ImgPopupNonebookmarkMypost } from '@assets/svgs/index.ts';
 import { AlterModal } from '@components/modal/index.ts';
 import Spacing from '@components/spacing/Spacing.tsx';
@@ -13,7 +13,7 @@ import { useToastOpen } from '@hooks/index';
 const MyPostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: postData } = useGetMyPost(currentPage);
-  const { mutateAsync: delMuatate } = useBoardDelete();
+  const { mutateAsync: delMuatate } = useBoardDeleteMutation();
 
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
   const [isModal, setIsModal] = useState(false);

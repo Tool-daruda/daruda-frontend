@@ -1,10 +1,9 @@
-import { useQueryClient } from '@tanstack/react-query';
 import { forwardRef, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import * as S from './PostCard.styled';
-import { Post } from '@apis/board/board.model';
-import { useBoardDelete, useBoardScrap } from '@apis/board/board.queries';
+import { PostResponse as Post } from '@apis/board/board.model';
+import { useBoardDeleteMutation, useBoardScrapMutation } from '@apis/board/board.queries';
 import {
   IcCommentGray24,
   IcBookmark,
@@ -32,7 +31,6 @@ interface CardDataProp {
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   // prop 으로 전달 받은 board 정보
   const { post, forDetail = false, pickedtool, noTopic } = props;
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
@@ -47,7 +45,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrap(pickedtool, noTopic, boardId);
+  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrapMutation(pickedtool, noTopic, boardId);
 
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
@@ -97,18 +95,10 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     }, 3000);
   };
 
-  const { mutate: DeleteMutate } = useBoardDelete(boardId, toolId, toolId === null);
+  const { mutate: DeleteMutate } = useBoardDeleteMutation(boardId, toolId, toolId === null);
 
   const handleImgModalDel = () => {
-    DeleteMutate(boardId, {
-      onSuccess: () => {
-        queryClient.refetchQueries({
-          queryKey: ['boards'],
-          filters: { size: 10, lastBoardId: -1, toolId },
-        });
-        handleModalClose();
-      },
-    });
+    DeleteMutate(boardId);
   };
 
   return (
