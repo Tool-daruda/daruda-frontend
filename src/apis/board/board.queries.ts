@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { fetchBoardList, delBoard, postBoardScrap, fetchDeatilBoard, patchBoard } from './board.api';
 import { GetPostListResponse, PostResponse, InfiniteQueryResponse, BoardListResponse } from './board.model';
-import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
+import { MYPAGE_QUERY_KEY } from '@apis/user/user.queries';
 
 // 커뮤니티 게시글 조회 hook
 export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>

@@ -1,8 +1,17 @@
-import { logout as handleLogout } from '@apis/index';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { deleteAccount, getBoardList, getFavoriteBoardList, getToolList, getUserInfo, logout, patchInfo } from './api';
+import {
+  postNicknameCheck,
+  deleteAccount,
+  getBoardList,
+  getFavoriteBoardList,
+  getToolList,
+  getUserInfo,
+  logout,
+  patchInfo,
+} from './user.api';
+import { logout as handleLogout } from '@apis/index';
 
 export const MYPAGE_QUERY_KEY = {
   MY_INFO: (userId: number) => ['myInfo', userId], // 개인정보
@@ -12,7 +21,7 @@ export const MYPAGE_QUERY_KEY = {
 };
 
 // 회원 정보 가져오기
-export const useGetInfo = () => {
+export const useInfoQuery = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -27,7 +36,7 @@ export const useGetInfo = () => {
 };
 
 // 회원 정보 수정하기
-export const usePatchInfo = () => {
+export const useInfoMutation = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -52,7 +61,7 @@ export const usePatchInfo = () => {
 };
 
 // 작성글 가져오기
-export const useGetMyPost = (pageNo: number) => {
+export const useMyPostQuery = (pageNo: number) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -67,7 +76,7 @@ export const useGetMyPost = (pageNo: number) => {
 };
 
 // 스크랩한 글 가져오기
-export const useGetFavoritePost = (pageNo: number) => {
+export const useFavoritePostQuery = (pageNo: number) => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -82,7 +91,7 @@ export const useGetFavoritePost = (pageNo: number) => {
 };
 
 // 스크랩한 툴 가져오기
-export const useGetFavoriteTool = () => {
+export const useFavoriteToolQuery = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -97,7 +106,7 @@ export const useGetFavoriteTool = () => {
 };
 
 // 회원 탈퇴
-export const useAccountDelete = () => {
+export const useAccountDeleteMutation = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -124,7 +133,7 @@ export const useAccountDelete = () => {
 };
 
 // 로그아웃
-export const useLogout = () => {
+export const useLogoutMutation = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
   const userId = userData?.accessToken || null;
@@ -143,6 +152,15 @@ export const useLogout = () => {
       }
       queryClient.clear();
       handleLogout();
+    },
+  });
+};
+
+export const useNicknameCheckMutation = () => {
+  return useMutation({
+    mutationFn: async (nickname: string) => {
+      const response = await postNicknameCheck(nickname);
+      return response;
     },
   });
 };

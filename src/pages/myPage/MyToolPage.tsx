@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 
-import { useGetFavoriteTool } from './apis/queries';
 import MyToolCard from './components/toolCard/MyToolCard';
 import { useToolScrapMutation } from '@apis/tool';
+import { useFavoriteToolQuery } from '@apis/user';
 import { ImgPopupNonebookmarkScraptool } from '@assets/svgs';
 import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 
 const MyToolPage = () => {
-  const { data: favoriteToolData } = useGetFavoriteTool();
+  const { data: favoriteToolData } = useFavoriteToolQuery();
   const { mutateAsync: scrapMutate } = useToolScrapMutation();
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 

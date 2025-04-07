@@ -1,4 +1,9 @@
-import { usePostNicknameCheck } from '@apis/users/queries';
+import styled from '@emotion/styled';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
+import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
+import { useNicknameCheckMutation, useInfoQuery, useAccountDeleteMutation, useInfoMutation } from '@apis/user';
 import { ImgPopupWithdrawal84 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import NameInput from '@components/input/nameInput/NameInput';
@@ -6,22 +11,16 @@ import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
-import styled from '@emotion/styled';
 import { useToastOpen } from '@hooks/index';
-import React, { useCallback, useEffect, useState } from 'react';
-
-import { useAccountDelete, useGetInfo, usePatchInfo } from './apis/queries';
-import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
-import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 
 const MyInfoPage = () => {
-  const { data } = useGetInfo();
+  const { data } = useInfoQuery();
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | undefined>();
   const [nickname, setNickname] = useState('');
   const [isOpenWithdrawModal, setIsOpenWithdrawModal] = useState(false);
-  const { mutateAsync: deleteMutate } = useAccountDelete();
-  const { mutateAsync: patchMutate } = usePatchInfo();
-  const { mutateAsync: checkMutate } = usePostNicknameCheck();
+  const { mutateAsync: deleteMutate } = useAccountDeleteMutation();
+  const { mutateAsync: patchMutate } = useInfoMutation();
+  const { mutateAsync: checkMutate } = useNicknameCheckMutation();
   const [nicknameState, setNicknameState] = useState<'default' | 'act' | 'error' | 'success'>('default');
   const [nicknameMessage, setNicknameMessage] = useState<string>('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
