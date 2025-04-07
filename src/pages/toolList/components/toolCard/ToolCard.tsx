@@ -1,15 +1,14 @@
-import { useToolScrap } from '@apis/tool/queries';
+import React, { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
+
+import * as S from './ToolCard.styled';
+import { useToolScrapMutation, useToolListQuery } from '@apis/tool';
 import Chip from '@components/chip/Chip';
 import LoadingLottie from '@components/lottie/Loading';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
-import { useGetToolListQuery } from '@pages/toolList/apis/queries';
-import React, { useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { useNavigate } from 'react-router-dom';
 import { useAnalytics } from 'src/hoc/useAnalytics';
-
-import * as S from './ToolCard.styled';
 
 import { getLicenseBadgeContent } from '../../utils/ToolCard.utils';
 
@@ -23,7 +22,7 @@ interface ToolCardProps {
 const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
   const navigate = useNavigate();
   const { trackEvent } = useAnalytics();
-  const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrap(isFree, selectedCategory, criteria);
+  const { mutate: addBookmark, isError: bookmarkFailed } = useToolScrapMutation(isFree, selectedCategory, criteria);
   const { isToastOpen, handleModalOpen, toastMessage, handleMessageChange } = useToastOpen();
   const { inView, ref } = useInView();
 
@@ -33,7 +32,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     isLoading,
     hasNextPage,
     isFetching,
-  } = useGetToolListQuery(selectedCategory, isFree, criteria);
+  } = useToolListQuery(selectedCategory, isFree, criteria);
 
   useEffect(() => {
     if (inView) {

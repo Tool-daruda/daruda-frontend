@@ -1,15 +1,15 @@
-import { usePlan } from '@pages/toolDetail/apis/api';
 import { forwardRef } from 'react';
 
 import Plan from './plan/Plan';
 import * as S from './PlanBox.styled';
+import { usePlanQuery } from '@apis/tool';
 
 interface PlanPropTypes {
   toolId: number;
 }
 
 const PlanBox = forwardRef<HTMLDivElement, PlanPropTypes>(({ toolId, ...props }, ref) => {
-  const { data } = usePlan(toolId);
+  const { data } = usePlanQuery(toolId);
 
   return (
     <div ref={ref} {...props}>

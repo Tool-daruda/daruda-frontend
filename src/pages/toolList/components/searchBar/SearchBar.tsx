@@ -1,11 +1,11 @@
-import { BlurLeft, RightBlur } from '@assets/svgs';
-import Chip from '@components/chip/Chip';
-import { useGetCategoriesQuery } from '@pages/toolList/apis/queries';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './SearchBar.styled';
+import { useGetCategoriesQuery } from '@apis/tool';
+import { BlurLeft, RightBlur } from '@assets/svgs';
+import Chip from '@components/chip/Chip';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 export interface SearchBarProps {
   isSticky: boolean;

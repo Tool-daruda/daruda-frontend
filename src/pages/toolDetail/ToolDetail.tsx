@@ -1,7 +1,3 @@
-import { useToolData } from '@apis/tool/getToolData';
-import Spacing from '@components/spacing/Spacing';
-import Title from '@components/title/Title';
-import NotFound from '@pages/error/NotFound';
 import { useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -14,6 +10,10 @@ import Sidewing from './components/sidewing/Sidewing';
 import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
 import * as S from './ToolDetail.styled';
+import { useToolDetailQuery } from '@apis/tool';
+import Spacing from '@components/spacing/Spacing';
+import Title from '@components/title/Title';
+import NotFound from '@pages/error/NotFound';
 
 const ToolDetail = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -26,7 +26,7 @@ const ToolDetail = () => {
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
 
   const numericToolId = Number(toolId);
-  const { data, isError } = useToolData(numericToolId);
+  const { data, isError } = useToolDetailQuery(numericToolId);
 
   const sectionRefs = {
     1: ToolIntroRef,

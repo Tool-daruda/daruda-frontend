@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import {
   ToolListRequest,
   ToolListResponse,
-  DetailToolRespoense,
+  DetailToolResponse,
   CoreFeatureResponse,
   ToolPlanResponse,
   AlternativeToolResponse,
@@ -48,9 +48,9 @@ export const getToolsByCategory = async (data: ToolListRequest): Promise<ToolLis
 };
 
 // 툴 세부정보 조회 get
-export const getDetail = async (toolId: number): Promise<DetailToolRespoense | null> => {
+export const getDetail = async (toolId: number): Promise<DetailToolResponse | null> => {
   try {
-    const response: AxiosResponse<DetailToolRespoense> = await get(`tools/${toolId}`);
+    const response: AxiosResponse<DetailToolResponse> = await get(`tool/${toolId}`);
     return response.data;
   } catch (error) {
     console.error('툴 상세 정보 조회 오류:', error);

@@ -91,7 +91,7 @@ const reissueToken = async (refreshToken: string) => {
   } catch (error) {
     console.error('토큰 갱신 실패:', error);
     localStorage.removeItem('user');
-    window.location.href = '/login';
+    // window.location.href = '/login';
     throw error;
   }
 };
@@ -109,7 +109,7 @@ instance.interceptors.response.use(
       const user = localStorage.getItem('user');
       if (!user) {
         console.warn('유저 정보 없음');
-        window.location.href = '/login';
+        // window.location.href = '/login';
         return Promise.reject(error);
       }
 
@@ -118,7 +118,7 @@ instance.interceptors.response.use(
         if (!refreshToken) {
           console.warn('리프레시 토큰 없음');
           localStorage.removeItem('user');
-          window.location.href = '/login';
+          // window.location.href = '/login';
           return Promise.reject(error);
         }
 

@@ -1,7 +1,7 @@
-import { useCoreFeature } from '@pages/toolDetail/apis/api';
 import { forwardRef } from 'react';
 
 import * as S from './CoreFeature.styled';
+import { useCoreFeatureQuery } from '@apis/tool';
 
 import Toggle from '../toggle/Toggle';
 
@@ -10,7 +10,7 @@ interface CoreFeaturePropTypes {
 }
 
 const CoreFeature = forwardRef<HTMLDivElement, CoreFeaturePropTypes>(({ toolId, ...props }, ref) => {
-  const { data } = useCoreFeature(toolId);
+  const { data } = useCoreFeatureQuery(toolId);
 
   // 데이터가 없거나 비어있는 경우 null 반환
   if (!data || !data.toolCoreResList || data.toolCoreResList.length === 0) {

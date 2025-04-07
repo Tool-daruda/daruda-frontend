@@ -31,7 +31,7 @@ type BaseTool = {
 };
 
 // 상세 페이지용 Tool 타입
-export interface DetailToolRespoense extends BaseTool {
+export interface DetailToolResponse extends BaseTool {
   toolMainName: string;
   toolSubName: string;
   category: string;
@@ -77,7 +77,7 @@ export interface AlternativeToolResponse {
   relatedToolResList: AlternativeTool[];
 }
 
-interface AlternativeTool {
+export interface AlternativeTool {
   toolId: number;
   toolName: string;
   toolLogo: string;

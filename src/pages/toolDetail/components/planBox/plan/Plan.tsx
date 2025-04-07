@@ -1,8 +1,8 @@
-import { ImgDetailFreetool98 } from '@assets/svgs';
-import { ToolPlan } from '@pages/toolDetail/types';
 import { forwardRef, useState } from 'react';
 
 import * as S from './Plan.styled';
+import { ToolPlanResponse as ToolPlan } from '@apis/tool';
+import { ImgDetailFreetool98 } from '@assets/svgs';
 
 import Toggle from '../../toggle/Toggle';
 

@@ -1,9 +1,9 @@
-import { useRelatedTool } from '@pages/toolDetail/apis/api';
 import React, { useEffect, useState } from 'react';
-import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './Sidewing.styled';
 import SimilarToolCardList from './SimilarToolCardList';
+import { useAlternativeToolQuery } from '@apis/tool';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 interface SidewingProps {
   sectionRefs: {
@@ -14,7 +14,7 @@ interface SidewingProps {
 
 const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
   const [activeBtnId, setActiveBtnId] = useState<number>(1); // 기본값 '툴 소개'
-  const { data } = useRelatedTool(toolId);
+  const { data } = useAlternativeToolQuery(toolId);
   const { trackEvent } = useAnalytics();
 
   // 스크롤 이벤트 핸들러

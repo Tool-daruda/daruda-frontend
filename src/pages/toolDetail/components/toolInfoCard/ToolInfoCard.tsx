@@ -1,16 +1,15 @@
-import { useToolScrap } from '@apis/tool/queries';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+
+import * as S from './ToolInfoCard.styled';
+import { useToolScrapMutation, DetailToolResponse } from '@apis/tool';
 import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { useToastOpen } from '@hooks/index';
-import { ToolType } from '@pages/toolDetail/types';
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
-import * as S from './ToolInfoCard.styled';
-
 export interface ToolInfoCardPropTypes {
-  toolData: ToolType;
+  toolData: DetailToolResponse;
 }
 
 const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
@@ -35,7 +34,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
 
   const { handleModalOpen, isToastOpen } = useToastOpen(); // useToastOpen 훅 사용
 
-  const { mutateAsync } = useToolScrap();
+  const { mutateAsync } = useToolScrapMutation();
 
   const darudaToolLink = useLocation();
   const baseURL = import.meta.env.VITE_CLIENT_URL;

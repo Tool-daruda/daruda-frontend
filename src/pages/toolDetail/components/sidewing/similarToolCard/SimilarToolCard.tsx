@@ -1,17 +1,10 @@
-import { Free, Half, Paid } from '@assets/svgs';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './SimilarToolCard.styled';
+import { AlternativeTool } from '@apis/tool';
+import { Free, Half, Paid } from '@assets/svgs';
 
-interface SimilarToolCardPropTypes {
-  toolId: number;
-  toolLogo: string;
-  toolNameMain: string;
-  license: '무료' | '부분 무료' | '유료';
-  keyWordList: string[];
-}
-
-const SimilarToolCard = ({ toolId, toolLogo, toolNameMain, license, keyWordList }: SimilarToolCardPropTypes) => {
+const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: AlternativeTool) => {
   const navigate = useNavigate();
 
   const handleToolCardClick = () => {
@@ -35,9 +28,9 @@ const SimilarToolCard = ({ toolId, toolLogo, toolNameMain, license, keyWordList 
   return (
     <S.CardWrapper onClick={handleToolCardClick}>
       <S.TopContainer>
-        <S.CardLogo src={toolLogo} alt={`${toolNameMain} 로고`} />
+        <S.CardLogo src={toolLogo} alt={`${toolName} 로고`} />
         <S.InfoBox>
-          <S.CardTitle>{toolNameMain}</S.CardTitle>
+          <S.CardTitle>{toolName}</S.CardTitle>
           <S.PlanBox>
             {renderLicenseIcon()}
             <span>{license}</span>
@@ -45,7 +38,7 @@ const SimilarToolCard = ({ toolId, toolLogo, toolNameMain, license, keyWordList 
         </S.InfoBox>
       </S.TopContainer>
       <S.KeyWordCardBox>
-        {keyWordList.map((keyword, index) => (
+        {keywords.map((keyword, index) => (
           <S.KeyWordCard key={`keyword-${index}`}>{keyword}</S.KeyWordCard>
         ))}
       </S.KeyWordCardBox>
