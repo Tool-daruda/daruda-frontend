@@ -1,5 +1,6 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios';
 
+import { postReissue } from './auth';
 import { ErrorResponse } from './errorResponse';
 
 // API 응답 기본 타입 정의
@@ -73,29 +74,6 @@ instance.interceptors.request.use((config) => {
   return config;
 });
 
-// 토큰 갱신 API
-const reissueToken = async (refreshToken: string) => {
-  try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/auth/reissue`,
-      { refreshToken: refreshToken },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-
-    console.log('토큰 갱신 성공:', response.data);
-    return response.data;
-  } catch (error) {
-    console.error('토큰 갱신 실패:', error);
-    localStorage.removeItem('user');
-    // window.location.href = '/login';
-    throw error;
-  }
-};
-
 // 응답 인터셉터: 401 오류 발생 시 토큰 갱신 로직 처리
 instance.interceptors.response.use(
   (response) => response,
@@ -123,7 +101,7 @@ instance.interceptors.response.use(
         }
 
         // 리프레시 토큰으로 새로운 액세스 토큰 요청
-        const newTokens = await reissueToken(refreshToken);
+        const newTokens = await postReissue(refreshToken);
         setAccessToken(newTokens.accessToken);
 
         // 기존 요청을 새로운 액세스 토큰으로 재시도

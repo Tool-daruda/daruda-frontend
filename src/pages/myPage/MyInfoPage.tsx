@@ -3,7 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
-import { useNicknameCheckMutation, useInfoQuery, useAccountDeleteMutation, useInfoMutation } from '@apis/user';
+import { useAccountDeleteMutation } from '@apis/auth';
+import { useNicknameCheckMutation, useInfoQuery, useInfoMutation } from '@apis/user';
 import { ImgPopupWithdrawal84 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import NameInput from '@components/input/nameInput/NameInput';

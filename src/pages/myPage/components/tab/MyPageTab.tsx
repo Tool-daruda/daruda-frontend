@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Menu from './Menu';
 import * as S from './MyPageTab.styled';
-import { useLogoutMutation } from '@apis/user';
+import { useLogoutMutation } from '@apis/auth';
 import { Frame2087327349, ImgPopupLogoutcheck84 } from '@assets/svgs';
 import { AlterModal } from '@components/modal';
 import Spacing from '@components/spacing/Spacing';

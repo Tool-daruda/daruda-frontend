@@ -10,8 +10,7 @@ import {
   getToolsByCategory,
 } from './tool.api';
 import { InfiniteQueryResponse, ToolListResponse } from './tool.model';
-import { MYPAGE_QUERY_KEY } from '@pages/myPage/apis/queries';
-import { ToolList } from '@pages/myPage/types/tool';
+import { MYPAGE_QUERY_KEY, ToolList } from '@apis/user';
 
 export const DETAIL_QUERY_KEY = {
   CORE_FEATURES: (coreID: number) => ['corefeature', coreID],

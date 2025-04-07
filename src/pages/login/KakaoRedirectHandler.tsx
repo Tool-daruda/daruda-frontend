@@ -1,8 +1,8 @@
-import { ImgPopupmodal284, ImgModalcheck } from '@assets/svgs';
-import { AlterModal } from '@components/modal';
 import { useEffect, useState } from 'react';
 
-import { sendAuthorization } from './apis/postKakaoToken';
+import { postAuthorization } from '@apis/auth';
+import { ImgPopupmodal284, ImgModalcheck } from '@assets/svgs';
+import { AlterModal } from '@components/modal';
 
 const KakaoRedirectHandler = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,9 +25,8 @@ const KakaoRedirectHandler = () => {
       }
 
       try {
-        const response = await sendAuthorization(code);
+        const response = await postAuthorization(code);
 
-        console.log('카카오 인증 후, 유저 정보 확인용 console', response);
         if ('nickname' in response) {
           // 기존 유저
           localStorage.setItem(

@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 
 import { InfoResponse, Info, BoardResponse, ToolList } from './user.model';
-import { del, get, patch, post } from '@apis/index';
+import { get, patch, post } from '@apis/index';
 
 // 회원정보 조회
 export const getUserInfo = async (): Promise<Info | null> => {
@@ -59,24 +59,6 @@ export const getToolList = async (): Promise<ToolList | null> => {
   } catch (error) {
     console.error('Error:', error);
     return null;
-  }
-};
-
-// 회원 탈퇴
-export const deleteAccount = async () => {
-  try {
-    await del('auth/withdraw');
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-
-// 로그아웃
-export const logout = async () => {
-  try {
-    await post('auth/logout');
-  } catch (error) {
-    console.error('Error:', error);
   }
 };
 

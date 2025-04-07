@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import signup from './apis/api';
 import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 import * as S from './SignUp.styled';
+import { postSignup } from '@apis/auth';
 import { useNicknameCheckMutation } from '@apis/user';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
@@ -111,7 +111,7 @@ const SignUp = () => {
 
     setIsSubmitting(true);
     try {
-      await signup({
+      await postSignup({
         nickname,
         positions: selectedAffiliation,
         email: user.email,
