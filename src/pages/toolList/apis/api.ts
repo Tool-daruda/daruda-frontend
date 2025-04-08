@@ -1,7 +1,7 @@
 import type { AxiosResponse } from 'axios';
 
 import { get } from '@apis/index';
-import { CategoryResponse } from 'src/types/toolListBanner/ToolListBannerTypes';
+import { CategoryResponse } from 'src/types/ToolListBannerTypes';
 
 import { GetToolListResponse, ToolListRequest } from '../types/ToolListType';
 

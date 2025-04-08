@@ -9,7 +9,7 @@ import {
   AlternativeToolResponse,
 } from './tool.model';
 import { post, get } from '@apis/index';
-import { CategoryResponse } from 'src/types/toolListBanner/ToolListBannerTypes';
+import { CategoryResponse } from 'src/types/ToolListBannerTypes';
 
 // 툴 찜하기 post
 export const postToolScrap = async (toolId: number) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
-import { ToolSelectState, ToolProp } from 'src/types/toolListBanner/ToolListBannerTypes';
+import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
 
 const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originTool' | 'onToolSelect'>) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
@@ -72,12 +72,26 @@ const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originT
     onToolSelect?.(null, isChecked);
   };
 
+  const clearSelectedTool = (
+    setToolState: React.Dispatch<React.SetStateAction<ToolSelectState>>,
+    onToolSelect: (tool: number | null, noTopic: boolean) => void,
+  ) => {
+    setToolState((prev) => ({
+      ...prev,
+      selectedTool: null,
+      noTopic: false,
+      selectedCategory: null,
+    }));
+    onToolSelect(null, false);
+  };
+
   return {
     toolState,
     categoryData,
     handleCategoryClick,
     handleFreeCheck,
     setToolState,
+    clearSelectedTool,
   };
 };
 

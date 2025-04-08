@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 
 import { Img } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
-import { ToolSelectState, Category } from 'src/types/toolListBanner/ToolListBannerTypes';
+import { ToolSelectState, Category } from 'src/types/ToolListBannerTypes';
 
 import * as S from '../ToolListBanner.styled';
 

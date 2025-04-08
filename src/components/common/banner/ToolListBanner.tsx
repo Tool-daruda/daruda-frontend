@@ -5,14 +5,14 @@ import Spinner from 'src/components/skeleton/ToolBannerSkeleton';
 
 import Chip from '../chip/Chip';
 
-import { ToolProp } from '../../../types/toolListBanner/ToolListBannerTypes';
-import { clearSelectedTool } from '../../../utils/toolListBanner/ToolListBannerUtils';
+import { ToolProp } from '../../../types/ToolListBannerTypes';
 
 const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
-  const { toolState, categoryData, handleCategoryClick, handleFreeCheck, setToolState } = useToolBanner({
-    originTool,
-    onToolSelect,
-  });
+  const { toolState, categoryData, handleCategoryClick, handleFreeCheck, setToolState, clearSelectedTool } =
+    useToolBanner({
+      originTool,
+      onToolSelect,
+    });
 
   return (
     <S.Container $forCommunity={forCommunity}>
