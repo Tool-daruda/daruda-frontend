@@ -13,15 +13,17 @@ const useToolCategorySelect = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.state) {
-      setPickedtool(location.state.toolId);
+    const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
+    const toolToUse = storedTool || location.state;
+    if (toolToUse) {
+      setPickedtool(toolToUse.toolId);
       setInitialTool({
-        toolId: location.state.toolId,
-        toolName: location.state.toolMainName,
-        toolLogo: location.state.toolLogo,
+        toolId: toolToUse.toolId,
+        toolName: toolToUse.toolMainName,
+        toolLogo: toolToUse.toolLogo,
       });
     }
-  }, [location.state]);
+  }, []);
 
   const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setPickedtool(toolId);

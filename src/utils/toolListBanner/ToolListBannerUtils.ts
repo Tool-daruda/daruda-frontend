@@ -9,7 +9,7 @@ export const clearSelectedTool = (
   setToolState((prev) => ({
     ...prev,
     selectedTool: null,
-    isFree: false,
+    noTopic: false,
     selectedCategory: null,
   }));
   onToolSelect(null, false);

@@ -9,7 +9,7 @@ export type OriginToolType = {
 export type ToolSelectState = {
   selectedCategory: string | null;
   selectedTool: number | null;
-  isFree: boolean;
+  noTopic: boolean;
   tools: { toolId: number; toolLogo: string; toolName: string }[];
 };
 

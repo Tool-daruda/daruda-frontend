@@ -84,11 +84,15 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
 };
 
 // 툴 리스트 조회
-export const useToolListQuery = (
-  category: string = 'ALL',
-  isFree: boolean = false,
-  criteria: 'popular' | 'createdAt' = 'popular',
-) => {
+export const useToolListQuery = ({
+  category = 'ALL',
+  isFree = false,
+  criteria = 'popular',
+}: {
+  category?: string;
+  isFree?: boolean;
+  criteria?: 'popular' | 'createdAt';
+}) => {
   return useInfiniteQuery<ToolListResponse>({
     queryKey: ['tools', { isFree, category, criteria }],
     queryFn: ({ pageParam }) => getToolsByCategory({ lastToolId: pageParam, criteria, isFree, category, size: 18 }),

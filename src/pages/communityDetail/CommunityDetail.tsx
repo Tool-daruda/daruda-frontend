@@ -32,6 +32,10 @@ const CommunityDetail = () => {
 
   useEffect(() => {
     handleScrollUp();
+    sessionStorage.setItem(
+      'originTool',
+      JSON.stringify({ toolId: data?.toolId, toolName: data?.toolName, toolLogo: data?.toolLogo }),
+    );
   }, []);
 
   useEffect(() => {
