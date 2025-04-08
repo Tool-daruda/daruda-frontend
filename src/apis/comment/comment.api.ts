@@ -29,9 +29,10 @@ export const fetchComment = async ({
   postId: string | undefined;
 }): Promise<CommentResponse> => {
   try {
-    const url = `/comment/` + `board-id=${postId}` + `&size=4` + `${pageParam ? `&lastCommentId=${pageParam}` : ''}`;
+    const url = `/comment?` + `board-id=${postId}` + `&size=4` + `${pageParam ? `&lastCommentId=${pageParam}` : ''}`;
     const res: AxiosResponse<CommentResponse> = await get(url);
 
+    console.log(res);
     return res.data;
   } catch (err) {
     console.error(err);

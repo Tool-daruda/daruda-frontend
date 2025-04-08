@@ -17,6 +17,7 @@ const useToolCategorySelect = () => {
     const toolToUse = storedTool || location.state;
     if (toolToUse) {
       setPickedtool(toolToUse.toolId);
+      setIsNoTopic(toolToUse.toolId == null);
       setInitialTool({
         toolId: toolToUse.toolId,
         toolName: toolToUse.toolMainName,
