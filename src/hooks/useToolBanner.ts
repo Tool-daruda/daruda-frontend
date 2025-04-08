@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
 
-const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originTool' | 'onToolSelect'>) => {
+const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onToolSelect'>) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
-    tools: [],
+    tools: [], // 현재 카테고리에서 보여지는 툴배열
     noTopic: false,
   });
 
@@ -18,26 +18,22 @@ const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originT
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
-    const toolToUse = storedTool || originTool;
+    const toolToUse = JSON.parse(sessionStorage.getItem('originTool') || 'null');
+    if (!toolToUse) return;
 
-    if (toolToUse) {
-      setToolState({
-        noTopic: toolToUse.toolId === null,
-        selectedTool: toolToUse.toolId ?? null,
-        selectedCategory: toolToUse.toolName ?? null,
-        tools: originTool
-          ? [
-              {
-                toolId: toolToUse.toolId as number,
-                toolName: toolToUse.toolName,
-                toolLogo: toolToUse.toolLogo,
-              },
-            ]
-          : [],
-      });
-    }
-  }, [originTool]);
+    const toolInfo = {
+      toolId: toolToUse.toolId as number,
+      toolName: toolToUse.toolName,
+      toolLogo: toolToUse.toolLogo,
+    };
+
+    setToolState({
+      noTopic: !toolToUse.toolId,
+      selectedTool: toolInfo,
+      selectedCategory: toolToUse.toolName ?? null,
+      tools: [toolInfo],
+    });
+  }, []);
 
   // toolListData 변경 시 toolState.tools 업데이트
   useEffect(() => {
@@ -46,6 +42,7 @@ const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originT
       setToolState((prev) => ({
         ...prev,
         tools: newTools,
+        prevtools: [...prev.tools],
       }));
     }
   }, [toolListData]);
@@ -55,19 +52,20 @@ const useToolListBanner = ({ originTool, onToolSelect }: Pick<ToolProp, 'originT
     setToolState((prev) => ({
       ...prev,
       selectedCategory: prev.selectedCategory === categoryName ? null : categoryName,
+      prevtools: [...prev.tools],
     }));
   };
 
   // 자유 카테고리 체크박스 클릭 시
   const handleFreeCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-
-    setToolState({
+    setToolState((prev) => ({
+      ...prev,
       selectedCategory: isChecked ? '자유' : null,
       selectedTool: null,
       tools: toolState.tools,
       noTopic: isChecked,
-    });
+    }));
 
     onToolSelect?.(null, isChecked);
   };

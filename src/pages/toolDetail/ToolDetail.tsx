@@ -86,14 +86,11 @@ const ToolDetail = () => {
                   onClick={() => {
                     // 현재 스크롤 위치 저장
                     sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
-
-                    navigate('/community', {
-                      state: {
-                        toolId: data.toolId,
-                        toolLogo: data.toolLogo,
-                        toolMainName: data.toolMainName,
-                      },
-                    });
+                    sessionStorage.setItem(
+                      'originTool',
+                      JSON.stringify({ toolId: data.toolId, toolLogo: data.toolLogo, toolName: data.toolMainName }),
+                    );
+                    navigate('/community');
                   }}
                 />
               </S.ToolCommunityBox>

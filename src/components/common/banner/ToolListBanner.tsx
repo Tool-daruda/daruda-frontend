@@ -7,10 +7,9 @@ import Chip from '../chip/Chip';
 
 import { ToolProp } from '../../../types/ToolListBannerTypes';
 
-const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
+const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolProp) => {
   const { toolState, categoryData, handleCategoryClick, handleFreeCheck, setToolState, clearSelectedTool } =
     useToolBanner({
-      originTool,
       onToolSelect,
     });
 
@@ -22,7 +21,7 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
           {toolState.selectedTool || toolState.noTopic ? (
             <Chip size="medium" stroke>
               <Chip.RectContainer>
-                <SelectedToolChip originTool={originTool} toolState={toolState} />
+                <SelectedToolChip toolState={toolState} />
                 <S.CloseBtn
                   as="button"
                   onClick={() => {
@@ -57,12 +56,16 @@ const ToolListBanner = ({ originTool, forCommunity = false, onToolSelect = () =>
                         onClick={() => {
                           setToolState((prev) => ({
                             ...prev,
-                            selectedTool: tool.toolId,
+                            selectedTool: {
+                              toolId: tool.toolId,
+                              toolName: tool.toolName,
+                              toolLogo: tool.toolLogo,
+                            },
                             noTopic: false,
                           }));
                           onToolSelect(tool.toolId, false);
                         }}
-                        isSelected={toolState.selectedTool === tool.toolId}
+                        isSelected={toolState.selectedTool?.toolId === tool.toolId}
                       >
                         <img src={tool.toolLogo} alt={tool.toolName} width={20} height={20} />
                         {tool.toolName}

@@ -19,7 +19,7 @@ import { handleScrollUp } from '@utils';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
-  const { handleToolSelect, pickedtool, setPickedtool, noTopic, initialTool } = useToolCategorySelect();
+  const { handleToolSelect, pickedtool, noTopic, initialTool } = useToolCategorySelect();
 
   const navigate = useNavigate();
   const { data, fetchNextPage, hasNextPage, isLoading } = useBoardListQuery(pickedtool, noTopic);
@@ -35,17 +35,6 @@ const Community = () => {
       fetchNextPage();
     }
   }, [inView]);
-
-  // 스크롤 관련 로직
-  useEffect(() => {
-    const storedToolType = sessionStorage.getItem('toolType');
-
-    if (storedToolType) {
-      const ToolType = storedToolType === 'null' ? null : Number(storedToolType);
-      setPickedtool(ToolType);
-      sessionStorage.removeItem('toolType');
-    }
-  }, []);
 
   return (
     <>

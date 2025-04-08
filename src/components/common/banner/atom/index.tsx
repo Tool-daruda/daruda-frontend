@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 
 import { Img } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
@@ -6,13 +6,7 @@ import { ToolSelectState, Category } from 'src/types/ToolListBannerTypes';
 
 import * as S from '../ToolListBanner.styled';
 
-const SelectedToolChipComponent = ({
-  toolState,
-  originTool,
-}: {
-  toolState: ToolSelectState;
-  originTool?: { toolId: number | null; toolLogo: string; toolName: string };
-}) => {
+export const SelectedToolChip = ({ toolState }: { toolState: ToolSelectState }) => {
   if (toolState.noTopic) {
     return (
       <>
@@ -22,13 +16,9 @@ const SelectedToolChipComponent = ({
     );
   }
 
-  const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
-  const toolToUse = storedTool || originTool;
+  const toolToUse = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
-  const selectedToolData =
-    toolToUse.toolId === toolState.selectedTool
-      ? toolToUse
-      : toolState.tools.find((tool) => tool.toolId === toolState.selectedTool);
+  const selectedToolData = toolToUse.toolId === toolState.selectedTool ? toolToUse : toolState.selectedTool;
 
   if (!selectedToolData) return null;
 
@@ -85,6 +75,3 @@ export const CategoryHeader = ({
     </S.CategoryHeader>
   );
 };
-
-export const SelectedToolChip = memo(SelectedToolChipComponent);
-SelectedToolChip.displayName = 'SelectedToolChip';
