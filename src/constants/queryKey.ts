@@ -20,12 +20,7 @@ export const TOOL_QUERY_KEY = {
 };
 
 export const BOARD_QUERY_KEY = {
-  LIST: ({ isFree, category, criteria }: { isFree?: boolean; category?: string; criteria?: string }) => [
-    'tools',
-    isFree,
-    category,
-    criteria,
-  ],
+  LIST: ({ toolId, noTopic }: { toolId?: number | null; noTopic?: boolean }) => ['boards', toolId, noTopic],
   DETAIL: (boardId?: string) => ['board', boardId],
 };
 
