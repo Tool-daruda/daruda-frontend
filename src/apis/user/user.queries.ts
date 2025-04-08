@@ -1,13 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { postNicknameCheck, getBoardList, getFavoriteBoardList, getToolList, getUserInfo, patchInfo } from './user.api';
-
-export const MYPAGE_QUERY_KEY = {
-  MY_INFO: (userId: number) => ['myInfo', userId], // 개인정보
-  MY_POST_LIST: (userId: number, pageNo?: number) => ['myPostList', userId, pageNo], // 작성 글
-  MY_FAVORITE_POST_LIST: (userId: number, pageNo?: number) => ['myFavoritePostList', userId, pageNo], // 관심 글
-  MY_FAVORITE_TOOL_LIST: (userId: number) => ['myFavoriteToolList', userId], // 관심 툴
-};
+import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
 
 // 회원 정보 가져오기
 export const useInfoQuery = () => {

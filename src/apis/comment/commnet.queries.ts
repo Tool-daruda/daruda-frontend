@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 
-import { delComment, postComment, fetchComment } from './comment.api';
+import { delComment, postComment, getComment } from './comment.api';
 import { InfiniteQueryResponse, Comment, ToastType, CommentResponse } from './comment.model';
 import { PostResponse } from '@apis/board/board.model';
+import { BOARD_QUERY_KEY, COMMENT_QUERY_KEY } from '@constants/queryKey';
 
 // 커뮤니티 댓글 작성 hook
 export const useCommentPostMutation = (
@@ -15,10 +16,10 @@ export const useCommentPostMutation = (
   return useMutation({
     mutationFn: (formData: FormData) => postComment(boardId, formData),
     onMutate: async (formData: FormData) => {
-      await queryClient.cancelQueries({ queryKey: ['comment', boardId] });
+      await queryClient.cancelQueries({ queryKey: COMMENT_QUERY_KEY.LIST(boardId) });
 
-      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(['comment', boardId]);
-      const prevDetail = queryClient.getQueryData<PostResponse>(['detailPost', boardId]);
+      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(COMMENT_QUERY_KEY.LIST(boardId));
+      const prevDetail = queryClient.getQueryData<PostResponse>(BOARD_QUERY_KEY.DETAIL(boardId));
 
       if (prevComments) {
         const optimisticComment: Comment = {
@@ -29,7 +30,7 @@ export const useCommentPostMutation = (
           updatedAt: new Date().toISOString(),
         };
 
-        queryClient.setQueryData<InfiniteQueryResponse>(['comment', boardId], {
+        queryClient.setQueryData<InfiniteQueryResponse>(COMMENT_QUERY_KEY.LIST(boardId), {
           ...prevComments,
           pages: prevComments.pages.map((page, index) =>
             index === prevComments.pages.length - 1
@@ -43,7 +44,7 @@ export const useCommentPostMutation = (
       }
 
       const commentCount = prevDetail?.commentCount === undefined ? undefined : prevDetail.commentCount + 1;
-      queryClient.setQueryData(['detailPost', boardId], {
+      queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(boardId), {
         ...prevDetail,
         commentCount: commentCount,
       });
@@ -51,17 +52,17 @@ export const useCommentPostMutation = (
     },
     onError: (error, _, context) => {
       if (context?.prevComments) {
-        queryClient.setQueryData(['comment', boardId], context.prevComments);
+        queryClient.setQueryData(COMMENT_QUERY_KEY.LIST(boardId), context.prevComments);
       }
       if (context?.prevDetail) {
-        queryClient.setQueryData(['detailPost', boardId], context.prevDetail);
+        queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(boardId), context.prevDetail);
       }
       setToastType('postErr');
       handleModalOpen();
       console.error(error);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment', boardId] });
+      queryClient.invalidateQueries({ queryKey: COMMENT_QUERY_KEY.LIST(boardId) });
       setToastType('postComment');
       handleModalOpen();
     },
@@ -71,8 +72,8 @@ export const useCommentPostMutation = (
 // 커뮤니티 댓글 조회 hook
 export const useCommentListQuery = (id: string | undefined) =>
   useInfiniteQuery<CommentResponse>({
-    queryKey: ['comment', id],
-    queryFn: ({ pageParam = -1 }) => fetchComment({ pageParam, postId: id }),
+    queryKey: COMMENT_QUERY_KEY.LIST(id),
+    queryFn: ({ pageParam = -1 }) => getComment({ pageParam, postId: id }),
     getNextPageParam: (lastPage) => {
       const nextCursor = lastPage?.pageInfo.nextCursor;
       return typeof nextCursor === 'number' && nextCursor !== -1 ? nextCursor - 1 : null;
@@ -86,11 +87,11 @@ export const useCommentDeleteMutation = (commentId: number, postId: string | und
   return useMutation({
     mutationFn: () => delComment(commentId),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: ['comment', postId] });
-      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(['comment', postId]); // 댓글 리스트 가져오기
-      const prevDetail = queryClient.getQueryData<PostResponse>(['detailPost', postId]); // 게시글 상세 가져오기
+      await queryClient.cancelQueries({ queryKey: COMMENT_QUERY_KEY.LIST(postId) });
+      const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(COMMENT_QUERY_KEY.LIST(postId)); // 댓글 리스트 가져오기
+      const prevDetail = queryClient.getQueryData<PostResponse>(BOARD_QUERY_KEY.DETAIL(postId)); // 게시글 상세 가져오기
       if (prevComments) {
-        queryClient.setQueryData<InfiniteQueryResponse>(['comment', postId], {
+        queryClient.setQueryData<InfiniteQueryResponse>(COMMENT_QUERY_KEY.LIST(postId), {
           ...prevComments,
           pages: prevComments.pages.map((page) => ({
             ...page,
@@ -99,7 +100,7 @@ export const useCommentDeleteMutation = (commentId: number, postId: string | und
         });
       }
       const commentCount = prevDetail?.commentCount ? prevDetail.commentCount - 1 : 0;
-      queryClient.setQueryData(['detailPost', postId], {
+      queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(postId), {
         ...prevDetail,
         commentCount: commentCount,
       });
@@ -107,12 +108,12 @@ export const useCommentDeleteMutation = (commentId: number, postId: string | und
     },
     onError: (error, _, context) => {
       if (context?.prevComments) {
-        queryClient.setQueryData(['comment', postId], context.prevComments);
+        queryClient.setQueryData(COMMENT_QUERY_KEY.LIST(postId), context.prevComments);
       }
       console.error(error);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['comment', postId] });
+      queryClient.invalidateQueries({ queryKey: COMMENT_QUERY_KEY.LIST(postId) });
     },
   });
 };

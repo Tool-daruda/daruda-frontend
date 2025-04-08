@@ -4,7 +4,7 @@ import { GetPostListResponse, PostResponse } from '@apis/board/board.model';
 import { del, post, get, patch } from '@apis/index';
 
 // 커뮤니티 게시글 목록 페이지 get
-export const fetchBoardList = async ({
+export const getBoardList = async ({
   pageParam = -1,
   queryKey,
 }: {
@@ -72,7 +72,7 @@ export const postBoardScrap = async (boardId: number) => {
 };
 
 // 커뮤니티 게시글 상세 조회 get
-export const fetchDeatilBoard = async (postId: string | undefined): Promise<PostResponse | null> => {
+export const getDeatilBoard = async (postId: string | undefined): Promise<PostResponse | null> => {
   try {
     const res: AxiosResponse<PostResponse> = await get(`/board/${postId}`);
     return res.data;

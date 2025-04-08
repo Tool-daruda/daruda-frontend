@@ -21,7 +21,7 @@ export const postComment = async (boardId: string | undefined, postConent: FormD
 };
 
 // 커뮤니티 댓글 조회 get
-export const fetchComment = async ({
+export const getComment = async ({
   pageParam,
   postId,
 }: {

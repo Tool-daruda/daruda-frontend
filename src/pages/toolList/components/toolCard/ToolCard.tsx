@@ -32,7 +32,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria }: ToolCardProps) => {
     isLoading,
     hasNextPage,
     isFetching,
-  } = useToolListQuery(selectedCategory, isFree, criteria);
+  } = useToolListQuery({ category: selectedCategory, isFree, criteria });
 
   useEffect(() => {
     if (inView) {

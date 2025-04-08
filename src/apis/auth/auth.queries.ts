@@ -3,16 +3,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { getKakaoLogin, postAuthorization, deleteAccount, postLogout } from './auth.api';
 import { logout as handleLogout } from '@apis/index';
-import { MYPAGE_QUERY_KEY } from '@apis/user';
-
-export const LOGIN_QUERY_KEYS = {
-  KAKAO_LOGIN: ['kakaoLogin'],
-};
+import { MYPAGE_QUERY_KEY, LOGIN_QUERY_KEY } from '@constants/queryKey';
 
 // 카카오 로그인 URL 요청
 export const useKakaoLoginUrl = () => {
   return useQuery({
-    queryKey: LOGIN_QUERY_KEYS.KAKAO_LOGIN,
+    queryKey: LOGIN_QUERY_KEY.KAKAO_LOGIN(),
     queryFn: getKakaoLogin,
     staleTime: 0,
     gcTime: 0,
