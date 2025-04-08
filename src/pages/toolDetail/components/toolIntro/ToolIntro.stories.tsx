@@ -1,7 +1,7 @@
-import { DETAIL_RESPONSE } from '@pages/toolDetail/mocks/toolData';
 import type { Meta, StoryFn } from '@storybook/react';
 
 import ToolIntro from './ToolIntro';
+import { DETAIL_RESPONSE } from 'src/stories/mocks/toolData';
 
 export default {
   title: 'Components/ToolIntro',
