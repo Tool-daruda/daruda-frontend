@@ -18,7 +18,7 @@ export const SelectedToolChip = ({ toolState }: { toolState: ToolSelectState }) 
 
   const toolToUse = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
-  const selectedToolData = toolToUse.toolId === toolState.selectedTool ? toolToUse : toolState.selectedTool;
+  const selectedToolData = toolToUse?.toolId === toolState.selectedTool ? toolToUse : toolState.selectedTool;
 
   if (!selectedToolData) return null;
 
