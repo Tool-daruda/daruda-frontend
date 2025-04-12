@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+# 현재 브랜치 이름 가져오기
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+ISSUE_NUMBER_IN_BRANCH_NAME=$(echo "$BRANCH_NAME" | grep -o '#[0-9]\+' | sed 's/#//')
+COMMIT_MSG_FILE=$1
+COMMIT_MSG_HEAD=$(head -n1 "$COMMIT_MSG_FILE")
+
+echo "현재 브랜치 이름: $BRANCH_NAME"
+echo "이슈 번호: $ISSUE_NUMBER_IN_BRANCH_NAME"
+
+# Error 1: main, develop, HOTFIX 가 아니고 이슈 번호가 없으면 에러
+if [[ $BRANCH_NAME != "main" && $BRANCH_NAME != "develop" && $BRANCH_NAME != "HOTFIX" && -z $ISSUE_NUMBER_IN_BRANCH_NAME ]]; then
+echo "❌ 오류: 브랜치 이름에 '#<이슈 번호>'가 포함되어 있어야 합니다"
+  exit 1
+fi
+
+# 2. 커밋 메시지에 #<number>가 있으면 에러
+if grep -q '#[0-9]' "$COMMIT_MSG_FILE"; then
+  echo "❌ 오류: 커밋 메시지에 '#<번호>'를 직접 작성하지 마세요. (자동으로 추가됩니다)"
+  exit 1
+fi
+
+# 3. 성공 시: 커밋 메시지 제목 끝에 #이슈번호를 앞에 붙이기
+if [ -n "$ISSUE_NUMBER_IN_BRANCH_NAME" ]; then
+  echo "$COMMIT_MSG_HEAD [#$ISSUE_NUMBER_IN_BRANCH_NAME]" > "$COMMIT_MSG_FILE"
+else
+  echo "$COMMIT_MSG_HEAD" > "$COMMIT_MSG_FILE"
+fi
