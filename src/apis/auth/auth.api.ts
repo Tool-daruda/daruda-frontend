@@ -79,12 +79,11 @@ export const postLogout = async () => {
 export const postAuthorization = async (code: string) => {
   try {
     const response = await axios.post<SuccessUserResponse | SuccessNewbieResponse>(
-      `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
-      { code: code },
+      `${import.meta.env.VITE_API_BASE_URL}/auth/login?code=${code}`,
+      { socialType: 'KAKAO' },
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-          Authorization: `${code}`,
+          'Content-Type': 'application/json',
         },
       },
     );
