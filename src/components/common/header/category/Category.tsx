@@ -1,14 +1,12 @@
-import { IcArrowDownBlack24 } from '@assets/svgs';
-import theme from '@styles/theme';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useGetCategory } from './apis/queries';
 import * as S from './Category.styled';
+import { IcArrowDownBlack24 } from '@assets/svgs';
+import theme from '@styles/theme';
 
-const HEADER_TEXTS = {
-  category: '카테고리',
-} as const;
+import { HEADER_TEXTS } from '../Header';
 
 export const Category = () => {
   const [isOpen, setIsOpen] = useState(false);

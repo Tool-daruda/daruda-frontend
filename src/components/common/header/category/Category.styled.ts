@@ -5,8 +5,6 @@ export const CategoryNav = styled.li`
   display: flex;
   gap: 0.4rem;
   align-items: center;
-  width: 8.4rem;
-  height: 100%;
 `;
 
 export const CategorySection = styled.div`
@@ -52,7 +50,7 @@ export const OpenedCategory = styled.section`
   gap: 0.4rem;
   align-items: center;
   justify-content: center;
-  width: 12rem;
+  width: 8rem;
   padding: 1rem 1.8rem;
   padding-bottom: 1.95rem;
 
