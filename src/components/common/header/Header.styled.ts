@@ -2,6 +2,8 @@ import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
+import { AlarmHead } from '@assets/svgs';
+
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
@@ -73,29 +75,100 @@ export const StyledAnchor = styled.a`
 
 export const HoverContent = styled.section<{ $visible: boolean }>`
   position: absolute;
-  top: 4.1rem;
-  right: 18.8rem;
+  top: 5.2rem;
+  right: 7rem;
   display: ${({ $visible }) => ($visible ? 'block' : 'none')};
-
-  p {
-    color: ${({ theme }) => theme.colors.white1};
-  }
 `;
 
 export const HoverLayout = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 35.3rem;
+  height: auto;
 
-  p {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    z-index: 99;
-    width: max-content;
+  color: ${({ theme }) => theme.colors.black};
+`;
 
-    color: ${({ theme }) => theme.colors.white1};
-    ${({ theme }) => theme.fonts.body_16_b_1};
+export const CardHeaderLayout = styled(AlarmHead)`
+  position: relative;
+`;
 
-    transform: translate(-50%, -50%);
+export const CardHeader = styled.header`
+  position: absolute;
+  top: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0 2rem 1.6rem;
+
+  background-color: ${({ theme }) => theme.colors.white1};
+
+  & h1 {
+    ${({ theme }) => theme.fonts.card_18_B_20}
+    color: ${({ theme }) => theme.colors.black};
+    font-weight: 700;
+  }
+
+  & a {
+    color: ${({ theme }) => theme.colors.iris1};
+    font-weight: 500;
+    text-decoration: none;
+    ${({ theme }) => theme.fonts.caption_14_m}
+  }
+`;
+
+export const CardContainer = styled.ul`
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  background-color: ${({ theme }) => theme.colors.white1};
+  box-shadow: 0 0 12px 0 rgb(211 211 211 / 63%);
+  border-radius: 0 0 1.6rem 1.6rem;
+
+  & li {
+    border-top: 1px solid ${({ theme }) => theme.colors.gray5};
+  }
+
+  &:last-child > li > section {
+    border-radius: 0 0 1.6rem 1.6rem;
+  }
+`;
+
+export const CardItem = styled.section`
+  display: flex;
+  gap: 1.6rem;
+  align-items: center;
+  padding: 1.5rem 2.4rem;
+
+  background-color: ${({ theme }) => theme.colors.white1};
+
+  & > svg {
+    min-width: fit-content;
+  }
+
+  & div {
+    width: 84%;
+  }
+
+  & h2 {
+    width: 85%;
+    overflow: hidden;
+
+    ${({ theme }) => theme.fonts.caption_14_b};
+    color: ${({ theme }) => theme.colors.gray1};
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  & p {
+    ${({ theme }) => theme.fonts.caption_12_m};
+    color: ${({ theme }) => theme.colors.gray4};
   }
 `;
 

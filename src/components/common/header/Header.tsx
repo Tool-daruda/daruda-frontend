@@ -3,11 +3,26 @@ import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
-import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, ImgSpeakBubble } from '@assets/svgs';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, IcAlarmNotice, IcAlarmCmt, AlarmHead } from '@assets/svgs';
 
 interface HeaderProps {
   forOnboarding?: boolean;
 }
+
+const config = [
+  { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1' },
+  { title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.', date: '99월 99일', flag: 'comment', id: '2' },
+  { title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!', date: '99월 99일', flag: 'notice', id: '3' },
+] as const;
+
+type configType = {
+  card: {
+    title: string;
+    date: string;
+    flag: 'comment' | 'notice';
+    id: string;
+  };
+};
 
 export const HEADER_TEXTS = {
   community: '커뮤니티',
@@ -86,6 +101,25 @@ const Auth = () => {
         <li>
           <S.NotificationButton aria-label="알림 확인" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <IcAlarmBlack24 />
+            <S.HoverContent
+              className="hover-content"
+              onMouseEnter={handleMouseEnter}
+              onMouseLeave={handleMouseLeave}
+              $visible={isHover}
+            >
+              <S.HoverLayout>
+                <AlarmHead />
+                <S.CardHeader>
+                  <h1>알림</h1>
+                  <Link to="/">더보기</Link>
+                </S.CardHeader>
+                <S.CardContainer>
+                  {config.map((card) => (
+                    <CardItem card={card} key={card.id} />
+                  ))}
+                </S.CardContainer>
+              </S.HoverLayout>
+            </S.HoverContent>
           </S.NotificationButton>
         </li>
         <li>
@@ -95,18 +129,6 @@ const Auth = () => {
             </S.MyPageButton>
           </S.StyledLink>
         </li>
-        <S.HoverContent
-          className="hover-content"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          $visible={isHover}
-        >
-          <S.HoverLayout>
-            <div>
-              <ImgSpeakBubble /> <p>지금은 준비 중이에요</p>
-            </div>
-          </S.HoverLayout>
-        </S.HoverContent>
       </S.AuthSection>
     );
   }
@@ -115,6 +137,20 @@ const Auth = () => {
     <S.AuthSection aria-label="로그인/회원가입">
       <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
     </S.AuthSection>
+  );
+};
+
+const CardItem = ({ card }: configType) => {
+  return (
+    <li>
+      <S.CardItem>
+        {card.flag === 'comment' ? <IcAlarmCmt /> : <IcAlarmNotice />}
+        <div>
+          <h2>{card.title}</h2>
+          <p>99월 99일</p>
+        </div>
+      </S.CardItem>
+    </li>
   );
 };
 
