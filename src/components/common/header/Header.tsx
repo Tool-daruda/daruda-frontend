@@ -78,20 +78,21 @@ const Auth = () => {
   const user = localStorage.getItem('user');
   const [isHover, setIsHovered] = useState(false);
 
+  let leaveTimeout: ReturnType<typeof setTimeout>;
+
+  const handleMouseLeave = () => {
+    leaveTimeout = setTimeout(() => {
+      setIsHovered(false);
+    }, 100);
+  };
+
   const handleMouseEnter = () => {
+    clearTimeout(leaveTimeout);
     setIsHovered(true);
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const target = e.relatedTarget as HTMLElement | null;
-
-    if (target && target.closest('.hover-content')) {
-      return;
-    }
-
-    setIsHovered(false);
-  };
-
+  // TODO: 공지 클릭시, 네비게이트 or 팝업 처리
+  // TODO: unread 공지 1개 이상 -> active Icon 으로 랜더링
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
@@ -101,14 +102,11 @@ const Auth = () => {
           </S.StyledAnchor>
         </li>
         <li>
-          <S.NotificationButton aria-label="알림 확인" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <IcAlarmBlack24 />
-            <S.HoverContent
-              className="hover-content"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              $visible={isHover}
-            >
+          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <S.NotificationButton aria-label="알림 확인">
+              <IcAlarmBlack24 />
+            </S.NotificationButton>
+            <S.HoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} $visible={isHover}>
               <S.HoverLayout>
                 <AlarmHead />
                 <S.CardHeader>
@@ -122,7 +120,7 @@ const Auth = () => {
                 </S.CardContainer>
               </S.HoverLayout>
             </S.HoverContent>
-          </S.NotificationButton>
+          </div>
         </li>
         <li>
           <S.StyledLink to="/mypage">
