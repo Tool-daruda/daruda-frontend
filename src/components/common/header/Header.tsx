@@ -1,18 +1,19 @@
-import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, ImgSpeakBubble } from '@assets/svgs';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, ImgSpeakBubble } from '@assets/svgs';
 
 interface HeaderProps {
   forOnboarding?: boolean;
 }
 
-const HEADER_TEXTS = {
+export const HEADER_TEXTS = {
   community: '커뮤니티',
   login: '시작하기',
   onboard: '서비스 소개',
+  category: '툴',
 } as const;
 
 const Header = ({ forOnboarding = false }: HeaderProps) => {
