@@ -14,6 +14,7 @@ export const HEADER_TEXTS = {
   login: '시작하기',
   onboard: '서비스 소개',
   category: '툴',
+  support: '문의하기',
 } as const;
 
 const Header = ({ forOnboarding = false }: HeaderProps) => {
@@ -77,28 +78,35 @@ const Auth = () => {
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
-        <S.MyPageSection>
+        <li>
+          <S.StyledAnchor href="https://tally.so/r/w5VJPv" target="_blank">
+            {HEADER_TEXTS.support}
+          </S.StyledAnchor>
+        </li>
+        <li>
           <S.NotificationButton aria-label="알림 확인" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <IcAlarmBlack24 />
           </S.NotificationButton>
+        </li>
+        <li>
           <S.StyledLink to="/mypage">
             <S.MyPageButton aria-label="마이페이지">
               <IcProfileBlack24 />
             </S.MyPageButton>
           </S.StyledLink>
-          <S.HoverContent
-            className="hover-content"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            $visible={isHover}
-          >
-            <S.HoverLayout>
-              <div>
-                <ImgSpeakBubble /> <p>지금은 준비 중이에요</p>
-              </div>
-            </S.HoverLayout>
-          </S.HoverContent>
-        </S.MyPageSection>
+        </li>
+        <S.HoverContent
+          className="hover-content"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          $visible={isHover}
+        >
+          <S.HoverLayout>
+            <div>
+              <ImgSpeakBubble /> <p>지금은 준비 중이에요</p>
+            </div>
+          </S.HoverLayout>
+        </S.HoverContent>
       </S.AuthSection>
     );
   }

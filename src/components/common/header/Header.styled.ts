@@ -1,3 +1,4 @@
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
@@ -5,7 +6,7 @@ export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
   z-index: 4;
-  padding: 1.95rem 16rem;
+  padding: 1.95rem 3.2rem;
 
   background-color: ${({ theme, $forOnboarding }) => ($forOnboarding ? 'transparent' : theme.colors.white1)};
   border-bottom: 0.1rem solid ${({ theme, $forOnboarding }) => ($forOnboarding ? 'none' : theme.colors.gray4)};
@@ -32,12 +33,7 @@ export const NavContainer = styled.li`
   z-index: 2;
 `;
 
-export const AuthSection = styled.nav`
-  display: flex;
-  align-items: center;
-`;
-
-export const MyPageSection = styled.section`
+export const AuthSection = styled.ul`
   display: flex;
   gap: 3.6rem;
   align-items: center;
@@ -48,8 +44,6 @@ export const NotificationButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3.4rem;
-  height: 3.4rem;
   padding: 6%;
 
   cursor: pointer;
@@ -63,10 +57,18 @@ export const MyPageButton = styled.button`
   height: 2.4rem;
 `;
 
-export const StyledLink = styled(Link)`
-  color: ${({ theme }) => theme.colors.black};
+const baseLinkStyle = (theme: Theme) => css`
+  color: ${theme.colors.black};
   text-decoration: none;
-  ${({ theme }) => theme.fonts.body_16_b_1};
+  ${theme.fonts.body_16_b_1};
+`;
+
+export const StyledLink = styled(Link)`
+  ${({ theme }) => baseLinkStyle(theme)}
+`;
+
+export const StyledAnchor = styled.a`
+  ${({ theme }) => baseLinkStyle(theme)}
 `;
 
 export const HoverContent = styled.section<{ $visible: boolean }>`
