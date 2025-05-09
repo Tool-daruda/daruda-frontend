@@ -9,12 +9,14 @@ interface HeaderProps {
   forOnboarding?: boolean;
 }
 
+// TODO: api 연결 후 더미데이터 삭제
 const config = [
   { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1' },
   { title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.', date: '99월 99일', flag: 'comment', id: '2' },
   { title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!', date: '99월 99일', flag: 'notice', id: '3' },
 ] as const;
 
+// TODO: api 연결시, apis 폴더 내부 model 파일로 타입 코드 이동
 type configType = {
   card: {
     title: string;
@@ -147,7 +149,7 @@ const CardItem = ({ card }: configType) => {
         {card.flag === 'comment' ? <IcAlarmCmt /> : <IcAlarmNotice />}
         <div>
           <h2>{card.title}</h2>
-          <p>99월 99일</p>
+          <p>{card.date}</p>
         </div>
       </S.CardItem>
     </li>
