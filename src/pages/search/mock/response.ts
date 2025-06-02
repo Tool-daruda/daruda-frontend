@@ -199,3 +199,63 @@ export const toolSearchResult = [
     fontColor: false,
   },
 ];
+
+export const postSearchResult = [
+  {
+    boardId: 380,
+    toolName: 'Notion',
+    toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/Notion.svg',
+    author: '마일',
+    title: '절로가 왔다감',
+    content: '진짜 잘 만들엇네 !!!!!',
+    images: [],
+    isScraped: false,
+    toolId: 5,
+    updatedAt: '2025.01.25',
+    commentCount: 0,
+  },
+  {
+    boardId: 337,
+    toolName: 'Notion',
+    toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/Notion.svg',
+    author: '총기있는햄스터',
+    title: '[⭐] 노션 템플릿 추천 - 1탄  ',
+    content:
+      '노션을 제대로 활용하려면 좋은 템플릿이 필수죠! 저도 처음에는 직접 만들어보려고 했는데, 시간도 오래 걸리고 비효율적이더라고요. 그래서 여러 템플릿을 찾아보다가 진짜 괜찮은 것들 몇 개 발견해서 공유해봅니다.\r\n\r\n1. 업무 관리용 템플릿\r\n    - Ultimate Tasks: 직장인이라면 무조건 추천! 프로젝트 진행 상황을 한눈에 볼 수 있고, 마감일 관리도 편리해요.\r\n    - Weekly Planner: 주간 계획을 효율적으로 세울 수 있어서 ',
+    images: ['https://d10hjhy1a1c8eq.cloudfront.net/f9f9c60b-d939-407f-becc-69d389a2b3d2.webp'],
+    isScraped: false,
+    toolId: 5,
+    updatedAt: '2025.01.24',
+    commentCount: 2,
+  },
+  {
+    boardId: 322,
+    toolName: 'Notion',
+    toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/Notion.svg',
+    author: '총기있는햄스터',
+    title: '노션 데이터베이스 활용법(1) : 튜토리얼',
+    content:
+      '노션의 데이터베이스 기능이 강력하다는 건 알지만, 처음 써보면 너무 복잡해 보일 수 있어요. 저도 처음엔 막막했는데, 몇 가지 팁을 활용하니 훨씬 편해지더라고요. 아래는 제가 자주 사용하는 데이터베이스 설정법이에요.\r\n\r\n1. 속성(Properties) 이해하기\r\n✅ 데이터베이스의 핵심은 속성이에요. 날짜, 체크박스, 선택(Select), 다중 선택(Multi-select) 등 다양한 속성을 조합해서 자신만의 맞춤형 데이터베이스를 만들 수 있어요. 예를',
+    images: [
+      'https://d10hjhy1a1c8eq.cloudfront.net/8c5b087e-f5a1-498f-8c17-1cb5ec273381.png',
+      'https://d10hjhy1a1c8eq.cloudfront.net/de7dc7d5-671d-4263-8314-d1b13ccdf332.webp',
+    ],
+    isScraped: false,
+    toolId: 5,
+    updatedAt: '2025.01.24',
+    commentCount: 0,
+  },
+  {
+    boardId: 320,
+    toolName: 'Notion',
+    toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/Notion.svg',
+    author: '딸기',
+    title: '노션 단축키 공유해요!',
+    content: '노션 자주 사용하는데 단축키 잘 모르는 분들 있더라구요\r\n이제 / 안 쓰고도 빠르게 사용 중',
+    images: ['https://d10hjhy1a1c8eq.cloudfront.net/9ca84268-9932-48e9-95c0-9eda34280310.png'],
+    isScraped: false,
+    toolId: 5,
+    updatedAt: '2025.01.24',
+    commentCount: 4,
+  },
+];

@@ -34,7 +34,7 @@ export const SearchResult = styled.section`
   }
 `;
 
-export const ToolCardContainer = styled.div`
+export const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
