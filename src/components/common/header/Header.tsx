@@ -111,7 +111,7 @@ const Auth = () => {
                 <AlarmHead />
                 <S.CardHeader>
                   <h1>알림</h1>
-                  <Link to="/">더보기</Link>
+                  <Link to="/notification">더보기</Link>
                 </S.CardHeader>
                 <S.CardContainer>
                   {config.map((card) => (
