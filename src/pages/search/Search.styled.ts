@@ -23,7 +23,7 @@ export const SearchBox = styled.div`
 export const SearchResult = styled.section`
   width: 100%;
 
-  h1 {
+  & > h1 {
     ${({ theme }) => theme.fonts.body_24_b};
     margin-bottom: 2.8rem;
   }
@@ -64,6 +64,8 @@ export const Toggle = styled.div<{ $isOpen: boolean }>`
   ${({ theme }) => theme.fonts.body_16_r};
   color: ${({ theme }) => theme.colors.gray2};
   text-align: center;
+
+  cursor: pointer;
 
   svg {
     transform: ${({ $isOpen }) => ($isOpen ? 'rotate(0deg)' : 'rotate(180deg)')};
