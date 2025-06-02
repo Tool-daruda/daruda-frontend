@@ -2,8 +2,6 @@ import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import { AlarmHead } from '@assets/svgs';
-
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
@@ -75,8 +73,8 @@ export const StyledAnchor = styled.a`
 
 export const HoverContent = styled.section<{ $visible: boolean }>`
   position: absolute;
-  top: 5.2rem;
-  right: 7rem;
+  top: 5.7rem;
+  right: 6.7rem;
   display: ${({ $visible }) => ($visible ? 'block' : 'none')};
 `;
 
@@ -91,18 +89,13 @@ export const HoverLayout = styled.div`
   color: ${({ theme }) => theme.colors.black};
 `;
 
-export const CardHeaderLayout = styled(AlarmHead)`
-  position: relative;
-`;
-
 export const CardHeader = styled.header`
   position: absolute;
-  top: 4%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  margin-top: 1.5rem;
+  margin-top: 2.9rem;
   padding: 0 2rem 1.6rem;
 
   background-color: ${({ theme }) => theme.colors.white1};
@@ -131,12 +124,10 @@ export const CardContainer = styled.ul`
   box-shadow: 0 0 12px 0 rgb(211 211 211 / 63%);
   border-radius: 0 0 1.6rem 1.6rem;
 
+  clip-path: inset(0 0 -12px 0);
+
   & li {
     border-top: 1px solid ${({ theme }) => theme.colors.gray5};
-  }
-
-  &:last-child > li > section {
-    border-radius: 0 0 1.6rem 1.6rem;
   }
 `;
 
@@ -145,8 +136,6 @@ export const CardItem = styled.section`
   gap: 1.6rem;
   align-items: center;
   padding: 1.5rem 2.4rem;
-
-  background-color: ${({ theme }) => theme.colors.white1};
 
   & > svg {
     min-width: fit-content;
