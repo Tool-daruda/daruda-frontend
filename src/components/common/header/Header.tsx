@@ -144,7 +144,8 @@ const CardItem = ({ card }: configType) => {
   return (
     <li>
       <S.CardItem>
-        {card.flag === 'comment' ? <IcAlarmCmt /> : <IcAlarmNotice />}
+        {card.flag === 'comment' && <IcAlarmCmt />}
+        {card.flag === 'notice' && <IcAlarmNotice />}
         <div>
           <h2>{card.title}</h2>
           <p>{card.date}</p>
