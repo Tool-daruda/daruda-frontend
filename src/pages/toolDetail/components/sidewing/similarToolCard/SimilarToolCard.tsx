@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './SimilarToolCard.styled';
 import { AlternativeTool } from '@apis/tool';
 import { Free, Half, Paid } from '@assets/svgs';
+import { Tracking } from 'src/components/track/Tracking';
 
 const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: AlternativeTool) => {
   const navigate = useNavigate();
@@ -26,23 +27,25 @@ const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: Alte
   };
 
   return (
-    <S.CardWrapper onClick={handleToolCardClick}>
-      <S.TopContainer>
-        <S.CardLogo src={toolLogo} alt={`${toolName} 로고`} />
-        <S.InfoBox>
-          <S.CardTitle>{toolName}</S.CardTitle>
-          <S.PlanBox>
-            {renderLicenseIcon()}
-            <span>{license}</span>
-          </S.PlanBox>
-        </S.InfoBox>
-      </S.TopContainer>
-      <S.KeyWordCardBox>
-        {keywords.map((keyword, index) => (
-          <S.KeyWordCard key={`keyword-${index}`}>{keyword}</S.KeyWordCard>
-        ))}
-      </S.KeyWordCardBox>
-    </S.CardWrapper>
+    <Tracking event="Recommendation_Tool_Click">
+      <S.CardWrapper onClick={handleToolCardClick}>
+        <S.TopContainer>
+          <S.CardLogo src={toolLogo} alt={`${toolName} 로고`} />
+          <S.InfoBox>
+            <S.CardTitle>{toolName}</S.CardTitle>
+            <S.PlanBox>
+              {renderLicenseIcon()}
+              <span>{license}</span>
+            </S.PlanBox>
+          </S.InfoBox>
+        </S.TopContainer>
+        <S.KeyWordCardBox>
+          {keywords.map((keyword, index) => (
+            <S.KeyWordCard key={`keyword-${index}`}>{keyword}</S.KeyWordCard>
+          ))}
+        </S.KeyWordCardBox>
+      </S.CardWrapper>
+    </Tracking>
   );
 };
 
