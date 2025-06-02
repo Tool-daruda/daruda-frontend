@@ -1,5 +1,6 @@
-import { NotFill } from '@assets/svgs';
 import styled from '@emotion/styled';
+
+import { NotFill } from '@assets/svgs';
 
 export const Container = styled.div`
   display: flex;
@@ -226,7 +227,7 @@ export const EmptyMessage = styled.h1`
   justify-content: center;
   width: 100%;
   ${({ theme }) => theme.fonts.body_20_m}
-  margin-top:5rem;
+  margin-top: 5rem;
 `;
 
 export const Lottie = styled.div`
