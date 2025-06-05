@@ -29,13 +29,15 @@ jobs:
 
       - name: Publish to Chromatic
         id: chromatic
+        if: contains(github.event.pull_request.labels.*.name, 'run-chromatic')
         uses: chromaui/action@v10
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment PR
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'run-chromatic')
+
         uses: thollander/actions-comment-pull-request@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -43,6 +45,7 @@ jobs:
           message: '🚀 Storybook 배포가 완료되었습니다! 🔗 ${{ steps.chromatic.outputs.storybookUrl }}'
 
       - name: Discord Webhook
+        if: contains(github.event.pull_request.labels.*.name, 'run-chromatic')
         uses: tsickert/discord-webhook@v5.3.0
         continue-on-error: true
         with:
