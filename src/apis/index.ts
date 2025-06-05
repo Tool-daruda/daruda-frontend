@@ -34,14 +34,15 @@ const getAccessToken = (): string | null => {
   return cachedToken;
 };
 
-// accessToken 저장
-const setAccessToken = (token: string) => {
-  cachedToken = token;
+// accessToken, refreshToken 저장
+const setTokens = (accessToken: string, refreshToken: string) => {
+  cachedToken = accessToken;
   const user = localStorage.getItem('user');
   if (user) {
     try {
       const userObj = JSON.parse(user);
-      userObj.accessToken = token;
+      userObj.accessToken = accessToken;
+      userObj.refreshToken = refreshToken;
       localStorage.setItem('user', JSON.stringify(userObj));
     } catch (error) {
       console.error('토큰 업데이트 중 문제가 발생했습니다', error);
@@ -102,7 +103,7 @@ instance.interceptors.response.use(
 
         // 리프레시 토큰으로 새로운 액세스 토큰 요청
         const newTokens = await postReissue(refreshToken);
-        setAccessToken(newTokens.accessToken);
+        setTokens(newTokens.accessToken, newTokens.refreshToken);
 
         // 기존 요청을 새로운 액세스 토큰으로 재시도
         const originalRequest = error.config as AxiosRequestConfig;
@@ -112,8 +113,8 @@ instance.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
-        // localStorage.removeItem('user');
-        // window.location.href = '/login';
+        localStorage.removeItem('user');
+        window.location.href = '/login';
       }
     }
 
