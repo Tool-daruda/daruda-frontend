@@ -57,11 +57,11 @@ export const postReissue = async (refreshToken: string) => {
       },
     );
 
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error('토큰 갱신 실패:', error);
     localStorage.removeItem('user');
-    // window.location.href = '/login';
+    window.location.href = '/login';
     throw error;
   }
 };

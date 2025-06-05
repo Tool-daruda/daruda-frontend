@@ -11,6 +11,7 @@ export { default as PlusImg } from './PlusImg';
 export { default as Rectangle161126186 } from './Rectangle161126186';
 export { default as RightBlur } from './RightBlur';
 export { default as Union } from './Union';
+export { default as AlarmHead } from './AlarmHead';
 export { default as Backcards } from './Backcards';
 export { default as Bigtext } from './Bigtext';
 export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
