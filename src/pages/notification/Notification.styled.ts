@@ -31,6 +31,10 @@ export const NotiDateList = styled.ul`
   gap: 1.6rem;
   align-items: flex-start;
   align-self: stretch;
+
+  li {
+    width: 100%;
+  }
 `;
 
 export const CardItem = styled.section`

@@ -122,42 +122,13 @@ export const CardContainer = styled.ul`
 
   background-color: ${({ theme }) => theme.colors.white1};
   box-shadow: 0 0 12px 0 rgb(211 211 211 / 63%);
+  border-top: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: 0 0 1.6rem 1.6rem;
 
-  clip-path: inset(0 0 -12px 0);
+  clip-path: inset(0 0 0 0);
 
-  & li {
-    border-top: 1px solid ${({ theme }) => theme.colors.gray5};
-  }
-`;
-
-export const CardItem = styled.section`
-  display: flex;
-  gap: 1.6rem;
-  align-items: center;
-  padding: 1.5rem 2.4rem;
-
-  & > svg {
-    min-width: fit-content;
-  }
-
-  & div {
-    width: 84%;
-  }
-
-  & h2 {
-    width: 85%;
-    overflow: hidden;
-
-    ${({ theme }) => theme.fonts.caption_14_b};
-    color: ${({ theme }) => theme.colors.gray1};
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  & p {
-    ${({ theme }) => theme.fonts.caption_12_m};
-    color: ${({ theme }) => theme.colors.gray4};
+  & li:last-of-type > section {
+    border-bottom: none;
   }
 `;
 

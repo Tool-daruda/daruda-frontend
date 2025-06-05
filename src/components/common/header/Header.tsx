@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
-import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, IcAlarmNotice, IcAlarmCmt, AlarmHead } from '@assets/svgs';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
+import NotificationCard from '@components/notiCard/NotiCard';
 
 interface HeaderProps {
   forOnboarding?: boolean;
@@ -11,20 +12,36 @@ interface HeaderProps {
 
 // TODO: api 연결 후 더미데이터 삭제
 const config = [
-  { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1' },
-  { title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.', date: '99월 99일', flag: 'comment', id: '2' },
-  { title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!', date: '99월 99일', flag: 'notice', id: '3' },
+  { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1', isRead: false },
+  {
+    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
+    date: '99월 99일',
+    flag: 'comment',
+    id: '2',
+    isRead: false,
+  },
+  {
+    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
+    date: '99월 99일',
+    flag: 'comment',
+    id: '3',
+    isRead: true,
+  },
+  {
+    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
+    date: '99월 99일',
+    flag: 'comment',
+    id: '4',
+    isRead: false,
+  },
+  {
+    title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!',
+    date: '99월 99일',
+    flag: 'notice',
+    id: '5',
+    isRead: false,
+  },
 ] as const;
-
-// TODO: api 연결시, apis 폴더 내부 model 파일로 타입 코드 이동
-type configType = {
-  card: {
-    title: string;
-    date: string;
-    flag: 'comment' | 'notice';
-    id: string;
-  };
-};
 
 export const HEADER_TEXTS = {
   community: '커뮤니티',
@@ -115,7 +132,7 @@ const Auth = () => {
                 </S.CardHeader>
                 <S.CardContainer>
                   {config.map((card) => (
-                    <CardItem card={card} key={card.id} />
+                    <NotificationCard card={card} key={card.id} />
                   ))}
                 </S.CardContainer>
               </S.HoverLayout>
@@ -137,21 +154,6 @@ const Auth = () => {
     <S.AuthSection aria-label="로그인/회원가입">
       <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
     </S.AuthSection>
-  );
-};
-
-const CardItem = ({ card }: configType) => {
-  return (
-    <li>
-      <S.CardItem>
-        {card.flag === 'comment' && <IcAlarmCmt />}
-        {card.flag === 'notice' && <IcAlarmNotice />}
-        <div>
-          <h2>{card.title}</h2>
-          <p>{card.date}</p>
-        </div>
-      </S.CardItem>
-    </li>
   );
 };
 
