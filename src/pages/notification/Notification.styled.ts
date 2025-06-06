@@ -37,6 +37,11 @@ export const NotiDateList = styled.ul`
   }
 `;
 
+export const NotiDateText = styled.h2`
+  ${({ theme }) => theme.fonts.body_16_m}
+  color: ${({ theme }) => theme.colors.gray1};
+`;
+
 export const CardItem = styled.section`
   display: flex;
   gap: 1.6rem;

@@ -1,5 +1,6 @@
 import * as S from './Notification.styled';
 import NotificationCard from '@components/notiCard/NotiCard';
+import { useNotifications } from 'src/hoc/NotificationProvider';
 
 const config = [
   { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1', isRead: false },
@@ -20,13 +21,16 @@ const config = [
 ] as const;
 
 const Notification = () => {
+  const notifications = useNotifications();
+
+  console.log(notifications);
   return (
     <S.NotiWrapper>
       <S.NotiContainer>
         <h1>알림함</h1>
         <S.NotiDateList>
           <li>
-            <h2>5월 3일</h2>
+            <S.NotiDateText>5월 3일</S.NotiDateText>
             <ul>
               {config.map((card) => (
                 <NotificationCard card={card} key={card.id} />
@@ -34,7 +38,7 @@ const Notification = () => {
             </ul>
           </li>
           <li>
-            <h2>5월 3일</h2>
+            <S.NotiDateText>5월 3일</S.NotiDateText>
             <ul>
               {config.map((card) => (
                 <NotificationCard card={card} key={card.id} />

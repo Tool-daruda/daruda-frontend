@@ -18,7 +18,7 @@ export class ApiError extends Error {
 let cachedToken: string | null = null;
 
 // accessToken 가져오기
-const getAccessToken = (): string | null => {
+export const getAccessToken = (): string | null => {
   if (!cachedToken) {
     const user = localStorage.getItem('user');
     if (user) {
