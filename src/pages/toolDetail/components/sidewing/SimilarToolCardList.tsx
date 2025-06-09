@@ -8,7 +8,6 @@ interface ListProps {
 const SimilarToolCardList = ({ data }: ListProps) => {
   const { relatedToolResList } = data;
 
-  console.log(data);
   if (relatedToolResList.length === 0) {
     return null; // 데이터가 없을 때 처리
   }
