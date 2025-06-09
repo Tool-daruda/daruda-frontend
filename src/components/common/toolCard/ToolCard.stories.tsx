@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react';
 
-import ToolCard from './ToolCard';
+import ToolCard from './ToolCardList';
 
 export default {
   title: 'Components/ToolCard',
