@@ -56,7 +56,7 @@ const CommunityWrite = () => {
 
       const userItem = localStorage.getItem('user');
       const userData = userItem ? JSON.parse(userItem) : null;
-      const userId = userData?.accessToken || null;
+      const userId = userData?.nickname || null;
 
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId, 1) });
       navigate('/community');
