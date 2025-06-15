@@ -17,7 +17,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Report: Story = {
   args: {
-    isOpen: true,
+    isOpen: false,
     handleClose: () => {},
   },
   decorators: [
