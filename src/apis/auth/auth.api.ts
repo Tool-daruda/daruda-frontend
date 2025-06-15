@@ -45,22 +45,17 @@ export const postSignup = async (requestBody: SignupRequest): Promise<void> => {
 };
 
 // 토큰 갱신(Access Token 재발급) post
-export const postReissue = async (refreshToken: string) => {
+export const postReissue = async () => {
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_BASE_URL}/auth/reissue`,
-      { refreshToken: refreshToken },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/reissue`, {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     return response.data.data;
   } catch (error) {
     console.error('토큰 갱신 실패:', error);
-    localStorage.removeItem('user');
     window.location.href = '/login';
     throw error;
   }
