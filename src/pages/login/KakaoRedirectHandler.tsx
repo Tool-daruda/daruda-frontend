@@ -27,13 +27,13 @@ const KakaoRedirectHandler = () => {
       try {
         const response = await postAuthorization(code);
 
-        if ('nickname' in response) {
+        if (response.isUser) {
           // 기존 유저
           localStorage.setItem(
             'user',
             JSON.stringify({
-              accessToken: response.jwtTokenResponse.accessToken,
-              refreshToken: response.jwtTokenResponse.refreshToken,
+              nickName: response.nickname,
+              email: response.email,
             }),
           );
           setModalTitle('로그인 성공');
@@ -43,7 +43,6 @@ const KakaoRedirectHandler = () => {
           setOnConfirm(() => () => (window.location.href = '/'));
         } else {
           // 신규 유저
-          localStorage.setItem('user', JSON.stringify({ email: response.email }));
           setModalTitle('회원가입 필요');
           setModalContent('회원가입이 필요합니다.');
           setButtonText('회원가입 페이지로 돌아가기');
