@@ -34,6 +34,7 @@ export { default as IcAlarmCmt } from './IcAlarmCmt';
 export { default as IcAlarmNotice } from './IcAlarmNotice';
 export { default as IcArrowDownBlack24Copy } from './IcArrowDownBlack24Copy';
 export { default as IcArrowDownBlack24 } from './IcArrowDownBlack24';
+export { default as IcArrowDownBlack32 } from './IcArrowDownBlack32';
 export { default as IcArrowLeftBlack32 } from './IcArrowLeftBlack32';
 export { default as IcArrowRightGray20 } from './IcArrowRightGray20';
 export { default as IcArrowRightupWhite24 } from './IcArrowRightupWhite24';
