@@ -1,6 +1,6 @@
 import { SVGProps, FunctionComponent } from 'react';
 
-import * as S from '../AlterModal.styled';
+import * as S from '../alterModal/AlterModal.styled';
 
 interface SingleModalProps {
   modalTitle: string;

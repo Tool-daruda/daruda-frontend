@@ -1,8 +1,8 @@
-import { ImgModalexit, ImgModalcheck, ImgPopupDelete84 } from '@assets/svgs';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
 import AlterModal from './AlertModal';
+import { ImgModalexit, ImgModalcheck, ImgPopupDelete84 } from '@assets/svgs';
 
 const meta: Meta<typeof AlterModal> = {
   title: 'Components/AlterModal',
