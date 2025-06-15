@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
 import { GetPostListResponse, PostResponse, InfiniteQueryResponse, BoardListResponse } from './board.model';
 import { MYPAGE_QUERY_KEY, BOARD_QUERY_KEY } from '@constants/queryKey';
+import extractNickname from 'src/utils/extractNickname';
 
 // 커뮤니티 게시글 조회 hook
 export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
@@ -24,9 +25,7 @@ export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
 
 // 커뮤니티 게시글 북마크 hook
 export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: boolean, boardId?: number) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userNickname = extractNickname();
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -64,23 +63,26 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
 
       queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(boardId.toString()), updatedDetail);
 
-      // 마이페이지 BoardList 캐시 낙관적 업데이트
-      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
-      queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), (old: BoardListResponse) => {
-        if (!old) return old;
-        const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
-        const newBoardList = {
-          ...old,
-          boardList: updatedBoardList,
-        };
-        return newBoardList;
-      });
+      if (userNickname) {
+        // 마이페이지 BoardList 캐시 낙관적 업데이트
+        const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname));
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname), (old: BoardListResponse) => {
+          if (!old) return old;
+          const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
+          const newBoardList = {
+            ...old,
+            boardList: updatedBoardList,
+          };
+          return newBoardList;
+        });
+        return { previousBoardList, previousCommuList, previousDetail };
+      }
 
-      return { previousBoardList, previousCommuList, previousDetail };
+      return { previousCommuList, previousDetail };
     },
     onError: (_error, _id, context) => {
-      if (context?.previousBoardList) {
-        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
+      if (context?.previousBoardList && userNickname) {
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname), context.previousBoardList);
       }
       if (context?.previousCommuList) {
         queryClient.setQueryData(
@@ -98,7 +100,9 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
       queryClient.refetchQueries({
         predicate: (query) => {
           return (
-            Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList' && query.queryKey[1] === userId
+            Array.isArray(query.queryKey) &&
+            query.queryKey[0] === 'myFavoritePostList' &&
+            query.queryKey[1] === userNickname
           );
         },
       });
@@ -117,9 +121,7 @@ export const useDetailBoardQuery = (id: string | undefined) =>
 
 // 커뮤니티 게시글 삭제 hook
 export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null, noTopic?: boolean) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userNickname = extractNickname();
 
   const queryClient = useQueryClient();
 
@@ -162,7 +164,9 @@ export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null,
       queryClient.refetchQueries({
         predicate: (query) => {
           // 'myPostList'랑 userId가 같은 쿼리키들 모두 새로고침
-          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList' && query.queryKey[1] === userId;
+          return (
+            Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList' && query.queryKey[1] === userNickname
+          );
         },
       });
     },

@@ -2,8 +2,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { getKakaoLogin, postAuthorization, deleteAccount, postLogout } from './auth.api';
-import { logout as handleLogout } from '@apis/index';
 import { MYPAGE_QUERY_KEY, LOGIN_QUERY_KEY } from '@constants/queryKey';
+import extractNickname from 'src/utils/extractNickname';
 
 // 카카오 로그인 URL 요청
 export const useKakaoLoginUrl = () => {
@@ -32,9 +32,7 @@ export const useSendAuthorization = () => {
 
 // 회원 탈퇴
 export const useAccountDeleteMutation = () => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userNickname = extractNickname();
 
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -42,12 +40,12 @@ export const useAccountDeleteMutation = () => {
   return useMutation({
     mutationFn: () => deleteAccount(),
     onSuccess: () => {
-      if (userId) {
-        // userId와 관련된 모든 쿼리 무효화
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
+      if (userNickname) {
+        //(userNickname와 관련된 모든 쿼리 무효화
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userNickname) });
       }
 
       // localStorage에서 'user' 삭제
@@ -59,24 +57,21 @@ export const useAccountDeleteMutation = () => {
 
 // 로그아웃
 export const useLogoutMutation = () => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
-
+  const userNickname = extractNickname();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => postLogout(),
     onSuccess: () => {
-      if (userId) {
+      if (userNickname) {
         // userId와 관련된 모든 쿼리 무효화
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userNickname) });
       }
       queryClient.clear();
-      handleLogout();
+      localStorage.removeItem('user');
     },
   });
 };
