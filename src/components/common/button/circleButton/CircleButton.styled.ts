@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 export const ButtonWrapper = styled.button<{
   shadow: boolean;
   $whiteBtn: boolean;
-  size: 'large' | 'medium' | 'small' | 'mini';
+  size: 'large' | 'medium' | 'small' | 'mini' | 'xs';
   $disabled: boolean; //클릭은 반응하지만, 결과적으로 작동하지 않는 버튼
 }>`
   display: flex;
@@ -40,6 +40,14 @@ export const ButtonWrapper = styled.button<{
 
         ${theme.fonts.body_20_b};
         border-radius: 5.6rem;
+      `,
+
+      xs: css`
+        gap: 1.6rem;
+        padding: 1.4rem 3.2rem;
+
+        ${theme.fonts.body_16_b_2};
+        border-radius: 5rem;
       `,
     };
 
