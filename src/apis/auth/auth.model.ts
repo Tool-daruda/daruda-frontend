@@ -1,4 +1,4 @@
-export interface SignupRequest {
+export interface SignupDto {
   nickname: string;
   positions: string;
   email: string;
@@ -34,19 +34,7 @@ export interface SuccessUserResponse {
   message: string;
   data: {
     isUser: boolean;
-    nickname: string;
-    jwtTokenResponse: {
-      accessToken: string;
-      refreshToken: string;
-    };
-  };
-}
-
-export interface SuccessNewbieResponse {
-  statusCode: number;
-  message: string;
-  data: {
+    nickname: string | null;
     email: string;
-    isUser: boolean;
   };
 }

@@ -20,10 +20,6 @@ export const instance = axios.create({
   withCredentials: true,
 });
 
-export const logout = () => {
-  instance.defaults.headers.Authorization = '';
-};
-
 // 응답 인터셉터: 401 오류 발생 시 토큰 갱신 로직 처리
 instance.interceptors.response.use(
   (response) => response,

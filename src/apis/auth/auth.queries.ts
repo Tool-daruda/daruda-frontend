@@ -2,7 +2,6 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { getKakaoLogin, postAuthorization, deleteAccount, postLogout } from './auth.api';
-import { logout as handleLogout } from '@apis/index';
 import { MYPAGE_QUERY_KEY, LOGIN_QUERY_KEY } from '@constants/queryKey';
 
 // 카카오 로그인 URL 요청
@@ -76,7 +75,7 @@ export const useLogoutMutation = () => {
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
       }
       queryClient.clear();
-      handleLogout();
+      localStorage.removeItem('user');
     },
   });
 };
