@@ -14,6 +14,7 @@ export { default as Union } from './Union';
 export { default as AlarmHead } from './AlarmHead';
 export { default as Backcards } from './Backcards';
 export { default as Bigtext } from './Bigtext';
+export { default as BtnWritinChipx } from './BtnWritinChipx';
 export { default as BtnWritingArrowleft } from './BtnWritingArrowleft';
 export { default as BtnWritingChipx56 } from './BtnWritingChipx56';
 export { default as BtnWritingChipxIcon } from './BtnWritingChipxIcon';
