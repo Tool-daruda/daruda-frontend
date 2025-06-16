@@ -1,21 +1,16 @@
-import { useRef, useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useRef, useEffect } from 'react';
+import { Controller } from 'react-hook-form';
 
 import S from './ReportModal.styled';
 import { BtnWritinChipx } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import useReport from '@hooks/useReport';
 
 import { ModalWrapper } from '../component';
 
 type ReportProps = {
   isOpen: boolean;
   handleClose: () => void;
-};
-
-type FormValues = {
-  title: string;
-  reason: string;
-  detail: string;
 };
 
 const options = [
@@ -30,27 +25,19 @@ const options = [
 
 const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
   const {
+    isDropdownOpen,
+    setIsDropdownOpen,
+    detailText,
+    isSubmitDisabled,
+    onSubmit,
     register,
     handleSubmit,
     control,
     setValue,
     watch,
-    formState: { errors },
-  } = useForm<FormValues>({
-    defaultValues: {
-      title: '',
-      reason: '',
-      detail: '',
-    },
-  });
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const detailText = watch('detail');
-
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-  const isSubmitDisabled = !watch('title') || !watch('reason') || Object.keys(errors).length > 0;
+    errors,
+  } = useReport(handleClose);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -58,11 +45,6 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
       textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight + 24}px`;
     }
   }, [detailText]);
-
-  const onSubmit = (data: FormValues) => {
-    console.log('신고 제출 데이터:', data);
-    handleClose();
-  };
 
   return (
     <ModalWrapper isOpen={isOpen}>
@@ -125,7 +107,9 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
                       <S.OptionalInput
                         {...field}
                         ref={(e) => {
+                          if (!e) return;
                           field.ref(e);
+                          textAreaRef.current = e;
                         }}
                         placeholder="신고 내역을 입력해주세요."
                         maxLength={300}
