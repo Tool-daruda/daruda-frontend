@@ -1,4 +1,4 @@
-const extractNickname = (): string | null => {
+const extractUserId = (): string | null => {
   try {
     const userItem = localStorage.getItem('user');
     if (!userItem) return null;
@@ -11,4 +11,4 @@ const extractNickname = (): string | null => {
   }
 };
 
-export default extractNickname;
+export default extractUserId;

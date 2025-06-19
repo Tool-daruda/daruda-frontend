@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { getKakaoLogin, postAuthorization, deleteAccount, postLogout } from './auth.api';
 import { MYPAGE_QUERY_KEY, LOGIN_QUERY_KEY } from '@constants/queryKey';
-import extractNickname from 'src/utils/extractNickname';
 
 // 카카오 로그인 URL 요청
 export const useKakaoLoginUrl = () => {
@@ -32,20 +31,18 @@ export const useSendAuthorization = () => {
 
 // 회원 탈퇴
 export const useAccountDeleteMutation = () => {
-  const userNickname = extractNickname();
-
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: () => deleteAccount(),
     onSuccess: () => {
-      if (userNickname) {
+      {
         //(userNickname와 관련된 모든 쿼리 무효화
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST() });
       }
 
       // localStorage에서 'user' 삭제
@@ -57,18 +54,17 @@ export const useAccountDeleteMutation = () => {
 
 // 로그아웃
 export const useLogoutMutation = () => {
-  const userNickname = extractNickname();
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: () => postLogout(),
     onSuccess: () => {
-      if (userNickname) {
+      {
         // userId와 관련된 모든 쿼리 무효화
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userNickname) });
-        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userNickname) });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST() });
+        queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST() });
       }
       queryClient.clear();
       localStorage.removeItem('user');
