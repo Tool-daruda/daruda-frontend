@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form';
 import S from './ReportModal.styled';
 import { BtnWritinChipx } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import options from '@constants/reportType';
 import useReport from '@hooks/useReport';
 
 import { ModalWrapper } from '../component';
@@ -12,16 +13,6 @@ type ReportProps = {
   isOpen: boolean;
   handleClose: () => void;
 };
-
-const options = [
-  '욕설/비하',
-  '불법촬영물 유통',
-  '유출/사칭/사기',
-  '음란물/불건전한 만남 및 대화',
-  '정당/정치인 비하 및 선거운동',
-  '상업적 광고 및 판매',
-  '낚시/도배',
-];
 
 const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
   const {
