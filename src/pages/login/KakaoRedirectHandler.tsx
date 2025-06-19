@@ -34,6 +34,8 @@ const KakaoRedirectHandler = () => {
             JSON.stringify({
               nickName: response.nickname,
               email: response.email,
+              userId: response.userId,
+              positions: response.positions,
             }),
           );
           setModalTitle('로그인 성공');

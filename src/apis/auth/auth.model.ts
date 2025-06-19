@@ -36,5 +36,7 @@ export interface SuccessUserResponse {
     isUser: boolean;
     nickname: string | null;
     email: string;
+    userId: number;
+    positions: 'STUDENT' | 'WORKER' | 'NORMAL' | 'ADMIN';
   };
 }
