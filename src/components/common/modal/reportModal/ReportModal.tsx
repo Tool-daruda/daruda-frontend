@@ -47,8 +47,8 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
                 <BtnWritinChipx role="button" aria-label="close-report-modal" />
               </button>
             </S.Header>
-
             <S.MainContainer>
+              {/* 신고 모달의 제목  */}
               <S.TitleInputContainer>
                 <label htmlFor="title">신고 내용 :</label>
                 <input
@@ -56,9 +56,8 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
                   {...register('title', { required: '신고 내용을 입력해주세요.' })}
                   aria-invalid={errors.title ? 'true' : 'false'}
                 />
-                {errors.title && <span role="alert">{errors.title.message}</span>}
               </S.TitleInputContainer>
-
+              {/* 신고 모달의 신고 사유 - 드롭다운  */}
               <S.SelectionContainer>
                 <S.SelectionItem>
                   <h2>신고 사유를 선택해 주세요.</h2>
@@ -67,7 +66,6 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
                       {watch('reportType') || '신고 사유를 선택해 주세요'}
                       <S.DropdownArrowBtn isOpen={isDropdownOpen} />
                     </S.DropdownBox>
-
                     {isDropdownOpen && (
                       <S.OptionList>
                         {options.map((option) => (
@@ -84,9 +82,8 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
                       </S.OptionList>
                     )}
                   </S.DropdownWrapper>
-                  {errors.reportType && <span role="alert">신고 사유를 선택해주세요.</span>}
                 </S.SelectionItem>
-
+                {/* 신고 모달의 세부 내용 작성  */}
                 <S.SelectionItem style={{ position: 'relative' }}>
                   <h2>세부내역 작성 (선택)</h2>
                   <Controller
@@ -107,10 +104,9 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
                     )}
                   />
                   <S.CountContent>{`${detailText.length} / 300`}</S.CountContent>
-                  {errors.detail && <span role="alert">{errors.detail.message}</span>}
                 </S.SelectionItem>
               </S.SelectionContainer>
-
+              {/* 신고 모달 제출 버튼  */}
               <S.ButtonContainer>
                 <CircleButton size="xs" type="submit" disabled={isSubmitDisabled}>
                   신고 제출하기
