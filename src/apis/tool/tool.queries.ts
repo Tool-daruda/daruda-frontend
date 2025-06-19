@@ -12,12 +12,11 @@ import {
 import { InfiniteQueryResponse, ToolListResponse } from './tool.model';
 import { ToolList } from '@apis/user';
 import { MYPAGE_QUERY_KEY, TOOL_QUERY_KEY } from '@constants/queryKey';
+import { extractUserId } from '@utils';
 
 // 툴 북마크 hook
 export const useToolScrapMutation = (isFree?: boolean, category?: string, criteria?: string) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userId = extractUserId();
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -44,23 +43,26 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
           ) ?? [],
       });
 
-      // 마이페이지 찜한 툴 낙관적 업데이트
-      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId));
-      queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId), (old: ToolList) => {
-        if (!old) return old;
-        const updatedToolList = old.toolList.filter((tool) => tool.toolId !== toolId);
-        const newBoardList = {
-          ...old,
-          boardList: updatedToolList,
-        };
-        return newBoardList;
-      });
-      return { previousBoardList, previousMainToolList };
+      if (userId) {
+        // 마이페이지 찜한 툴 낙관적 업데이트
+        const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST());
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(), (old: ToolList) => {
+          if (!old) return old;
+          const updatedToolList = old.toolList.filter((tool) => tool.toolId !== toolId);
+          const newBoardList = {
+            ...old,
+            boardList: updatedToolList,
+          };
+          return newBoardList;
+        });
+        return { previousBoardList, previousMainToolList };
+      }
+      return { previousMainToolList };
     },
     onError: (_error, _id, context) => {
       // 에러 발생 시 캐시 롤백
       if (context?.previousBoardList) {
-        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId), context.previousBoardList);
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(), context.previousBoardList);
       }
       if (context?.previousMainToolList) {
         queryClient.setQueryData(TOOL_QUERY_KEY.LIST({ isFree, category, criteria }), context.previousMainToolList);
@@ -68,7 +70,7 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
     },
     onSettled: (_, __, toolId) => {
       // 서버 동기화를 위해 캐시 무효화
-      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId) });
+      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST() });
       queryClient.refetchQueries({ queryKey: TOOL_QUERY_KEY.DETAIL(toolId) });
     },
   });
