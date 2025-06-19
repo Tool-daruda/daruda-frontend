@@ -2,16 +2,18 @@ export type Report =
   | {
       commentReport: true;
       commentId: number;
-      boardId?: null;
+      boardId: null;
       reportType: ReportCode;
       detail: string;
+      title: string;
     }
   | {
       commentReport: false;
       boardId: number;
-      commentId?: null;
+      commentId: null;
       reportType: ReportCode;
       detail: string;
+      title: string;
     };
 
 export const ReportMap = {

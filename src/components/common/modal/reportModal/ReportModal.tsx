@@ -2,19 +2,18 @@ import { useRef, useEffect } from 'react';
 import { Controller } from 'react-hook-form';
 
 import S from './ReportModal.styled';
+import { ReportCode } from '@apis/report';
 import { BtnWritinChipx } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import options from '@constants/reportType';
 import useReport from '@hooks/useReport';
+import { BaseProps, BoardOnly, CommentOnly } from 'src/types/ReporyModal';
 
 import { ModalWrapper } from '../component';
 
-type ReportProps = {
-  isOpen: boolean;
-  handleClose: () => void;
-};
+type ReportProps = BaseProps & (BoardOnly | CommentOnly);
 
-const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
+const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
   const {
     isDropdownOpen,
     setIsDropdownOpen,
@@ -27,7 +26,7 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
     setValue,
     watch,
     errors,
-  } = useReport(handleClose);
+  } = useReport(handleClose, props);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -65,7 +64,7 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
                   <h2>신고 사유를 선택해 주세요.</h2>
                   <S.DropdownWrapper>
                     <S.DropdownBox onClick={() => setIsDropdownOpen((prev) => !prev)}>
-                      {watch('reason') || '신고 사유를 선택해 주세요'}
+                      {watch('reportType') || '신고 사유를 선택해 주세요'}
                       <S.DropdownArrowBtn isOpen={isDropdownOpen} />
                     </S.DropdownBox>
 
@@ -75,7 +74,7 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
                           <S.OptionItem
                             key={option}
                             onClick={() => {
-                              setValue('reason', option, { shouldValidate: true });
+                              setValue('reportType', option as ReportCode, { shouldValidate: true });
                               setIsDropdownOpen(false);
                             }}
                           >
@@ -85,7 +84,7 @@ const ReportModal = ({ isOpen, handleClose }: ReportProps) => {
                       </S.OptionList>
                     )}
                   </S.DropdownWrapper>
-                  {errors.reason && <span role="alert">신고 사유를 선택해주세요.</span>}
+                  {errors.reportType && <span role="alert">신고 사유를 선택해주세요.</span>}
                 </S.SelectionItem>
 
                 <S.SelectionItem style={{ position: 'relative' }}>

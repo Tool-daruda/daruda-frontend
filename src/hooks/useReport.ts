@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { ReportCode, useReportMutation, Report } from '@apis/report';
+import { BoardOnly, CommentOnly } from 'src/types/ReporyModal';
+
 type FormValues = {
   title: string;
-  reason: string;
+  reportType: ReportCode | '';
   detail: string;
 };
 
-const useReport = (handleClose: () => void) => {
+const useReport = (handleClose: () => void, props: BoardOnly | CommentOnly) => {
   const {
     register,
     handleSubmit,
@@ -18,7 +21,7 @@ const useReport = (handleClose: () => void) => {
   } = useForm<FormValues>({
     defaultValues: {
       title: '',
-      reason: '',
+      reportType: '',
       detail: '',
     },
   });
@@ -27,10 +30,38 @@ const useReport = (handleClose: () => void) => {
 
   const detailText = watch('detail');
 
-  const isSubmitDisabled = !watch('title') || !watch('reason') || Object.keys(errors).length > 0;
+  const isSubmitDisabled = !watch('title') || !watch('reportType') || Object.keys(errors).length > 0;
+
+  const { mutate: postReport } = useReportMutation();
 
   const onSubmit = (data: FormValues) => {
-    console.log('신고 제출 데이터:', data);
+    const isComment = props.commentId !== undefined;
+
+    const commonFields = {
+      reportType: data.reportType as ReportCode,
+      detail: data.detail,
+      title: data.title,
+    };
+
+    let reportPayload: Report;
+
+    if (isComment) {
+      reportPayload = {
+        ...commonFields,
+        commentReport: true,
+        commentId: props.commentId!,
+        boardId: null,
+      };
+    } else {
+      reportPayload = {
+        ...commonFields,
+        commentReport: false,
+        boardId: props.boardId!,
+        commentId: null,
+      };
+    }
+
+    postReport(reportPayload);
     handleClose();
   };
 
