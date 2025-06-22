@@ -1,10 +1,10 @@
 import axios, { AxiosResponse, isAxiosError } from 'axios';
 
-import { SignupDto, ErrorResponse, SuccessUserResponse, RequestLoginURLResponse } from './auth.model';
+import { SignupReq, ErrorResponse, SuccessUserResponse, RequestLoginURLResponse, SignupData } from './auth.model';
 import { del, post } from '@apis/index';
 
 // 회원가입 post
-export const postSignup = async (requestBody: SignupDto): Promise<SignupDto | undefined> => {
+export const postSignup = async (requestBody: SignupReq): Promise<SignupData | undefined> => {
   try {
     const response: AxiosResponse = await post('/auth/sign-up', requestBody, {
       headers: {
@@ -13,25 +13,23 @@ export const postSignup = async (requestBody: SignupDto): Promise<SignupDto | un
     });
 
     // 성공 응답 처리
-    const data = response.data;
+    const data = response.data.data;
 
+    console.log('res data', response.data);
+    console.log('res data data', response.data.data);
     localStorage.setItem(
       'user',
       JSON.stringify({
         nickname: data.nickname,
         email: data.email,
+        userId: data.userId,
+        positions: data.positions,
       }),
     );
 
-    const user = {
-      nickname: data.nickname,
-      email: data.email,
-      positions: data.positions,
-    };
-
     alert('회원가입 성공! 메인 페이지로 이동합니다.');
     window.location.href = '/';
-    return user;
+    return data;
   } catch (error) {
     // 실패 응답 처리
     if (isAxiosError(error) && error.response) {

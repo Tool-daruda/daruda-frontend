@@ -38,7 +38,6 @@ export const useAccountDeleteMutation = () => {
     mutationFn: () => deleteAccount(),
     onSuccess: () => {
       {
-        //(userNickname와 관련된 모든 쿼리 무효화
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO() });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST() });
         queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST() });

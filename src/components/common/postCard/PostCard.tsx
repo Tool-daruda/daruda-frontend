@@ -50,6 +50,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   useEffect(() => {
     const postOwner = localStorage.getItem('user');
 
+    // TODOT: 작성자 판별 userID로 변경
     if (postOwner) {
       const user = JSON.parse(postOwner);
       const ownPost = user.nickname === author;

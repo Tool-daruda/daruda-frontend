@@ -5,15 +5,13 @@ import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
 import { extractUserId } from '@utils';
 
 // 회원 정보 가져오기
-export const useInfoQuery = () => {
-  const userId = extractUserId();
-
+export const useInfoQuery = (enabled: boolean) => {
   return useQuery({
     queryKey: MYPAGE_QUERY_KEY.MY_INFO(),
     queryFn: () => getUserInfo(),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
-    enabled: !!userId,
+    enabled,
   });
 };
 

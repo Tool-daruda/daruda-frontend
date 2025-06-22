@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { postAuthorization } from '@apis/auth';
+import { useInfoQuery } from '@apis/user';
 import { ImgPopupmodal284, ImgModalcheck } from '@assets/svgs';
 import { AlterModal } from '@components/modal';
+import { extractUserId } from '@utils';
 
 const KakaoRedirectHandler = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,6 +13,10 @@ const KakaoRedirectHandler = () => {
   const [onConfirm, setOnConfirm] = useState<() => void>(() => () => {});
   const [modalImage, setModalImage] = useState(() => ImgPopupmodal284);
   const [buttonText, setButtonText] = useState('다시 시도하기');
+
+  // user 로깅용 트리거
+  const [userId, setUserId] = useState<number | null>(extractUserId());
+  useInfoQuery(!!userId);
 
   useEffect(() => {
     const handleAuthorization = async () => {
@@ -27,17 +33,20 @@ const KakaoRedirectHandler = () => {
       try {
         const response = await postAuthorization(code);
 
+        console.log(response); // TODO: 로그인 성공 확인후 로깅 삭제
+
         if (response.isUser) {
           // 기존 유저
           localStorage.setItem(
             'user',
             JSON.stringify({
-              nickName: response.nickname,
+              nickname: response.nickname,
               email: response.email,
               userId: response.userId,
               positions: response.positions,
             }),
           );
+          setUserId(response.userId);
           setModalTitle('로그인 성공');
           setModalContent('로그인이 완료되었습니다.');
           setModalImage(() => ImgModalcheck);

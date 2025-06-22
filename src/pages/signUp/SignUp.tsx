@@ -5,12 +5,13 @@ import AffiliationBtn from './components/affiliationButton/AffiliationBtn';
 import { AFFILIATION_OPTIONS } from './constants/affiliationOptions';
 import * as S from './SignUp.styled';
 import { postSignup } from '@apis/auth';
-import { useNicknameCheckMutation } from '@apis/user';
+import { useInfoQuery, useNicknameCheckMutation } from '@apis/user';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import NameInput from '@components/input/nameInput/NameInput';
 import { AlterModal } from '@components/modal';
 import Title from '@components/title/Title';
+import { extractUserId } from '@utils';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -21,6 +22,10 @@ const SignUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // user 로깅용 트리거
+  const [userId, setUserId] = useState<number | null>(extractUserId());
+  useInfoQuery(!!userId);
 
   useEffect(() => {
     const userString = localStorage.getItem('user');
@@ -111,11 +116,12 @@ const SignUp = () => {
 
     setIsSubmitting(true);
     try {
-      await postSignup({
+      const res = await postSignup({
         nickname,
         positions: selectedAffiliation,
         email: user.email,
       });
+      if (res) setUserId(res.userId);
       setIsModalOpen(true); // 회원가입 성공 시 모달 열기
     } catch (error) {
       console.error('회원가입 실패:', error);

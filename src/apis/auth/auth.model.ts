@@ -1,21 +1,14 @@
-export interface SignupDto {
+export type PositionType = 'STUDENT' | 'WORKER' | 'NORMAL' | 'ADMIN';
+
+export interface SignupReq {
   nickname: string;
-  positions: string;
   email: string;
+  positions: string; // req 로 넘겨줄때는 enum 이 아닌, 한글식 표기
 }
 
-export interface SignupResponse {
-  statusCode: number;
-  message: string;
-  data: {
-    nickname: string;
-    positions: string;
-    email: string;
-    jwtTokenResponse: {
-      accessToken: string;
-      refreshToken: string;
-    };
-  };
+export interface SignupData extends Omit<SignupReq, 'positions'> {
+  userId: number;
+  positions: PositionType;
 }
 
 export interface ErrorResponse {
@@ -34,9 +27,5 @@ export interface SuccessUserResponse {
   message: string;
   data: {
     isUser: boolean;
-    nickname: string | null;
-    email: string;
-    userId: number;
-    positions: 'STUDENT' | 'WORKER' | 'NORMAL' | 'ADMIN';
-  };
+  } & SignupData;
 }
