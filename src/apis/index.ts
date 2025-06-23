@@ -14,65 +14,10 @@ export class ApiError extends Error {
   }
 }
 
-// 토큰 캐싱 (불필요한 localStorage 접근 방지)
-let cachedToken: string | null = null;
-
-// accessToken 가져오기
-const getAccessToken = (): string | null => {
-  if (!cachedToken) {
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        const userObj = JSON.parse(user);
-        cachedToken = userObj.accessToken || null;
-      } catch (error) {
-        console.error('유저의 토큰 정보를 가져올 수 없습니다', error);
-        return null;
-      }
-    }
-  }
-  return cachedToken;
-};
-
-// accessToken, refreshToken 저장
-const setTokens = (accessToken: string, refreshToken: string) => {
-  cachedToken = accessToken;
-  const user = localStorage.getItem('user');
-  if (user) {
-    try {
-      const userObj = JSON.parse(user);
-      userObj.accessToken = accessToken;
-      userObj.refreshToken = refreshToken;
-      localStorage.setItem('user', JSON.stringify(userObj));
-    } catch (error) {
-      console.error('토큰 업데이트 중 문제가 발생했습니다', error);
-    }
-  }
-};
-
 // API 클라이언트 생성
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
-});
-
-export const logout = () => {
-  localStorage.removeItem('user');
-
-  cachedToken = null;
-
-  instance.defaults.headers.Authorization = '';
-};
-
-// 요청 인터셉터: 모든 요청에 토큰 추가
-instance.interceptors.request.use((config) => {
-  const token = getAccessToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  } else {
-    delete config.headers.Authorization;
-  }
-  return config;
 });
 
 // 응답 인터셉터: 401 오류 발생 시 토큰 갱신 로직 처리
@@ -85,35 +30,13 @@ instance.interceptors.response.use(
     if (httpStatus === 401 || customStatus === 'E401001') {
       console.warn('액세스 토큰 만료. 토큰 갱신 중...');
 
-      const user = localStorage.getItem('user');
-      if (!user) {
-        console.warn('유저 정보 없음');
-        // window.location.href = '/login';
-        return Promise.reject(error);
-      }
-
+      // 리프레시 토큰으로 새로운 액세스 토큰 요청
       try {
-        const { refreshToken } = JSON.parse(user);
-        if (!refreshToken) {
-          console.warn('리프레시 토큰 없음');
-          localStorage.removeItem('user');
-          // window.location.href = '/login';
-          return Promise.reject(error);
-        }
-
-        // 리프레시 토큰으로 새로운 액세스 토큰 요청
-        const newTokens = await postReissue(refreshToken);
-        setTokens(newTokens.accessToken, newTokens.refreshToken);
-
-        // 기존 요청을 새로운 액세스 토큰으로 재시도
+        await postReissue();
         const originalRequest = error.config as AxiosRequestConfig;
-        if (originalRequest?.headers) {
-          originalRequest.headers.Authorization = `Bearer ${newTokens.accessToken}`;
-          return instance(originalRequest);
-        }
+        return instance(originalRequest);
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
-        localStorage.removeItem('user');
         window.location.href = '/login';
       }
     }
