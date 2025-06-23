@@ -2,6 +2,8 @@ import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
+import { IcSearchGray32 } from '@assets/svgs';
+
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
   top: 0;
@@ -69,6 +71,34 @@ export const StyledLink = styled(Link)`
 
 export const StyledAnchor = styled.a`
   ${({ theme }) => baseLinkStyle(theme)}
+`;
+
+export const SearchBar = styled.div`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  height: 4rem;
+  padding: 1rem 1.6rem;
+
+  background: ${({ theme }) => theme.colors.white2};
+  border: 1px solid ${({ theme }) => theme.colors.gray4};
+  border-radius: 40px;
+`;
+
+export const IcSearchGray = styled(IcSearchGray32)`
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+`;
+
+export const Search = styled.input`
+  width: 31rem;
+  height: 1.6rem;
+
+  color: ${({ theme }) => theme.colors.gray2};
+
+  ${({ theme }) => theme.fonts.caption_12_r};
+  background: ${({ theme }) => theme.colors.white2};
 `;
 
 export const HoverContent = styled.section<{ $visible: boolean }>`

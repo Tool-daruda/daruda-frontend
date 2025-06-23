@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
@@ -44,6 +44,7 @@ const Header = ({ forOnboarding = false }: HeaderProps) => {
           <Community />
           <Onboarding />
         </S.NavLeftSection>
+        <SearchInput />
         <Auth />
       </S.HeaderContainer>
     </S.HeaderWrapper>
@@ -73,6 +74,28 @@ const Onboarding = () => (
     </S.StyledLink>
   </S.NavContainer>
 );
+
+const SearchInput = () => {
+  const [keyword, setKeyword] = useState('');
+  const navigate = useNavigate();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && keyword.trim()) {
+      navigate(`/search?keyword=${encodeURIComponent(keyword.trim())}`);
+    }
+  };
+  return (
+    <S.SearchBar>
+      <S.IcSearchGray />
+      <S.Search
+        placeholder="무엇이든 검색해보세요."
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+    </S.SearchBar>
+  );
+};
 
 const Auth = () => {
   const user = localStorage.getItem('user');
