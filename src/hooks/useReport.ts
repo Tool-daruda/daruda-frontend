@@ -17,6 +17,7 @@ const useReport = (handleClose: () => void, props: BoardOnly | CommentOnly) => {
     control,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
@@ -63,6 +64,7 @@ const useReport = (handleClose: () => void, props: BoardOnly | CommentOnly) => {
     }
 
     postReport(reportPayload);
+    reset();
     handleClose();
   };
 
@@ -78,6 +80,7 @@ const useReport = (handleClose: () => void, props: BoardOnly | CommentOnly) => {
     setValue,
     watch,
     errors,
+    reset,
   };
 };
 

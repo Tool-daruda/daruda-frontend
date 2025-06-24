@@ -26,6 +26,7 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
     setValue,
     watch,
     errors,
+    reset,
   } = useReport(handleClose, props);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -43,7 +44,13 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
           <S.Container>
             <S.Header>
               <h1>신고하기</h1>
-              <button type="button" onClick={handleClose}>
+              <button
+                type="button"
+                onClick={() => {
+                  handleClose();
+                  reset();
+                }}
+              >
                 <BtnWritinChipx role="button" aria-label="close-report-modal" />
               </button>
             </S.Header>
