@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { ReportCode, useReportMutation, Report } from '@apis/report';
+import { ReportCode, useReportMutation, Report, ReportMap, ReportLabel } from '@apis/report';
 import { BoardOnly, CommentOnly } from 'src/types/ReporyModal';
 
 type FormValues = {
@@ -37,8 +37,9 @@ const useReport = (handleClose: () => void, props: BoardOnly | CommentOnly) => {
   const onSubmit = (data: FormValues) => {
     const isComment = props.commentId !== undefined;
 
+    const label = data.reportType as ReportLabel;
     const commonFields = {
-      reportType: data.reportType as ReportCode,
+      reportType: ReportMap[label],
       detail: data.detail,
       title: data.title,
     };
