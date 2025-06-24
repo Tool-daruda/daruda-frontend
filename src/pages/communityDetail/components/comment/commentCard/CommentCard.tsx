@@ -9,26 +9,36 @@ import ImgDetail from '@components/imgDetail/ImgDetail';
 import { AlterModal, ReportModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import usePostActions from '@hooks/usePostControl';
+import useToastOpen from '@hooks/useToastOpen';
 
 interface Comment {
   comment: CommentContent;
 }
 
 const CommentCard = ({ comment }: Comment) => {
-  const { isOwnPost, isOpen, modalType, isWarning, handleModalOpen, handleModalClose, handleReport } = usePostActions(
-    comment.nickname,
-  );
+  const {
+    isOwnPost,
+    isOpen,
+    modalType,
+    isWarning: authError,
+    handleModalOpen,
+    handleModalClose,
+    handleReport,
+  } = usePostActions(comment.nickname);
   const { id } = useParams<{ id: string }>();
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { mutate, isError } = useCommentDeleteMutation(comment.commentId, id);
-  const [IsToastOpen, setIsToastOpen] = useState(false);
+  const { mutate, isError: deleteError } = useCommentDeleteMutation(comment.commentId, id);
+  const { isToastOpen, handleModalOpen: handleToastOpen, handleMessageChange, toastMessage } = useToastOpen();
 
   useEffect(() => {
-    if (isError) {
-      setIsToastOpen(true);
-      setTimeout(() => setIsToastOpen(false), 3000);
+    if (deleteError) {
+      handleToastOpen();
+      handleMessageChange('삭제 불가합니다. 권한을 확인해주세요');
+    } else if (authError) {
+      handleToastOpen();
+      handleMessageChange('로그인 후 가능한 서비스입니다.');
     }
-  }, [isError]);
+  }, [deleteError, authError, handleToastOpen, handleMessageChange]);
 
   const handleModalDelete = async () => {
     mutate();
@@ -78,7 +88,13 @@ const CommentCard = ({ comment }: Comment) => {
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
       {modalType === '신고' ? (
-        <ReportModal isOpen={isOpen} handleClose={handleModalDelete} commentId={comment.commentId} />
+        <ReportModal
+          isOpen={isOpen}
+          handleClose={handleModalDelete}
+          commentId={comment.commentId}
+          handleTaostMsg={handleMessageChange}
+          handleToastOpen={handleToastOpen}
+        />
       ) : (
         <AlterModal
           modalTitle="글을 삭제하시겠어요?"
@@ -98,16 +114,9 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      {IsToastOpen && (
-        <Toast isVisible={IsToastOpen} isWarning={true}>
-          삭제 불가합니다. 권한을 확인해주세요
-        </Toast>
-      )}
-      {isWarning && (
-        <Toast isVisible={isWarning} isWarning>
-          로그인 후 가능한 서비스입니다.
-        </Toast>
-      )}
+      <Toast isVisible={isToastOpen} isWarning={true}>
+        {toastMessage}
+      </Toast>
     </S.Wrapper>
   );
 };

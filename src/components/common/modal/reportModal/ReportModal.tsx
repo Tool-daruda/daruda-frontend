@@ -13,7 +13,7 @@ import { ModalWrapper } from '../component';
 
 type ReportProps = BaseProps & (BoardOnly | CommentOnly);
 
-const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
+const ReportModal = ({ isOpen, handleClose, handleToastOpen, handleTaostMsg, ...props }: ReportProps) => {
   const {
     isDropdownOpen,
     setIsDropdownOpen,
@@ -27,7 +27,7 @@ const ReportModal = ({ isOpen, handleClose, ...props }: ReportProps) => {
     watch,
     errors,
     reset,
-  } = useReport(handleClose, props);
+  } = useReport(handleClose, handleToastOpen, handleTaostMsg, props);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {

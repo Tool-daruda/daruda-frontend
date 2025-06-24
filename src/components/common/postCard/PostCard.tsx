@@ -60,6 +60,10 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsImgModalOpen(false);
   };
 
+  const handleTaostMsg = (msg: string) => {
+    setToastMessage(msg);
+  };
+
   // 북마크 추가 / 삭제 함수
   const handleScrap = (boardId: number) => {
     srapMutate(boardId);
@@ -74,7 +78,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   useEffect(() => {
     if (isBookMarkSuccess) {
-      setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      handleTaostMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
     }
   }, [isBookMarkSuccess, isScraped]);
 
@@ -182,7 +186,13 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         </S.CardLayout>
       </Link>
       {modalType === '신고' ? (
-        <ReportModal isOpen={isOpen} handleClose={handleModalClose} boardId={boardId} />
+        <ReportModal
+          isOpen={isOpen}
+          handleClose={handleModalClose}
+          boardId={boardId}
+          handleToastOpen={handleToastOpen}
+          handleTaostMsg={handleTaostMsg}
+        />
       ) : (
         <AlterModal
           modalTitle="글을 삭제하시겠어요?"
@@ -199,7 +209,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {isToastOpen && isBookMarkSuccess && (
+      {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {toastMessage}
         </Toast>
