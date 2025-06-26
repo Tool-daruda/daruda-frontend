@@ -10,6 +10,7 @@ import Intro from '@pages/intro/Intro';
 import KakaoAuth from '@pages/login/KakaoAuth';
 import KakaoRedirectHandler from '@pages/login/KakaoRedirectHandler';
 import Notification from '@pages/notification/Notification';
+import Search from '@pages/search/Search';
 import SignUp from '@pages/signUp/SignUp';
 import ToolDetail from '@pages/toolDetail/ToolDetail';
 import ToolList from '@pages/toolList/ToolList';
@@ -32,6 +33,7 @@ const router = createBrowserRouter([
       { path: 'login', element: <KakaoAuth /> }, // 로그인
       { path: 'signUp', element: <SignUp /> }, // 회원가입
       { path: 'api/v1/users/kakao/login-url', element: <KakaoRedirectHandler /> }, // 카카오 리다이렉트 경로
+      { path: 'search', element: <Search /> }, // 검색
       { path: '*', element: <NotFound /> }, // 404 페이지
     ],
   },

@@ -54,11 +54,7 @@ const CommunityWrite = () => {
     try {
       await postBoard(formData);
 
-      const userItem = localStorage.getItem('user');
-      const userData = userItem ? JSON.parse(userItem) : null;
-      const userId = userData?.accessToken || null;
-
-      queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId, 1) });
+      queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
       navigate('/community');
     } catch (error: unknown) {
       console.error('에러 발생:', error);

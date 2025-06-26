@@ -6,6 +6,7 @@ import { useToolScrapMutation, DetailToolResponse } from '@apis/tool';
 import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { useToastOpen } from '@hooks/index';
+import { extractUserId } from '@utils';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
 export interface ToolInfoCardPropTypes {
@@ -56,11 +57,10 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
 
   const isUserLoggedIn = () => {
     try {
-      const user = localStorage.getItem('user');
+      const user = extractUserId();
       if (!user) return false;
 
-      const parsedUser = JSON.parse(user);
-      return !!parsedUser.accessToken;
+      return !!user;
     } catch (error) {
       console.error('로그인 상태 확인 중 오류 발생:', error);
       return false;

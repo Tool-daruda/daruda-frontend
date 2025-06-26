@@ -6,7 +6,7 @@ type ButtonProps = {
   children: ReactNode;
   icon?: ReactNode;
   shadow?: boolean;
-  size?: 'large' | 'medium' | 'small' | 'mini';
+  size?: 'large' | 'medium' | 'small' | 'mini' | 'xs';
   whiteBtn?: boolean;
   $disabled?: boolean;
   handleClick?: () => void;

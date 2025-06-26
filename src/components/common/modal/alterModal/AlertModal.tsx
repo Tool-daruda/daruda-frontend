@@ -1,7 +1,8 @@
 import { SVGProps, FunctionComponent } from 'react';
 
 import * as S from './AlterModal.styled';
-import { SingleBtn, DoubleBtns, SingleBtnModal, DoubleBtnModal, ModalWrapper } from './component';
+
+import { SingleBtn, DoubleBtns, SingleBtnModal, DoubleBtnModal, ModalWrapper } from '../component';
 
 interface AlertModalProps {
   modalTitle: string;
@@ -44,13 +45,13 @@ const AlterModal = (props: AlertModalProps) => {
     );
 
   return (
-    <ModalWrapper isOpen={isOpen} $isSingleModal={isSingleModal} isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
-      <>
+    <ModalWrapper isOpen={isOpen}>
+      <S.ModalContent $isSingleModal={isSingleModal} $isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
         <S.ModalContainer $isSingleModal={isSingleModal} $isPrimaryRight={DoublebtnProps?.isPrimaryRight}>
           {renderModalContent()}
         </S.ModalContainer>
         {renderModalButtons()}
-      </>
+      </S.ModalContent>
     </ModalWrapper>
   );
 };
