@@ -3,45 +3,14 @@ import { Link } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
+// import { useRecentNotiListQuery } from '@apis/notification';
+import { useRecentNotiListQuery } from '@apis/notification';
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
 import NotificationCard from '@components/notiCard/NotiCard';
 
 interface HeaderProps {
   forOnboarding?: boolean;
 }
-
-// TODO: api 연결 후 더미데이터 삭제
-const config = [
-  { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1', isRead: false },
-  {
-    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
-    date: '99월 99일',
-    flag: 'comment',
-    id: '2',
-    isRead: false,
-  },
-  {
-    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
-    date: '99월 99일',
-    flag: 'comment',
-    id: '3',
-    isRead: true,
-  },
-  {
-    title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.',
-    date: '99월 99일',
-    flag: 'comment',
-    id: '4',
-    isRead: false,
-  },
-  {
-    title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!',
-    date: '99월 99일',
-    flag: 'notice',
-    id: '5',
-    isRead: false,
-  },
-] as const;
 
 export const HEADER_TEXTS = {
   community: '커뮤니티',
@@ -94,6 +63,7 @@ const Onboarding = () => (
 const Auth = () => {
   const user = localStorage.getItem('user');
   const [isHover, setIsHovered] = useState(false);
+  const { data: recentList } = useRecentNotiListQuery(!!user);
 
   let leaveTimeout: ReturnType<typeof setTimeout>;
 
@@ -131,9 +101,7 @@ const Auth = () => {
                   <Link to="/notification">더보기</Link>
                 </S.CardHeader>
                 <S.CardContainer>
-                  {config.map((card) => (
-                    <NotificationCard card={card} key={card.id} />
-                  ))}
+                  {recentList?.map((card) => <NotificationCard card={card} key={card.id} />)}
                 </S.CardContainer>
               </S.HoverLayout>
             </S.HoverContent>

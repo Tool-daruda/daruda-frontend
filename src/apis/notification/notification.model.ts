@@ -6,6 +6,6 @@ export interface Notification {
   content: string;
   boardId: number;
   type: NotificationType;
-  createdAt: string;
+  createdAt: Date;
   isRead: boolean;
 }
