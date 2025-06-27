@@ -34,4 +34,5 @@ export const LOGIN_QUERY_KEY = Object.freeze({
 
 export const NOTI_QUERY_KEY = Object.freeze({
   LIST_ALL: () => ['notiList'],
+  RECENT_LIST: () => ['recentNotiList'],
 });

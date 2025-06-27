@@ -1,4 +1,7 @@
+import { useEffect } from 'react';
+
 import * as S from './Notification.styled';
+import { postNotice } from '@apis/notification';
 import NotificationCard from '@components/notiCard/NotiCard';
 import { useNotifications } from 'src/hoc/NotificationProvider';
 
@@ -24,6 +27,9 @@ const Notification = () => {
   const notifications = useNotifications();
 
   console.log(notifications);
+  useEffect(() => {
+    postNotice();
+  }, []);
   return (
     <S.NotiWrapper>
       <S.NotiContainer>
