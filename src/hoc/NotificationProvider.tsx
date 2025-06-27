@@ -3,17 +3,19 @@ import { createContext, useContext, useEffect, ReactNode } from 'react';
 
 // import { getAccessToken } from '@apis/index';
 import { useNotiListQuery, Notification } from '@apis/notification';
+import { extractUserId } from '@utils';
 
 const NotificationContext = createContext<Notification[] | undefined>(undefined);
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
-  // const token = getAccessToken();
+  const userId = extractUserId();
 
-  const res = useNotiListQuery();
+  const res = useNotiListQuery(!!userId);
   console.log(res);
 
   useEffect(() => {
+    if (!userId) return;
     const eventSource = new EventSource(`${import.meta.env.VITE_API_BASE_URL}/notification/connect`, {
       withCredentials: true,
     });
@@ -25,7 +27,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return () => eventSource.close();
-  }, [queryClient]);
+  }, []);
 
   const notifications = queryClient.getQueryData<Notification[]>(['notifications']) || [];
 
