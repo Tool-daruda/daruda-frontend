@@ -20,12 +20,12 @@ export const useRecentNotiListQuery = (enabled = true) =>
     enabled,
   });
 
-export const useReadMutation = (notiId: number) => {
+export const useReadMutation = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: NOTI_QUERY_KEY.LIST_ALL(),
-    mutationFn: () => patchNotiRead(notiId),
-    onMutate: () => {
+    mutationFn: (notiId: number) => patchNotiRead(notiId),
+    onMutate: (notiId: number) => {
       queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.LIST_ALL() });
       const prevData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.RECENT_LIST());
 

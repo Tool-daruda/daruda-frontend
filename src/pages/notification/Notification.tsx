@@ -1,16 +1,21 @@
 // import { useEffect } from 'react';
 
 import * as S from './Notification.styled';
-import { useNotiListQuery } from '@apis/notification';
+import { useNotiListQuery, useReadMutation } from '@apis/notification';
 import NotificationCard from '@components/notiCard/NotiCard';
 import { useNotifications } from 'src/hoc/NotificationProvider';
 import groupByDate from 'src/utils/formatByDate';
 
 const Notification = () => {
   useNotifications();
+  const { mutate: readMutation } = useReadMutation();
 
   const { data: notificationList } = useNotiListQuery();
   const grouped = groupByDate(notificationList || []);
+
+  const handleReadClick = (notiId: number) => {
+    readMutation(notiId);
+  };
 
   return (
     <S.NotiWrapper>
@@ -22,7 +27,7 @@ const Notification = () => {
               <S.NotiDateText>{date}</S.NotiDateText>
               <ul>
                 {cards.map((card) => (
-                  <NotificationCard key={card.id} card={card} />
+                  <NotificationCard key={card.id} card={card} handleClick={handleReadClick} />
                 ))}
               </ul>
             </li>

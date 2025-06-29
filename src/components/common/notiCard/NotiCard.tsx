@@ -11,20 +11,23 @@ type configType = {
     id: number;
     isRead: boolean;
   };
+  handleClick: (id: number) => void;
 };
 
-const NotificationCard = ({ card }: configType) => {
-  const { title, isRead, type, createdAt } = card;
+const NotificationCard = ({ card, handleClick }: configType) => {
+  const { title, isRead, type, createdAt, id } = card;
   return (
     <li>
-      <S.CardItem $isRead={isRead}>
-        {type === 'COMMENT' && (isRead ? <IcAlarmCmtDeactive /> : <IcAlarmCmt />)}
-        {type === 'NOTICE' && (isRead ? <IcAlarmNoticeDeactive /> : <IcAlarmNotice />)}
-        <div>
-          <h2>{title}</h2>
-          <p>{formatToMonthDay(createdAt)}</p>
-        </div>
-      </S.CardItem>
+      <button type="button" onClick={() => handleClick(id)}>
+        <S.CardItem $isRead={isRead}>
+          {type === 'COMMENT' && (isRead ? <IcAlarmCmtDeactive /> : <IcAlarmCmt />)}
+          {type === 'NOTICE' && (isRead ? <IcAlarmNoticeDeactive /> : <IcAlarmNotice />)}
+          <div>
+            <h2>{title}</h2>
+            <p>{formatToMonthDay(createdAt)}</p>
+          </div>
+        </S.CardItem>
+      </button>
     </li>
   );
 };
