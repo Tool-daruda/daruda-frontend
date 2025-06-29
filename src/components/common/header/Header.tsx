@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Category } from './category/Category';
 import * as S from './Header.styled';
 // import { useRecentNotiListQuery } from '@apis/notification';
-import { useRecentNotiListQuery } from '@apis/notification';
+import { useReadMutation, useRecentNotiListQuery } from '@apis/notification';
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
 import NotificationCard from '@components/notiCard/NotiCard';
 
@@ -64,6 +64,7 @@ const Auth = () => {
   const user = localStorage.getItem('user');
   const [isHover, setIsHovered] = useState(false);
   const { data: recentList } = useRecentNotiListQuery(!!user);
+  const { mutate: readMutation } = useReadMutation();
 
   let leaveTimeout: ReturnType<typeof setTimeout>;
 
@@ -76,6 +77,10 @@ const Auth = () => {
   const handleMouseEnter = () => {
     clearTimeout(leaveTimeout);
     setIsHovered(true);
+  };
+
+  const handleClick = (id: number) => {
+    readMutation(id);
   };
 
   // TODO: 공지 클릭시, 네비게이트 or 팝업 처리
@@ -101,7 +106,7 @@ const Auth = () => {
                   <Link to="/notification">더보기</Link>
                 </S.CardHeader>
                 <S.CardContainer>
-                  {recentList?.map((card) => <NotificationCard card={card} key={card.id} />)}
+                  {recentList?.map((card) => <NotificationCard card={card} key={card.id} handleClick={handleClick} />)}
                 </S.CardContainer>
               </S.HoverLayout>
             </S.HoverContent>
