@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, useEffect, ReactNode } from 'react';
 
 // import { getAccessToken } from '@apis/index';
-import { useNotiListQuery, Notification } from '@apis/notification';
+import { Notification } from '@apis/notification';
 import { extractUserId } from '@utils';
 
 const NotificationContext = createContext<Notification[] | undefined>(undefined);
@@ -10,9 +10,6 @@ const NotificationContext = createContext<Notification[] | undefined>(undefined)
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = useQueryClient();
   const userId = extractUserId();
-
-  const res = useNotiListQuery(!!userId);
-  console.log(res);
 
   useEffect(() => {
     if (!userId) return;
