@@ -6,7 +6,9 @@ import * as S from './Header.styled';
 // import { useRecentNotiListQuery } from '@apis/notification';
 import { useReadMutation, useRecentNotiListQuery } from '@apis/notification';
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
+import { NotiModal } from '@components/modal';
 import NotificationCard from '@components/notiCard/NotiCard';
+import useNotiClick from '@pages/notification/hooks/useNotiClick';
 
 interface HeaderProps {
   forOnboarding?: boolean;
@@ -66,6 +68,7 @@ const Auth = () => {
   const [isHover, setIsHovered] = useState(false);
   const { data: recentList } = useRecentNotiListQuery(!!user);
   const { mutate: readMutation } = useReadMutation();
+  const { isModalOpen, openedNoti, handleModalClose, handleReadClick } = useNotiClick(readMutation, recentList);
 
   let leaveTimeout: ReturnType<typeof setTimeout>;
 
@@ -78,10 +81,6 @@ const Auth = () => {
   const handleMouseEnter = () => {
     clearTimeout(leaveTimeout);
     setIsHovered(true);
-  };
-
-  const handleClick = (id: number) => {
-    readMutation(id);
   };
 
   const hasUnreadNotification = recentList?.some((notification) => !notification.isRead);
@@ -110,7 +109,7 @@ const Auth = () => {
                   </S.CardHeader>
                   <S.CardContainer>
                     {recentList?.map((card) => (
-                      <NotificationCard card={card} key={card.id} handleClick={handleClick} />
+                      <NotificationCard card={card} key={card.id} handleClick={handleReadClick} />
                     ))}
                   </S.CardContainer>
                 </S.HoverLayout>
@@ -125,6 +124,14 @@ const Auth = () => {
             </S.MyPageButton>
           </S.StyledLink>
         </li>
+        {openedNoti && (
+          <NotiModal
+            isOpen={isModalOpen}
+            handleClose={handleModalClose}
+            title={openedNoti?.title}
+            content={openedNoti?.content}
+          />
+        )}
       </S.AuthSection>
     );
   }

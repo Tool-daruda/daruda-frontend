@@ -49,6 +49,7 @@ export const useReadMutation = () => {
       return { prevData, prevRecentData };
     },
     onError: (error, _, context) => {
+      // console.log('에러 발생', error);
       if (context?.prevData) {
         queryClient.setQueryData(NOTI_QUERY_KEY.LIST_ALL(), context.prevData);
       }
@@ -56,6 +57,10 @@ export const useReadMutation = () => {
         queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), context.prevRecentData);
       }
       console.error(error);
+    },
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: NOTI_QUERY_KEY.LIST_ALL() });
+      queryClient.refetchQueries({ queryKey: NOTI_QUERY_KEY.RECENT_LIST() });
     },
   });
 };

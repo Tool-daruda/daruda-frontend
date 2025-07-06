@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const NotiWrapper = styled.div`
   display: flex;
   justify-content: center;
-  height: 100vh;
+  margin-bottom: 5rem; /*  TODO: 페이지 하단 여백 디자이너와 조율 필요 */
   padding: 2.4rem 16rem 0;
 `;
 

@@ -10,15 +10,17 @@ type configType = {
     type: 'COMMENT' | 'NOTICE';
     id: number;
     isRead: boolean;
+    boardId?: number;
   };
-  handleClick: (id: number) => void;
+  handleClick: (notiId: number, type: 'COMMENT' | 'NOTICE', boardId?: number) => void;
 };
 
 const NotificationCard = ({ card, handleClick }: configType) => {
-  const { title, isRead, type, createdAt, id } = card;
+  const { title, isRead, type, createdAt, id, boardId } = card;
+
   return (
     <li>
-      <S.NotiWrapper type="button" onClick={() => handleClick(id)}>
+      <S.NotiWrapper type="button" onClick={() => handleClick(id, type, boardId)}>
         <S.CardItem $isRead={isRead}>
           {type === 'COMMENT' && (isRead ? <IcAlarmCmtDeactive /> : <IcAlarmCmt />)}
           {type === 'NOTICE' && (isRead ? <IcAlarmNoticeDeactive /> : <IcAlarmNotice />)}
