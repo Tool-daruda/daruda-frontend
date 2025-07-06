@@ -36,7 +36,7 @@ export const patchNotiRead = async (notiId: number): Promise<null> => {
   }
 };
 
-// 알림 테스트 등록을 위한 알림 생성
+// 알림 테스트 등록을 위한 알림 생성 (테스트용)
 export const postNotice = async (): Promise<null> => {
   try {
     await post('/notification/notice', {

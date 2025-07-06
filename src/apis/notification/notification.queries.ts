@@ -31,25 +31,20 @@ export const useReadMutation = () => {
       const prevData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.LIST_ALL());
       const prevRecentData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.RECENT_LIST());
 
-      // console.log(prevData, '이전 데이터');
-
       if (prevData) {
         const updatedData = prevData.map((noti) => (noti.id === notiId ? { ...noti, isRead: true } : noti));
         queryClient.setQueryData(NOTI_QUERY_KEY.LIST_ALL(), updatedData);
-        // console.log(updatedData, '업데이트된 데이터');
         queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.LIST_ALL() });
       }
       if (prevRecentData) {
         const updatedRecentData = prevRecentData.map((noti) => (noti.id === notiId ? { ...noti, isRead: true } : noti));
         queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), updatedRecentData);
-        // console.log(updatedRecentData, '업데이트된 최근 데이터');
         queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.RECENT_LIST() });
       }
 
       return { prevData, prevRecentData };
     },
     onError: (error, _, context) => {
-      // console.log('에러 발생', error);
       if (context?.prevData) {
         queryClient.setQueryData(NOTI_QUERY_KEY.LIST_ALL(), context.prevData);
       }
