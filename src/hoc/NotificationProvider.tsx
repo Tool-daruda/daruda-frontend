@@ -2,7 +2,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, useEffect, ReactNode } from 'react';
 
 // import { getAccessToken } from '@apis/index';
-import { Notification } from '@apis/notification';
+import { Notification, useNotiListQuery } from '@apis/notification';
+import { NOTI_QUERY_KEY } from '@constants/queryKey';
 import { extractUserId } from '@utils';
 
 const NotificationContext = createContext<Notification[] | undefined>(undefined);
@@ -21,7 +22,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
       console.log('SSE message:', event.data);
       try {
         const data = JSON.parse(event.data);
-        queryClient.setQueryData<Notification[]>(['notifications'], (old = []) => [data, ...old]);
+        queryClient.setQueryData<Notification[]>(NOTI_QUERY_KEY.LIST_ALL(), (old = []) => [data, ...old]);
       } catch (err) {
         console.warn('SSE non-JSON message skipped:', event.data, err);
       }
@@ -30,7 +31,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     return () => eventSource.close();
   }, []);
 
-  const notifications = queryClient.getQueryData<Notification[]>(['notifications']) || [];
+  const notifications = useNotiListQuery().data ?? undefined;
 
   return <NotificationContext.Provider value={notifications}>{children}</NotificationContext.Provider>;
 };

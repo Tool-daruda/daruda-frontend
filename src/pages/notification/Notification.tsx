@@ -1,19 +1,21 @@
 import useNotiClick from './hooks/useNotiClick';
 import * as S from './Notification.styled';
-import { useNotiListQuery, useReadMutation } from '@apis/notification';
+import {
+  // useNotiListQuery,
+  useReadMutation,
+} from '@apis/notification';
 import { NotiModal } from '@components/modal';
 import NotificationCard from '@components/notiCard/NotiCard';
 import { useNotifications } from 'src/hoc/NotificationProvider';
 import groupByDate from 'src/utils/formatByDate';
 
 const Notification = () => {
-  useNotifications();
+  const notificaton = useNotifications();
   const { mutate: readMutation } = useReadMutation();
-  const { data: notificationList } = useNotiListQuery();
 
-  const { isModalOpen, openedNoti, handleModalClose, handleReadClick } = useNotiClick(readMutation, notificationList);
+  const { isModalOpen, openedNoti, handleModalClose, handleReadClick } = useNotiClick(readMutation, notificaton);
 
-  const grouped = groupByDate(notificationList || []);
+  const grouped = groupByDate(notificaton || []);
 
   return (
     <S.NotiWrapper>
@@ -30,7 +32,7 @@ const Notification = () => {
               </ul>
             </li>
           ))}
-          {notificationList?.length === 0 && <S.NotiEmptyText>최근 알림이 없어요</S.NotiEmptyText>}
+          {notificaton?.length === 0 && <S.NotiEmptyText>최근 알림이 없어요</S.NotiEmptyText>}
         </S.NotiDateList>
       </S.NotiContainer>
       {openedNoti && (
