@@ -4,6 +4,7 @@ export const NotiWrapper = styled.div`
   display: flex;
   justify-content: center;
   height: 100vh;
+  padding: 2.4rem 16rem 0;
 `;
 
 export const NotiContainer = styled.section`
@@ -11,7 +12,7 @@ export const NotiContainer = styled.section`
   flex-direction: column;
   gap: 1rem;
   align-items: flex-start;
-  width: 86rem;
+  width: 100%;
   height: max-content;
   margin-top: 2.4rem;
   padding: 3.2rem 9.3rem 5.6rem;
@@ -38,6 +39,8 @@ export const NotiDateList = styled.ul`
 `;
 
 export const NotiDateText = styled.h2`
+  margin-bottom: 0.4rem;
+
   ${({ theme }) => theme.fonts.body_16_m}
   color: ${({ theme }) => theme.colors.gray1};
 `;

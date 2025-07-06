@@ -18,7 +18,7 @@ const NotificationCard = ({ card, handleClick }: configType) => {
   const { title, isRead, type, createdAt, id } = card;
   return (
     <li>
-      <button type="button" onClick={() => handleClick(id)}>
+      <S.NotiWrapper type="button" onClick={() => handleClick(id)}>
         <S.CardItem $isRead={isRead}>
           {type === 'COMMENT' && (isRead ? <IcAlarmCmtDeactive /> : <IcAlarmCmt />)}
           {type === 'NOTICE' && (isRead ? <IcAlarmNoticeDeactive /> : <IcAlarmNotice />)}
@@ -27,7 +27,7 @@ const NotificationCard = ({ card, handleClick }: configType) => {
             <p>{formatToMonthDay(createdAt)}</p>
           </div>
         </S.CardItem>
-      </button>
+      </S.NotiWrapper>
     </li>
   );
 };

@@ -38,6 +38,7 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
+        localStorage.removeItem('users');
         window.location.href = '/login';
       }
     }

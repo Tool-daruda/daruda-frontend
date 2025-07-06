@@ -27,19 +27,33 @@ export const useReadMutation = () => {
     mutationFn: (notiId: number) => patchNotiRead(notiId),
     onMutate: (notiId: number) => {
       queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.LIST_ALL() });
-      const prevData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.RECENT_LIST());
+      queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.RECENT_LIST() });
+      const prevData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.LIST_ALL());
+      const prevRecentData = queryClient.getQueryData<Notification[]>(NOTI_QUERY_KEY.RECENT_LIST());
+
+      // console.log(prevData, '이전 데이터');
 
       if (prevData) {
         const updatedData = prevData.map((noti) => (noti.id === notiId ? { ...noti, isRead: true } : noti));
-        queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), updatedData);
+        queryClient.setQueryData(NOTI_QUERY_KEY.LIST_ALL(), updatedData);
+        // console.log(updatedData, '업데이트된 데이터');
+        queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.LIST_ALL() });
+      }
+      if (prevRecentData) {
+        const updatedRecentData = prevRecentData.map((noti) => (noti.id === notiId ? { ...noti, isRead: true } : noti));
+        queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), updatedRecentData);
+        // console.log(updatedRecentData, '업데이트된 최근 데이터');
+        queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.RECENT_LIST() });
       }
 
-      queryClient.invalidateQueries({ queryKey: NOTI_QUERY_KEY.RECENT_LIST() });
-      return { prevData };
+      return { prevData, prevRecentData };
     },
     onError: (error, _, context) => {
       if (context?.prevData) {
-        queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), context.prevData);
+        queryClient.setQueryData(NOTI_QUERY_KEY.LIST_ALL(), context.prevData);
+      }
+      if (context?.prevRecentData) {
+        queryClient.setQueryData(NOTI_QUERY_KEY.RECENT_LIST(), context.prevRecentData);
       }
       console.error(error);
     },

@@ -1,12 +1,16 @@
 import styled from '@emotion/styled';
 
+export const NotiWrapper = styled.button`
+  width: 100%;
+`;
+
 export const CardItem = styled.section<{ $isRead: boolean }>`
   display: flex;
   gap: 1.6rem;
   align-items: center;
   padding: 1.5rem 2.4rem;
 
-  background-color: ${({ $isRead, theme }) => $isRead && theme.colors.white2};
+  background-color: ${({ $isRead, theme }) => ($isRead ? theme.colors.white1 : theme.colors.white2)};
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray5};
 
   & > svg {
@@ -15,6 +19,8 @@ export const CardItem = styled.section<{ $isRead: boolean }>`
 
   & div {
     width: 84%;
+
+    text-align: start;
   }
 
   & h2 {

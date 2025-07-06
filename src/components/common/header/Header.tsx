@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
@@ -62,6 +62,7 @@ const Onboarding = () => (
 
 const Auth = () => {
   const user = localStorage.getItem('user');
+  const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
   const { data: recentList } = useRecentNotiListQuery(!!user);
   const { mutate: readMutation } = useReadMutation();
@@ -83,8 +84,8 @@ const Auth = () => {
     readMutation(id);
   };
 
-  // TODO: 공지 클릭시, 네비게이트 or 팝업 처리
-  // TODO: unread 공지 1개 이상 -> active Icon 으로 랜더링
+  const hasUnreadNotification = recentList?.some((notification) => !notification.isRead);
+
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
@@ -94,23 +95,28 @@ const Auth = () => {
           </S.StyledAnchor>
         </li>
         <li>
-          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <S.NotificationButton aria-label="알림 확인">
+          <S.NotiWrapper onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            {hasUnreadNotification && <S.UnreadBadgeDot />}
+            <S.NotificationButton aria-label="알림 확인" onClick={() => navigate('/notification')}>
               <IcAlarmBlack24 />
             </S.NotificationButton>
-            <S.HoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} $visible={isHover}>
-              <S.HoverLayout>
-                <AlarmHead />
-                <S.CardHeader>
-                  <h1>알림</h1>
-                  <Link to="/notification">더보기</Link>
-                </S.CardHeader>
-                <S.CardContainer>
-                  {recentList?.map((card) => <NotificationCard card={card} key={card.id} handleClick={handleClick} />)}
-                </S.CardContainer>
-              </S.HoverLayout>
-            </S.HoverContent>
-          </div>
+            {hasUnreadNotification && recentList && recentList.length > 0 && (
+              <S.HoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} $visible={isHover}>
+                <S.HoverLayout>
+                  <AlarmHead />
+                  <S.CardHeader>
+                    <h1>알림</h1>
+                    <Link to="/notification">더보기</Link>
+                  </S.CardHeader>
+                  <S.CardContainer>
+                    {recentList?.map((card) => (
+                      <NotificationCard card={card} key={card.id} handleClick={handleClick} />
+                    ))}
+                  </S.CardContainer>
+                </S.HoverLayout>
+              </S.HoverContent>
+            )}
+          </S.NotiWrapper>
         </li>
         <li>
           <S.StyledLink to="/mypage">

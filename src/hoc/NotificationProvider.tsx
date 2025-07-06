@@ -18,9 +18,13 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     });
 
     eventSource.onmessage = (event) => {
-      const newNotification: Notification = JSON.parse(event.data);
-
-      queryClient.setQueryData<Notification[]>(['notifications'], (old = []) => [newNotification, ...old]);
+      console.log('SSE message:', event.data);
+      try {
+        const data = JSON.parse(event.data);
+        queryClient.setQueryData<Notification[]>(['notifications'], (old = []) => [data, ...old]);
+      } catch (err) {
+        console.warn('SSE non-JSON message skipped:', event.data, err);
+      }
     };
 
     return () => eventSource.close();

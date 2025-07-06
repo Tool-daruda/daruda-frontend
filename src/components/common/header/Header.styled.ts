@@ -40,6 +40,10 @@ export const AuthSection = styled.ul`
   justify-content: center;
 `;
 
+export const NotiWrapper = styled.div`
+  position: relative;
+`;
+
 export const NotificationButton = styled.button`
   display: flex;
   align-items: center;
@@ -73,8 +77,8 @@ export const StyledAnchor = styled.a`
 
 export const HoverContent = styled.section<{ $visible: boolean }>`
   position: absolute;
-  top: 5.7rem;
-  right: 6.7rem;
+  top: 3.3rem;
+  right: -2.1rem;
   display: ${({ $visible }) => ($visible ? 'block' : 'none')};
 `;
 
@@ -87,6 +91,9 @@ export const HoverLayout = styled.div`
   height: auto;
 
   color: ${({ theme }) => theme.colors.black};
+
+  box-shadow: 0 6px 12px rgb(211 211 211 / 63%);
+  border-radius: 1.6rem;
 `;
 
 export const CardHeader = styled.header`
@@ -121,14 +128,12 @@ export const CardContainer = styled.ul`
   width: 100%;
 
   background-color: ${({ theme }) => theme.colors.white1};
-  box-shadow: 0 0 12px 0 rgb(211 211 211 / 63%);
   border-top: 1px solid ${({ theme }) => theme.colors.gray5};
-  border-radius: 0 0 1.6rem 1.6rem;
+  border-radius: 1.6rem;
 
-  clip-path: inset(0 0 0 0);
-
-  & li:last-of-type > section {
+  & li:last-of-type section {
     border-bottom: none;
+    border-radius: 0 0 1.6rem 1.6rem;
   }
 `;
 
@@ -137,4 +142,15 @@ export const AuthDivider = styled.span`
 
   color: ${({ theme }) => theme.colors.black};
   ${({ theme }) => theme.fonts.body_16_b_1};
+`;
+
+export const UnreadBadgeDot = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0.6rem;
+  height: 0.6rem;
+
+  background-color: ${({ theme }) => theme.colors.orange1};
+  border-radius: 50%;
 `;

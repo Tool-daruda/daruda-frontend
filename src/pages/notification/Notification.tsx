@@ -1,5 +1,3 @@
-// import { useEffect } from 'react';
-
 import * as S from './Notification.styled';
 import { useNotiListQuery, useReadMutation } from '@apis/notification';
 import NotificationCard from '@components/notiCard/NotiCard';
