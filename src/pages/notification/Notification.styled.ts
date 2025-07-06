@@ -74,3 +74,11 @@ export const CardItem = styled.section`
     color: ${({ theme }) => theme.colors.gray4};
   }
 `;
+
+export const NotiEmptyText = styled.p`
+  width: 100%;
+
+  color: ${({ theme }) => theme.colors.gray1};
+  text-align: center;
+  ${({ theme }) => theme.fonts.head_28_m};
+`;

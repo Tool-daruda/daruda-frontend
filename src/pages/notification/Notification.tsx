@@ -30,6 +30,7 @@ const Notification = () => {
               </ul>
             </li>
           ))}
+          {notificationList?.length === 0 && <S.NotiEmptyText>최근 알림이 없어요</S.NotiEmptyText>}
         </S.NotiDateList>
       </S.NotiContainer>
       {openedNoti && (
