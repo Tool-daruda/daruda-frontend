@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
-// import { useRecentNotiListQuery } from '@apis/notification';
 import { useReadMutation, useRecentNotiListQuery } from '@apis/notification';
 import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
 import { NotiModal } from '@components/modal';

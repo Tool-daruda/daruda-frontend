@@ -128,10 +128,13 @@ export const CardContainer = styled.ul`
   width: 100%;
 
   background-color: ${({ theme }) => theme.colors.white1};
-  border-top: 1px solid ${({ theme }) => theme.colors.gray5};
   border-radius: 1.6rem;
 
-  & li:last-of-type section {
+  & li:first-child section {
+    border-top: 1px solid ${({ theme }) => theme.colors.gray5};
+  }
+
+  & li:last-child section {
     border-bottom: none;
     border-radius: 0 0 1.6rem 1.6rem;
   }
