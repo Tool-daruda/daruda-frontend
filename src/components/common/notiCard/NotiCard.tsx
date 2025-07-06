@@ -1,19 +1,7 @@
 import * as S from './NotiCard.style';
+import { configType } from './NotiCard.type';
 import { IcAlarmNotice, IcAlarmCmt, IcAlarmCmtDeactive, IcAlarmNoticeDeactive } from '@assets/svgs';
 import { formatToMonthDay } from 'src/utils/formatDate';
-
-// TODO: api 연결시, apis 폴더 내부 model 파일로 타입 코드 이동
-type configType = {
-  card: {
-    title: string;
-    createdAt: Date;
-    type: 'COMMENT' | 'NOTICE';
-    id: number;
-    isRead: boolean;
-    boardId?: number;
-  };
-  handleClick: (notiId: number, type: 'COMMENT' | 'NOTICE', boardId?: number) => void;
-};
 
 const NotificationCard = ({ card, handleClick }: configType) => {
   const { title, isRead, type, createdAt, id, boardId } = card;
