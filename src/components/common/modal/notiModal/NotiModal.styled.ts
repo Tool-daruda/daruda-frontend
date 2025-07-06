@@ -18,7 +18,8 @@ const S = {
     flex-direction: column;
     gap: 2.4rem;
     align-items: flex-start;
-    width: 42.4rem;
+    width: max-content;
+    min-width: 42.4rem;
   `,
 
   Header: styled.header`
@@ -66,6 +67,10 @@ const S = {
   ContentContainer: styled.section`
     ${theme.fonts.body_16_m}
     color: ${theme.colors.gray1};
+
+    & pre {
+      text-align: start;
+    }
   `,
 
   ButtonContainer: styled.section`

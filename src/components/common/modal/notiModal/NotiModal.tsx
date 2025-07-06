@@ -29,7 +29,9 @@ const NotiModal = ({ isOpen, handleClose, title, content }: ReportProps) => {
               <span>{title}</span>
             </S.TitleInputContainer>
             {/* 공지 본문 */}
-            <S.ContentContainer>{content}</S.ContentContainer>
+            <S.ContentContainer>
+              <pre>{content}</pre>
+            </S.ContentContainer>
             <S.ButtonContainer>
               <CircleButton size="xs" type="button" onClick={handleClose} aria-label="close-noti-modal">
                 닫기
