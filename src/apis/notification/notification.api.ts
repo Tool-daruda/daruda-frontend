@@ -4,7 +4,7 @@ import { Notification } from './notification.model';
 import { get, patch, post } from '@apis/index';
 
 // 전체 알림 목록 가져오기
-export const getAllNoti = async (): Promise<Notification[] | null> => {
+export const getAllNoti = async (): Promise<Notification[]> => {
   try {
     const res: AxiosResponse<Notification[]> = await get('/notification');
     return res.data;
@@ -15,7 +15,7 @@ export const getAllNoti = async (): Promise<Notification[] | null> => {
 };
 
 // 최신 알림 목록 가져오기 (3개))
-export const getRecentNoti = async (): Promise<Notification[] | null> => {
+export const getRecentNoti = async (): Promise<Notification[]> => {
   try {
     const res: AxiosResponse<Notification[]> = await get('/notification/recent');
     return res.data;
