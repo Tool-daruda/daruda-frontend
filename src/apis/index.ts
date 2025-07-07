@@ -28,6 +28,7 @@ instance.interceptors.response.use(
     const customStatus = error.response?.data?.status;
 
     if (httpStatus === 401 || customStatus === 'E401001') {
+      localStorage.removeItem('users');
       console.warn('액세스 토큰 만료. 토큰 갱신 중...');
 
       // 리프레시 토큰으로 새로운 액세스 토큰 요청
@@ -37,6 +38,7 @@ instance.interceptors.response.use(
         return instance(originalRequest);
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
+        localStorage.removeItem('users');
         window.location.href = '/login';
       }
     }

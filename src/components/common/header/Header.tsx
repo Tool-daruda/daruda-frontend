@@ -3,28 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
-import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, IcAlarmNotice, IcAlarmCmt, AlarmHead } from '@assets/svgs';
+import { useReadMutation, useRecentNotiListQuery } from '@apis/notification';
+import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@assets/svgs';
+import { NotiModal } from '@components/modal';
+import NotificationCard from '@components/notiCard/NotiCard';
+import useNotiClick from '@pages/notification/hooks/useNotiClick';
 
 interface HeaderProps {
   forOnboarding?: boolean;
 }
-
-// TODO: api 연결 후 더미데이터 삭제
-const config = [
-  { title: '[공지] 축 다루다 서버 영입', date: '99월 99일', flag: 'notice', id: '1' },
-  { title: '내가 작성한 “하 교수님...”글에 댓글이 달렸습니다.', date: '99월 99일', flag: 'comment', id: '2' },
-  { title: '아무개님, daruda의 회원이 되신 것을 축하드립니다!', date: '99월 99일', flag: 'notice', id: '3' },
-] as const;
-
-// TODO: api 연결시, apis 폴더 내부 model 파일로 타입 코드 이동
-type configType = {
-  card: {
-    title: string;
-    date: string;
-    flag: 'comment' | 'notice';
-    id: string;
-  };
-};
 
 export const HEADER_TEXTS = {
   community: '커뮤니티',
@@ -98,7 +85,11 @@ const SearchInput = () => {
 
 const Auth = () => {
   const user = localStorage.getItem('user');
+  const navigate = useNavigate();
   const [isHover, setIsHovered] = useState(false);
+  const { data: recentList } = useRecentNotiListQuery(!!user);
+  const { mutate: readMutation } = useReadMutation();
+  const { isModalOpen, openedNoti, handleModalClose, handleReadClick } = useNotiClick(readMutation, recentList);
 
   let leaveTimeout: ReturnType<typeof setTimeout>;
 
@@ -113,8 +104,8 @@ const Auth = () => {
     setIsHovered(true);
   };
 
-  // TODO: 공지 클릭시, 네비게이트 or 팝업 처리
-  // TODO: unread 공지 1개 이상 -> active Icon 으로 랜더링
+  const hasUnreadNotification = recentList?.some((notification) => !notification.isRead);
+
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
@@ -127,25 +118,28 @@ const Auth = () => {
           </S.StyledAnchor>
         </li>
         <li>
-          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
-            <S.NotificationButton aria-label="알림 확인">
+          <S.NotiWrapper onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            {hasUnreadNotification && <S.UnreadBadgeDot />}
+            <S.NotificationButton aria-label="알림 확인" onClick={() => navigate('/notification')}>
               <IcAlarmBlack24 />
             </S.NotificationButton>
-            <S.HoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} $visible={isHover}>
-              <S.HoverLayout>
-                <AlarmHead />
-                <S.CardHeader>
-                  <h1>알림</h1>
-                  <Link to="/notification">더보기</Link>
-                </S.CardHeader>
-                <S.CardContainer>
-                  {config.map((card) => (
-                    <CardItem card={card} key={card.id} />
-                  ))}
-                </S.CardContainer>
-              </S.HoverLayout>
-            </S.HoverContent>
-          </div>
+            {hasUnreadNotification && recentList && recentList.length > 0 && (
+              <S.HoverContent onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} $visible={isHover}>
+                <S.HoverLayout>
+                  <AlarmHead />
+                  <S.CardHeader>
+                    <h1>알림</h1>
+                    <Link to="/notification">더보기</Link>
+                  </S.CardHeader>
+                  <S.CardContainer>
+                    {recentList?.map((card) => (
+                      <NotificationCard card={card} key={card.id} handleClick={handleReadClick} />
+                    ))}
+                  </S.CardContainer>
+                </S.HoverLayout>
+              </S.HoverContent>
+            )}
+          </S.NotiWrapper>
         </li>
         <li>
           <S.StyledLink to="/mypage">
@@ -154,6 +148,14 @@ const Auth = () => {
             </S.MyPageButton>
           </S.StyledLink>
         </li>
+        {openedNoti && (
+          <NotiModal
+            isOpen={isModalOpen}
+            handleClose={handleModalClose}
+            title={openedNoti?.title}
+            content={openedNoti?.content}
+          />
+        )}
       </S.AuthSection>
     );
   }
@@ -162,21 +164,6 @@ const Auth = () => {
     <S.AuthSection aria-label="로그인/회원가입">
       <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
     </S.AuthSection>
-  );
-};
-
-const CardItem = ({ card }: configType) => {
-  return (
-    <li>
-      <S.CardItem>
-        {card.flag === 'comment' && <IcAlarmCmt />}
-        {card.flag === 'notice' && <IcAlarmNotice />}
-        <div>
-          <h2>{card.title}</h2>
-          <p>{card.date}</p>
-        </div>
-      </S.CardItem>
-    </li>
   );
 };
 

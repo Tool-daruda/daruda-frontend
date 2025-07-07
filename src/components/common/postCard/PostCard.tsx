@@ -4,22 +4,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as S from './PostCard.styled';
 import { PostResponse as Post } from '@apis/board/board.model';
 import { useBoardDeleteMutation, useBoardScrapMutation } from '@apis/board/board.queries';
-import {
-  IcCommentGray24,
-  IcBookmark,
-  IcOverflowGray44,
-  IcWatchWhite40,
-  ImgModalcheck,
-  ImgPopupDelete84,
-} from '@assets/svgs';
+import { IcCommentGray24, IcBookmark, IcOverflowGray44, IcWatchWhite40, ImgPopupDelete84 } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
-import { AlterModal } from '@components/modal';
+import { AlterModal, ReportModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
-import { useModal } from '@pages/community/hooks';
+import usePostActions from '@hooks/usePostControl';
 
 interface CardDataProp {
   post: Post;
@@ -35,28 +28,25 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const { post, forDetail = false, pickedtool, noTopic } = props;
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
-  const [isOwnPost, setIsOwnPost] = useState(false); // 작성자 여부 판별
+
+  const {
+    isOwnPost,
+    isOpen,
+    modalType,
+    isWarning,
+    handleModalOpen,
+    handleModalClose,
+    handleReport,
+    preventPropogation,
+    handleWarning,
+  } = usePostActions(author);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen(); // 토스트 팝업 훅
 
-  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal(); // 삭제/ 신고 모달 관련 훅
-
   const [clickedIdx, setClickedIdx] = useState(0);
-  const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
   const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrapMutation(pickedtool, noTopic, boardId);
-
-  useEffect(() => {
-    const postOwner = localStorage.getItem('user');
-
-    // TODOT: 작성자 판별 userID로 변경
-    if (postOwner) {
-      const user = JSON.parse(postOwner);
-      const ownPost = user.nickname === author;
-      setIsOwnPost(ownPost);
-    }
-  }, [boardId, author]);
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -70,13 +60,17 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsImgModalOpen(false);
   };
 
+  const handleTaostMsg = (msg: string) => {
+    setToastMessage(msg);
+  };
+
   // 북마크 추가 / 삭제 함수
   const handleScrap = (boardId: number) => {
     srapMutate(boardId);
 
     const postOwner = localStorage.getItem('user');
     if (postOwner == null || postOwner == undefined) {
-      handleWarnnig();
+      handleWarning();
     }
 
     handleToastOpen();
@@ -84,17 +78,9 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   useEffect(() => {
     if (isBookMarkSuccess) {
-      setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      handleTaostMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
     }
   }, [isBookMarkSuccess, isScraped]);
-
-  const handleWarnnig = () => {
-    setIsWarning(true);
-
-    setTimeout(() => {
-      setIsWarning(false);
-    }, 3000);
-  };
 
   const { mutate: DeleteMutate } = useBoardDeleteMutation(boardId, toolId, toolId === null);
 
@@ -179,7 +165,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
               <DropDown.Content $display="top">
                 {isOwnPost ? (
                   <>
-                    <DropDown.Item status="danger" onClick={() => handleModal('삭제')}>
+                    <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
                       삭제하기
                     </DropDown.Item>
                     <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
@@ -187,7 +173,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                     </DropDown.Item>
                   </>
                 ) : (
-                  <DropDown.Item status="danger" onClick={() => handleModal('신고')}>
+                  <DropDown.Item status="danger" onClick={handleReport}>
                     신고하기
                   </DropDown.Item>
                 )}
@@ -200,13 +186,12 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
         </S.CardLayout>
       </Link>
       {modalType === '신고' ? (
-        <AlterModal
-          modalTitle="신고 접수가 완료되었어요"
+        <ReportModal
           isOpen={isOpen}
           handleClose={handleModalClose}
-          isSingleModal
-          ImgPopupModal={ImgModalcheck}
-          singleBtnContent="확인했어요"
+          boardId={boardId}
+          handleToastOpen={handleToastOpen}
+          handleTaostMsg={handleTaostMsg}
         />
       ) : (
         <AlterModal
@@ -224,7 +209,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {isToastOpen && isBookMarkSuccess && (
+      {isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {toastMessage}
         </Toast>

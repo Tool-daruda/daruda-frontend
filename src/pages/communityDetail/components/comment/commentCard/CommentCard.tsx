@@ -3,56 +3,46 @@ import { useParams } from 'react-router-dom';
 
 import * as S from './CommentCard.styled';
 import { useCommentDeleteMutation, Comment as CommentContent } from '@apis/comment';
-import { IcOverflowGray24, ImgModalcheck, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
+import { IcOverflowGray24, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
-import { AlterModal } from '@components/modal';
+import { AlterModal, ReportModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
+import usePostActions from '@hooks/usePostControl';
+import useToastOpen from '@hooks/useToastOpen';
 
 interface Comment {
   comment: CommentContent;
 }
 
 const CommentCard = ({ comment }: Comment) => {
+  const {
+    isOwnPost,
+    isOpen,
+    modalType,
+    isWarning: authError,
+    handleModalOpen,
+    handleModalClose,
+    handleReport,
+  } = usePostActions(comment.nickname);
   const { id } = useParams<{ id: string }>();
-  const [isOpen, setIsOpen] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { mutate, isError } = useCommentDeleteMutation(comment.commentId, id);
-  const [IsToastOpen, setIsToastOpen] = useState(false);
-  const [modalType, setModalType] = useState('');
-
-  const [isOwnPost, setIsOwnPost] = useState(false);
+  const { mutate, isError: deleteError } = useCommentDeleteMutation(comment.commentId, id);
+  const { isToastOpen, handleModalOpen: handleToastOpen, handleMessageChange, toastMessage } = useToastOpen();
 
   useEffect(() => {
-    const postOwner = localStorage.getItem('user');
-
-    // TODOT: 작성자 판별 userID로 변경
-    if (postOwner) {
-      const user = JSON.parse(postOwner);
-      const ownPost = user.nickname === comment.nickname;
-      setIsOwnPost(ownPost);
+    if (deleteError) {
+      handleToastOpen();
+      handleMessageChange('삭제 불가합니다. 권한을 확인해주세요');
+    } else if (authError) {
+      handleToastOpen();
+      handleMessageChange('로그인 후 가능한 서비스입니다.');
     }
-  }, [id, comment.nickname]);
-
-  useEffect(() => {
-    if (isError) {
-      setIsToastOpen(true);
-      setTimeout(() => setIsToastOpen(false), 3000);
-    }
-  }, [isError]);
-
-  const handleModalClose = () => {
-    setIsOpen(false);
-  };
+  }, [deleteError, authError, handleToastOpen, handleMessageChange]);
 
   const handleModalDelete = async () => {
     mutate();
-    setIsOpen(false);
-  };
-
-  const handleModalOpen = (type: string) => {
-    setModalType(type);
-    setIsOpen(true);
+    handleModalClose();
   };
 
   const handleImgFocus = () => {
@@ -80,7 +70,7 @@ const CommentCard = ({ comment }: Comment) => {
                 삭제하기
               </DropDown.Item>
             ) : (
-              <DropDown.Item status="danger" onClick={() => handleModalOpen('신고')}>
+              <DropDown.Item status="danger" onClick={handleReport}>
                 신고하기
               </DropDown.Item>
             )}
@@ -98,13 +88,12 @@ const CommentCard = ({ comment }: Comment) => {
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
       {modalType === '신고' ? (
-        <AlterModal
-          modalTitle="신고 접수가 완료되었어요"
+        <ReportModal
           isOpen={isOpen}
-          handleClose={handleModalClose}
-          isSingleModal={true}
-          ImgPopupModal={ImgModalcheck}
-          singleBtnContent="확인했어요"
+          handleClose={handleModalDelete}
+          commentId={comment.commentId}
+          handleTaostMsg={handleMessageChange}
+          handleToastOpen={handleToastOpen}
         />
       ) : (
         <AlterModal
@@ -125,11 +114,9 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      {IsToastOpen && (
-        <Toast isVisible={IsToastOpen} isWarning={true}>
-          삭제 불가합니다. 권한을 확인해주세요
-        </Toast>
-      )}
+      <Toast isVisible={isToastOpen} isWarning={true}>
+        {toastMessage}
+      </Toast>
     </S.Wrapper>
   );
 };

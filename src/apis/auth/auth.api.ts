@@ -13,10 +13,8 @@ export const postSignup = async (requestBody: SignupReq): Promise<SignupData | u
     });
 
     // 성공 응답 처리
-    const data = response.data.data;
+    const data = response.data;
 
-    console.log('res data', response.data); //TODO: 로깅용 콘솔 삭제
-    console.log('res data data', response.data.data); //TODO: 로깅용 콘솔 삭제
     localStorage.setItem(
       'user',
       JSON.stringify({
@@ -47,13 +45,9 @@ export const postSignup = async (requestBody: SignupReq): Promise<SignupData | u
 // 토큰 갱신(Access Token 재발급) post
 export const postReissue = async () => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/reissue`, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    await post(`/auth/reissue`);
 
-    return response.data.data;
+    return;
   } catch (error) {
     console.error('토큰 갱신 실패:', error);
     window.location.href = '/login';
@@ -77,6 +71,7 @@ export const postAuthorization = async (code: string) => {
       `${import.meta.env.VITE_API_BASE_URL}/auth/login?code=${code}`,
       { socialType: 'KAKAO' },
       {
+        withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         },

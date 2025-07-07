@@ -33,8 +33,6 @@ const KakaoRedirectHandler = () => {
       try {
         const response = await postAuthorization(code);
 
-        console.log(response); // TODO: 로그인 성공 확인후 로깅 삭제
-
         if (response.isUser) {
           // 기존 유저
           localStorage.setItem(
@@ -54,6 +52,12 @@ const KakaoRedirectHandler = () => {
           setOnConfirm(() => () => (window.location.href = '/'));
         } else {
           // 신규 유저
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              email: response.email,
+            }),
+          );
           setModalTitle('회원가입 필요');
           setModalContent('회원가입이 필요합니다.');
           setButtonText('회원가입 페이지로 돌아가기');
