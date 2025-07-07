@@ -82,9 +82,10 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
         queryClient.setQueryData(TOOL_QUERY_KEY.DETAIL(_toolId), context.prevDetail);
       }
     },
-    onSettled: () => {
+    onSettled: (_, __, _toolId) => {
       // 서버 동기화를 위해 캐시 무효화
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST() });
+      queryClient.refetchQueries({ queryKey: TOOL_QUERY_KEY.DETAIL(_toolId) });
     },
   });
 };
