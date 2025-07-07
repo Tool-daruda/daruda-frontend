@@ -9,6 +9,8 @@ export const useSearchToolQuery = (keyword: string) => {
     queryKey: SEARCH_QUERY_KEY.SEARCH(keyword, 'tool'),
     queryFn: () => getSearchTool(keyword),
     enabled: !!keyword,
+    staleTime: Infinity,
+    gcTime: Infinity,
   });
 };
 
