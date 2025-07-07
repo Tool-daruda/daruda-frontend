@@ -2,7 +2,7 @@ import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-import { IcSearchGray32 } from '@assets/svgs';
+import { IcSearchGray20 } from '@assets/svgs';
 
 export const HeaderWrapper = styled.header<{ $forOnboarding: boolean }>`
   position: sticky;
@@ -85,10 +85,8 @@ export const SearchBar = styled.div`
   border-radius: 40px;
 `;
 
-export const IcSearchGray = styled(IcSearchGray32)`
+export const IcSearchGray = styled(IcSearchGray20)`
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
 `;
 
 export const Search = styled.input`

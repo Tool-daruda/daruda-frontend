@@ -44,7 +44,6 @@ const Header = ({ forOnboarding = false }: HeaderProps) => {
           <Community />
           <Onboarding />
         </S.NavLeftSection>
-        <SearchInput />
         <Auth />
       </S.HeaderContainer>
     </S.HeaderWrapper>
@@ -119,6 +118,9 @@ const Auth = () => {
   if (user) {
     return (
       <S.AuthSection aria-label="알림/마이페이지">
+        <li>
+          <SearchInput />
+        </li>
         <li>
           <S.StyledAnchor href="https://tally.so/r/w5VJPv" target="_blank">
             {HEADER_TEXTS.support}
