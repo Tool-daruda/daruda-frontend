@@ -3,6 +3,7 @@ export type BaseProps = {
   handleClose: () => void;
   handleToastOpen: () => void;
   handleTaostMsg: (msg: string) => void;
+  content: string;
 };
 
 export type BoardOnly = {

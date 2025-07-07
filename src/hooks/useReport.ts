@@ -5,7 +5,6 @@ import { ReportCode, useReportMutation, Report, ReportMap, ReportLabel } from '@
 import { BoardOnly, CommentOnly } from 'src/types/ReporyModal';
 
 type FormValues = {
-  title: string;
   reportType: ReportCode | '';
   detail: string;
 };
@@ -14,6 +13,7 @@ const useReport = (
   handleClose: () => void,
   handleToastOpen: () => void,
   handleTaostMsg: (msg: string) => void,
+  content: string,
   props: BoardOnly | CommentOnly,
 ) => {
   const {
@@ -26,7 +26,6 @@ const useReport = (
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      title: '',
       reportType: '',
       detail: '',
     },
@@ -36,7 +35,7 @@ const useReport = (
 
   const detailText = watch('detail');
 
-  const isSubmitDisabled = !watch('title') || !watch('reportType') || Object.keys(errors).length > 0;
+  const isSubmitDisabled = !watch('reportType') || Object.keys(errors).length > 0;
 
   const { mutate: postReport } = useReportMutation();
 
@@ -47,7 +46,7 @@ const useReport = (
     const commonFields = {
       reportType: ReportMap[label],
       detail: data.detail,
-      title: data.title,
+      title: content,
     };
 
     let reportPayload: Report;

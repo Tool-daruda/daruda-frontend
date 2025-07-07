@@ -89,6 +89,7 @@ const CommentCard = ({ comment }: Comment) => {
       </div>
       {modalType === '신고' ? (
         <ReportModal
+          content={comment.content}
           isOpen={isOpen}
           handleClose={handleModalDelete}
           commentId={comment.commentId}

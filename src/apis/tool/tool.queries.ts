@@ -9,7 +9,7 @@ import {
   getCategories,
   getToolsByCategory,
 } from './tool.api';
-import { InfiniteQueryResponse, ToolListResponse } from './tool.model';
+import { DetailToolResponse, InfiniteQueryResponse, ToolListResponse } from './tool.model';
 import { ToolList } from '@apis/user';
 import { MYPAGE_QUERY_KEY, TOOL_QUERY_KEY } from '@constants/queryKey';
 import { extractUserId } from '@utils';
@@ -43,9 +43,21 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
           ) ?? [],
       });
 
+      const prevDetail = queryClient.getQueryData(TOOL_QUERY_KEY.DETAIL(toolId));
+      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST());
+
+      if (toolId) {
+        queryClient.setQueryData(TOOL_QUERY_KEY.DETAIL(toolId), (old: DetailToolResponse | undefined) => {
+          if (!old) return old;
+          return {
+            ...old,
+            isScrapped: !old.isScrapped,
+          };
+        });
+      }
+
       if (userId) {
         // 마이페이지 찜한 툴 낙관적 업데이트
-        const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST());
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(), (old: ToolList) => {
           if (!old) return old;
           const updatedToolList = old.toolList.filter((tool) => tool.toolId !== toolId);
@@ -55,23 +67,25 @@ export const useToolScrapMutation = (isFree?: boolean, category?: string, criter
           };
           return newBoardList;
         });
-        return { previousBoardList, previousMainToolList };
       }
-      return { previousMainToolList };
+
+      return { previousMainToolList, prevDetail, previousBoardList };
     },
-    onError: (_error, _id, context) => {
-      // 에러 발생 시 캐시 롤백
+    onError: (_error, _toolId, context) => {
       if (context?.previousBoardList) {
         queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(), context.previousBoardList);
       }
       if (context?.previousMainToolList) {
         queryClient.setQueryData(TOOL_QUERY_KEY.LIST({ isFree, category, criteria }), context.previousMainToolList);
       }
+      if (context?.prevDetail) {
+        queryClient.setQueryData(TOOL_QUERY_KEY.DETAIL(_toolId), context.prevDetail);
+      }
     },
-    onSettled: (_, __, toolId) => {
+    onSettled: (_, __, _toolId) => {
       // 서버 동기화를 위해 캐시 무효화
       queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST() });
-      queryClient.refetchQueries({ queryKey: TOOL_QUERY_KEY.DETAIL(toolId) });
+      queryClient.refetchQueries({ queryKey: TOOL_QUERY_KEY.DETAIL(_toolId) });
     },
   });
 };

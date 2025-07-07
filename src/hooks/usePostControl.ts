@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-type AuthorType = string | null | undefined;
+type AuthorType = string;
 
 // 현재 로그인한 유저의 닉네임 브라우저 저장소에서 get
 export const getCurrentNickname = (): string | null => {

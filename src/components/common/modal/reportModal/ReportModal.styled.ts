@@ -59,7 +59,7 @@ const S = {
       color: ${theme.colors.gray2};
     }
 
-    & input {
+    & span {
       ${theme.fonts.body_16_m}
       color: ${theme.colors.gray1};
     }

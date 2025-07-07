@@ -187,6 +187,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
       </Link>
       {modalType === '신고' ? (
         <ReportModal
+          content={title}
           isOpen={isOpen}
           handleClose={handleModalClose}
           boardId={boardId}

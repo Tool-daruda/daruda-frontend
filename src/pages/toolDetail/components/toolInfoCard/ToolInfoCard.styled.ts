@@ -1,5 +1,6 @@
-import Toast from '@components/toast/Toast';
 import styled from '@emotion/styled';
+
+import Toast from '@components/toast/Toast';
 
 export const ToolInfoCardWrapper = styled.div`
   display: flex;
@@ -140,7 +141,7 @@ export const BookmarkIconBox = styled(IconBox)<{ $isBookmark: boolean }>`
       ? `
     background-color: ${theme.colors.white1};
     
-    svg {
+    svg  {
       fill: ${theme.colors.iris1};
     }
     `
