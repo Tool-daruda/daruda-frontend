@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as S from './Search.styled';
 import { useSearchBoardQuery, useSearchToolQuery } from '@apis/search';
-import { IcChevron } from '@assets/svgs';
+import { IcChevron, ImgPopupNonebookmark120 } from '@assets/svgs';
 import Card from '@components/postCard/PostCard';
 import Spacing from '@components/spacing/Spacing';
 import ToolCard from '@components/toolCard/ToolCard';
@@ -18,12 +19,19 @@ const Search = () => {
   // 툴 검색
   const { data: toolData } = useSearchToolQuery(searchKeyword);
   // 커뮤니티 검색
-  const { data: boardData } = useSearchBoardQuery(searchKeyword);
+  const { data: boardData, fetchNextPage, hasNextPage } = useSearchBoardQuery(searchKeyword);
 
   const allBoards = boardData?.pages.flatMap((page) => page?.contents || []) || [];
   // 툴 검색 결과 처리
   const allTools = toolData || [];
   const visibleTools = isOpen ? allTools : allTools.slice(0, 2);
+
+  const { ref: inViewRef, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage]);
 
   return (
     <S.SearchWrapper>
@@ -68,15 +76,26 @@ const Search = () => {
           <h2>커뮤니티 전체</h2>
           <Spacing size="2.8" />
           <S.CardContainer>
-            {allBoards?.map((board) => (
-              <Card
-                key={board.boardId}
-                post={{
-                  ...board,
-                  images: board.imageUrl,
-                }}
-              />
-            ))}
+            {allBoards.length > 0 ? (
+              <>
+                {allBoards.map((board) => (
+                  <Card
+                    key={board.boardId}
+                    post={{
+                      ...board,
+                      images: board.imageUrl,
+                    }}
+                  />
+                ))}
+                {hasNextPage && <div ref={inViewRef} />}
+              </>
+            ) : (
+              <S.NullBox>
+                <ImgPopupNonebookmark120 />
+                <S.NullAlertText>작성된 글이 없습니다.</S.NullAlertText>
+                <S.NullText>해당 툴에 대한 글을 작성해 정보를 공유해 보세요.</S.NullText>
+              </S.NullBox>
+            )}
           </S.CardContainer>
         </S.SearchResult>
       </S.SearchBox>

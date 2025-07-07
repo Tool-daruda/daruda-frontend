@@ -11,7 +11,7 @@ export const getSearchTool = async (keyword: string): Promise<SearchToolResponse
 export const getSearchBoard = async (
   keyword: string,
   nextCursor?: number,
-  size: number = 10,
+  size: number = 3,
 ): Promise<SearchBoardResponse> => {
   const params = new URLSearchParams();
   params.append('keyword', encodeURIComponent(keyword));
