@@ -10,6 +10,7 @@ export const useNotiListQuery = (enabled = true) =>
     queryKey: NOTI_QUERY_KEY.LIST_ALL(),
     queryFn: getAllNoti,
     enabled,
+    retry: 1,
   });
 
 // 최신 알림 조회
@@ -18,6 +19,7 @@ export const useRecentNotiListQuery = (enabled = true) =>
     queryKey: NOTI_QUERY_KEY.RECENT_LIST(),
     queryFn: getRecentNoti,
     enabled,
+    retry: 1,
   });
 
 export const useReadMutation = () => {
