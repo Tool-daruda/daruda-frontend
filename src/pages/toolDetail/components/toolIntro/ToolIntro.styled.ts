@@ -71,6 +71,8 @@ export const ToolInfoBox = styled.div`
   width: 31.2rem;
   margin: 2rem 0 5.9rem;
 
+  word-break: keep-all;
+
   span {
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.fonts.body_24_b};

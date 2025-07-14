@@ -69,6 +69,7 @@ const ToolDetail = () => {
                   toolImage={data.images}
                   activeTool={data.toolMainName}
                   description={data.detailDescription}
+                  toolSubname={data.toolSubName}
                 />
                 <CoreFeature ref={CoreFeatureRef} toolId={numericToolId} />
                 <ReferenceVideo ref={ReferenceVideoRef} toolId={numericToolId} alternate={data.toolLogo} />
