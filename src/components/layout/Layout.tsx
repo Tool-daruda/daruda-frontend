@@ -1,13 +1,13 @@
+import styled from '@emotion/styled';
+import { Outlet, ScrollRestoration } from 'react-router';
+
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
-import ScrollToTop from '@components/scrollTop/ScrollTop';
-import styled from '@emotion/styled';
-import { Outlet } from 'react-router';
 
 const Layout = () => {
   return (
     <>
-      <ScrollToTop />
+      <ScrollRestoration getKey={(location) => location.pathname} />
       <S.LayoutWrapper>
         <Header forOnboarding={false} />
         <S.ContentWrapper>
