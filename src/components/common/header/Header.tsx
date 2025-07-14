@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 import { Category } from './category/Category';
 import * as S from './Header.styled';
@@ -37,13 +37,26 @@ const Header = ({ forOnboarding = false }: HeaderProps) => {
   );
 };
 
-const Logo = () => (
-  <li>
-    <Link to="/" aria-label="홈으로 이동">
-      <ImgDarudalogo40 width="11.2rem" height="3.3rem" />
-    </Link>
-  </li>
-);
+const Logo = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogoClick = () => {
+    if (location.pathname === '/') {
+      // 이미 홈이면 새로고침 없이 스크롤만 맨 위로
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('/', { replace: false });
+    }
+  };
+  return (
+    <li>
+      <button type="button" aria-label="홈으로 이동" onClick={handleLogoClick}>
+        <ImgDarudalogo40 width="11.2rem" height="3.3rem" />
+      </button>
+    </li>
+  );
+};
 
 const Community = () => (
   <S.NavContainer>
