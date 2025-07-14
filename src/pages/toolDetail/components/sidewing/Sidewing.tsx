@@ -67,7 +67,7 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
   const orderButtons = [
     { id: 1, label: '툴 소개' },
     { id: 2, label: '핵심 기능' },
-    { id: 3, label: '참고하면 좋을 영상' },
+    { id: 3, label: '참고하면 좋은 영상' },
     { id: 4, label: '플랜' },
     { id: 5, label: '커뮤니티' },
   ];

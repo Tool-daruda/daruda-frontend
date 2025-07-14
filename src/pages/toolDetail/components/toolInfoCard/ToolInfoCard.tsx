@@ -135,7 +135,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
         <S.RightContainer>
           <S.TopBox>
             <S.License>
-              <span>라이센스</span>
+              <span>플랜</span>
               <Chip size="xsmall" active={true} $forNoCursor={true}>
                 <Chip.RectContainer>
                   <Chip.Label>{license}</Chip.Label>

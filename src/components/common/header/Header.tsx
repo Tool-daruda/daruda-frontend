@@ -81,6 +81,7 @@ const SearchInput = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && keyword.trim()) {
       navigate(`/search?keyword=${encodeURIComponent(keyword.trim())}`);
+      setKeyword('');
     }
   };
   return (

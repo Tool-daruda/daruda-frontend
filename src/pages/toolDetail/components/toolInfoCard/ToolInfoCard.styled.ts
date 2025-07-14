@@ -1,5 +1,6 @@
-import Toast from '@components/toast/Toast';
 import styled from '@emotion/styled';
+
+import Toast from '@components/toast/Toast';
 
 export const ToolInfoCardWrapper = styled.div`
   display: flex;
@@ -186,8 +187,6 @@ export const License = styled.div`
   gap: 0.8rem;
   align-items: flex-start;
   width: 6.2rem;
-
-  cursor: none;
 `;
 
 export const KoreanSupport = styled.div`
@@ -196,8 +195,6 @@ export const KoreanSupport = styled.div`
   gap: 0.8rem;
   align-items: flex-start;
   width: 6.5rem;
-
-  cursor: none;
 `;
 
 export const BottomBox = styled.div`
@@ -206,8 +203,6 @@ export const BottomBox = styled.div`
   gap: 0.8rem;
   align-items: flex-start;
   width: 17.3rem;
-
-  cursor: none;
 `;
 
 export const PlatformBtn = styled.div`
