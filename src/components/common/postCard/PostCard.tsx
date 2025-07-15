@@ -89,8 +89,11 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   };
 
   useEffect(() => {
+    console.log('isBookMarkSuccess', isBookMarkSuccess);
     if (isBookMarkSuccess) {
       handleTaostMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+    } else {
+      handleTaostMsg('북마크에 실패했어요');
     }
   }, [isBookMarkSuccess, isScraped]);
 
