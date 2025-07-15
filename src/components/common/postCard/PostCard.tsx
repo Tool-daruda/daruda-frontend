@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { forwardRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './PostCard.styled';
 import { PostResponse as Post } from '@apis/board/board.model';
@@ -48,6 +48,15 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
+  const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
+    if (forDetail) {
+      e.preventDefault();
+    } else {
+      sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+    }
+    navigate(`/community/${boardId}`);
+  };
+
   const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrapMutation(pickedtool, noTopic, boardId);
 
   const handleIdxRecord = (idx: number) => {
@@ -91,102 +100,90 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   };
 
   return (
-    <S.CardWrapper $forDetail={forDetail} ref={ref}>
-      <Link
-        to={`/community/${boardId}`}
-        key={boardId}
-        onClick={(e) => {
-          if (forDetail) {
-            e.preventDefault();
-          } else {
-            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
-          }
-        }}
-      >
-        <S.CardLayout>
-          {isImgModalOpen && (
-            <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
-          )}
-          <S.CardTopContent>
-            <header>
-              <Chip size="medium" stroke>
-                <Chip.RectContainer>
-                  <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
-                  <Chip.Label>{toolName}</Chip.Label>
-                </Chip.RectContainer>
-              </Chip>
-              <S.MetaInfo>
-                <span>{author}</span>
-                <span>{updatedAt}</span>
-              </S.MetaInfo>
-            </header>
-            <S.CardTitleItem>{title}</S.CardTitleItem>
-            <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
-              {content}
-            </S.CardTextItem>
-            <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
-              {images?.map((image, idx) => (
-                <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
-                  <img src={image} alt={`Post-card-img-${idx}`} />
-                  {forDetail && (
-                    <IcWatchWhite40
-                      className="hover-icon"
-                      onClick={() => {
-                        handleImgFocus();
-                        handleIdxRecord(idx);
-                      }}
-                    />
-                  )}
-                </S.EachImgContainer>
-              ))}
-            </S.ImageGrid>
-          </S.CardTopContent>
-          <S.CardDivider />
-          <S.CardBottomBar onClick={preventPropogation}>
-            <S.BottomBarLeft>
-              <SquareButton
-                icon={<IcCommentGray24 />}
-                size="small"
-                stroke={false}
-                handleClick={() => {
-                  navigate(`/community/${boardId}`);
-                }}
-              >{`${commentCount}개`}</SquareButton>
-              <SquareButton
-                icon={<IcBookmark />}
-                isBook={isScraped}
-                size="small"
-                stroke={false}
-                forBookMark
-                handleClick={() => handleScrap(boardId)}
-              >
-                북마크
-              </SquareButton>
-            </S.BottomBarLeft>
-            <DropDown position="end" isDropdownOpen={isDropdownOpen} onDropdownToggle={onDropdownToggle}>
-              <DropDown.Content $display="top">
-                {isOwnPost ? (
-                  <>
-                    <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
-                      삭제하기
-                    </DropDown.Item>
-                    <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
-                      수정하기
-                    </DropDown.Item>
-                  </>
-                ) : (
-                  <DropDown.Item status="danger" onClick={handleReport}>
-                    신고하기
-                  </DropDown.Item>
+    <S.CardWrapper $forDetail={forDetail} ref={ref} onClick={handleCardClick}>
+      <S.CardLayout>
+        {isImgModalOpen && (
+          <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
+        )}
+        <S.CardTopContent>
+          <header>
+            <Chip size="medium" stroke>
+              <Chip.RectContainer>
+                <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
+                <Chip.Label>{toolName}</Chip.Label>
+              </Chip.RectContainer>
+            </Chip>
+            <S.MetaInfo>
+              <span>{author}</span>
+              <span>{updatedAt}</span>
+            </S.MetaInfo>
+          </header>
+          <S.CardTitleItem>{title}</S.CardTitleItem>
+          <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
+            {content}
+          </S.CardTextItem>
+          <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
+            {images?.map((image, idx) => (
+              <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
+                <img src={image} alt={`Post-card-img-${idx}`} />
+                {forDetail && (
+                  <IcWatchWhite40
+                    className="hover-icon"
+                    onClick={() => {
+                      handleImgFocus();
+                      handleIdxRecord(idx);
+                    }}
+                  />
                 )}
-              </DropDown.Content>
-              <DropDown.ToggleBtn>
-                <IcOverflowGray44 />
-              </DropDown.ToggleBtn>
-            </DropDown>
-          </S.CardBottomBar>
-        </S.CardLayout>
-      </Link>
+              </S.EachImgContainer>
+            ))}
+          </S.ImageGrid>
+        </S.CardTopContent>
+        <S.CardDivider />
+        <S.CardBottomBar onClick={preventPropogation}>
+          <S.BottomBarLeft>
+            <SquareButton
+              icon={<IcCommentGray24 />}
+              size="small"
+              stroke={false}
+              handleClick={() => {
+                navigate(`/community/${boardId}`);
+              }}
+            >{`${commentCount}개`}</SquareButton>
+            <SquareButton
+              icon={<IcBookmark />}
+              isBook={isScraped}
+              size="small"
+              stroke={false}
+              forBookMark
+              handleClick={() => handleScrap(boardId)}
+            >
+              북마크
+            </SquareButton>
+          </S.BottomBarLeft>
+          <DropDown position="end" isDropdownOpen={isDropdownOpen} onDropdownToggle={onDropdownToggle}>
+            <DropDown.Content $display="top">
+              {isOwnPost ? (
+                <>
+                  <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
+                    삭제하기
+                  </DropDown.Item>
+                  <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
+                    수정하기
+                  </DropDown.Item>
+                </>
+              ) : (
+                <DropDown.Item status="danger" onClick={handleReport}>
+                  신고하기
+                </DropDown.Item>
+              )}
+            </DropDown.Content>
+            <DropDown.ToggleBtn>
+              <IcOverflowGray44 />
+            </DropDown.ToggleBtn>
+          </DropDown>
+        </S.CardBottomBar>
+      </S.CardLayout>
       {modalType === '신고' ? (
         <ReportModal
           content={title}

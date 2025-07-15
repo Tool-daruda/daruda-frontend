@@ -93,6 +93,8 @@ export const CardTextItem = styled.pre<{ $isImgInclude: boolean; $forDetail: boo
     `}
   word-wrap: break-word;
   word-break: break-word;
+
+  user-select: text;
 `;
 
 export const BottomBarLeft = styled.span`
