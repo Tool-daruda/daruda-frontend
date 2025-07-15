@@ -1,7 +1,7 @@
 import axios, { AxiosResponse, isAxiosError } from 'axios';
 
 import { SignupReq, ErrorResponse, SuccessUserResponse, RequestLoginURLResponse, SignupData } from './auth.model';
-import { del, post } from '@apis/index';
+import { del, post, reIssueinstance } from '@apis/index';
 
 // 회원가입 post
 export const postSignup = async (requestBody: SignupReq): Promise<SignupData | undefined> => {
@@ -45,7 +45,7 @@ export const postSignup = async (requestBody: SignupReq): Promise<SignupData | u
 // 토큰 갱신(Access Token 재발급) post
 export const postReissue = async () => {
   try {
-    await post(`/auth/reissue`);
+    await reIssueinstance.post(`/auth/reissue`);
 
     return;
   } catch (error) {

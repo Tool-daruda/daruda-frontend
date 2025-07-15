@@ -15,6 +15,11 @@ export class ApiError extends Error {
 }
 
 // API 클라이언트 생성
+export const reIssueinstance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
+});
+
 export const instance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
   withCredentials: true,
@@ -26,20 +31,21 @@ instance.interceptors.response.use(
   async (error: AxiosError<ErrorResponse>) => {
     const httpStatus = error.response?.status;
     const customStatus = error.response?.data?.status;
+    const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
 
-    if (httpStatus === 401 || customStatus === 'E401001') {
-      localStorage.removeItem('users');
+    if ((httpStatus === 401 || customStatus === 'E401001') && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.removeItem('user');
       console.warn('액세스 토큰 만료. 토큰 갱신 중...');
 
       // 리프레시 토큰으로 새로운 액세스 토큰 요청
       try {
         await postReissue();
-        const originalRequest = error.config as AxiosRequestConfig;
+
         return instance(originalRequest);
       } catch (refreshError) {
         console.error('리프레시 토큰 갱신 실패:', refreshError);
-        localStorage.removeItem('users');
-        window.location.href = '/login';
+        return Promise.reject(new ApiError(httpStatus || 401, '토큰 갱신 실패. 다시 로그인해주세요.'));
       }
     }
 
