@@ -5,14 +5,14 @@ import { useComponentContext } from '@hooks/index';
 
 interface DropDownContextType {
   isDropdownOpen: boolean;
-  onDropdownToggle: (value: boolean) => void;
+  onDropdownToggle: () => void;
 }
 
 interface DropDownPropType {
   position?: 'start' | 'end';
   children: ReactNode;
   isDropdownOpen: boolean;
-  onDropdownToggle: (value: boolean) => void;
+  onDropdownToggle: () => void;
 }
 
 interface DropDownItemPropType {
@@ -35,7 +35,7 @@ const ToggleBtn = ({ children }: { children: ReactNode }) => {
   const { isDropdownOpen, onDropdownToggle } = useComponentContext(DropDownContext, 'DropDown');
 
   return (
-    <S.DropDownToggleBtn onClick={() => onDropdownToggle} $isOpen={isDropdownOpen}>
+    <S.DropDownToggleBtn onClick={onDropdownToggle} $isOpen={isDropdownOpen}>
       {children}
     </S.DropDownToggleBtn>
   );
