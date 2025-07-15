@@ -21,6 +21,7 @@ const useToolCategorySelect = () => {
         toolName: storedTool.toolMainName,
         toolLogo: storedTool.toolLogo,
       });
+      sessionStorage.removeItem('originTool');
     }
   }, []);
 

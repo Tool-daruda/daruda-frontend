@@ -141,7 +141,7 @@ const CommnetInput = () => {
         </CircleButton>
       </S.CardBottom>
       <S.CautionWrpper>
-        <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
+        <p>* 이미지는 1장씩 첨부 가능하며, 최대 7MB를 초과할 수 없습니다.’</p>
       </S.CautionWrpper>
       {toastType !== null && isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={toastType === 'postComment' ? false : true}>

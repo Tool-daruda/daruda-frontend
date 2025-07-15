@@ -13,21 +13,19 @@ import { ModalWrapper } from '../component';
 
 type ReportProps = BaseProps & (BoardOnly | CommentOnly);
 
-const ReportModal = ({ isOpen, handleClose, handleToastOpen, handleTaostMsg, ...props }: ReportProps) => {
+const ReportModal = ({ isOpen, content, handleClose, handleToastOpen, handleTaostMsg, ...props }: ReportProps) => {
   const {
     isDropdownOpen,
     setIsDropdownOpen,
     detailText,
     isSubmitDisabled,
     onSubmit,
-    register,
     handleSubmit,
     control,
     setValue,
     watch,
-    errors,
     reset,
-  } = useReport(handleClose, handleToastOpen, handleTaostMsg, props);
+  } = useReport(handleClose, handleToastOpen, handleTaostMsg, content, props);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
 
   useEffect(() => {
@@ -58,11 +56,7 @@ const ReportModal = ({ isOpen, handleClose, handleToastOpen, handleTaostMsg, ...
               {/* 신고 모달의 제목  */}
               <S.TitleInputContainer>
                 <label htmlFor="title">신고 내용 :</label>
-                <input
-                  id="title"
-                  {...register('title', { required: '신고 내용을 입력해주세요.' })}
-                  aria-invalid={errors.title ? 'true' : 'false'}
-                />
+                <span>{content}</span>
               </S.TitleInputContainer>
               {/* 신고 모달의 신고 사유 - 드롭다운  */}
               <S.SelectionContainer>

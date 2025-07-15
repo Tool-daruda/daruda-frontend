@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { useNavigate } from 'react-router-dom';
 
@@ -20,6 +20,11 @@ import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
   const { handleToolSelect, pickedtool, noTopic, initialTool } = useToolCategorySelect();
+  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
+
+  const handleDropdownToggle = (id: number) => {
+    setOpenedId((prev) => (prev === id ? null : id));
+  };
 
   const navigate = useNavigate();
   const { data, fetchNextPage, hasNextPage, isLoading } = useBoardListQuery(pickedtool, noTopic);
@@ -46,7 +51,14 @@ const Community = () => {
           <S.CardList>
             {postList && postList.length >= 1
               ? postList?.map((post) => (
-                  <Card key={`community-post-${post.boardId}`} post={post} noTopic={noTopic} pickedtool={pickedtool} />
+                  <Card
+                    key={`community-post-${post.boardId}`}
+                    isDropdownOpen={opendedId === post.boardId}
+                    onDropdownToggle={() => handleDropdownToggle(post.boardId)}
+                    post={post}
+                    noTopic={noTopic}
+                    pickedtool={pickedtool}
+                  />
                 ))
               : !isLoading && (
                   <S.NonTool>

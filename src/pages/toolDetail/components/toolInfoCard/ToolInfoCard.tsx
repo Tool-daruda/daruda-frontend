@@ -35,7 +35,7 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
 
   const { handleModalOpen, isToastOpen } = useToastOpen(); // useToastOpen 훅 사용
 
-  const { mutateAsync } = useToolScrapMutation();
+  const { mutate: bookmarkMutate } = useToolScrapMutation();
 
   const darudaToolLink = useLocation();
   const baseURL = import.meta.env.VITE_CLIENT_URL;
@@ -81,24 +81,27 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       return;
     }
 
-    try {
-      await mutateAsync(toolId);
-      if (isScrapped) {
-        setToastMessage('북마크가 취소되었어요');
-      } else {
-        setToastMessage('북마크가 추가되었어요');
-      }
-      setIsToastWarning(false);
-      handleModalOpen();
-      trackEvent('Tool_Click', {
-        [!isScrapped ? 'Bookmark' : 'Bookmark_Cancel']: toolMainName,
-      });
-    } catch (error) {
-      console.error('북마크 업데이트 실패:', error);
-      setIsToastWarning(true);
-      setToastMessage('북마크 업데이트 실패');
-      handleModalOpen();
-    }
+    bookmarkMutate(toolId, {
+      onSuccess: () => {
+        if (isScrapped) {
+          setToastMessage('북마크가 취소되었어요');
+        } else {
+          setToastMessage('북마크가 추가되었어요');
+        }
+
+        setIsToastWarning(false);
+        handleModalOpen();
+        trackEvent('Tool_Click', {
+          [!isScrapped ? 'Bookmark' : 'Bookmark_Cancel']: toolMainName,
+        });
+      },
+      onError: (error) => {
+        console.error('북마크 업데이트 실패:', error);
+        setIsToastWarning(true);
+        setToastMessage('북마크 업데이트 실패');
+        handleModalOpen();
+      },
+    });
   };
 
   return (

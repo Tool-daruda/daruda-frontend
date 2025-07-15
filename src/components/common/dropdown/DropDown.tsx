@@ -1,16 +1,18 @@
-import { useComponentContext } from '@hooks/index';
-import { ReactNode, useState, createContext } from 'react';
+import { ReactNode, createContext } from 'react';
 
 import * as S from './DropDown.styled';
+import { useComponentContext } from '@hooks/index';
 
 interface DropDownContextType {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
+  isDropdownOpen: boolean;
+  onDropdownToggle: () => void;
 }
 
 interface DropDownPropType {
   position?: 'start' | 'end';
   children: ReactNode;
+  isDropdownOpen: boolean;
+  onDropdownToggle: () => void;
 }
 
 interface DropDownItemPropType {
@@ -21,25 +23,19 @@ interface DropDownItemPropType {
 
 const DropDownContext = createContext<DropDownContextType | undefined>(undefined);
 
-const DropDown = ({ position = 'start', children }: DropDownPropType) => {
-  const [isOpen, setIsOpen] = useState(false);
-
+const DropDown = ({ position = 'start', isDropdownOpen, onDropdownToggle, children }: DropDownPropType) => {
   return (
-    <DropDownContext.Provider value={{ isOpen, setIsOpen }}>
+    <DropDownContext.Provider value={{ isDropdownOpen, onDropdownToggle }}>
       <S.DropDownContainer $position={position}>{children}</S.DropDownContainer>
     </DropDownContext.Provider>
   );
 };
 
 const ToggleBtn = ({ children }: { children: ReactNode }) => {
-  const { isOpen, setIsOpen } = useComponentContext(DropDownContext, 'DropDown');
-
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
+  const { isDropdownOpen, onDropdownToggle } = useComponentContext(DropDownContext, 'DropDown');
 
   return (
-    <S.DropDownToggleBtn onClick={handleToggle} $isOpen={isOpen}>
+    <S.DropDownToggleBtn onClick={onDropdownToggle} $isOpen={isDropdownOpen}>
       {children}
     </S.DropDownToggleBtn>
   );
@@ -47,9 +43,9 @@ const ToggleBtn = ({ children }: { children: ReactNode }) => {
 
 // $diplay: 'bottom'의 경우, 드롭다운이 위로 펼쳐지는 경우 입니다.
 const Content = ({ children, $display = 'top' }: { children: ReactNode; $display?: 'top' | 'bottom' }) => {
-  const { isOpen } = useComponentContext(DropDownContext, 'DropDown');
+  const { isDropdownOpen } = useComponentContext(DropDownContext, 'DropDown');
 
-  if (!isOpen) return null;
+  if (!isDropdownOpen) return null;
 
   return <S.DropDownWrapper $display={$display}>{children}</S.DropDownWrapper>;
 };

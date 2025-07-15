@@ -19,6 +19,11 @@ const CommunityDetail = () => {
   const [height, setHeight] = useState(694);
   const postareaRef = useRef<HTMLLIElement>(null);
   const { ref, inView } = useInView();
+  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
+
+  const handleDropdownToggle = (id: number) => {
+    setOpenedId((prev) => (prev === id ? null : id));
+  };
 
   const { data, isError } = useDetailBoardQuery(id);
   const { data: CommentData, fetchNextPage, hasNextPage } = useCommentListQuery(id);
@@ -58,7 +63,15 @@ const CommunityDetail = () => {
         </S.PageHeader>
         <S.BoardContainer>
           <S.PostItem>
-            {data && <Card post={data} forDetail={true} ref={postareaRef} />}
+            {data && (
+              <Card
+                post={data}
+                forDetail={true}
+                ref={postareaRef}
+                isDropdownOpen={opendedId === data.boardId}
+                onDropdownToggle={() => handleDropdownToggle(data.boardId)}
+              />
+            )}
             {CommentData && (
               <>
                 <CommentBoard

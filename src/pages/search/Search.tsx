@@ -15,6 +15,11 @@ const Search = () => {
   const navigate = useNavigate();
   const searchKeyword = searchParams.get('keyword') || '';
   const [isOpen, setIsOpen] = useState(false);
+  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
+
+  const handleDropdownToggle = (id: number) => {
+    setOpenedId((prev) => (prev === id ? null : id));
+  };
 
   // 툴 검색
   const { data: toolData } = useSearchToolQuery(searchKeyword);
@@ -81,6 +86,8 @@ const Search = () => {
                 <>
                   {allBoards.map((board) => (
                     <Card
+                      isDropdownOpen={opendedId === board.boardId}
+                      onDropdownToggle={() => handleDropdownToggle(board.boardId)}
                       key={board.boardId}
                       post={{
                         ...board,
