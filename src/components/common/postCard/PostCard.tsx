@@ -49,6 +49,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const [toastMessage, setToastMessage] = useState('');
 
   const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
     if (forDetail) {
       e.preventDefault();
     } else {
@@ -100,8 +101,8 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   };
 
   return (
-    <S.CardWrapper $forDetail={forDetail} ref={ref} onClick={handleCardClick}>
-      <S.CardLayout>
+    <S.CardWrapper $forDetail={forDetail} ref={ref}>
+      <S.CardLayout onClick={handleCardClick}>
         {isImgModalOpen && (
           <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
         )}

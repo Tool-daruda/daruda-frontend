@@ -23,7 +23,6 @@ const Community = () => {
   const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
 
   const handleDropdownToggle = (id: number) => {
-    console.log('handleDropdownToggle', id);
     setOpenedId((prev) => (prev === id ? null : id));
   };
 
