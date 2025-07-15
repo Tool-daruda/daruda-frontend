@@ -20,12 +20,14 @@ interface CardDataProp {
   isLoading?: boolean;
   pickedtool?: number | null;
   noTopic?: boolean;
+  isDropdownOpen: boolean;
+  onDropdownToggle: () => void;
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   // prop 으로 전달 받은 board 정보
-  const { post, forDetail = false, pickedtool, noTopic } = props;
+  const { post, forDetail = false, pickedtool, noTopic, isDropdownOpen, onDropdownToggle } = props;
   const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
     post;
 
@@ -161,7 +163,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
                 북마크
               </SquareButton>
             </S.BottomBarLeft>
-            <DropDown position="end">
+            <DropDown position="end" isDropdownOpen={isDropdownOpen} onDropdownToggle={onDropdownToggle}>
               <DropDown.Content $display="top">
                 {isOwnPost ? (
                   <>
