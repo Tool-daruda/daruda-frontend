@@ -5,7 +5,6 @@ import { get } from '@apis/index';
 
 export const getSearchTool = async (keyword: string): Promise<SearchTool[]> => {
   const res: AxiosResponse<SearchToolResponse> = await get(`/search/tool?keyword=${encodeURIComponent(keyword)}`);
-  console.log(res);
   return res.data;
 };
 

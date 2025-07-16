@@ -1,26 +1,47 @@
-export const createPostFormData = (
+import { getPresignedUrls, putPresignedUrl } from '@apis/board';
+
+export const createPostFormData = async (
   title: string,
   body: string,
   isFree: boolean,
   selectedTool: number | null,
   images: File[],
 ) => {
-  const formData = new FormData();
-  formData.append('title', title);
-  formData.append('content', body);
-  formData.append('isFree', isFree ? 'true' : 'false');
-
-  if (isFree) {
-    formData.append('toolId', '1');
-  } else if (selectedTool !== null) {
-    formData.append('toolId', String(selectedTool));
+  if (images.length === 0) {
+    return {
+      title,
+      content: body,
+      isFree,
+      toolId: selectedTool || 1,
+      imageList: [],
+    };
   }
+  try {
+    const imageUrls: string[] = [];
 
-  images.forEach((image) => {
-    if (image instanceof File) {
-      formData.append(`images`, image);
+    for (const image of images) {
+      const signedUrl = await getPresignedUrls(image.name);
+
+      await putPresignedUrl({
+        file: image,
+        signedUrl: signedUrl,
+      });
+
+      const imageUrl = signedUrl.split('?')[0];
+      imageUrls.push(imageUrl);
     }
-  });
 
-  return formData;
+    const formData = {
+      title,
+      content: body,
+      isFree,
+      toolId: selectedTool || 1,
+      imageList: imageUrls,
+    };
+
+    return formData;
+  } catch (err) {
+    console.error('게시글 업로드 전체 실패:', err);
+    throw err;
+  }
 };

@@ -1,7 +1,9 @@
 import { AxiosResponse, AxiosError } from 'axios';
 
 import { GetPostListResponse, PostResponse } from '@apis/board/board.model';
-import { del, post, get, patch } from '@apis/index';
+import { del, post, get, patch, instance } from '@apis/index';
+
+import { PostFormData } from './../../pages/communityWrite/types/PostType';
 
 // 커뮤니티 게시글 목록 페이지 get
 export const getBoardList = async ({
@@ -36,14 +38,28 @@ export const getBoardList = async ({
   }
 };
 
-// 커뮤니티 게시글 post
-export const postBoard = async (formData: FormData): Promise<PostResponse> => {
+// 커뮤니티 게시글 이미지 presignedURL get
+export const getPresignedUrls = async (fileName: string) => {
   try {
-    const response = await post<PostResponse>('/board', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const res: AxiosResponse = await get(`/image/presigned-url?imageName=${fileName}`);
+    return res.data;
+  } catch (err) {
+    console.error('Presigned URL 발급 실패:', err);
+    throw err;
+  }
+};
+
+export const putPresignedUrl = async ({ file, signedUrl }: { file: File; signedUrl: string }) => {
+  await instance.put(decodeURIComponent(signedUrl), {
+    headers: { 'Content-Type': file.type },
+    data: file,
+  });
+};
+
+// 커뮤니티 게시글 post
+export const postBoard = async (formData: PostFormData): Promise<PostResponse> => {
+  try {
+    const response = await post<PostResponse>('/board', formData);
     return response;
   } catch (error) {
     console.error('게시 실패:', error);
