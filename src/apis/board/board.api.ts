@@ -1,7 +1,7 @@
-import { AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 
 import { GetPostListResponse, PostResponse } from '@apis/board/board.model';
-import { del, post, get, patch, instance } from '@apis/index';
+import { del, post, get, patch } from '@apis/index';
 
 import { PostFormData } from './../../pages/communityWrite/types/PostType';
 
@@ -50,9 +50,9 @@ export const getPresignedUrls = async (fileName: string) => {
 };
 
 export const putPresignedUrl = async ({ file, signedUrl }: { file: File; signedUrl: string }) => {
-  await instance.put(decodeURIComponent(signedUrl), {
+  await axios.put(decodeURIComponent(signedUrl), file, {
     headers: { 'Content-Type': file.type },
-    data: file,
+    withCredentials: false,
   });
 };
 
