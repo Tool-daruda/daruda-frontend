@@ -33,7 +33,7 @@ export const patchInfo = async ({ nickname, position }: { nickname?: string; pos
 // 작성 글 조회
 export const getBoardList = async (page?: number): Promise<BoardResponse | undefined> => {
   try {
-    const response: AxiosResponse<BoardResponse> = await get(`user/profile/boards?page=${page}`);
+    const response: AxiosResponse<BoardResponse> = await get(`user/boards?page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error:', error);
@@ -43,7 +43,7 @@ export const getBoardList = async (page?: number): Promise<BoardResponse | undef
 // 관심 글 조회
 export const getFavoriteBoardList = async (page?: number): Promise<BoardResponse | null> => {
   try {
-    const response: AxiosResponse<BoardResponse> = await get(`user/profile/scrap-boards?page=${page}`);
+    const response: AxiosResponse<BoardResponse> = await get(`user/scrap-boards?page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error:', error);
