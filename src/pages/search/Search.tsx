@@ -60,23 +60,30 @@ const Search = () => {
             <h2>툴 리스트</h2>
             <Spacing size="2" />
             <S.CardContainer>
-              {visibleTools?.map((tool) => (
-                <S.ToolCardWrapper key={tool.toolId}>
-                  <ToolCard tool={tool} />
-                  <S.Button
-                    onClick={() => {
-                      navigate('/community', {
-                        state: { toolId: tool.toolId, toolLogo: tool.toolLogo, toolName: tool.toolName },
-                      });
-                    }}
-                  >
-                    관련 글 모아보기
-                  </S.Button>
-                </S.ToolCardWrapper>
-              ))}
+              {toolData.length > 0 ? (
+                visibleTools?.map((tool) => (
+                  <S.ToolCardWrapper key={tool.toolId}>
+                    <ToolCard tool={tool} />
+                    <S.Button
+                      onClick={() => {
+                        navigate('/community', {
+                          state: { toolId: tool.toolId, toolLogo: tool.toolLogo, toolName: tool.toolName },
+                        });
+                      }}
+                    >
+                      관련 글 모아보기
+                    </S.Button>
+                  </S.ToolCardWrapper>
+                ))
+              ) : (
+                <S.NullBox>
+                  <ImgPopupNonebookmark120 />
+                  <S.NullAlertText>관련 툴이 없습니다.</S.NullAlertText>
+                </S.NullBox>
+              )}
             </S.CardContainer>
           </S.SearchResult>
-          {toolData?.length > 2 && (
+          {toolData.length > 2 && (
             <S.Toggle
               onClick={() => {
                 setIsOpen((prev) => !prev);
