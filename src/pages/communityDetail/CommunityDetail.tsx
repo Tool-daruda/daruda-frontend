@@ -41,7 +41,7 @@ const CommunityDetail = () => {
       'originTool',
       JSON.stringify({ toolId: data?.toolId, toolName: data?.toolName, toolLogo: data?.toolLogo }),
     );
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     if (inView) {

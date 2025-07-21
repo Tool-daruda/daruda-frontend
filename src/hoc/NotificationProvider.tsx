@@ -31,7 +31,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     return () => eventSource.close();
   }, []);
 
-  const notifications = useNotiListQuery(!!userId).data ?? undefined;
+  const notifications = useNotiListQuery(!!userId).data ?? [];
 
   return <NotificationContext.Provider value={notifications}>{children}</NotificationContext.Provider>;
 };

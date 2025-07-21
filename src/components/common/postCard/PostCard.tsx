@@ -72,12 +72,13 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsImgModalOpen(false);
   };
 
-  const handleTaostMsg = (msg: string) => {
+  const handleToastMsg = (msg: string) => {
     setToastMessage(msg);
   };
 
   // 북마크 추가 / 삭제 함수
   const handleScrap = (boardId: number) => {
+    if (isWarning) return;
     srapMutate(boardId);
 
     const postOwner = localStorage.getItem('user');
@@ -89,18 +90,21 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   };
 
   useEffect(() => {
-    console.log('isBookMarkSuccess', isBookMarkSuccess);
     if (isBookMarkSuccess) {
-      handleTaostMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      handleToastMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
     } else {
-      handleTaostMsg('북마크에 실패했어요');
+      handleToastMsg('북마크에 실패했어요');
     }
   }, [isBookMarkSuccess, isScraped]);
 
   const { mutate: DeleteMutate } = useBoardDeleteMutation(boardId, toolId, toolId === null);
 
   const handleImgModalDel = () => {
-    DeleteMutate(boardId);
+    DeleteMutate(boardId, {
+      onSuccess: () => {
+        handleToastMsg('게시글이 삭제되었어요');
+      },
+    });
   };
 
   return (
@@ -156,7 +160,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
             >{`${commentCount}개`}</SquareButton>
             <SquareButton
               icon={<IcBookmark />}
-              isBook={isScraped}
+              isBook={isWarning ? false : isScraped}
               size="small"
               stroke={false}
               forBookMark
@@ -195,7 +199,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           handleClose={handleModalClose}
           boardId={boardId}
           handleToastOpen={handleToastOpen}
-          handleTaostMsg={handleTaostMsg}
+          handleToastMsg={handleToastMsg}
         />
       ) : (
         <AlterModal

@@ -12,7 +12,7 @@ type FormValues = {
 const useReport = (
   handleClose: () => void,
   handleToastOpen: () => void,
-  handleTaostMsg: (msg: string) => void,
+  handleToastMsg: (msg: string) => void,
   content: string,
   props: BoardOnly | CommentOnly,
 ) => {
@@ -69,11 +69,11 @@ const useReport = (
 
     postReport(reportPayload, {
       onSuccess: () => {
-        handleTaostMsg('신고가 정상적으로 접수되었어요');
+        handleToastMsg('신고가 정상적으로 접수되었어요');
       },
       onError: (error) => {
         console.error('Report submission failed:', error);
-        handleTaostMsg('이미 신고한 유저이거나, 오류로 인해 신고가 접수되지 않았어요');
+        handleToastMsg('이미 신고한 유저이거나, 오류로 인해 신고가 접수되지 않았어요');
       },
     });
     reset();

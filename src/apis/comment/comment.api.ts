@@ -9,7 +9,7 @@ export const postComment = async (boardId: string | undefined, postConent: FormD
   try {
     await post(`/comment?board-id=${boardId}`, postConent, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
   } catch (err) {

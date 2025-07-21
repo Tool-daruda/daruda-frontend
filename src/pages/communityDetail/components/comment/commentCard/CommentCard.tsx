@@ -46,7 +46,12 @@ const CommentCard = ({ comment }: Comment) => {
   }, [deleteError, authError, handleToastOpen, handleMessageChange]);
 
   const handleModalDelete = async () => {
-    mutate();
+    mutate(undefined, {
+      onSuccess: () => {
+        handleToastOpen();
+        handleMessageChange('댓글이 삭제되었어요');
+      },
+    });
     handleModalClose();
   };
 
@@ -102,7 +107,7 @@ const CommentCard = ({ comment }: Comment) => {
           isOpen={isOpen}
           handleClose={handleModalDelete}
           commentId={comment.commentId}
-          handleTaostMsg={handleMessageChange}
+          handleToastMsg={handleMessageChange}
           handleToastOpen={handleToastOpen}
         />
       ) : (
@@ -124,9 +129,11 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      <Toast isVisible={isToastOpen} isWarning={true}>
-        {toastMessage}
-      </Toast>
+      {toastMessage !== '' && (
+        <Toast isVisible={isToastOpen} isWarning={true}>
+          {toastMessage}
+        </Toast>
+      )}
     </S.Wrapper>
   );
 };

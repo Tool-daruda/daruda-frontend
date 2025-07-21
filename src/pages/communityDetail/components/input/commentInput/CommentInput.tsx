@@ -18,6 +18,7 @@ import { MODAL_ERR } from '../../../constants';
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
   const { isToastOpen, handleModalOpen } = useToastOpen();
+
   const {
     isFocus,
     text,
@@ -30,6 +31,7 @@ const CommnetInput = () => {
     handleInputOutfocus,
     setText,
   } = useTextInput(DEFAULT_MAX_CHARS);
+
   const {
     toastType,
     imageSelected,
@@ -43,7 +45,8 @@ const CommnetInput = () => {
   } = useImageUpload(handleModalOpen);
 
   const { id: boardId } = useParams();
-  const { mutate: postComment } = useCommentPostMutation(boardId, setToastType, handleModalOpen);
+  const { mutate: postComment } = useCommentPostMutation(boardId);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
   const handleCommentPost = (e: FormEvent) => {
     e.preventDefault();
@@ -53,15 +56,20 @@ const CommnetInput = () => {
       formData.append('image', imageFile);
     }
 
-    postComment(formData);
+    postComment(formData, {
+      onSuccess: () => {
+        setToastType('postComment');
+        handleModalOpen();
+      },
+      onError: () => {
+        setToastType('postErr');
+        handleModalOpen();
+      },
+    });
 
     setText('');
     handleImageRemove();
-
-    handleModalOpen();
   };
-
-  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
   const handleImgFocus = () => {
     setIsImgModalOpen(true);
@@ -141,11 +149,11 @@ const CommnetInput = () => {
         </CircleButton>
       </S.CardBottom>
       <S.CautionWrpper>
-        <p>* 이미지는 1장씩 첨부 가능하며, 최대 7MB를 초과할 수 없습니다.’</p>
+        <p>* 이미지는 1장씩 첨부 가능하며, 최대 7MB를 초과할 수 없습니다.</p>
       </S.CautionWrpper>
-      {toastType !== null && isToastOpen && (
+      {toastType !== null && (
         <Toast isVisible={isToastOpen} isWarning={toastType === 'postComment' ? false : true}>
-          {toastType ? MODAL_ERR[toastType] : ''}
+          {toastType && MODAL_ERR[toastType]}
         </Toast>
       )}
       {isImgModalOpen && (
