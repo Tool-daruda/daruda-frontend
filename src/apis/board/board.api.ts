@@ -112,13 +112,9 @@ export const delBoard = async (boardId: number) => {
 };
 
 // 커뮤니티 게시글 patch
-export const patchBoard = async (req: { id: number | null; data: FormData }): Promise<PostResponse> => {
+export const patchBoard = async (req: { id: number | null; data: PostFormData }): Promise<PostResponse> => {
   try {
-    const response = await patch<PostResponse>(`/board/${req.id}`, req.data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await patch<PostResponse>(`/board/${req.id}`, req.data);
     return response;
   } catch (error) {
     console.error('수정 실패:', error);

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
 import { GetPostListResponse, PostResponse, InfiniteQueryResponse, BoardListResponse } from './board.model';
 import { MYPAGE_QUERY_KEY, BOARD_QUERY_KEY } from '@constants/queryKey';
+import { PostFormData } from '@pages/communityWrite/types/PostType';
 import { extractUserId } from '@utils';
 
 // 커뮤니티 게시글 조회 hook
@@ -170,7 +171,7 @@ export const useBoardUpdateMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (req: { id: number | null; data: FormData }) => patchBoard(req),
+    mutationFn: (req: { id: number | null; data: PostFormData }) => patchBoard(req),
     onSuccess: () => {
       navigate('/community');
     },
