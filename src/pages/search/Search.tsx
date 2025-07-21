@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import * as S from './Search.styled';
 import { useSearchBoardQuery, useSearchToolQuery } from '@apis/search';
 import { IcChevron, ImgPopupNonebookmark120 } from '@assets/svgs';
+import Loading from '@components/lottie/Loading';
 import Card from '@components/postCard/PostCard';
 import Spacing from '@components/spacing/Spacing';
 import ToolCard from '@components/toolCard/ToolCard';
@@ -22,9 +23,9 @@ const Search = () => {
   };
 
   // 툴 검색
-  const { data: toolData } = useSearchToolQuery(searchKeyword);
+  const { data: toolData, isLoading: toolLoading } = useSearchToolQuery(searchKeyword);
   // 커뮤니티 검색
-  const { data: boardData, fetchNextPage, hasNextPage } = useSearchBoardQuery(searchKeyword);
+  const { data: boardData, fetchNextPage, hasNextPage, isLoading: baordLoading } = useSearchBoardQuery(searchKeyword);
 
   const allBoards = boardData?.pages.flatMap((page) => page?.contents || []) || [];
   // 툴 검색 결과 처리
@@ -37,6 +38,17 @@ const Search = () => {
       fetchNextPage();
     }
   }, [inView, hasNextPage]);
+
+  if (toolLoading || baordLoading) {
+    return (
+      <S.SearchWrapper>
+        <TopBanner />
+        <S.SearchBox>
+          <Loading />
+        </S.SearchBox>
+      </S.SearchWrapper>
+    );
+  }
 
   if (toolData)
     return (
