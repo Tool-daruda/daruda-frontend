@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
@@ -10,6 +11,12 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     tools: [], // 현재 카테고리에서 보여지는 툴배열
     noTopic: false,
   });
+  const location = useLocation();
+  const state = location.state as {
+    toolId: number | null;
+    toolLogo: string;
+    toolName: string;
+  } | null;
 
   const { data: categoryData } = useGetCategoriesQuery();
   const { data: toolListData } = useToolListQuery({
@@ -18,7 +25,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    const toolToUse = JSON.parse(sessionStorage.getItem('originTool') || 'null');
+    const toolToUse = state || null;
     if (!toolToUse) return;
 
     const toolInfo = {
@@ -33,7 +40,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       selectedCategory: toolToUse.toolName ?? null,
       tools: [toolInfo],
     });
-  }, []);
+  }, [location.pathname, state]);
 
   // toolListData 변경 시 toolState.tools 업데이트
   useEffect(() => {

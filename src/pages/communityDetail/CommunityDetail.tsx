@@ -12,7 +12,7 @@ import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
-import { handleScrollDown, handleScrollUp } from '@utils';
+import { handleScrollDown } from '@utils';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,14 +29,6 @@ const CommunityDetail = () => {
       setHeight(height);
     }
   }, []);
-
-  useEffect(() => {
-    handleScrollUp();
-    sessionStorage.setItem(
-      'originTool',
-      JSON.stringify({ toolId: data?.toolId, toolName: data?.toolName, toolLogo: data?.toolLogo }),
-    );
-  }, [data]);
 
   useEffect(() => {
     if (inView) {

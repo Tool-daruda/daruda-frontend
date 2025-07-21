@@ -48,11 +48,9 @@ const Search = () => {
                   <ToolCard tool={tool} />
                   <S.Button
                     onClick={() => {
-                      sessionStorage.setItem(
-                        'originTool',
-                        JSON.stringify({ toolId: tool.toolId, toolLogo: tool.toolLogo, toolName: tool.toolName }),
-                      );
-                      navigate('/community');
+                      navigate('/community', {
+                        state: { toolId: tool.toolId, toolLogo: tool.toolLogo, toolName: tool.toolName },
+                      });
                     }}
                   >
                     관련 글 모아보기
