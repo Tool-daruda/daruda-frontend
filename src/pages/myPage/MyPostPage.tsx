@@ -29,7 +29,11 @@ const MyPostPage = () => {
     handleClose: async () => {
       handleDeleteModal();
       if (selectedBoard !== null) {
-        await delMuatate(selectedBoard);
+        await delMuatate(selectedBoard, {
+          onSuccess: () => {
+            handleToastOpen();
+          },
+        });
       }
     },
     ImgPopupModal: ImgPopupDelete84,
@@ -46,7 +50,6 @@ const MyPostPage = () => {
   const handleDelete = (boardId: number) => {
     setSelectedBoard(boardId);
     handleDeleteModal();
-    handleToastOpen();
   };
 
   if (postData) {

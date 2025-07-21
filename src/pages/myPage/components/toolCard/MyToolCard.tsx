@@ -1,8 +1,9 @@
-import Chip from '@components/chip/Chip';
-import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './MyToolCard.styled';
+import { IcBookmark32 } from '@assets/svgs';
+import Chip from '@components/chip/Chip';
+import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
 
 interface MyToolCardPropType {
   toolId: number;
@@ -10,9 +11,10 @@ interface MyToolCardPropType {
   toolNameMain: string;
   keyWordList: string[];
   onClick?: () => void;
+  isScrapped: boolean;
 }
 
-const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick }: MyToolCardPropType) => {
+const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick, isScrapped }: MyToolCardPropType) => {
   const navigate = useNavigate();
   return (
     <S.CardWrapper onClick={() => navigate(`/toollist/${toolId}`)}>
@@ -34,7 +36,10 @@ const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick }: My
           event.stopPropagation();
           onClick?.();
         }}
-      />
+        $isBookmark={isScrapped}
+      >
+        <IcBookmark32 />
+      </S.BookmarkBtn>
     </S.CardWrapper>
   );
 };
