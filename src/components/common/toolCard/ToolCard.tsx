@@ -25,7 +25,6 @@ const ToolCard = ({ selectedCategory, isFree, criteria, tool }: ToolCardProps) =
   const navigate = useNavigate();
 
   const navigateToDetail = (toolId: number) => {
-    sessionStorage.setItem('toolListScrollY', String(window.scrollY));
     navigate(`/toollist/${toolId}`);
   };
 

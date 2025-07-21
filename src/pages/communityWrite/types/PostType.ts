@@ -3,7 +3,7 @@ export interface PostFormData {
   content: string;
   toolId?: number;
   isFree: boolean;
-  images: File[];
+  imageList: string[];
 }
 
 export interface BoardResponseData {
@@ -26,8 +26,8 @@ export interface PostBoardResponse {
 
 export interface FormDataType {
   title: string;
-  body: string;
+  content: string;
   isFree: boolean;
   selectedTool: number | null;
-  images: File[];
+  imageList: string[];
 }

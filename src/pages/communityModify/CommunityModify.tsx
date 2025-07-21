@@ -7,12 +7,12 @@ import WritingImg from './components/writingImg/WritingImg';
 import WritingTitle from './components/writingTitle/WritingTitle';
 import useCommunityModify from './hooks/UseCommunityModify';
 import { PostType } from './types/PostType';
-import { createPostFormData } from './utils/FormDataUtils';
 import { useBoardUpdateMutation } from '@apis/board';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
+import { createPostFormData } from '@pages/communityWrite/utils/FormDataUtils';
 
 const CommunityModify = () => {
   const [post, setPost] = useState<PostType | null>(null);
@@ -41,12 +41,12 @@ const CommunityModify = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isImgSame, setIsImgSame] = useState(true);
-  const { mutate: patchMutate } = useBoardUpdateMutation();
+  const { mutate: patchMutate, error } = useBoardUpdateMutation();
 
   const handlePostSubmit = async () => {
     if (isButtonDisabled || !post) return;
 
-    const formData = createPostFormData(title, body, isFree, selectedTool, imageFiles);
+    const formData = await createPostFormData(title, body, isFree, selectedTool, imageFiles);
 
     const req = { id: post.boardId, data: formData };
     await patchMutate(req);
@@ -123,7 +123,7 @@ const CommunityModify = () => {
         {isToastVisible && (
           <S.ToastBox>
             <Toast isVisible={true} isWarning={true}>
-              글 수정이 완료 되었습니다.
+              {error ? '글 수정을 실패했습니다. 다시 시도해주세요.' : '글 수정이 완료 되었습니다.'}
             </Toast>
           </S.ToastBox>
         )}

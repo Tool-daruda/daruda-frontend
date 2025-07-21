@@ -49,7 +49,7 @@ const CommunityWrite = () => {
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
 
-    const formData = createPostFormData(title, body, isFree, selectedTool, images);
+    const formData = await createPostFormData(title, body, isFree, selectedTool, images);
 
     try {
       await postBoard(formData);

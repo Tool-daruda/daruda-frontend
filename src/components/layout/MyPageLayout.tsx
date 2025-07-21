@@ -1,17 +1,17 @@
+import styled from '@emotion/styled';
+import { ReactNode } from 'react';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router';
+
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
-import ScrollToTop from '@components/scrollTop/ScrollTop';
 import Title from '@components/title/Title';
-import styled from '@emotion/styled';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
-import { ReactNode } from 'react';
-import { Outlet, useLocation } from 'react-router';
 
 const MyPageLayout = () => {
   return (
     <>
-      <ScrollToTop />
+      <ScrollRestoration />
       <Header forOnboarding={false} />
       <Title title="마이 페이지" />
       <MyPageContainer>

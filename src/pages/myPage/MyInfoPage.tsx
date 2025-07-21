@@ -109,9 +109,9 @@ const MyInfoPage = () => {
 
     // 닉네임이 바뀌었으면 중복확인 필수
     if (isNicknameChanged && isAffiliationChanged) {
-      setIsButtonDisable(nicknameState !== 'act');
+      setIsButtonDisable(nicknameState !== 'success');
     } else if (isNicknameChanged) {
-      setIsButtonDisable(nicknameState !== 'act');
+      setIsButtonDisable(nicknameState !== 'success');
     } else if (isAffiliationChanged) {
       setIsButtonDisable(false);
     } else {

@@ -5,7 +5,6 @@ import { get } from '@apis/index';
 
 export const getSearchTool = async (keyword: string): Promise<SearchTool[]> => {
   const res: AxiosResponse<SearchToolResponse> = await get(`/search/tool?keyword=${encodeURIComponent(keyword)}`);
-  console.log(res);
   return res.data;
 };
 
@@ -15,7 +14,7 @@ export const getSearchBoard = async (
   size: number = 3,
 ): Promise<SearchBoardResponse> => {
   const params = new URLSearchParams();
-  params.append('keyword', encodeURIComponent(keyword));
+  params.append('keyword', keyword);
   if (nextCursor) params.append('nextCursor', nextCursor.toString());
   params.append('size', size.toString());
 

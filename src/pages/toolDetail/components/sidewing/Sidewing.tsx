@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import * as S from './Sidewing.styled';
 import SimilarToolCardList from './SimilarToolCardList';
@@ -13,19 +13,22 @@ interface SidewingProps {
 }
 
 const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
-  const [activeBtnId, setActiveBtnId] = useState<number>(1); // 기본값 '툴 소개'
+  const [activeBtnId, setActiveBtnId] = useState<number>(0); // 기본값 '툴 소개'
   const { data } = useAlternativeToolQuery(toolId);
+  const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const { trackEvent } = useAnalytics();
 
   // 스크롤 이벤트 핸들러
   useEffect(() => {
     const handleScroll = () => {
-      let activeId = 1; // 기본값 설정
+      if (isAutoScrolling) return;
+
+      let activeId = 0; // 기본값 설정
 
       Object.entries(sectionRefs).forEach(([id, ref]) => {
         if (ref.current) {
           const rect = ref.current.getBoundingClientRect();
-          const topOffset = 45 + 19.5; // 헤더 오프셋
+          const topOffset = 80; // 헤더 오프셋
           if (rect.top - topOffset <= 0 && rect.bottom - topOffset > 0) {
             activeId = Number(id);
           }
@@ -45,7 +48,28 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
       // 스크롤 이벤트 리스너 제거
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [sectionRefs]);
+  }, [sectionRefs, isAutoScrolling]);
+
+  const stopAutoScroll = useCallback(() => {
+    setIsAutoScrolling(false);
+    window.removeEventListener('wheel', stopAutoScroll);
+    window.removeEventListener('touchmove', stopAutoScroll);
+    window.removeEventListener('keydown', stopAutoScroll);
+  }, []);
+
+  useEffect(() => {
+    if (isAutoScrolling) {
+      window.addEventListener('wheel', stopAutoScroll, { passive: true });
+      window.addEventListener('touchmove', stopAutoScroll, { passive: true });
+      window.addEventListener('keydown', stopAutoScroll);
+    }
+
+    return () => {
+      window.removeEventListener('wheel', stopAutoScroll);
+      window.removeEventListener('touchmove', stopAutoScroll);
+      window.removeEventListener('keydown', stopAutoScroll);
+    };
+  }, [isAutoScrolling, stopAutoScroll]);
 
   const handleClickBtn = (id: number, label: string) => {
     trackEvent('Tool_Detail_Index_Click', { Tool_Detail_Index: label });
@@ -53,10 +77,10 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
     const targetRef = sectionRefs[id];
 
     if (targetRef?.current) {
-      const headerOffset = 45 + 19.5; // 헤더 높이 + 추가 간격
+      const headerOffset = 80; // 헤더 높이 + 추가 간격
       const elementPosition = targetRef.current.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
+      setIsAutoScrolling(true);
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
@@ -67,7 +91,7 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
   const orderButtons = [
     { id: 1, label: '툴 소개' },
     { id: 2, label: '핵심 기능' },
-    { id: 3, label: '참고하면 좋을 영상' },
+    { id: 3, label: '참고하면 좋은 영상' },
     { id: 4, label: '플랜' },
     { id: 5, label: '커뮤니티' },
   ];
