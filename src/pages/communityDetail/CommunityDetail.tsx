@@ -25,6 +25,10 @@ const CommunityDetail = () => {
     setOpenedId((prev) => (prev === id ? null : id));
   };
 
+  const handleDropdownClose = () => {
+    setOpenedId(null);
+  };
+
   const { data, isError } = useDetailBoardQuery(id);
   const { data: CommentData, fetchNextPage, hasNextPage } = useCommentListQuery(id);
 
@@ -61,6 +65,7 @@ const CommunityDetail = () => {
                 forDetail={true}
                 ref={postareaRef}
                 isDropdownOpen={opendedId === data.boardId}
+                onDropdownClose={handleDropdownClose}
                 onDropdownToggle={() => handleDropdownToggle(data.boardId)}
               />
             )}

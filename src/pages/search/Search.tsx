@@ -22,6 +22,10 @@ const Search = () => {
     setOpenedId((prev) => (prev === id ? null : id));
   };
 
+  const handleDropdownClose = () => {
+    setOpenedId(null);
+  };
+
   // 툴 검색
   const { data: toolData, isLoading: toolLoading } = useSearchToolQuery(searchKeyword);
   // 커뮤니티 검색
@@ -105,6 +109,7 @@ const Search = () => {
                     <Card
                       isDropdownOpen={opendedId === board.boardId}
                       onDropdownToggle={() => handleDropdownToggle(board.boardId)}
+                      onDropdownClose={handleDropdownClose}
                       key={board.boardId}
                       post={{
                         ...board,

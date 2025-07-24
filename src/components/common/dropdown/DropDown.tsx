@@ -6,13 +6,12 @@ import { useComponentContext } from '@hooks/index';
 interface DropDownContextType {
   isDropdownOpen: boolean;
   onDropdownToggle: () => void;
+  onDropdownClose?: () => void;
 }
 
-interface DropDownPropType {
+interface DropDownPropType extends DropDownContextType {
   position?: 'start' | 'end';
   children: ReactNode;
-  isDropdownOpen: boolean;
-  onDropdownToggle: () => void;
 }
 
 interface DropDownItemPropType {
@@ -23,19 +22,25 @@ interface DropDownItemPropType {
 
 const DropDownContext = createContext<DropDownContextType | undefined>(undefined);
 
-const DropDown = ({ position = 'start', isDropdownOpen, onDropdownToggle, children }: DropDownPropType) => {
+const DropDown = ({
+  position = 'start',
+  isDropdownOpen,
+  onDropdownToggle,
+  onDropdownClose,
+  children,
+}: DropDownPropType) => {
   return (
-    <DropDownContext.Provider value={{ isDropdownOpen, onDropdownToggle }}>
+    <DropDownContext.Provider value={{ isDropdownOpen, onDropdownToggle, onDropdownClose }}>
       <S.DropDownContainer $position={position}>{children}</S.DropDownContainer>
     </DropDownContext.Provider>
   );
 };
 
 const ToggleBtn = ({ children }: { children: ReactNode }) => {
-  const { isDropdownOpen, onDropdownToggle } = useComponentContext(DropDownContext, 'DropDown');
+  const { isDropdownOpen, onDropdownToggle, onDropdownClose } = useComponentContext(DropDownContext, 'DropDown');
 
   return (
-    <S.DropDownToggleBtn onClick={onDropdownToggle} $isOpen={isDropdownOpen}>
+    <S.DropDownToggleBtn onClick={onDropdownToggle} $isOpen={isDropdownOpen} onBlur={onDropdownClose}>
       {children}
     </S.DropDownToggleBtn>
   );

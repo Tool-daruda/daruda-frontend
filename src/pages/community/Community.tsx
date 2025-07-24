@@ -26,6 +26,10 @@ const Community = () => {
     setOpenedId((prev) => (prev === id ? null : id));
   };
 
+  const handleDropdownClose = () => {
+    setOpenedId(null);
+  };
+
   const navigate = useNavigate();
   const { data, fetchNextPage, hasNextPage, isLoading } = useBoardListQuery(pickedtool, noTopic);
   const { ref, inView } = useInView();
@@ -55,6 +59,7 @@ const Community = () => {
                     key={`community-post-${post.boardId}`}
                     isDropdownOpen={opendedId === post.boardId}
                     onDropdownToggle={() => handleDropdownToggle(post.boardId)}
+                    onDropdownClose={handleDropdownClose}
                     post={post}
                     noTopic={noTopic}
                     pickedtool={pickedtool}
