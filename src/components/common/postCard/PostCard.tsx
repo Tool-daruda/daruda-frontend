@@ -58,7 +58,12 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     navigate(`/community/${boardId}`);
   };
 
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrapMutation(pickedtool, noTopic, boardId);
+  const {
+    isSuccess: isBookMarkSuccess,
+    mutate: srapMutate,
+    isPending: isScrapPending,
+  } = useBoardScrapMutation(pickedtool, noTopic, boardId); // 북마크 추가 / 삭제
+  const { mutate: DeleteMutate, isPending: isDeletePending } = useBoardDeleteMutation(boardId, toolId, toolId === null); // 게시글 삭제
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -96,8 +101,6 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
       handleToastMsg('북마크에 실패했어요');
     }
   }, [isBookMarkSuccess, isScraped]);
-
-  const { mutate: DeleteMutate } = useBoardDeleteMutation(boardId, toolId, toolId === null);
 
   const handleImgModalDel = () => {
     DeleteMutate(boardId, {
@@ -217,7 +220,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {isToastOpen && (
+      {!isScrapPending && !isDeletePending && isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {toastMessage}
         </Toast>
