@@ -28,8 +28,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   // prop 으로 전달 받은 board 정보
   const { post, forDetail = false, pickedtool, noTopic, isDropdownOpen, onDropdownToggle } = props;
-  const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
-    post;
+  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount, isScraped } = post;
 
   const {
     isOwnPost,
@@ -63,7 +62,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     mutate: srapMutate,
     isPending: isScrapPending,
   } = useBoardScrapMutation(pickedtool, noTopic, boardId); // 북마크 추가 / 삭제
-  const { mutate: DeleteMutate, isPending: isDeletePending } = useBoardDeleteMutation(boardId, toolId, toolId === null); // 게시글 삭제
+  const { mutate: DeleteMutate, isPending: isDeletePending } = useBoardDeleteMutation(boardId, pickedtool, noTopic); // 게시글 삭제
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -105,6 +104,8 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const handleImgModalDel = () => {
     DeleteMutate(boardId, {
       onSuccess: () => {
+        handleModalClose();
+        handleToastOpen();
         handleToastMsg('게시글이 삭제되었어요');
       },
     });

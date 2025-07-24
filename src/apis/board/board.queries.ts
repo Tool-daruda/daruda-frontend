@@ -2,7 +2,7 @@ import { useMutation, useQueryClient, InfiniteData, useQuery, useInfiniteQuery }
 import { useNavigate } from 'react-router-dom';
 
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
-import { GetPostListResponse, PostResponse, InfiniteQueryResponse, BoardListResponse } from './board.model';
+import { GetPostListResponse, PostResponse, BoardListResponse } from './board.model';
 import { MYPAGE_QUERY_KEY, BOARD_QUERY_KEY } from '@constants/queryKey';
 import { PostFormData } from '@pages/communityWrite/types/PostType';
 import { extractUserId } from '@utils';
@@ -117,15 +117,17 @@ export const useDetailBoardQuery = (id: string | undefined) =>
   });
 
 // 커뮤니티 게시글 삭제 hook
-export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null, noTopic?: boolean) => {
+export const useBoardDeleteMutation = (boardId?: number, pickedtool?: number | null, noTopic?: boolean) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (boardId: number) => delBoard(boardId),
     onMutate: async () => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
-      await queryClient.cancelQueries({ queryKey });
-      const prevList = queryClient.getQueryData<InfiniteQueryResponse>(queryKey);
+      await queryClient.cancelQueries({ queryKey: BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }) });
+
+      const prevList = queryClient.getQueryData<InfiniteData<GetPostListResponse>>(
+        BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }),
+      );
 
       if (prevList && Array.isArray(prevList.pages)) {
         const updatedList = {
@@ -136,29 +138,22 @@ export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null,
           })),
         };
 
-        queryClient.setQueryData<InfiniteQueryResponse>(queryKey, updatedList);
+        queryClient.setQueryData(BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }), updatedList);
       }
 
       return { prevList };
     },
 
     onError: (error, _, context) => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId: pickedtool }];
       if (context?.prevList) {
         queryClient.setQueryData(queryKey, context.prevList);
       }
       console.error(error);
     },
-
-    onSettled: () => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
-      queryClient.invalidateQueries({ queryKey });
-    },
-
     onSuccess: () => {
       queryClient.refetchQueries({
         predicate: (query) => {
-          // 'myPostList'랑 userId가 같은 쿼리키들 모두 새로고침
           return Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList';
         },
       });
