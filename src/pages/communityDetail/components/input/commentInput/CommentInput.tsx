@@ -151,7 +151,7 @@ const CommnetInput = () => {
       <S.CautionWrpper>
         <p>* 이미지는 1장씩 첨부 가능하며, 최대 7MB를 초과할 수 없습니다.</p>
       </S.CautionWrpper>
-      {toastType !== null && (
+      {isToastOpen && toastType !== null && (
         <Toast isVisible={isToastOpen} isWarning={toastType === 'postComment' ? false : true}>
           {toastType && MODAL_ERR[toastType]}
         </Toast>
