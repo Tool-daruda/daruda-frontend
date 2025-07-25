@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as S from './CommentInput.styled';
+import { getPresignedUrls, putPresignedUrl } from '@apis/board';
 import { useCommentPostMutation } from '@apis/comment';
 import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
@@ -48,15 +49,27 @@ const CommnetInput = () => {
   const { mutate: postComment } = useCommentPostMutation(boardId);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
-  const handleCommentPost = (e: FormEvent) => {
+  const handleCommentPost = async (e: FormEvent) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('content', text);
+
+    let imageUrl = null;
     if (imageFile) {
-      formData.append('image', imageFile);
+      const signedUrl = await getPresignedUrls(imageFile.name);
+
+      await putPresignedUrl({
+        file: imageFile,
+        signedUrl: signedUrl,
+      });
+
+      imageUrl = signedUrl.split('?')[0];
     }
 
-    postComment(formData, {
+    const form = {
+      content: text,
+      photoUrl: imageUrl as string,
+    };
+
+    postComment(form, {
       onSuccess: () => {
         setToastType('postComment');
         handleModalOpen();

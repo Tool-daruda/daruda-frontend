@@ -2,7 +2,7 @@ import { useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-q
 
 import { delComment, postComment, getComment } from './comment.api';
 import { InfiniteQueryResponse, Comment, CommentResponse } from './comment.model';
-import { PostResponse } from '@apis/board/board.model';
+import { FormContent, PostResponse } from '@apis/board/board.model';
 import { BOARD_QUERY_KEY, COMMENT_QUERY_KEY } from '@constants/queryKey';
 
 // 커뮤니티 댓글 작성 hook
@@ -10,8 +10,8 @@ export const useCommentPostMutation = (boardId: string | undefined) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (formData: FormData) => postComment(boardId, formData),
-    onMutate: async (formData: FormData) => {
+    mutationFn: (formData: FormContent) => postComment(boardId, formData),
+    onMutate: async (formData: FormContent) => {
       await queryClient.cancelQueries({ queryKey: COMMENT_QUERY_KEY.LIST(boardId) });
 
       const prevComments = queryClient.getQueryData<InfiniteQueryResponse>(COMMENT_QUERY_KEY.LIST(boardId));
@@ -20,8 +20,8 @@ export const useCommentPostMutation = (boardId: string | undefined) => {
       if (prevComments) {
         const optimisticComment: Comment = {
           commentId: Date.now(),
-          content: formData.get('text') as string,
-          image: formData.get('image') ? URL.createObjectURL(formData.get('image') as Blob) : null,
+          content: formData.content,
+          image: formData.photoUrl || null,
           nickname: '현재 유저 닉네임',
           updatedAt: new Date().toISOString(),
         };
