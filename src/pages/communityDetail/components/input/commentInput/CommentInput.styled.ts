@@ -118,7 +118,7 @@ export const CardBottom = styled.section`
 
   & div {
     display: flex;
-    gap: 2rem;
+    gap: 3rem;
   }
 `;
 

@@ -85,11 +85,17 @@ const CommnetInput = () => {
   };
 
   const handleImgFocus = () => {
+    if (!imageSelected) return;
     setIsImgModalOpen(true);
   };
 
   const handleImgModalClose = () => {
     setIsImgModalOpen(false);
+  };
+
+  const handleAuthError = () => {
+    setToastType('postErr');
+    handleModalOpen();
   };
 
   const imageButton = !imageSelected ? (
@@ -99,9 +105,11 @@ const CommnetInput = () => {
       type="file"
       accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
       onImageSelect={handleImageChange}
+      handleAuthError={handleAuthError}
       handleSizeError={handleSizeError}
       handleModalOpen={handleModalOpen}
       status={imageSelected}
+      disabled={!localStorage.getItem('user')}
     >
       이미지 첨부
     </InputButton>

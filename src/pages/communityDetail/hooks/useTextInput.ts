@@ -13,6 +13,7 @@ const useTextInput = (maxChars: number = 1000) => {
       setIsLogin(true);
     }
   }, []);
+
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setText(value);
