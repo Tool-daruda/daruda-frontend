@@ -54,8 +54,8 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
       e.preventDefault();
     } else {
       sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+      navigate(`/community/${boardId}`);
     }
-    navigate(`/community/${boardId}`);
   };
 
   const {
