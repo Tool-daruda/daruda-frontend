@@ -11,6 +11,7 @@ import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { useImageUpload, useTextInput } from '@pages/communityDetail/hooks';
+import { handleScrollUp } from '@utils';
 
 import InputButton from '../inputButton/InputButton';
 
@@ -73,6 +74,7 @@ const CommnetInput = () => {
       onSuccess: () => {
         setToastType('postComment');
         handleModalOpen();
+        handleScrollUp();
       },
       onError: () => {
         setToastType('postErr');
