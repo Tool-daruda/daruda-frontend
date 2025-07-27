@@ -19,7 +19,7 @@ import { handleScrollUp } from '@utils';
 import Card from '../../components/common/postCard/PostCard';
 
 const Community = () => {
-  const { handleToolSelect, pickedtool, noTopic, initialTool } = useToolCategorySelect();
+  const { handleToolSelect, pickedtool, noTopic } = useToolCategorySelect();
   const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
 
   const handleDropdownToggle = (id: number) => {
@@ -51,7 +51,7 @@ const Community = () => {
       <S.CommunityWrapper>
         <Banner />
         <S.CommunityContainer>
-          <ToolListBanner forCommunity onToolSelect={handleToolSelect} originTool={initialTool} />
+          <ToolListBanner forCommunity onToolSelect={handleToolSelect} />
           <S.CardList>
             {postList && postList.length >= 1
               ? postList?.map((post) => (

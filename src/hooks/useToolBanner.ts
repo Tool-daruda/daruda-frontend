@@ -17,6 +17,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     toolLogo: string;
     toolName: string;
   } | null;
+  const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
   const { data: categoryData } = useGetCategoriesQuery();
   const { data: toolListData } = useToolListQuery({
@@ -25,7 +26,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    const toolToUse = state || null;
+    const toolToUse = state || storedTool || null;
     if (!toolToUse) return;
 
     const toolInfo = {
@@ -75,6 +76,14 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     }));
 
     onToolSelect?.(null, isChecked);
+    sessionStorage.setItem(
+      'originTool',
+      JSON.stringify({
+        toolId: null,
+        toolName: null,
+        toolLogo: null,
+      }),
+    );
   };
 
   const clearSelectedTool = (

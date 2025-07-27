@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useToolCategorySelect = () => {
   const [pickedtool, setPickedtool] = useState<number | null>(null); // 카테고리 중 선택한 툴 정보 (자유일 경우 null)
@@ -11,32 +11,27 @@ const useToolCategorySelect = () => {
     toolLogo: string;
     toolName: string;
   } | null;
-  const navigate = useNavigate();
-  const [initialTool, setInitialTool] = useState<{
-    toolId: number | null;
-    toolLogo: string;
-    toolName: string;
-  }>();
 
   useEffect(() => {
+    // tool detail 로 부터 전달된 tool filter 정보
     if (state) {
       setPickedtool(state.toolId);
       setIsNoTopic(state.toolId === null);
-      setInitialTool({
-        toolId: state.toolId,
-        toolName: state.toolName,
-        toolLogo: state.toolLogo,
-      });
+    }
+
+    // community detail 로 부터 전달된 tool filter 정보
+    const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
+
+    if (storedTool) {
+      setPickedtool(storedTool.toolId);
+      setIsNoTopic(storedTool.toolId == null);
+      sessionStorage.removeItem('originTool');
     }
   }, [location.pathname, state]);
 
   const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setPickedtool(toolId);
     setIsNoTopic(toolId === null && noTopic);
-    navigate('.', {
-      state: null,
-      replace: true,
-    });
   };
 
   return {
@@ -44,8 +39,6 @@ const useToolCategorySelect = () => {
     pickedtool,
     setPickedtool,
     noTopic,
-    initialTool,
-    setInitialTool,
   };
 };
 
