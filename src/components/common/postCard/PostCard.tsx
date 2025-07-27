@@ -41,7 +41,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     handleReport,
     preventPropogation,
     handleWarning,
-  } = usePostActions(author);
+  } = usePostActions(author, onDropdownClose);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen(); // 토스트 팝업 훅
 
   const [clickedIdx, setClickedIdx] = useState(0);

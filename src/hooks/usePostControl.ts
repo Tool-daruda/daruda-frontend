@@ -31,7 +31,7 @@ export const getCurrentNickname = (): string | null => {
  * @description 댓글 | 게시글의 작성자인지 여부 판별
  * @description 비회원 / 비인가적 접근에 대한 핸들링
  */
-const usePostActions = (authorNickname: AuthorType) => {
+const usePostActions = (authorNickname: AuthorType, onDropdownClose: () => void) => {
   const [isOwnPost, setIsOwnPost] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [modalType, setModalType] = useState<'신고' | '삭제' | ''>('');
@@ -51,6 +51,7 @@ const usePostActions = (authorNickname: AuthorType) => {
 
   const handleModalClose = () => {
     setIsOpen(false);
+    onDropdownClose();
   };
 
   const handleWarning = useCallback(() => {
