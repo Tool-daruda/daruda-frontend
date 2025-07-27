@@ -96,6 +96,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       noTopic: false,
       selectedCategory: null,
     }));
+    sessionStorage.removeItem('originTool');
     onToolSelect(null, false);
   };
 

@@ -25,7 +25,6 @@ const useToolCategorySelect = () => {
     if (storedTool) {
       setPickedtool(storedTool.toolId);
       setIsNoTopic(storedTool.toolId == null);
-      sessionStorage.removeItem('originTool');
     }
   }, [location.pathname, state]);
 
