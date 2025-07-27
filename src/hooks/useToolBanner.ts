@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
@@ -12,6 +12,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     noTopic: false,
   });
   const location = useLocation();
+  const navigate = useNavigate();
   const state = location.state as {
     toolId: number | null;
     toolLogo: string;
@@ -98,6 +99,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     }));
     sessionStorage.removeItem('originTool');
     onToolSelect(null, false);
+    navigate(location.pathname, { replace: true, state: null }); // 페이지 새로고침 없이 상태 초기화
   };
 
   return {
