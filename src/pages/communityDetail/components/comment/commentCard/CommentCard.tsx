@@ -13,9 +13,12 @@ import useToastOpen from '@hooks/useToastOpen';
 
 interface Comment {
   comment: CommentContent;
+  isDropdownOpen: boolean;
+  onDropdownToggle: () => void;
+  onDropdownClose: () => void;
 }
 
-const CommentCard = ({ comment }: Comment) => {
+const CommentCard = ({ comment, isDropdownOpen, onDropdownToggle, onDropdownClose }: Comment) => {
   const {
     isOwnPost,
     isOpen,
@@ -24,16 +27,11 @@ const CommentCard = ({ comment }: Comment) => {
     handleModalOpen,
     handleModalClose,
     handleReport,
-  } = usePostActions(comment.nickname);
+  } = usePostActions(comment.nickname, onDropdownClose);
   const { id } = useParams<{ id: string }>();
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const { mutate, isError: deleteError } = useCommentDeleteMutation(comment.commentId, id);
   const { isToastOpen, handleModalOpen: handleToastOpen, handleMessageChange, toastMessage } = useToastOpen();
-  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
-
-  const handleDropdownToggle = (id: number) => {
-    setOpenedId((prev) => (prev === id ? null : id));
-  };
 
   useEffect(() => {
     if (deleteError) {
@@ -70,11 +68,7 @@ const CommentCard = ({ comment }: Comment) => {
           <span>{comment.nickname}</span>
           <span>{comment.updatedAt}</span>
         </S.MetaInfoItem>
-        <DropDown
-          position="end"
-          isDropdownOpen={opendedId === comment.commentId}
-          onDropdownToggle={() => handleDropdownToggle(comment.commentId)}
-        >
+        <DropDown position="end" isDropdownOpen={isDropdownOpen} onDropdownToggle={onDropdownToggle}>
           <DropDown.ToggleBtn>
             <IcOverflowGray24 />
           </DropDown.ToggleBtn>
@@ -105,7 +99,7 @@ const CommentCard = ({ comment }: Comment) => {
         <ReportModal
           content={comment.content}
           isOpen={isOpen}
-          handleClose={handleModalDelete}
+          handleClose={handleModalClose}
           commentId={comment.commentId}
           handleToastMsg={handleMessageChange}
           handleToastOpen={handleToastOpen}
