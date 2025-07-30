@@ -12,13 +12,14 @@ interface MetaProps {
 }
 
 const Meta = ({ title, tool, toolSubname, description, keywords, category, image, url }: MetaProps) => {
+  const keywordList = [tool, toolSubname, category, ...(keywords ?? [])].filter(Boolean).join(', ');
   return (
     <Helmet>
       <title>{title}</title>
       <meta property="og:tool" content={tool ? `${tool} 툴을 다루다` : '대학생활에 필요한 툴을 다루다'} />
 
       <meta name="description" content={description} />
-      <meta name="keywords" content={`${tool}, ${toolSubname}, ${category}, ${keywords}`} />
+      {keywordList && <meta name="keywords" content={keywordList} />}
       <meta name="robots" content="index, follow" />
 
       {/* Open Graph */}

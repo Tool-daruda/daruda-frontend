@@ -52,7 +52,7 @@ const CommunityDetail = () => {
 
   return (
     <>
-      <Meta title={data?.title as string} />
+      <Meta title={data?.title as string} tool={data?.toolName} image={data?.toolLogo} description={data?.content} />
       <S.PageWrapper>
         <S.PageHeader>
           <h1>글 상세보기</h1>
