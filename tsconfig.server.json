@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": false,
+    "outDir": "dist/scripts",
+    "rootDir": "."
   },
+  "include": ["scripts"],
+  "exclude": ["node_modules"],
   "ts-node": {
     "esm": true
   }

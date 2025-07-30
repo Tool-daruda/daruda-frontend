@@ -1,5 +1,5 @@
 // Auto-generated slug to ID mapping
-// Generated at: 2025-07-30T15:31:52.378Z
+// Generated at: 2025-07-30T16:22:01.424Z
 // Total tools: 104
 
 export const slug_to_id = {
@@ -15,6 +15,7 @@ export const slug_to_id = {
   네이비즘: 14,
   obsidian: 30,
   typecast: 31,
+  'adobe-after-effects': 33,
   zep: 16,
   ilovepdf: 13,
   핀터레스트: 3,
@@ -24,7 +25,6 @@ export const slug_to_id = {
   'adobe-photoshop': 8,
   wrtn: 27,
   'clova-note': 23,
-  'adobe-after-effects': 33,
   'android-studio': 46,
   스파르타코딩클럽: 104,
   inflearn: 93,
