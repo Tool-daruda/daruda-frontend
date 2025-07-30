@@ -4,7 +4,7 @@ import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 
 import Footer from '@components/footer/Footer';
 import Header from '@components/header/Header';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 import MyPageTab from '@pages/myPage/components/tab/MyPageTab';
 import { MENU_LIST } from '@pages/myPage/constants/menuList';
 
@@ -13,7 +13,7 @@ const MyPageLayout = () => {
     <>
       <ScrollRestoration />
       <Header forOnboarding={false} />
-      <Title title="마이 페이지" />
+      <Meta title="마이 페이지" />
       <MyPageContainer>
         <Outlet />
       </MyPageContainer>

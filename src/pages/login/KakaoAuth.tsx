@@ -2,7 +2,7 @@ import SvgKakaoVector from './assets/KakaoVector';
 import * as S from './KakaoAuth.styled';
 import { getKakaoLogin } from '@apis/auth';
 import { ImgDarudalogo40 } from '@assets/svgs';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 
 const KakaoAuth = () => {
   const handleKakaoLogin = async () => {
@@ -16,7 +16,7 @@ const KakaoAuth = () => {
   };
   return (
     <>
-      <Title title="로그인" />
+      <Meta title="로그인" />
       <S.LogintWrapper>
         <S.Container>
           <S.LogoSection>

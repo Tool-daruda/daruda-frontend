@@ -12,8 +12,8 @@ import { postBoard } from '@apis/board';
 import ImgPopupl84 from '@assets/svgs/ImgPopupLogout84';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Meta from '@components/meta/Meta';
 import { AlterModal } from '@components/modal';
-import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
 import { useModal } from '@pages/community/hooks';
@@ -66,7 +66,7 @@ const CommunityWrite = () => {
 
   return (
     <>
-      <Title title="글쓰기" />
+      <Meta title="글쓰기" />
       <S.WriteWrapper>
         <S.WriteTitle>글쓰기</S.WriteTitle>
         <S.WriteContainer>

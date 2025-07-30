@@ -11,8 +11,8 @@ import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
 import * as S from './ToolDetail.styled';
 import { useToolDetailQuery } from '@apis/tool';
+import Meta from '@components/meta/Meta';
 import Spacing from '@components/spacing/Spacing';
-import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
 
 const ToolDetail = () => {
@@ -43,7 +43,15 @@ const ToolDetail = () => {
   if (data) {
     return (
       <>
-        <Title title={data.toolMainName} tool={data.toolMainName} />
+        <Meta
+          title={data.toolMainName}
+          tool={data.toolMainName}
+          toolSubname={data.toolSubName}
+          description={data.description}
+          keywords={data.keywords}
+          category={data.category}
+          image={data.toolLogo}
+        />
         <S.ToolDetailWrapper>
           <Spacing size="1.8" />
           <BreadCrumb activeTopic={data.category} activeTool={data.toolMainName} />

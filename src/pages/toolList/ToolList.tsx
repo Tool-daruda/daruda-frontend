@@ -7,7 +7,7 @@ import ToolTip from './components/toolTip/ToolTip';
 import TopBanner from './components/topBanner/TopBanner';
 import * as S from './ToolList.styled';
 import { Tooltip, IcChevron } from '@assets/svgs';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 import { handleScrollUp } from '@utils';
 
 import ToolCard from '../../components/common/toolCard/ToolCardList';
@@ -64,7 +64,7 @@ const ToolList = () => {
 
   return (
     <S.ToolListWrapper>
-      <Title title="다루다(daruda)" />
+      <Meta title="다루다(daruda)" />
       <TopBanner />
       <SearchBar isSticky={isSticky} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <S.ToolCardWrapper>

@@ -9,8 +9,8 @@ import { useInfoQuery, useNicknameCheckMutation } from '@apis/user';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import NameInput from '@components/input/nameInput/NameInput';
+import Meta from '@components/meta/Meta';
 import { AlterModal } from '@components/modal';
-import Title from '@components/title/Title';
 import { extractUserId } from '@utils';
 
 const SignUp = () => {
@@ -152,7 +152,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Title title="회원가입" />
+      <Meta title="회원가입" />
       <S.SignUpWrapper>
         <S.Container>
           <S.LeftContainer>
