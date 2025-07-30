@@ -1,5 +1,5 @@
 // Auto-generated slug to ID mapping
-// Generated at: 2025-07-30T16:22:01.424Z
+// Generated at: 2025-07-30T16:57:57.488Z
 // Total tools: 104
 
 export const slug_to_id = {

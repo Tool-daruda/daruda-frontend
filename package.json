@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "yarn generate-slug-map && yarn generate-sitemap && tsc -b && vite build",
     "lint": "eslint './**/*.{ts,tsx,js,jsx}'",
     "lint:fix": "eslint --fix './**/*.{ts,tsx,js,jsx}'",
     "lint:styled": "stylelint './src/**/*.{ts,tsx,js,jsx}' --fix",
@@ -15,7 +15,8 @@
     "svgr": "npx @svgr/cli --out-dir src/assets/svgs --typescript --ignore-existing public/svgs",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "generate-slug-map": "tsx scripts/generateSlugMap.ts"
+    "generate-slug-map": "tsx scripts/generateSlugMap.ts",
+    "generate-sitemap": "tsx scripts/generateSitemap.ts"
   },
   "dependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -81,6 +82,7 @@
     "postcss-styled-syntax": "^0.7.0",
     "postcss-syntax": "^0.36.2",
     "prettier": "^3.4.2",
+    "sitemap": "^8.0.0",
     "storybook": "8.4.7",
     "stylelint": "^16.12.0",
     "stylelint-config-standard": "^36.0.1",
