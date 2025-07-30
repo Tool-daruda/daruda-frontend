@@ -13,10 +13,11 @@ import * as S from './ToolDetail.styled';
 import { useToolDetailQuery } from '@apis/tool';
 import Meta from '@components/meta/Meta';
 import Spacing from '@components/spacing/Spacing';
+import { slug_to_id } from '@constants/slugMap';
 import NotFound from '@pages/error/NotFound';
 
 const ToolDetail = () => {
-  const { toolId } = useParams<{ toolId: string }>();
+  const { toolParam } = useParams<{ toolParam: string }>();
   const navigate = useNavigate();
 
   const ToolIntroRef = useRef<HTMLDivElement>(null);
@@ -24,6 +25,10 @@ const ToolDetail = () => {
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
   const PlanBoxRef = useRef<HTMLDivElement>(null);
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
+  const slugKey = toolParam?.toLowerCase() as keyof typeof slug_to_id;
+
+  const isNumeric = /^\d+$/.test(toolParam as string);
+  const toolId = isNumeric ? Number(toolParam) : slug_to_id[slugKey];
 
   const numericToolId = Number(toolId);
   const { data, isError } = useToolDetailQuery(numericToolId);

@@ -4,6 +4,7 @@ import * as S from './MyToolCard.styled';
 import { IcBookmark32 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
 import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
+import { toSlug } from '@utils';
 
 interface MyToolCardPropType {
   toolId: number;
@@ -14,10 +15,10 @@ interface MyToolCardPropType {
   isScrapped: boolean;
 }
 
-const MyToolCard = ({ toolId, toolLogo, toolNameMain, keyWordList, onClick, isScrapped }: MyToolCardPropType) => {
+const MyToolCard = ({ toolLogo, toolNameMain, keyWordList, onClick, isScrapped }: MyToolCardPropType) => {
   const navigate = useNavigate();
   return (
-    <S.CardWrapper onClick={() => navigate(`/toollist/${toolId}`)}>
+    <S.CardWrapper onClick={() => navigate(`/toollist/${toSlug(toolNameMain)}`)}>
       <S.CardLogo src={toolLogo} />
       <S.CardTitle $lineCount={splitAndCountLines(toolNameMain).lineCount}>
         {splitAndCountLines(toolNameMain).formattedToolName}

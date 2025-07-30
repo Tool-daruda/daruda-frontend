@@ -32,7 +32,7 @@ const toSlug = (text) =>
   text
     .toLowerCase()
     .replace(/\s+/g, '-')
-    .replace(/[^\w-]/g, '');
+    .replace(/[^a-z0-9가-힣-_]/g, '');
 
 const main = async () => {
   try {
@@ -163,7 +163,7 @@ export type ToolSlug = keyof typeof slug_to_id;
     const fallbackContent = `// Fallback slug mapping (generation failed)
 // Generated at: ${new Date().toISOString()}
 
-export const slug_to_id = {} as const;
+export const SLUG_TO_ID = {} as const;
 
 export type ToolSlug = keyof typeof SLUG_TO_ID;
 `;
