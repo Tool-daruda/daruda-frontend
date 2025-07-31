@@ -29,7 +29,19 @@ export const CardLogo = styled.img`
 export const CardTitle = styled.h2<{ $lineCount: number }>`
   color: ${({ theme }) => theme.colors.black};
   ${({ $lineCount, theme }) => ($lineCount === 1 ? theme.fonts.body_20_b : theme.fonts.body_16_b_2)};
-  white-space: pre;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+`;
+
+export const HiddenTitle = styled.div`
+  ${({ theme }) => theme.fonts.body_20_b};
+  position: absolute;
+  width: 14.6rem;
+
+  visibility: hidden;
+
+  user-select: none;
+  pointer-events: none;
 `;
 
 export const CardKeyword = styled.div`

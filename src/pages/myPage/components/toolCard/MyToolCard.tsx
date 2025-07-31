@@ -1,9 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './MyToolCard.styled';
 import { IcBookmark32 } from '@assets/svgs';
 import Chip from '@components/chip/Chip';
-import { splitAndCountLines } from '@pages/myPage/utils/splitAndCountLines';
 import { toSlug } from '@utils';
 
 interface MyToolCardPropType {
@@ -17,12 +17,34 @@ interface MyToolCardPropType {
 
 const MyToolCard = ({ toolLogo, toolNameMain, keyWordList, onClick, isScrapped }: MyToolCardPropType) => {
   const navigate = useNavigate();
+  const ref = useRef<HTMLHeadingElement>(null);
+  const [lineCount, setLineCount] = useState(1);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const measureLineCount = () => {
+      const lineHeight = 24;
+
+      const lines = Math.round(el.clientHeight / lineHeight);
+      console.log(el.clientHeight, lines > 1);
+      setLineCount(lines > 1 ? 2 : 1);
+    };
+
+    measureLineCount();
+
+    const resizeObserver = new ResizeObserver(measureLineCount);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, [toolNameMain]);
+
   return (
     <S.CardWrapper onClick={() => navigate(`/toollist/${toSlug(toolNameMain)}`)}>
       <S.CardLogo src={toolLogo} />
-      <S.CardTitle $lineCount={splitAndCountLines(toolNameMain).lineCount}>
-        {splitAndCountLines(toolNameMain).formattedToolName}
-      </S.CardTitle>
+      <S.HiddenTitle ref={ref}>{toolNameMain}</S.HiddenTitle>
+      <S.CardTitle $lineCount={lineCount}>{toolNameMain}</S.CardTitle>
       <S.CardKeyword>
         {keyWordList.map((keyword, index) => (
           <Chip key={index} size="xsmall" active={true}>

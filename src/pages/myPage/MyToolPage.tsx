@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 
 import MyToolCard from './components/toolCard/MyToolCard';
 import { useToolScrapMutation } from '@apis/tool';
@@ -11,7 +12,9 @@ import { useToastOpen } from '@hooks/index';
 const MyToolPage = () => {
   const { data: favoriteToolData } = useFavoriteToolQuery();
   const { mutateAsync: scrapMutate } = useToolScrapMutation(undefined, undefined, undefined, true);
-  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
+  const { isToastOpen, handleModalOpen: handleToastOpen, toastMessage, handleMessageChange } = useToastOpen();
+
+  useEffect(() => {}, []);
 
   if (favoriteToolData) {
     return (
@@ -28,6 +31,7 @@ const MyToolPage = () => {
                 isScrapped={tool.isScraped}
                 onClick={() => {
                   scrapMutate(tool.toolId);
+                  handleMessageChange(tool.isScraped ? '북마크가 취소되었어요' : '북마크가 추가되었어요');
                   handleToastOpen();
                 }}
               />
@@ -44,7 +48,7 @@ const MyToolPage = () => {
         )}
         {isToastOpen && (
           <Toast isVisible={isToastOpen} isWarning={false}>
-            북마크가 취소되었어요.
+            {toastMessage ?? '북마크가 취소되었어요'}
           </Toast>
         )}
       </S.MyToolWrapper>
