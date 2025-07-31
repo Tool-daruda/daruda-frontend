@@ -15,6 +15,7 @@ import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { handleScrollUp } from '@utils';
+import { Tracking } from 'src/hoc/Tracking';
 
 import Card from '../../components/common/postCard/PostCard';
 
@@ -49,7 +50,9 @@ const Community = () => {
     <>
       <Title title="커뮤니티" />
       <S.CommunityWrapper>
-        <Banner />
+        <Tracking event="Banner_Click" property={{ referrer: 'community' }}>
+          <Banner />
+        </Tracking>
         <S.CommunityContainer>
           <ToolListBanner forCommunity onToolSelect={handleToolSelect} />
           <S.CardList>

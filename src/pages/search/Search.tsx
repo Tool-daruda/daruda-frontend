@@ -10,6 +10,7 @@ import Card from '@components/postCard/PostCard';
 import Spacing from '@components/spacing/Spacing';
 import ToolCard from '@components/toolCard/ToolCard';
 import TopBanner from '@pages/toolList/components/topBanner/TopBanner';
+import { Tracking } from 'src/hoc/Tracking';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const Search = () => {
@@ -59,7 +60,9 @@ const Search = () => {
   if (toolData)
     return (
       <S.SearchWrapper>
-        <TopBanner />
+        <Tracking event="Banner_Click" property={{ referrer: 'search' }}>
+          <TopBanner />
+        </Tracking>
         <S.SearchBox>
           <S.SearchResult>
             <h1>{searchKeyword ? `"${searchKeyword}"에 대한 검색결과입니다.` : '검색어를 입력해주세요.'}</h1>

@@ -66,7 +66,9 @@ const ToolList = () => {
   return (
     <S.ToolListWrapper>
       <Title title="다루다(daruda)" />
-      <TopBanner />
+      <Tracking event="Banner_Click" property={{ referrer: 'tool' }}>
+        <TopBanner />
+      </Tracking>
       <SearchBar isSticky={isSticky} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <S.ToolCardWrapper>
         <S.ToolCardTitle>
