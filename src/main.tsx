@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 
 import App from './App';
-import MixpanelUserSetup from './components/track/MixpanelUserSetting';
+import MixpanelUserSetup from './hoc/MixpanelUserSetting';
 import { NotificationProvider } from './hoc/NotificationProvider';
 import AnalyticsProvider from './hoc/useAnalytics';
 import GlobalStyle from '@styles/GlobalStyles';

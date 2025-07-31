@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './SimilarToolCard.styled';
 import { AlternativeTool } from '@apis/tool';
 import { Free, Half, Paid } from '@assets/svgs';
-import { Tracking } from 'src/components/track/Tracking';
+import { Tracking } from 'src/hoc/Tracking';
 
 const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: AlternativeTool) => {
   const navigate = useNavigate();
