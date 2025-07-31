@@ -126,7 +126,7 @@ const MyInfoPage = () => {
     isOpen: isOpenWithdrawModal,
     handleClose: () => {
       deleteMutate();
-      trackEvent('Signout_Click');
+      trackEvent('Sign_Out_Click');
       handleWithdrawModal();
     },
     ImgPopupModal: ImgPopupWithdrawal84,

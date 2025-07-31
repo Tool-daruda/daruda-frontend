@@ -8,9 +8,9 @@ export const eventNames = [
   'Tool_Detail_Index_Click',
   'Community_Click',
   'Post_Click',
-  'Signup_Click',
+  'Sign_Up_Click',
   'Login_State',
-  'Signout_Click',
+  'Sign_Out_Click',
   'Tool_List_View',
   'Integrated_Search',
 ] as const;
