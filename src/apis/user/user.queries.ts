@@ -2,19 +2,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { postNicknameCheck, getBoardList, getFavoriteBoardList, getToolList, getUserInfo, patchInfo } from './user.api';
 import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
+import { extractUserId } from '@utils';
 
 // 회원 정보 가져오기
-export const useInfoQuery = () => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
-
+export const useInfoQuery = (enabled: boolean) => {
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId),
+    queryKey: MYPAGE_QUERY_KEY.MY_INFO(),
     queryFn: () => getUserInfo(),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
-    enabled: !!userId,
+    enabled,
   });
 };
 
@@ -22,7 +19,6 @@ export const useInfoQuery = () => {
 export const useInfoMutation = () => {
   const userItem = localStorage.getItem('user');
   const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -38,19 +34,17 @@ export const useInfoMutation = () => {
         localStorage.setItem('user', JSON.stringify(updatedUser));
       }
 
-      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO(userId) });
+      queryClient.refetchQueries({ queryKey: MYPAGE_QUERY_KEY.MY_INFO() });
     },
   });
 };
 
 // 작성글 가져오기
 export const useMyPostQuery = (pageNo: number) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userId = extractUserId();
 
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(userId, pageNo),
+    queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(pageNo),
     queryFn: () => getBoardList(pageNo),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
@@ -60,12 +54,10 @@ export const useMyPostQuery = (pageNo: number) => {
 
 // 스크랩한 글 가져오기
 export const useFavoritePostQuery = (pageNo: number) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userId = extractUserId();
 
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId, pageNo),
+    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(pageNo),
     queryFn: () => getFavoriteBoardList(pageNo),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
@@ -75,12 +67,10 @@ export const useFavoritePostQuery = (pageNo: number) => {
 
 // 스크랩한 툴 가져오기
 export const useFavoriteToolQuery = () => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userId = extractUserId();
 
   return useQuery({
-    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(userId),
+    queryKey: MYPAGE_QUERY_KEY.MY_FAVORITE_TOOL_LIST(),
     queryFn: () => getToolList(),
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,

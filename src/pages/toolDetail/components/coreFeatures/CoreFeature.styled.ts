@@ -20,7 +20,7 @@ export const CoreFeatureContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: center;
+  justify-content: left;
   width: 69.2rem;
 
   ${({ theme }) => theme.fonts.body_16_b_2};

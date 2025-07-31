@@ -2,8 +2,10 @@ import { useMutation, useQueryClient, InfiniteData, useQuery, useInfiniteQuery }
 import { useNavigate } from 'react-router-dom';
 
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
-import { GetPostListResponse, PostResponse, InfiniteQueryResponse, BoardListResponse } from './board.model';
+import { GetPostListResponse, PostResponse, BoardListResponse } from './board.model';
 import { MYPAGE_QUERY_KEY, BOARD_QUERY_KEY } from '@constants/queryKey';
+import { PostFormData } from '@pages/communityWrite/types/PostType';
+import { extractUserId } from '@utils';
 
 // 커뮤니티 게시글 조회 hook
 export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
@@ -24,9 +26,7 @@ export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
 
 // 커뮤니티 게시글 북마크 hook
 export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: boolean, boardId?: number) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
+  const userId = extractUserId();
 
   const queryClient = useQueryClient();
   return useMutation({
@@ -64,23 +64,26 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
 
       queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(boardId.toString()), updatedDetail);
 
-      // 마이페이지 BoardList 캐시 낙관적 업데이트
-      const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId));
-      queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), (old: BoardListResponse) => {
-        if (!old) return old;
-        const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
-        const newBoardList = {
-          ...old,
-          boardList: updatedBoardList,
-        };
-        return newBoardList;
-      });
+      if (userId) {
+        // 마이페이지 BoardList 캐시 낙관적 업데이트
+        const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST());
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(), (old: BoardListResponse) => {
+          if (!old) return old;
+          const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
+          const newBoardList = {
+            ...old,
+            boardList: updatedBoardList,
+          };
+          return newBoardList;
+        });
+        return { previousBoardList, previousCommuList, previousDetail };
+      }
 
-      return { previousBoardList, previousCommuList, previousDetail };
+      return { previousCommuList, previousDetail };
     },
     onError: (_error, _id, context) => {
       if (context?.previousBoardList) {
-        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(userId), context.previousBoardList);
+        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(), context.previousBoardList);
       }
       if (context?.previousCommuList) {
         queryClient.setQueryData(
@@ -97,9 +100,7 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
       // 서버 동기화를 위해 캐시 무효화
       queryClient.refetchQueries({
         predicate: (query) => {
-          return (
-            Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList' && query.queryKey[1] === userId
-          );
+          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList';
         },
       });
     },
@@ -116,19 +117,17 @@ export const useDetailBoardQuery = (id: string | undefined) =>
   });
 
 // 커뮤니티 게시글 삭제 hook
-export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null, noTopic?: boolean) => {
-  const userItem = localStorage.getItem('user');
-  const userData = userItem ? JSON.parse(userItem) : null;
-  const userId = userData?.accessToken || null;
-
+export const useBoardDeleteMutation = (boardId?: number, pickedtool?: number | null, noTopic?: boolean) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (boardId: number) => delBoard(boardId),
     onMutate: async () => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
-      await queryClient.cancelQueries({ queryKey });
-      const prevList = queryClient.getQueryData<InfiniteQueryResponse>(queryKey);
+      await queryClient.cancelQueries({ queryKey: BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }) });
+
+      const prevList = queryClient.getQueryData<InfiniteData<GetPostListResponse>>(
+        BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }),
+      );
 
       if (prevList && Array.isArray(prevList.pages)) {
         const updatedList = {
@@ -139,30 +138,23 @@ export const useBoardDeleteMutation = (boardId?: number, toolId?: number | null,
           })),
         };
 
-        queryClient.setQueryData<InfiniteQueryResponse>(queryKey, updatedList);
+        queryClient.setQueryData(BOARD_QUERY_KEY.LIST({ noTopic: noTopic, toolId: pickedtool }), updatedList);
       }
 
       return { prevList };
     },
 
     onError: (error, _, context) => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
+      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId: pickedtool }];
       if (context?.prevList) {
         queryClient.setQueryData(queryKey, context.prevList);
       }
       console.error(error);
     },
-
-    onSettled: () => {
-      const queryKey = ['boards', { noTopic, size: 10, lastBoardId: -1, toolId }];
-      queryClient.invalidateQueries({ queryKey });
-    },
-
     onSuccess: () => {
       queryClient.refetchQueries({
         predicate: (query) => {
-          // 'myPostList'랑 userId가 같은 쿼리키들 모두 새로고침
-          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList' && query.queryKey[1] === userId;
+          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myPostList';
         },
       });
     },
@@ -174,7 +166,7 @@ export const useBoardUpdateMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationFn: (req: { id: number | null; data: FormData }) => patchBoard(req),
+    mutationFn: (req: { id: number | null; data: PostFormData }) => patchBoard(req),
     onSuccess: () => {
       navigate('/community');
     },

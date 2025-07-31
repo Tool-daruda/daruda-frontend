@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import * as S from './SearchBar.styled';
@@ -20,6 +20,7 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const categoryFromParams = searchParams.get('category') || 'ALL';
+  const [keyword, setKeyword] = useState('');
 
   const { data: categoryData } = useGetCategoriesQuery();
 
@@ -70,13 +71,25 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
     return () => chipContainerRef.current?.removeEventListener('scroll', handleScrollState);
   }, []);
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && keyword.trim()) {
+      navigate(`/search?keyword=${encodeURIComponent(keyword.trim())}`);
+    }
+  };
+
   return (
     <S.SearchBarContainer isSticky={isSticky}>
       <S.SearchBarBox isSticky={isSticky}>
         {isSticky || <S.SearchBarTitle>필요한 툴을 쉽고 빠르게 찾아보세요.</S.SearchBarTitle>}
         <S.SearchBar isSticky={isSticky}>
           <S.IcSearchGray />
-          <S.Search placeholder="지금은 준비 중이에요" disabled isSticky={isSticky} />
+          <S.Search
+            placeholder="무엇이든 검색해보세요."
+            isSticky={isSticky}
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
         </S.SearchBar>
         <S.SearchChipWrapper>
           {isSticky && activeButton === 'left' && (

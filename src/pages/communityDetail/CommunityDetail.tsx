@@ -12,13 +12,22 @@ import SquareButton from '@components/button/squareButton/SquareButton';
 import Card from '@components/postCard/PostCard';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
-import { handleScrollDown, handleScrollUp } from '@utils';
+import { handleScrollDown } from '@utils';
 
 const CommunityDetail = () => {
   const { id } = useParams<{ id: string }>();
   const [height, setHeight] = useState(694);
   const postareaRef = useRef<HTMLLIElement>(null);
   const { ref, inView } = useInView();
+  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
+
+  const handleDropdownToggle = (id: number) => {
+    setOpenedId((prev) => (prev === id ? null : id));
+  };
+
+  const handleDropdownClose = () => {
+    setOpenedId(null);
+  };
 
   const { data, isError } = useDetailBoardQuery(id);
   const { data: CommentData, fetchNextPage, hasNextPage } = useCommentListQuery(id);
@@ -29,14 +38,6 @@ const CommunityDetail = () => {
       setHeight(height);
     }
   }, []);
-
-  useEffect(() => {
-    handleScrollUp();
-    sessionStorage.setItem(
-      'originTool',
-      JSON.stringify({ toolId: data?.toolId, toolName: data?.toolName, toolLogo: data?.toolLogo }),
-    );
-  }, [data]);
 
   useEffect(() => {
     if (inView) {
@@ -58,7 +59,16 @@ const CommunityDetail = () => {
         </S.PageHeader>
         <S.BoardContainer>
           <S.PostItem>
-            {data && <Card post={data} forDetail={true} ref={postareaRef} />}
+            {data && (
+              <Card
+                post={data}
+                forDetail={true}
+                ref={postareaRef}
+                isDropdownOpen={opendedId === data.boardId}
+                onDropdownClose={handleDropdownClose}
+                onDropdownToggle={() => handleDropdownToggle(data.boardId)}
+              />
+            )}
             {CommentData && (
               <>
                 <CommentBoard

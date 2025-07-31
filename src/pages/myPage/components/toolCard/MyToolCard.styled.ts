@@ -1,4 +1,3 @@
-import { IcBookmark32 } from '@assets/svgs';
 import styled from '@emotion/styled';
 
 export const CardWrapper = styled.article`
@@ -44,7 +43,21 @@ export const CardKeyword = styled.div`
   overflow: hidden;
 `;
 
-export const BookmarkBtn = styled(IcBookmark32)`
+export const BookmarkBtn = styled.button<{ $isBookmark: boolean }>`
   position: absolute;
   right: 2.6rem;
+  ${({ $isBookmark, theme }) =>
+    $isBookmark
+      ? `
+    background-color: ${theme.colors.white1};
+    
+    svg  {
+      fill: ${theme.colors.iris1};
+    }
+    `
+      : `
+    svg {
+      fill: none;
+    }
+  `};
 `;

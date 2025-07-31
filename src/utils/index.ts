@@ -1,3 +1,4 @@
+import extractUserId from './extractUserId';
 import { handleScrollDown, handleScrollUp } from './handleScroll';
 
-export { handleScrollDown, handleScrollUp };
+export { handleScrollDown, handleScrollUp, extractUserId };

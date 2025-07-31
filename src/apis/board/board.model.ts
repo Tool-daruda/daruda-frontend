@@ -29,3 +29,8 @@ export interface InfiniteQueryResponse {
 export interface BoardListResponse {
   boardList: PostResponse[];
 }
+
+export interface FormContent {
+  content: string;
+  photoUrl: string | null;
+}

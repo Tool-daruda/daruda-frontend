@@ -17,7 +17,8 @@ export const ToastLayout = styled.section<{ $isVisible: boolean; $isWarning: boo
 `;
 
 export const ToastMessage = styled.div`
-  width: 44.7rem;
+  width: max-content;
+  min-width: 44.7rem;
 
   color: ${({ theme }) => theme.colors.white1};
   text-align: center;

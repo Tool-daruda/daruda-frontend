@@ -2,6 +2,7 @@ import { useState, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as S from './CommentInput.styled';
+import { getPresignedUrls, putPresignedUrl } from '@apis/board';
 import { useCommentPostMutation } from '@apis/comment';
 import { ImgUploadWhite48, IcCmtimgGray24, IcImgdeleteGray40 } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
@@ -10,6 +11,7 @@ import ImgDetail from '@components/imgDetail/ImgDetail';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { useImageUpload, useTextInput } from '@pages/communityDetail/hooks';
+import { handleScrollUp } from '@utils';
 
 import InputButton from '../inputButton/InputButton';
 
@@ -18,6 +20,7 @@ import { MODAL_ERR } from '../../../constants';
 const CommnetInput = () => {
   const DEFAULT_MAX_CHARS = 1000;
   const { isToastOpen, handleModalOpen } = useToastOpen();
+
   const {
     isFocus,
     text,
@@ -30,6 +33,7 @@ const CommnetInput = () => {
     handleInputOutfocus,
     setText,
   } = useTextInput(DEFAULT_MAX_CHARS);
+
   const {
     toastType,
     imageSelected,
@@ -43,32 +47,57 @@ const CommnetInput = () => {
   } = useImageUpload(handleModalOpen);
 
   const { id: boardId } = useParams();
-  const { mutate: postComment } = useCommentPostMutation(boardId, setToastType, handleModalOpen);
+  const { mutate: postComment } = useCommentPostMutation(boardId);
+  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
 
-  const handleCommentPost = (e: FormEvent) => {
+  const handleCommentPost = async (e: FormEvent) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('content', text);
+
+    let imageUrl = null;
     if (imageFile) {
-      formData.append('image', imageFile);
+      const signedUrl = await getPresignedUrls(imageFile.name);
+
+      await putPresignedUrl({
+        file: imageFile,
+        signedUrl: signedUrl,
+      });
+
+      imageUrl = signedUrl.split('?')[0];
     }
 
-    postComment(formData);
+    const form = {
+      content: text,
+      photoUrl: imageUrl as string,
+    };
+
+    postComment(form, {
+      onSuccess: () => {
+        setToastType('postComment');
+        handleModalOpen();
+        handleScrollUp();
+      },
+      onError: () => {
+        setToastType('postErr');
+        handleModalOpen();
+      },
+    });
 
     setText('');
     handleImageRemove();
-
-    handleModalOpen();
   };
 
-  const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-
   const handleImgFocus = () => {
+    if (!imageSelected) return;
     setIsImgModalOpen(true);
   };
 
   const handleImgModalClose = () => {
     setIsImgModalOpen(false);
+  };
+
+  const handleAuthError = () => {
+    setToastType('postErr');
+    handleModalOpen();
   };
 
   const imageButton = !imageSelected ? (
@@ -78,9 +107,11 @@ const CommnetInput = () => {
       type="file"
       accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
       onImageSelect={handleImageChange}
+      handleAuthError={handleAuthError}
       handleSizeError={handleSizeError}
       handleModalOpen={handleModalOpen}
       status={imageSelected}
+      disabled={!localStorage.getItem('user')}
     >
       이미지 첨부
     </InputButton>
@@ -141,11 +172,11 @@ const CommnetInput = () => {
         </CircleButton>
       </S.CardBottom>
       <S.CautionWrpper>
-        <p>* 이미지 업로드 용량은 한장 당 최대 7MB 입니다.</p>
+        <p>* 이미지는 1장씩 첨부 가능하며, 최대 7MB를 초과할 수 없습니다.</p>
       </S.CautionWrpper>
-      {toastType !== null && isToastOpen && (
+      {isToastOpen && toastType !== null && (
         <Toast isVisible={isToastOpen} isWarning={toastType === 'postComment' ? false : true}>
-          {toastType ? MODAL_ERR[toastType] : ''}
+          {toastType && MODAL_ERR[toastType]}
         </Toast>
       )}
       {isImgModalOpen && (

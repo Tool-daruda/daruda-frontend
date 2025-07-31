@@ -1,6 +1,6 @@
 import { SVGProps, FunctionComponent } from 'react';
 
-import * as S from '../AlterModal.styled';
+import * as S from '../alterModal/AlterModal.styled';
 
 interface DoubleBtnModalProps {
   modalTitle: string;
@@ -14,7 +14,7 @@ const DoubleBtnModal = ({ modalTitle, modalContent, ImgPopupModal, isPrimaryRigh
     <>
       <ImgPopupModal />
       <S.ModalTitle>{modalTitle}</S.ModalTitle>
-      <S.ModalContent $isPrimaryRight={isPrimaryRight}>{modalContent}</S.ModalContent>
+      <S.ModalInnerContent $isPrimaryRight={isPrimaryRight}>{modalContent}</S.ModalInnerContent>
     </>
   );
 };

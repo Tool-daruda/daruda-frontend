@@ -1,20 +1,21 @@
-import { Tooltip, IcChevron } from '@assets/svgs';
-import Title from '@components/title/Title';
-import { handleScrollUp } from '@utils';
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import SearchBar from './components/searchBar/SearchBar';
 import Toggle from './components/toggle/Toggle';
-import ToolCard from './components/toolCard/ToolCard';
 import ToolTip from './components/toolTip/ToolTip';
 import TopBanner from './components/topBanner/TopBanner';
 import * as S from './ToolList.styled';
+import { Tooltip, IcChevron } from '@assets/svgs';
+import Title from '@components/title/Title';
+import { handleScrollUp } from '@utils';
+
+import ToolCard from '../../components/common/toolCard/ToolCardList';
 
 const ToolList = () => {
   const [isHovered, setIsHovered] = useState(false); // 요금제 툴팁 감지용
   const [isSticky, setIsSticky] = useState(false); // 검색 + 카테고리바 감지용
-  const [hasRestoredScroll, setHasRestoredScroll] = useState(false); // 스크롤 복원 여부
+  const [hasRestoredScroll] = useState(false); // 스크롤 복원 여부
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedCategory = searchParams.get('category') || 'ALL'; // 툴 카테고리
@@ -59,18 +60,6 @@ const ToolList = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
-
-  // 스크롤 복원
-  useEffect(() => {
-    const savedY = sessionStorage.getItem('toolListScrollY');
-    if (savedY) {
-      window.scrollTo(0, Number(savedY));
-      sessionStorage.removeItem('toolListScrollY');
-      setHasRestoredScroll(true);
-    } else {
-      setHasRestoredScroll(true); // 복원할 게 없더라도 true 처리
-    }
   }, []);
 
   return (

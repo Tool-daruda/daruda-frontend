@@ -1,15 +1,16 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
 import { CommentResponse } from './comment.model';
+import { FormContent } from '@apis/board';
 import { get, del, post } from '@apis/index';
 
 // TODO:: 백엔드 new version 에 따른 로직 수정
 // 커뮤니티 댓글 작성 post
-export const postComment = async (boardId: string | undefined, postConent: FormData) => {
+export const postComment = async (boardId: string | undefined, postContent: FormContent) => {
   try {
-    await post(`/comment?board-id=${boardId}`, postConent, {
+    await post(`/comment?board-id=${boardId}`, postContent, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
   } catch (err) {
@@ -32,7 +33,6 @@ export const getComment = async ({
     const url = `/comment?` + `board-id=${postId}` + `&size=4` + `${pageParam ? `&lastCommentId=${pageParam}` : ''}`;
     const res: AxiosResponse<CommentResponse> = await get(url);
 
-    console.log(res);
     return res.data;
   } catch (err) {
     console.error(err);

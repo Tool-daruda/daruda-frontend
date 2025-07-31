@@ -10,7 +10,7 @@ import { useToastOpen } from '@hooks/index';
 
 const MyToolPage = () => {
   const { data: favoriteToolData } = useFavoriteToolQuery();
-  const { mutateAsync: scrapMutate } = useToolScrapMutation();
+  const { mutateAsync: scrapMutate } = useToolScrapMutation(undefined, undefined, undefined, true);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
 
   if (favoriteToolData) {
@@ -25,6 +25,7 @@ const MyToolPage = () => {
                 toolLogo={tool.toolLogo}
                 toolNameMain={tool.toolName}
                 keyWordList={tool.keywords}
+                isScrapped={tool.isScraped}
                 onClick={() => {
                   scrapMutate(tool.toolId);
                   handleToastOpen();

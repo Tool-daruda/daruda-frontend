@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
@@ -10,6 +11,14 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     tools: [], // 현재 카테고리에서 보여지는 툴배열
     noTopic: false,
   });
+  const location = useLocation();
+  const navigate = useNavigate();
+  const state = location.state as {
+    toolId: number | null;
+    toolLogo: string;
+    toolName: string;
+  } | null;
+  const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
   const { data: categoryData } = useGetCategoriesQuery();
   const { data: toolListData } = useToolListQuery({
@@ -18,7 +27,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    const toolToUse = JSON.parse(sessionStorage.getItem('originTool') || 'null');
+    const toolToUse = state || storedTool || null;
     if (!toolToUse) return;
 
     const toolInfo = {
@@ -33,7 +42,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       selectedCategory: toolToUse.toolName ?? null,
       tools: [toolInfo],
     });
-  }, []);
+  }, [location.pathname, state]);
 
   // toolListData 변경 시 toolState.tools 업데이트
   useEffect(() => {
@@ -68,6 +77,14 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     }));
 
     onToolSelect?.(null, isChecked);
+    sessionStorage.setItem(
+      'originTool',
+      JSON.stringify({
+        toolId: null,
+        toolName: null,
+        toolLogo: null,
+      }),
+    );
   };
 
   const clearSelectedTool = (
@@ -80,7 +97,9 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       noTopic: false,
       selectedCategory: null,
     }));
+    sessionStorage.removeItem('originTool');
     onToolSelect(null, false);
+    navigate(location.pathname, { replace: true, state: null }); // 페이지 새로고침 없이 상태 초기화
   };
 
   return {

@@ -6,9 +6,11 @@ interface InputButtonProps extends React.InputHTMLAttributes<HTMLInputElement> {
   children?: ReactNode;
   icon?: ReactNode;
   stroke?: boolean;
+  disabled: boolean;
   status: boolean;
   onImageSelect?: (isSelected: boolean, fileName: string, file: File | null) => void;
   handleSizeError: () => void;
+  handleAuthError: () => void;
   handleModalOpen: () => void;
 }
 
@@ -17,12 +19,18 @@ const InputButton = ({
   children,
   icon,
   status,
+  disabled,
   onImageSelect,
   handleSizeError,
+  handleAuthError,
   handleModalOpen,
   ...rest
 }: InputButtonProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) {
+      return;
+    }
+
     if (status) return; // 이미 사진이 등록된 경우에, 얼리리턴
 
     const file = e.target.files ? e.target.files[0] : null;
@@ -43,8 +51,22 @@ const InputButton = ({
   };
 
   return (
-    <S.ButtonWrapper $disabled={status}>
-      <input type="file" id="file-input" {...rest} onChange={handleFileChange} disabled={status} />
+    <S.ButtonWrapper
+      $disabled={status}
+      onClick={() => {
+        if (!disabled) return;
+        handleAuthError();
+        handleModalOpen();
+      }}
+    >
+      <input
+        type="file"
+        id="file-input"
+        {...rest}
+        onChange={handleFileChange}
+        disabled={status || disabled}
+        style={{ display: 'none' }}
+      />
       <S.Label htmlFor="file-input" $disabled={status}>
         {icon && <S.IconWrapper>{icon}</S.IconWrapper>}
         <span>{children}</span>

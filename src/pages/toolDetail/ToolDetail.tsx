@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import BreadCrumb from './components/breadcrumb/BreadCrumb';
@@ -36,15 +36,6 @@ const ToolDetail = () => {
     5: ToolCommunityRef,
   };
 
-  // 뒤로가기 시 스크롤 위치 복원
-  useEffect(() => {
-    const savedScrollY = sessionStorage.getItem('toolDetailScrollY');
-    if (savedScrollY) {
-      window.scrollTo(0, Number(savedScrollY));
-      sessionStorage.removeItem('toolDetailScrollY'); // 복원 후 삭제
-    }
-  }, []);
-
   if (isError) {
     return <NotFound />;
   }
@@ -69,6 +60,7 @@ const ToolDetail = () => {
                   toolImage={data.images}
                   activeTool={data.toolMainName}
                   description={data.detailDescription}
+                  toolSubname={data.toolSubName}
                 />
                 <CoreFeature ref={CoreFeatureRef} toolId={numericToolId} />
                 <ReferenceVideo ref={ReferenceVideoRef} toolId={numericToolId} alternate={data.toolLogo} />
@@ -78,19 +70,14 @@ const ToolDetail = () => {
               </S.ToolDetailBox>
               <Spacing size="1" />
 
-              <S.ToolCommunityBox>
+              <S.ToolCommunityBox ref={ToolCommunityRef}>
                 <ToolCommunity
                   toolId={numericToolId}
-                  ref={ToolCommunityRef}
                   boardId={0}
                   onClick={() => {
-                    // 현재 스크롤 위치 저장
-                    sessionStorage.setItem('toolDetailScrollY', String(window.scrollY));
-                    sessionStorage.setItem(
-                      'originTool',
-                      JSON.stringify({ toolId: data.toolId, toolLogo: data.toolLogo, toolName: data.toolMainName }),
-                    );
-                    navigate('/community');
+                    navigate('/community', {
+                      state: { toolId: data.toolId, toolLogo: data.toolLogo, toolName: data.toolMainName },
+                    });
                   }}
                 />
               </S.ToolCommunityBox>

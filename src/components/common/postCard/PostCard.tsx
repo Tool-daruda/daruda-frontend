@@ -1,25 +1,18 @@
-import { forwardRef, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { forwardRef, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import * as S from './PostCard.styled';
 import { PostResponse as Post } from '@apis/board/board.model';
 import { useBoardDeleteMutation, useBoardScrapMutation } from '@apis/board/board.queries';
-import {
-  IcCommentGray24,
-  IcBookmark,
-  IcOverflowGray44,
-  IcWatchWhite40,
-  ImgModalcheck,
-  ImgPopupDelete84,
-} from '@assets/svgs';
+import { IcCommentGray24, IcBookmark, IcOverflowGray44, IcWatchWhite40, ImgPopupDelete84 } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
 import Chip from '@components/chip/Chip';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
-import { AlterModal } from '@components/modal';
+import { AlterModal, ReportModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
-import { useModal } from '@pages/community/hooks';
+import usePostActions from '@hooks/usePostControl';
 
 interface CardDataProp {
   post: Post;
@@ -27,35 +20,50 @@ interface CardDataProp {
   isLoading?: boolean;
   pickedtool?: number | null;
   noTopic?: boolean;
+  isDropdownOpen: boolean;
+  onDropdownToggle: () => void;
+  onDropdownClose: () => void;
 }
 
 const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
   const navigate = useNavigate();
   // prop 으로 전달 받은 board 정보
-  const { post, forDetail = false, pickedtool, noTopic } = props;
-  const { boardId, toolName, toolLogo, toolId, title, content, images, updatedAt, author, commentCount, isScraped } =
-    post;
-  const [isOwnPost, setIsOwnPost] = useState(false); // 작성자 여부 판별
+  const { post, forDetail = false, pickedtool, noTopic, isDropdownOpen, onDropdownToggle, onDropdownClose } = props;
+  const { boardId, toolName, toolLogo, title, content, images, updatedAt, author, commentCount, isScraped } = post;
+
+  const {
+    isOwnPost,
+    isOpen,
+    modalType,
+    isWarning,
+    handleModalOpen,
+    handleModalClose,
+    handleReport,
+    preventPropogation,
+    handleWarning,
+  } = usePostActions(author, onDropdownClose);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen(); // 토스트 팝업 훅
 
-  const { isOpen, modalType, handleModalClose, preventPropogation, handleModal } = useModal(); // 삭제/ 신고 모달 관련 훅
-
   const [clickedIdx, setClickedIdx] = useState(0);
-  const [isWarning, setIsWarning] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  const { isSuccess: isBookMarkSuccess, mutate: srapMutate } = useBoardScrapMutation(pickedtool, noTopic, boardId);
-
-  useEffect(() => {
-    const postOwner = localStorage.getItem('user');
-
-    if (postOwner) {
-      const user = JSON.parse(postOwner);
-      const ownPost = user.nickname === author;
-      setIsOwnPost(ownPost);
+  const handleCardClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    if (forDetail) {
+      e.preventDefault();
+    } else {
+      sessionStorage.setItem('scrollPosition', window.scrollY.toString());
+      navigate(`/community/${boardId}`);
     }
-  }, [boardId, author]);
+  };
+
+  const {
+    isSuccess: isBookMarkSuccess,
+    mutate: srapMutate,
+    isPending: isScrapPending,
+  } = useBoardScrapMutation(pickedtool, noTopic, boardId); // 북마크 추가 / 삭제
+  const { mutate: DeleteMutate, isPending: isDeletePending } = useBoardDeleteMutation(boardId, pickedtool, noTopic); // 게시글 삭제
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -69,13 +77,18 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     setIsImgModalOpen(false);
   };
 
+  const handleToastMsg = (msg: string) => {
+    setToastMessage(msg);
+  };
+
   // 북마크 추가 / 삭제 함수
   const handleScrap = (boardId: number) => {
+    if (isWarning) return;
     srapMutate(boardId);
 
     const postOwner = localStorage.getItem('user');
     if (postOwner == null || postOwner == undefined) {
-      handleWarnnig();
+      handleWarning();
     }
 
     handleToastOpen();
@@ -83,129 +96,121 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
 
   useEffect(() => {
     if (isBookMarkSuccess) {
-      setToastMessage(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+      handleToastMsg(isScraped ? '북마크가 되었어요' : '북마크가 취소되었어요');
+    } else {
+      handleToastMsg('북마크에 실패했어요');
     }
   }, [isBookMarkSuccess, isScraped]);
 
-  const handleWarnnig = () => {
-    setIsWarning(true);
-
-    setTimeout(() => {
-      setIsWarning(false);
-    }, 3000);
-  };
-
-  const { mutate: DeleteMutate } = useBoardDeleteMutation(boardId, toolId, toolId === null);
-
   const handleImgModalDel = () => {
-    DeleteMutate(boardId);
+    DeleteMutate(boardId, {
+      onSuccess: () => {
+        handleModalClose();
+        handleToastOpen();
+        handleToastMsg('게시글이 삭제되었어요');
+      },
+    });
   };
 
   return (
     <S.CardWrapper $forDetail={forDetail} ref={ref}>
-      <Link
-        to={`/community/${boardId}`}
-        key={boardId}
-        onClick={(e) => {
-          if (forDetail) {
-            e.preventDefault();
-          } else {
-            sessionStorage.setItem('scrollPosition', window.scrollY.toString());
-          }
-        }}
-      >
-        <S.CardLayout>
-          {isImgModalOpen && (
-            <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
-          )}
-          <S.CardTopContent>
-            <header>
-              <Chip size="medium" stroke>
-                <Chip.RectContainer>
-                  <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
-                  <Chip.Label>{toolName}</Chip.Label>
-                </Chip.RectContainer>
-              </Chip>
-              <S.MetaInfo>
-                <span>{author}</span>
-                <span>{updatedAt}</span>
-              </S.MetaInfo>
-            </header>
-            <S.CardTitleItem>{title}</S.CardTitleItem>
-            <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
-              {content}
-            </S.CardTextItem>
-            <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
-              {images?.map((image, idx) => (
-                <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
-                  <img src={image} alt={`Post-card-img-${idx}`} />
-                  {forDetail && (
-                    <IcWatchWhite40
-                      className="hover-icon"
-                      onClick={() => {
-                        handleImgFocus();
-                        handleIdxRecord(idx);
-                      }}
-                    />
-                  )}
-                </S.EachImgContainer>
-              ))}
-            </S.ImageGrid>
-          </S.CardTopContent>
-          <S.CardDivider />
-          <S.CardBottomBar onClick={preventPropogation}>
-            <S.BottomBarLeft>
-              <SquareButton
-                icon={<IcCommentGray24 />}
-                size="small"
-                stroke={false}
-                handleClick={() => {
-                  navigate(`/community/${boardId}`);
-                }}
-              >{`${commentCount}개`}</SquareButton>
-              <SquareButton
-                icon={<IcBookmark />}
-                isBook={isScraped}
-                size="small"
-                stroke={false}
-                forBookMark
-                handleClick={() => handleScrap(boardId)}
-              >
-                북마크
-              </SquareButton>
-            </S.BottomBarLeft>
-            <DropDown position="end">
-              <DropDown.Content $display="top">
-                {isOwnPost ? (
-                  <>
-                    <DropDown.Item status="danger" onClick={() => handleModal('삭제')}>
-                      삭제하기
-                    </DropDown.Item>
-                    <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
-                      수정하기
-                    </DropDown.Item>
-                  </>
-                ) : (
-                  <DropDown.Item status="danger" onClick={() => handleModal('신고')}>
-                    신고하기
-                  </DropDown.Item>
+      <S.CardLayout onClick={handleCardClick}>
+        {isImgModalOpen && (
+          <ImgDetail handleModalClose={handleImgModalClose} imgList={[...images]} index={clickedIdx} />
+        )}
+        <S.CardTopContent>
+          <header>
+            <Chip size="medium" stroke>
+              <Chip.RectContainer>
+                <Chip.Icon src={toolLogo} alt={`icon-${toolName}`} height={2} />
+                <Chip.Label>{toolName}</Chip.Label>
+              </Chip.RectContainer>
+            </Chip>
+            <S.MetaInfo>
+              <span>{author}</span>
+              <span>{updatedAt}</span>
+            </S.MetaInfo>
+          </header>
+          <S.CardTitleItem>{title}</S.CardTitleItem>
+          <S.CardTextItem $isImgInclude={images?.length >= 1} $forDetail={forDetail}>
+            {content}
+          </S.CardTextItem>
+          <S.ImageGrid $imageCount={images?.length} $forDetail={forDetail}>
+            {images?.map((image, idx) => (
+              <S.EachImgContainer key={idx} $imageCount={images.length} $forDetail={forDetail}>
+                <img src={image} alt={`Post-card-img-${idx}`} />
+                {forDetail && (
+                  <IcWatchWhite40
+                    className="hover-icon"
+                    onClick={() => {
+                      handleImgFocus();
+                      handleIdxRecord(idx);
+                    }}
+                  />
                 )}
-              </DropDown.Content>
-              <DropDown.ToggleBtn>
-                <IcOverflowGray44 />
-              </DropDown.ToggleBtn>
-            </DropDown>
-          </S.CardBottomBar>
-        </S.CardLayout>
-      </Link>
+              </S.EachImgContainer>
+            ))}
+          </S.ImageGrid>
+        </S.CardTopContent>
+        <S.CardDivider />
+        <S.CardBottomBar onClick={preventPropogation}>
+          <S.BottomBarLeft>
+            <SquareButton
+              icon={<IcCommentGray24 />}
+              size="small"
+              stroke={false}
+              handleClick={() => {
+                navigate(`/community/${boardId}`);
+              }}
+            >{`${commentCount}개`}</SquareButton>
+            <SquareButton
+              icon={<IcBookmark />}
+              isBook={isWarning ? false : isScraped}
+              size="small"
+              stroke={false}
+              forBookMark
+              handleClick={() => handleScrap(boardId)}
+            >
+              북마크
+            </SquareButton>
+          </S.BottomBarLeft>
+          <DropDown position="end" isDropdownOpen={isDropdownOpen} onDropdownToggle={onDropdownToggle}>
+            <DropDown.Content $display="top">
+              {isOwnPost ? (
+                <>
+                  <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
+                    삭제하기
+                  </DropDown.Item>
+                  <DropDown.Item onClick={() => navigate(`/community/modify/${boardId}`, { state: { post } })}>
+                    수정하기
+                  </DropDown.Item>
+                </>
+              ) : (
+                <DropDown.Item
+                  status="danger"
+                  onClick={() => {
+                    handleReport();
+                    onDropdownClose();
+                  }}
+                >
+                  신고하기
+                </DropDown.Item>
+              )}
+            </DropDown.Content>
+            <DropDown.ToggleBtn>
+              <IcOverflowGray44 />
+            </DropDown.ToggleBtn>
+          </DropDown>
+        </S.CardBottomBar>
+      </S.CardLayout>
       {modalType === '신고' ? (
-        <AlterModal
-          modalTitle="신고 접수가 완료되었어요"
+        <ReportModal
+          content={title}
           isOpen={isOpen}
           handleClose={handleModalClose}
-          isSingleModal
-          ImgPopupModal={ImgModalcheck}
-          singleBtnContent="확인했어요"
+          boardId={boardId}
+          handleToastOpen={handleToastOpen}
+          handleToastMsg={handleToastMsg}
         />
       ) : (
         <AlterModal
@@ -223,7 +228,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {isToastOpen && isBookMarkSuccess && (
+      {!isScrapPending && !isDeletePending && isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {toastMessage}
         </Toast>

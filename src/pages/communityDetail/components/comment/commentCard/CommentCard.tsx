@@ -3,55 +3,56 @@ import { useParams } from 'react-router-dom';
 
 import * as S from './CommentCard.styled';
 import { useCommentDeleteMutation, Comment as CommentContent } from '@apis/comment';
-import { IcOverflowGray24, ImgModalcheck, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
+import { IcOverflowGray24, ImgModalexit, IcWatchWhite40 } from '@assets/svgs';
 import DropDown from '@components/dropdown/DropDown';
 import ImgDetail from '@components/imgDetail/ImgDetail';
-import { AlterModal } from '@components/modal';
+import { AlterModal, ReportModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
+import usePostActions from '@hooks/usePostControl';
+import useToastOpen from '@hooks/useToastOpen';
 
 interface Comment {
   comment: CommentContent;
 }
 
 const CommentCard = ({ comment }: Comment) => {
+  const {
+    isOwnPost,
+    isOpen,
+    modalType,
+    isWarning: authError,
+    handleModalOpen,
+    handleModalClose,
+    handleReport,
+  } = usePostActions(comment.nickname);
   const { id } = useParams<{ id: string }>();
-  const [isOpen, setIsOpen] = useState(false);
   const [isImgModalOpen, setIsImgModalOpen] = useState(false);
-  const { mutate, isError } = useCommentDeleteMutation(comment.commentId, id);
-  const [IsToastOpen, setIsToastOpen] = useState(false);
-  const [modalType, setModalType] = useState('');
+  const { mutate, isError: deleteError } = useCommentDeleteMutation(comment.commentId, id);
+  const { isToastOpen, handleModalOpen: handleToastOpen, handleMessageChange, toastMessage } = useToastOpen();
+  const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
 
-  const [isOwnPost, setIsOwnPost] = useState(false);
-
-  useEffect(() => {
-    const postOwner = localStorage.getItem('user');
-
-    if (postOwner) {
-      const user = JSON.parse(postOwner);
-      const ownPost = user.nickname === comment.nickname;
-      setIsOwnPost(ownPost);
-    }
-  }, [id, comment.nickname]);
-
-  useEffect(() => {
-    if (isError) {
-      setIsToastOpen(true);
-      setTimeout(() => setIsToastOpen(false), 3000);
-    }
-  }, [isError]);
-
-  const handleModalClose = () => {
-    setIsOpen(false);
+  const handleDropdownToggle = (id: number) => {
+    setOpenedId((prev) => (prev === id ? null : id));
   };
+
+  useEffect(() => {
+    if (deleteError) {
+      handleToastOpen();
+      handleMessageChange('삭제 불가합니다. 권한을 확인해주세요');
+    } else if (authError) {
+      handleToastOpen();
+      handleMessageChange('로그인 후 가능한 서비스입니다.');
+    }
+  }, [deleteError, authError, handleToastOpen, handleMessageChange]);
 
   const handleModalDelete = async () => {
-    mutate();
-    setIsOpen(false);
-  };
-
-  const handleModalOpen = (type: string) => {
-    setModalType(type);
-    setIsOpen(true);
+    mutate(undefined, {
+      onSuccess: () => {
+        handleToastOpen();
+        handleMessageChange('댓글이 삭제되었어요');
+      },
+    });
+    handleModalClose();
   };
 
   const handleImgFocus = () => {
@@ -69,7 +70,11 @@ const CommentCard = ({ comment }: Comment) => {
           <span>{comment.nickname}</span>
           <span>{comment.updatedAt}</span>
         </S.MetaInfoItem>
-        <DropDown position="end">
+        <DropDown
+          position="end"
+          isDropdownOpen={opendedId === comment.commentId}
+          onDropdownToggle={() => handleDropdownToggle(comment.commentId)}
+        >
           <DropDown.ToggleBtn>
             <IcOverflowGray24 />
           </DropDown.ToggleBtn>
@@ -79,7 +84,7 @@ const CommentCard = ({ comment }: Comment) => {
                 삭제하기
               </DropDown.Item>
             ) : (
-              <DropDown.Item status="danger" onClick={() => handleModalOpen('신고')}>
+              <DropDown.Item status="danger" onClick={handleReport}>
                 신고하기
               </DropDown.Item>
             )}
@@ -97,13 +102,13 @@ const CommentCard = ({ comment }: Comment) => {
         <S.CommentContent>{comment.content}</S.CommentContent>
       </div>
       {modalType === '신고' ? (
-        <AlterModal
-          modalTitle="신고 접수가 완료되었어요"
+        <ReportModal
+          content={comment.content}
           isOpen={isOpen}
-          handleClose={handleModalClose}
-          isSingleModal={true}
-          ImgPopupModal={ImgModalcheck}
-          singleBtnContent="확인했어요"
+          handleClose={handleModalDelete}
+          commentId={comment.commentId}
+          handleToastMsg={handleMessageChange}
+          handleToastOpen={handleToastOpen}
         />
       ) : (
         <AlterModal
@@ -124,9 +129,9 @@ const CommentCard = ({ comment }: Comment) => {
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      {IsToastOpen && (
-        <Toast isVisible={IsToastOpen} isWarning={true}>
-          삭제 불가합니다. 권한을 확인해주세요
+      {toastMessage !== '' && (
+        <Toast isVisible={isToastOpen} isWarning={true}>
+          {toastMessage}
         </Toast>
       )}
     </S.Wrapper>

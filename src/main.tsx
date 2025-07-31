@@ -6,6 +6,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import App from './App';
 import MixpanelUserSetup from './components/track/MixpanelUserSetting';
+import { NotificationProvider } from './hoc/NotificationProvider';
 import AnalyticsProvider from './hoc/useAnalytics';
 import GlobalStyle from '@styles/GlobalStyles';
 import theme from '@styles/theme';
@@ -19,8 +20,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <QueryClientProvider client={queryClient}>
         <HelmetProvider>
           <AnalyticsProvider>
-            <MixpanelUserSetup />
-            <App />
+            <NotificationProvider>
+              <MixpanelUserSetup />
+              <App />
+            </NotificationProvider>
           </AnalyticsProvider>
         </HelmetProvider>
         <div style={{ fontSize: '1.6rem' }}>

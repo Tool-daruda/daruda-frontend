@@ -25,7 +25,10 @@ export const FooterContents = styled.nav`
   ${({ theme }) => theme.fonts.caption_14_m};
 `;
 
-export const FooterLinkItem = styled.span`
+export const FooterLinkItem = styled.a`
+  color: ${({ theme }) => theme.colors.gray2};
+  text-decoration: none;
+
   &:hover {
     text-decoration: underline;
   }

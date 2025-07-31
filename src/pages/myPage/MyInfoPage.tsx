@@ -13,9 +13,10 @@ import Spacing from '@components/spacing/Spacing';
 import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import { useToastOpen } from '@hooks/index';
+import { extractUserId } from '@utils';
 
 const MyInfoPage = () => {
-  const { data } = useInfoQuery();
+  const { data } = useInfoQuery(!!extractUserId());
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | undefined>();
   const [nickname, setNickname] = useState('');
   const [isOpenWithdrawModal, setIsOpenWithdrawModal] = useState(false);

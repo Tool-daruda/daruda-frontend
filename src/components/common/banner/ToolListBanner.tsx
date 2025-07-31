@@ -64,6 +64,14 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                             noTopic: false,
                           }));
                           onToolSelect(tool.toolId, false);
+                          sessionStorage.setItem(
+                            'originTool',
+                            JSON.stringify({
+                              toolId: tool.toolId,
+                              toolName: tool.toolName,
+                              toolLogo: tool.toolLogo,
+                            }),
+                          );
                         }}
                         isSelected={toolState.selectedTool?.toolId === tool.toolId}
                       >

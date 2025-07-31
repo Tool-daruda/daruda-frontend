@@ -23,6 +23,7 @@ export const Default: Story = {
     toolLogo: 'https://via.placeholder.com/20',
     toolNameMain: 'Perplexity',
     keyWordList: ['AI', '리서치', '리서치'],
+    isScrapped: true,
   },
 };
 
@@ -32,5 +33,6 @@ export const MultiLine: Story = {
     toolLogo: 'https://via.placeholder.com/20',
     toolNameMain: 'Adobe illustrator',
     keyWordList: ['AI', '리서치', '리서치'],
+    isScrapped: true,
   },
 };
