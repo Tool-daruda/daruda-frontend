@@ -8,6 +8,7 @@ type PageInfo = {
 };
 
 export type Info = {
+  userId: number;
   nickname: string;
   positions: string;
 };
