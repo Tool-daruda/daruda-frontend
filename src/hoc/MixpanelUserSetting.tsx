@@ -16,7 +16,7 @@ const MixpanelUserSetup = () => {
       const affiliationKey = Object.keys(AFFILIATION_OPTIONS).find(
         (key) => AFFILIATION_OPTIONS[key as keyof typeof AFFILIATION_OPTIONS] === user.positions,
       );
-      setUserProperty(user.userId.toLocaleString(), {
+      setUserProperty(user.userId.toString(), {
         affiliation: affiliationKey,
         member: true,
       });
