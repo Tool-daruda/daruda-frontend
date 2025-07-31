@@ -16,6 +16,7 @@ import Meta from '@components/meta/Meta';
 import { AlterModal } from '@components/modal';
 import Toast from '@components/toast/Toast';
 import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
+import { id_to_name } from '@constants/slugMap';
 import { useModal } from '@pages/community/hooks';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
@@ -58,8 +59,7 @@ const CommunityWrite = () => {
 
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
       navigate('/community');
-      // todo: toSlug 머지 후 툴 이름으로 변환
-      trackEvent('Post_Click', { tool: isFree ? '자유' : selectedTool });
+      trackEvent('Post_Click', { tool: isFree ? '자유' : id_to_name[formData.toolId] });
     } catch (error: unknown) {
       console.error('에러 발생:', error);
       setToastMessage('다시 시도해주세요.');

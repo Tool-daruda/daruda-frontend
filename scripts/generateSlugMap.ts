@@ -106,6 +106,7 @@ const main = async () => {
 
     // slugMap 생성
     const slugMap = {};
+    const idToNameMap = {};
     const duplicateCheck = new Set();
 
     allTools.forEach((tool) => {
@@ -117,6 +118,7 @@ const main = async () => {
         }
 
         slugMap[slug] = tool.toolId;
+        idToNameMap[tool.toolId] = tool.toolName.replace(/\n/g, ' ');
         duplicateCheck.add(slug);
       } else {
         console.warn(`Warn: toolName 또는 toolId 누락된 데이터 건너뜀:`, JSON.stringify(tool));
@@ -125,13 +127,20 @@ const main = async () => {
 
     console.log(`생성된 slug 개수: ${Object.keys(slugMap).length}`);
 
-    const content = `// Auto-generated slug to ID mapping
+    const content = `// slug, name 매핑
 // Generated at: ${new Date().toISOString()}
 // Total tools: ${allTools.length}
 
 export const slug_to_id = ${JSON.stringify(slugMap, null, 2)} as const;
 
+export const id_to_name: Record<number, string> = ${JSON.stringify(
+      Object.fromEntries(Object.entries(idToNameMap).map(([k, v]) => [Number(k), v])),
+      null,
+      2,
+    )};
+
 export type ToolSlug = keyof typeof slug_to_id;
+export type ToolName = keyof typeof id_to_name;
 `;
 
     const outputPath = resolve(__dirname, '../src/constants/slugMap.ts');

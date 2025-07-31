@@ -1,5 +1,6 @@
 import SimilarToolCard from './similarToolCard/SimilarToolCard';
 import { AlternativeToolResponse } from '@apis/tool';
+import { id_to_name } from '@constants/slugMap';
 
 interface ListProps {
   data: AlternativeToolResponse;
@@ -13,9 +14,6 @@ const SimilarToolCardList = ({ data, origin }: ListProps) => {
     return null; // 데이터가 없을 때 처리
   }
 
-  // todo: toslug 병합 후 이름으로 매칭하기
-  const originTool = origin.toLocaleString();
-
   return (
     <>
       {relatedToolResList?.map((tool) => (
@@ -25,7 +23,7 @@ const SimilarToolCardList = ({ data, origin }: ListProps) => {
           toolName={tool.toolName}
           license={tool.license}
           keywords={tool.keywords}
-          originTool={originTool}
+          originTool={id_to_name[origin]}
         />
       ))}
     </>
