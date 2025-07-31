@@ -9,14 +9,14 @@ export const CoreFeatureWrapper = styled.section`
 
   background-color: ${({ theme }) => theme.colors.white1};
 
-  h1 {
+  h2 {
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.fonts.body_24_b};
     text-align: center;
   }
 `;
 
-export const CoreFeatureContainer = styled.div`
+export const CoreFeatureContainer = styled.ul`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;

@@ -20,7 +20,7 @@ const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
 
   return (
     <S.BreadCrumbWrapper>
-      <S.BreadCrumbContainer>
+      <S.BreadCrumbContainer aria-label="툴 카테고리 메뉴">
         {/* 카테고리 버튼 */}
         <S.CategoryItem
           onClick={() => {

@@ -57,12 +57,12 @@ export const ToolNameBox = styled.div`
   color: ${({ theme }) => theme.colors.gray1};
   ${({ theme }) => theme.fonts.body_16_m};
 
-  span:nth-child(odd) {
+  h1 {
     color: ${({ theme }) => theme.colors.black};
     ${({ theme }) => theme.fonts.head_28_b_48};
   }
 
-  span:nth-child(even) {
+  span {
     color: ${({ theme }) => theme.colors.gray2};
     ${({ theme }) => theme.fonts.body_16_m};
   }

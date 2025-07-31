@@ -97,9 +97,9 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
   ];
 
   return (
-    <S.SidewingWrapper>
-      <S.OrderContainer>
-        <h1>목차</h1>
+    <S.SidewingWrapper aria-labelledby="sidebar-heading">
+      <S.OrderContainer aria-label="페이지 목차" id="sidebar-heading">
+        <h3>목차</h3>
         {orderButtons.map((btn) => (
           <S.OrderBtn key={btn.id} $isActive={activeBtnId === btn.id} onClick={() => handleClickBtn(btn.id, btn.label)}>
             <div className="click-left-bar" />
@@ -107,8 +107,10 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
           </S.OrderBtn>
         ))}
       </S.OrderContainer>
-      <S.SimilarToolContainer>
-        <h1 className="title">유사한 기능을 가지고 있는 툴</h1>
+      <S.SimilarToolContainer aria-labelledby="similar-tools-heading">
+        <h3 className="title" id="similar-tools-heading">
+          유사한 기능을 가지고 있는 툴
+        </h3>
         <S.ToolContainer>{data ? <SimilarToolCardList data={data} /> : null}</S.ToolContainer>
       </S.SimilarToolContainer>
     </S.SidewingWrapper>

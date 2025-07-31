@@ -27,7 +27,7 @@ const SimilarToolCard = ({ toolLogo, toolName, license, keywords }: AlternativeT
   };
 
   return (
-    <S.CardWrapper onClick={handleToolCardClick}>
+    <S.CardWrapper onClick={handleToolCardClick} aria-label={`${toolName}으로 이동`}>
       <S.TopContainer>
         <S.CardLogo src={toolLogo} alt={`${toolName} 로고`} />
         <S.InfoBox>

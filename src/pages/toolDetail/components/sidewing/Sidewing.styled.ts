@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const SidewingWrapper = styled.div`
+export const SidewingWrapper = styled.aside`
   position: sticky;
   top: 8.2rem;
   display: flex;
@@ -26,7 +26,7 @@ export const OrderContainer = styled.section`
   height: 20.6rem;
   padding: 0 2.8rem;
 
-  h1 {
+  h3 {
     padding-bottom: 0.4rem;
 
     color: ${({ theme }) => theme.colors.black};
