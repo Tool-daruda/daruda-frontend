@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { useInfoQuery } from '@apis/user';
+import { AFFILIATION_OPTIONS } from '@pages/myPage/constants/affiliationOptions';
 import { extractUserId } from '@utils';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
@@ -12,9 +13,12 @@ const MixpanelUserSetup = () => {
     if (!user || !isReady) return;
 
     if (user.positions || user.nickname) {
+      const affiliationKey = Object.keys(AFFILIATION_OPTIONS).find(
+        (key) => AFFILIATION_OPTIONS[key as keyof typeof AFFILIATION_OPTIONS] === user.positions,
+      );
       setUserProperty(user.userId.toLocaleString(), {
-        position: user.positions,
-        nickname: user.nickname,
+        affiliation: affiliationKey,
+        member: true,
       });
     }
   }, [user, isReady]);
