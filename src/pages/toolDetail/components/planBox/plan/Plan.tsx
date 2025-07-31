@@ -6,7 +6,7 @@ import { ImgDetailFreetool98 } from '@assets/svgs';
 
 import Toggle from '../../toggle/Toggle';
 
-const Plan = forwardRef<HTMLDivElement, ToolPlan>(({ toolPlans }, ref) => {
+const Plan = forwardRef<HTMLUListElement, ToolPlan>(({ toolPlans }, ref) => {
   const [isAnnual, setIsAnnual] = useState(false);
 
   // 조건에 따른 버튼 표시 여부 확인

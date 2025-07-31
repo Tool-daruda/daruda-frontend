@@ -5,7 +5,12 @@ import { AlternativeTool } from '@apis/tool';
 import { Free, Half, Paid } from '@assets/svgs';
 import { toSlug } from '@utils';
 
-const SimilarToolCard = ({ toolLogo, toolName, license, keywords }: AlternativeTool) => {
+const SimilarToolCard = ({
+  toolLogo,
+  toolName,
+  license,
+  keywords,
+}: Pick<AlternativeTool, 'toolLogo' | 'toolName' | 'license' | 'keywords'>) => {
   const navigate = useNavigate();
 
   const handleToolCardClick = () => {

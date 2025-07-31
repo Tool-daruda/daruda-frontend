@@ -42,13 +42,13 @@ const Toggle = ({ isSingleLine, planName, label, description, dollar, isdollar, 
         $isOpen={shouldDisplayDropdown}
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <summary>
+        <div>
           {planName && <h3>{planName}</h3>}
           <h3>
             {formattedLabel}
             {isdollar && <span>({dollar}$)</span>}
           </h3>
-        </summary>
+        </div>
         <S.ToggleIcon $isOpen={shouldDisplayDropdown} />
       </S.ToggleBtn>
       <S.ToggleContent $isOpen={shouldDisplayDropdown} $zIndex={zIndex}>

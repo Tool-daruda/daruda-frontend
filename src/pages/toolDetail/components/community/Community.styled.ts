@@ -109,7 +109,7 @@ export const CardBox = styled.div`
   border-radius: 0.8rem 0.8rem 0 0;
 `;
 
-export const CardTitle = styled.title`
+export const CardTitle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.2rem;

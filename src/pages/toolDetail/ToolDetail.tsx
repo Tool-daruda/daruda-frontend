@@ -44,6 +44,9 @@ const ToolDetail = () => {
   if (isError) {
     return <NotFound />;
   }
+  if (!toolId) {
+    return <NotFound />;
+  }
 
   if (data) {
     return (

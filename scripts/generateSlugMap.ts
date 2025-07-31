@@ -4,6 +4,8 @@ import { writeFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+import { toSlug } from '../src/utils/toSlug.js';
+
 // ESM에서 __dirname 대체
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,7 +15,7 @@ config();
 
 // unhandledRejection 처리
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+  console.error('Error: Unhandled Rejection at:', promise, 'reason:', reason);
   process.exit(1);
 });
 
@@ -27,12 +29,6 @@ if (!API_BASE_URL) {
   );
   process.exit(1);
 }
-
-const toSlug = (text) =>
-  text
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9가-힣-_]/g, '');
 
 const main = async () => {
   try {
@@ -163,9 +159,9 @@ export type ToolSlug = keyof typeof slug_to_id;
     const fallbackContent = `// Fallback slug mapping (generation failed)
 // Generated at: ${new Date().toISOString()}
 
-export const SLUG_TO_ID = {} as const;
+export const slug_to_id = {} as const;
 
-export type ToolSlug = keyof typeof SLUG_TO_ID;
+export type ToolSlug = keyof typeof slug_to_id;
 `;
 
     const outputPath = resolve(__dirname, '../src/constants/slugMap.ts');

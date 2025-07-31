@@ -7,7 +7,7 @@ export const ToggleWrapper = styled.li`
   width: 22.4rem;
 `;
 
-export const ToggleBtn = styled.summary<{ $isSingleLine: boolean; $isOpen: boolean }>`
+export const ToggleBtn = styled.button<{ $isSingleLine: boolean; $isOpen: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
