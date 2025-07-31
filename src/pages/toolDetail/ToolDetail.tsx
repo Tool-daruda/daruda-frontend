@@ -14,6 +14,7 @@ import { useToolDetailQuery } from '@apis/tool';
 import Spacing from '@components/spacing/Spacing';
 import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const ToolDetail = () => {
   const { toolId } = useParams<{ toolId: string }>();
@@ -27,6 +28,7 @@ const ToolDetail = () => {
 
   const numericToolId = Number(toolId);
   const { data, isError } = useToolDetailQuery(numericToolId);
+  const { trackEvent } = useAnalytics();
 
   const sectionRefs = {
     1: ToolIntroRef,
@@ -78,6 +80,7 @@ const ToolDetail = () => {
                     navigate('/community', {
                       state: { toolId: data.toolId, toolLogo: data.toolLogo, toolName: data.toolMainName },
                     });
+                    trackEvent('Tool_Click', { type: 'Community', tool: data.toolMainName });
                   }}
                 />
               </S.ToolCommunityBox>

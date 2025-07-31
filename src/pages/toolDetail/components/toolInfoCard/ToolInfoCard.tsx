@@ -7,6 +7,7 @@ import { IcArrowRightupWhite24, IcBookmarkIris121Default, IcShareIris125 } from 
 import Chip from '@components/chip/Chip';
 import { useToastOpen } from '@hooks/index';
 import { extractUserId } from '@utils';
+import { Tracking } from 'src/hoc/Tracking';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
 export interface ToolInfoCardPropTypes {
@@ -46,7 +47,6 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
       setToastMessage('클립보드에 링크가 복사되었어요.');
       setIsToastWarning(false);
       handleModalOpen();
-      trackEvent('Tool_Click', { Share: toolMainName });
     } catch (err) {
       console.error('클립보드 복사 실패:', err);
       setToastMessage('링크 복사에 실패했어요.');
@@ -122,16 +122,20 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
               </S.UpdateBox>
             </S.Description>
             <S.ButtonBox>
-              <S.GoSiteBtn $isClickBtn={isClickBtn} onClick={() => handleClickBtn()}>
-                <IcArrowRightupWhite24 />
-                직접 체험해보기
-              </S.GoSiteBtn>
+              <Tracking event="Tool_Click" property={{ type: 'Try_It_Out', tool: toolMainName }}>
+                <S.GoSiteBtn $isClickBtn={isClickBtn} onClick={() => handleClickBtn()}>
+                  <IcArrowRightupWhite24 />
+                  직접 체험해보기
+                </S.GoSiteBtn>
+              </Tracking>
               <S.BookmarkIconBox $isBookmark={isScrapped} onClick={() => handleBookmark()}>
                 <IcBookmarkIris121Default />
               </S.BookmarkIconBox>
-              <S.ShareIconBox onClick={() => handleCopyClipBoard(`${baseURL}${darudaToolLink.pathname}`)}>
-                <IcShareIris125 />
-              </S.ShareIconBox>
+              <Tracking event="Tool_Click" property={{ type: 'Share', tool: toolMainName }}>
+                <S.ShareIconBox onClick={() => handleCopyClipBoard(`${baseURL}${darudaToolLink.pathname}`)}>
+                  <IcShareIris125 />
+                </S.ShareIconBox>
+              </Tracking>
             </S.ButtonBox>
           </S.ToolInfoBox>
         </S.LeftContainer>

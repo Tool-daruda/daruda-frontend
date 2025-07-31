@@ -5,7 +5,14 @@ import { AlternativeTool } from '@apis/tool';
 import { Free, Half, Paid } from '@assets/svgs';
 import { Tracking } from 'src/hoc/Tracking';
 
-const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: AlternativeTool) => {
+const SimilarToolCard = ({
+  toolId,
+  toolLogo,
+  toolName,
+  license,
+  keywords,
+  originTool,
+}: AlternativeTool & { originTool: string }) => {
   const navigate = useNavigate();
 
   const handleToolCardClick = () => {
@@ -27,7 +34,7 @@ const SimilarToolCard = ({ toolId, toolLogo, toolName, license, keywords }: Alte
   };
 
   return (
-    <Tracking event="Recommendation_Tool_Click">
+    <Tracking event="Tool_Click" property={{ type: 'Recommendation', tool: toolName, origin: originTool }}>
       <S.CardWrapper onClick={handleToolCardClick}>
         <S.TopContainer>
           <S.CardLogo src={toolLogo} alt={`${toolName} 로고`} />

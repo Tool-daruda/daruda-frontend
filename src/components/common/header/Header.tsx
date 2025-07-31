@@ -8,6 +8,7 @@ import { IcAlarmBlack24, IcProfileBlack24, ImgDarudalogo40, AlarmHead } from '@a
 import { NotiModal } from '@components/modal';
 import NotificationCard from '@components/notiCard/NotiCard';
 import useNotiClick from '@pages/notification/hooks/useNotiClick';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 interface HeaderProps {
   forOnboarding?: boolean;
@@ -77,9 +78,11 @@ const Onboarding = () => (
 const SearchInput = () => {
   const [keyword, setKeyword] = useState('');
   const navigate = useNavigate();
+  const { trackEvent } = useAnalytics();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && keyword.trim()) {
+      trackEvent('Integrated_Search', { word: keyword.trim() });
       navigate(`/search?keyword=${encodeURIComponent(keyword.trim())}`);
       setTimeout(() => setKeyword(''), 0);
     }

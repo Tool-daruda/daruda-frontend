@@ -109,7 +109,7 @@ const Sidewing = ({ sectionRefs, toolId }: SidewingProps) => {
       </S.OrderContainer>
       <S.SimilarToolContainer>
         <h1 className="title">유사한 기능을 가지고 있는 툴</h1>
-        <S.ToolContainer>{data ? <SimilarToolCardList data={data} /> : null}</S.ToolContainer>
+        <S.ToolContainer>{data ? <SimilarToolCardList data={data} origin={toolId} /> : null}</S.ToolContainer>
       </S.SimilarToolContainer>
     </S.SidewingWrapper>
   );

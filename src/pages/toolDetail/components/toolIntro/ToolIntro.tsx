@@ -18,7 +18,7 @@ const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(
     const { trackEvent } = useAnalytics();
 
     const handleImgFocus = () => {
-      trackEvent('Tool_Click', { Image: activeTool });
+      trackEvent('Tool_Click', { type: 'Image', tool: activeTool });
       setIsModalOpen(true);
     };
 

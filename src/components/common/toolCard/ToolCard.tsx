@@ -65,7 +65,7 @@ const ToolCard = ({ selectedCategory, isFree, criteria, tool }: ToolCardProps) =
       <S.Card
         key={tool.toolId}
         onClick={() => {
-          trackEvent('Tool_Click', { Tool_Card: tool.toolName });
+          trackEvent('Tool_Click', { type: 'Tool_Card', tool: tool.toolName });
           navigateToDetail(tool.toolId);
         }}
       >

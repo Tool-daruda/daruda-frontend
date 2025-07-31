@@ -24,6 +24,8 @@ const AnalyticsProvider = ({ children }: { children: React.ReactNode }) => {
     mixpanel.init(import.meta.env.VITE_MIXPANEL_KEY, {
       debug: isDev,
       loaded: () => setIsReady(true),
+      record_sessions_percent: 1,
+      record_heatmap_data: true,
     });
   }, []);
 
