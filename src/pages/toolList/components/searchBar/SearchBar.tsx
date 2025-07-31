@@ -25,7 +25,7 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
   const { data: categoryData } = useGetCategoriesQuery();
 
   const handleCategoryClick = async (categoryName: string, categoryKoreanName: string) => {
-    trackEvent('Tool_Category_Click', { Tool_Category: categoryKoreanName });
+    trackEvent('Tool_Category_Click', { category: categoryKoreanName });
     onCategoryChange(categoryName);
     navigate(`/toollist?category=${categoryName}`);
   };
