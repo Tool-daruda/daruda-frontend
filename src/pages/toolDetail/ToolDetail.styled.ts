@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ToolDetailWrapper = styled.section`
+export const ToolDetailWrapper = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,7 +31,7 @@ export const ToolDetailBox = styled.div`
   border-radius: 1.6rem;
 `;
 
-export const ToolCommunityBox = styled.div`
+export const ToolCommunityBox = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;

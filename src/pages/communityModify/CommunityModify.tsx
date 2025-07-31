@@ -10,7 +10,7 @@ import { PostType } from './types/PostType';
 import { useBoardUpdateMutation } from '@apis/board';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 import Toast from '@components/toast/Toast';
 import { createPostFormData } from '@pages/communityWrite/utils/FormDataUtils';
 
@@ -99,7 +99,7 @@ const CommunityModify = () => {
 
   return (
     <>
-      <Title title={`(수정중) ${post.title}`} />
+      <Meta title={`(수정중) ${post.title}`} />
       <S.WriteWrapper>
         <S.WriteTitle>글 수정하기</S.WriteTitle>
         <S.WriteContainer>

@@ -13,8 +13,8 @@ const PlanBox = forwardRef<HTMLDivElement, PlanPropTypes>(({ toolId, ...props },
 
   return (
     <div ref={ref} {...props}>
-      <S.PlanBoxWrapper>
-        <h1>플랜</h1>
+      <S.PlanBoxWrapper aria-labelledby="plans-heading">
+        <h2 id="plans-heading">플랜</h2>
         <Plan toolPlans={data?.toolPlans || []} />
       </S.PlanBoxWrapper>
     </div>

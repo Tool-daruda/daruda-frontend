@@ -11,13 +11,14 @@ import ToolInfoCard from './components/toolInfoCard/ToolInfoCard';
 import ToolIntro from './components/toolIntro/ToolIntro';
 import * as S from './ToolDetail.styled';
 import { useToolDetailQuery } from '@apis/tool';
+import Meta from '@components/meta/Meta';
 import Spacing from '@components/spacing/Spacing';
-import Title from '@components/title/Title';
+import { slug_to_id } from '@constants/slugMap';
 import NotFound from '@pages/error/NotFound';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const ToolDetail = () => {
-  const { toolId } = useParams<{ toolId: string }>();
+  const { toolParam } = useParams<{ toolParam: string }>();
   const navigate = useNavigate();
 
   const ToolIntroRef = useRef<HTMLDivElement>(null);
@@ -25,6 +26,10 @@ const ToolDetail = () => {
   const ReferenceVideoRef = useRef<HTMLDivElement>(null);
   const PlanBoxRef = useRef<HTMLDivElement>(null);
   const ToolCommunityRef = useRef<HTMLDivElement>(null);
+  const slugKey = toolParam?.toLowerCase() as keyof typeof slug_to_id;
+
+  const isNumeric = /^\d+$/.test(toolParam as string);
+  const toolId = isNumeric ? Number(toolParam) : slug_to_id[slugKey];
 
   const numericToolId = Number(toolId);
   const { data, isError } = useToolDetailQuery(numericToolId);
@@ -41,11 +46,22 @@ const ToolDetail = () => {
   if (isError) {
     return <NotFound />;
   }
+  if (!toolId) {
+    return <NotFound />;
+  }
 
   if (data) {
     return (
       <>
-        <Title title={data.toolMainName} tool={data.toolMainName} />
+        <Meta
+          title={data.toolMainName}
+          tool={data.toolMainName}
+          toolSubname={data.toolSubName}
+          description={data.description}
+          keywords={data.keywords}
+          category={data.category}
+          image={data.toolLogo}
+        />
         <S.ToolDetailWrapper>
           <Spacing size="1.8" />
           <BreadCrumb activeTopic={data.category} activeTool={data.toolMainName} />

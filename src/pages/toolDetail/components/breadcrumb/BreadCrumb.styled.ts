@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const BreadCrumbWrapper = styled.div`
+export const BreadCrumbWrapper = styled.header`
   display: flex;
   gap: 2.4rem;
   align-items: center;
@@ -8,7 +8,7 @@ export const BreadCrumbWrapper = styled.div`
   height: 3.2rem;
 `;
 
-export const BreadCrumbContainer = styled.div`
+export const BreadCrumbContainer = styled.nav`
   display: flex;
   align-items: center;
   width: 99rem;

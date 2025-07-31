@@ -7,7 +7,7 @@ import ToolTip from './components/toolTip/ToolTip';
 import TopBanner from './components/topBanner/TopBanner';
 import * as S from './ToolList.styled';
 import { Tooltip, IcChevron } from '@assets/svgs';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 import { handleScrollUp } from '@utils';
 import { Tracking } from 'src/hoc/Tracking';
 
@@ -65,7 +65,7 @@ const ToolList = () => {
 
   return (
     <S.ToolListWrapper>
-      <Title title="다루다(daruda)" />
+      <Meta title="다루다(daruda)" />
       <Tracking event="Banner_Click" property={{ referrer: 'tool' }}>
         <TopBanner />
       </Tracking>

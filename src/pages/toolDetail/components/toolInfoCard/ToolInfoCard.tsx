@@ -106,13 +106,13 @@ const ToolInfoCard = ({ toolData }: ToolInfoCardPropTypes) => {
 
   return (
     <>
-      <S.ToolInfoCardWrapper>
+      <S.ToolInfoCardWrapper aria-labelledby="intro-heading">
         <S.LeftContainer>
           <S.ToolImgBox>{toolLogo ? <img src={toolLogo} alt="툴 이미지" /> : '툴 이미지'}</S.ToolImgBox>
           <S.ToolInfoBox>
             <S.Description>
               <S.ToolNameBox>
-                <span>{toolMainName}</span>
+                <h1 id="intro-heading">{toolMainName}</h1>
                 <span>{toolSubName}</span>
               </S.ToolNameBox>
               {description}

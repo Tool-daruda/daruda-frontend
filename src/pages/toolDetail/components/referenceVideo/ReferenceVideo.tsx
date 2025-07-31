@@ -17,8 +17,8 @@ const ReferenceVideo = forwardRef<HTMLDivElement, ReferenceVideoProps>(({ toolId
 
   return (
     <div ref={ref} {...props}>
-      <S.ReferenceVideoWrapper>
-        <h1>참고하면 좋은 영상</h1>
+      <S.ReferenceVideoWrapper aria-labelledby="recommended-videos-heading">
+        <h2 id="recommended-videos-heading">참고하면 좋은 영상</h2>
 
         <S.ReferenceVideoContainer count={videos.length}>
           {videos.length > 0 ? (

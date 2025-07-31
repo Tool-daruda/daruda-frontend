@@ -34,9 +34,9 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
 
   return (
     <div ref={ref}>
-      <S.CardSectionWrapper $forShort={postList && postList?.length < 6}>
+      <S.CardSectionWrapper $forShort={postList && postList?.length < 6} aria-labelledby="community-heading">
         <S.CardTitle>
-          <h1>사람들은 이런 이야기를 하고 있습니다</h1>
+          <h2 id="community-heading">사람들은 이런 이야기를 하고 있습니다</h2>
           <button onClick={onClick}>커뮤니티 글 더보기&gt;</button>
         </S.CardTitle>
         <S.CardSection>
@@ -49,7 +49,7 @@ const ToolCommunity = forwardRef<HTMLDivElement, ToolCommunityProps>(({ toolId, 
                   <S.CardBox>
                     <S.Title>{post.title}</S.Title>
                     <S.NickName>
-                      {post.author} | {post.updatedAt}
+                      <address>{post.author}</address>|<time>{post.updatedAt}</time>
                     </S.NickName>
                   </S.CardBox>
                   <S.ContentWrapper imageUrl={firstImage}>

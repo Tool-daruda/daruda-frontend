@@ -24,7 +24,7 @@ export const CardSection = styled.div`
   width: 69.2rem;
 `;
 
-export const CardWrapper = styled.div`
+export const CardWrapper = styled.article`
   flex-shrink: 0;
   width: 22.4rem;
   height: 15.4rem;
@@ -90,6 +90,9 @@ export const Description = styled.div<ImageWrapperProps>`
 `;
 
 export const NickName = styled.div`
+  display: flex;
+  gap: 0.3rem;
+
   ${({ theme }) => theme.fonts.caption_10_m};
   color: ${({ theme }) => theme.colors.gray2};
 `;
@@ -114,7 +117,7 @@ export const CardTitle = styled.div`
   margin-top: 6rem;
   margin-bottom: 3.6rem;
 
-  h1 {
+  h2 {
     ${({ theme }) => theme.fonts.body_24_b};
     color: ${({ theme }) => theme.colors.black};
   }

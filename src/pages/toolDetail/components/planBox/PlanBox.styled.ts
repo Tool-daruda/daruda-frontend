@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const PlanBoxWrapper = styled.div`
+export const PlanBoxWrapper = styled.section`
   display: flex;
   flex-direction: column;
   width: 76.8rem;
@@ -8,7 +8,7 @@ export const PlanBoxWrapper = styled.div`
 
   background-color: ${({ theme }) => theme.colors.white1};
 
-  h1 {
+  h2 {
     display: flex;
     align-items: center;
     justify-content: center;

@@ -1,7 +1,8 @@
-import { IcChevronDownBlack16 } from '@assets/svgs';
 import styled from '@emotion/styled';
 
-export const ToggleWrapper = styled.div`
+import { IcChevronDownBlack16 } from '@assets/svgs';
+
+export const ToggleWrapper = styled.li`
   position: relative;
   width: 22.4rem;
 `;
@@ -26,7 +27,8 @@ export const ToggleBtn = styled.button<{ $isSingleLine: boolean; $isOpen: boolea
     gap: 0.5rem;
   }
 
-  p {
+  p,
+  h3 {
     display: flex;
     align-items: center;
   }

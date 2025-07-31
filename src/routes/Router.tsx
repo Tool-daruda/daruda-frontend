@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <ToolList /> }, // 툴 리스트 (홈화면)
       { path: 'toollist', element: <ToolList /> }, // 툴 리스트
-      { path: 'toollist/:toolId', element: <ToolDetail /> }, // 툴 상세
+      { path: 'toollist/:toolParam', element: <ToolDetail /> }, // 툴 상세
       { path: 'community', element: <Community /> }, // 커뮤니티
       { path: 'notification', element: <Notification /> }, // 커뮤니티
       { path: 'community/write', element: <CommunityWrite /> }, // 글 작성
