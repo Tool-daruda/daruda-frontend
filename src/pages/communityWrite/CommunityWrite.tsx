@@ -17,6 +17,7 @@ import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
 import { useModal } from '@pages/community/hooks';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const CommunityWrite = () => {
   const {
@@ -39,6 +40,7 @@ const CommunityWrite = () => {
   const queryClient = useQueryClient();
 
   const user = localStorage.getItem('user');
+  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
     if (!user) {
@@ -56,6 +58,8 @@ const CommunityWrite = () => {
 
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
       navigate('/community');
+      // todo: toSlug 머지 후 툴 이름으로 변환
+      trackEvent('Post_Click', { tool: isFree ? '자유' : selectedTool });
     } catch (error: unknown) {
       console.error('에러 발생:', error);
       setToastMessage('다시 시도해주세요.');
