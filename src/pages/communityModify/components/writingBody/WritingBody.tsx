@@ -1,21 +1,22 @@
-import Toast from '@components/toast/Toast';
-import useToastOpen from '@hooks/useToastOpen';
 import React, { useState } from 'react';
 
 import * as S from './WritingBody.styled';
+import Toast from '@components/toast/Toast';
+import useToastOpen from '@hooks/useToastOpen';
 
 interface WritingBodyProps {
   originBody: string;
   setBody: (text: string) => void;
+  existingImages: string[];
+  newImages: File[];
   onImageUpload: (files: File[]) => void;
-  images: File[];
 }
 
 const MAX_CHAR_LIMIT = 10000;
 const MAX_IMG_SIZE_LIMIT = 7;
 const MAX_IMG_COUNT_LIMIT = 5;
 
-const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBodyProps) => {
+const WritingBody = ({ originBody, setBody, onImageUpload, existingImages, newImages }: WritingBodyProps) => {
   const [text, setText] = useState(originBody);
   const [triggerShake, setTriggerShake] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -55,13 +56,13 @@ const WritingBody = ({ originBody, setBody, onImageUpload, images }: WritingBody
             handleModalOpen();
             return;
           }
-          if (images.length === MAX_IMG_COUNT_LIMIT) {
+          if (existingImages.length + newImages.length === MAX_IMG_COUNT_LIMIT) {
             setToastMessage('이미지는 최대 5장까지 첨부할 수 있습니다.');
             handleModalOpen();
             return;
           }
           // 기존 이미지에 추가
-          onImageUpload([...images, blob]);
+          onImageUpload([...newImages, blob]);
           setToastMessage('이미지를 성공적으로 첨부했습니다.');
           handleModalOpen();
         }

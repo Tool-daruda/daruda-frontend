@@ -5,7 +5,7 @@ export const createPostFormData = async (
   body: string,
   isFree: boolean,
   selectedTool: number | null,
-  images: File[],
+  images: (File | string)[],
 ) => {
   if (images.length === 0) {
     return {
@@ -20,15 +20,21 @@ export const createPostFormData = async (
     const imageUrls: string[] = [];
 
     for (const image of images) {
-      const signedUrl = await getPresignedUrls(image.name);
+      if (typeof image === 'string') {
+        // 이미 업로드된 이미지 URL
+        imageUrls.push(image);
+      } else {
+        // 새로 추가된 File
+        const signedUrl = await getPresignedUrls(image.name);
 
-      await putPresignedUrl({
-        file: image,
-        signedUrl: signedUrl,
-      });
+        await putPresignedUrl({
+          file: image,
+          signedUrl: signedUrl,
+        });
 
-      const imageUrl = signedUrl.split('?')[0];
-      imageUrls.push(imageUrl);
+        const imageUrl = signedUrl.split('?')[0];
+        imageUrls.push(imageUrl);
+      }
     }
 
     const formData = {
@@ -41,7 +47,7 @@ export const createPostFormData = async (
 
     return formData;
   } catch (err) {
-    console.error('게시글 업로드 전체 실패:', err);
+    console.error('게시글 업로드 실패:', err);
     throw err;
   }
 };

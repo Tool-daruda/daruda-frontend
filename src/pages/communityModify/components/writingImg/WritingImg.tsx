@@ -1,15 +1,18 @@
-import { IcAddimgGray344, PlusImg, Group2085664966 } from '@assets/svgs';
-import Toast from '@components/toast/Toast';
 import React, { useState } from 'react';
 
 import * as S from './WritingImg.styled';
+import { IcAddimgGray344, PlusImg, Group2085664966 } from '@assets/svgs';
+import Toast from '@components/toast/Toast';
 
 interface WritingImgProps {
-  images: File[];
+  existingImages: string[];
+  newImages: File[];
   onImageUpload: (files: File[]) => void;
+  onDeleteExisting: (url: string) => void;
+  onDeleteNew: (index: number) => void;
 }
 
-const WritingImg = ({ images, onImageUpload }: WritingImgProps) => {
+const WritingImg = ({ existingImages, newImages, onImageUpload, onDeleteExisting, onDeleteNew }: WritingImgProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
   const [isToastVisible, setIsToastVisible] = useState(false);
@@ -21,7 +24,7 @@ const WritingImg = ({ images, onImageUpload }: WritingImgProps) => {
     const newImages = Array.from(files);
 
     // 개수 초과 확인 (기존 이미지 개수 + 새 이미지 개수)
-    if (images.length + newImages.length > 5) {
+    if (existingImages.length + newImages.length > 5) {
       setIsToastVisible(true);
       setTimeout(() => setIsToastVisible(false), 3000);
       e.target.value = ''; // input 초기화
@@ -43,20 +46,12 @@ const WritingImg = ({ images, onImageUpload }: WritingImgProps) => {
       return;
     }
 
-    // 기존 이미지에 추가
-    const updatedImages: File[] = [...images, ...newImages];
-    onImageUpload(updatedImages);
-
+    onImageUpload(newImages);
     e.target.value = ''; // input 초기화
   };
 
-  const handleRemoveImage = (index: number) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    onImageUpload(updatedImages);
-  };
-
   const handleAddImageClick = () => {
-    if (images.length >= 5) {
+    if (existingImages.length + newImages.length >= 5) {
       setIsToastVisible(true);
       setTimeout(() => setIsToastVisible(false), 3000);
     }
@@ -82,15 +77,27 @@ const WritingImg = ({ images, onImageUpload }: WritingImgProps) => {
           accept=".png, .jpeg, .jpg, .webp, .heic, .heif"
           multiple
           onChange={handleImageUpload}
-          disabled={images.length >= 5}
+          disabled={existingImages.length + newImages.length >= 5}
         />
       </label>
       <S.PreviewContainer>
-        {images.map((image, index) => (
-          <S.ImagePreview key={index}>
+        {/* 기존 이미지 */}
+        {existingImages.map((url, index) => (
+          <S.ImagePreview key={`existing-${index}`}>
             <S.ImageContainer>
-              <img src={URL.createObjectURL(image)} alt={`미리보기 ${index + 1}`} />
-              <S.RemoveButton onClick={() => handleRemoveImage(index)}>
+              <img src={url} alt={`미리보기 ${index + 1}`} />
+              <S.RemoveButton onClick={() => onDeleteExisting(url)}>
+                <Group2085664966 />
+              </S.RemoveButton>
+            </S.ImageContainer>
+          </S.ImagePreview>
+        ))}
+        {/* 새로 업로드한 이미지 */}
+        {newImages.map((file, index) => (
+          <S.ImagePreview key={`new-${index}`}>
+            <S.ImageContainer>
+              <img src={URL.createObjectURL(file)} alt={`새 이미지 ${index + 1}`} />
+              <S.RemoveButton onClick={() => onDeleteNew(index)}>
                 <Group2085664966 />
               </S.RemoveButton>
             </S.ImageContainer>
