@@ -70,6 +70,7 @@ const MyPostPage = () => {
                     toolLogo={post.toolLogo}
                     toolName={post.toolName}
                     onClick={() => handleDelete(post.boardId)}
+                    isScraped={post.isScraped}
                   />
                 </>
               ))}

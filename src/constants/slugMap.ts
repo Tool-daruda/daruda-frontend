@@ -1,5 +1,5 @@
 // slug, name 매핑
-// Generated at: 2025-07-31T15:21:55.546Z
+// Generated at: 2025-08-01T07:13:37.889Z
 // Total tools: 104
 
 export const slug_to_id = {
@@ -16,6 +16,8 @@ export const slug_to_id = {
   obsidian: 30,
   typecast: 31,
   'adobe-after-effects': 33,
+  'adobe-illustrator': 7,
+  'clova-note': 23,
   zep: 16,
   ilovepdf: 13,
   핀터레스트: 3,
@@ -24,18 +26,19 @@ export const slug_to_id = {
   'adobe-premiere-pro': 9,
   'adobe-photoshop': 8,
   wrtn: 27,
-  'clova-note': 23,
   midjourney: 6,
+  'microsoft-powerpoint': 82,
   'android-studio': 46,
+  sellbuymusic: 36,
   스파르타코딩클럽: 104,
   inflearn: 93,
   dbpia: 102,
+  'google-slides': 50,
   pexels: 38,
   canva: 48,
   blender: 25,
   알캡처: 91,
   github: 41,
-  'adobe-illustrator': 7,
   slack: 24,
   'google-meet': 37,
   lottiefiles: 99,
@@ -45,7 +48,6 @@ export const slug_to_id = {
   링커리어: 92,
   한쇼: 85,
   'pica-ai': 54,
-  'google-slides': 50,
   behance: 100,
   lettucemeet: 43,
   gitkraken: 42,
@@ -70,7 +72,6 @@ export const slug_to_id = {
   'google-docs': 49,
   'visual-studio-code': 45,
   suno: 10,
-  sellbuymusic: 36,
   soundful: 21,
   typeit: 98,
   postman: 97,
@@ -82,7 +83,6 @@ export const slug_to_id = {
   한셀: 86,
   한글: 84,
   'microsoft-excel': 83,
-  'microsoft-powerpoint': 82,
   비긴메이트: 78,
   sketch: 75,
   aws: 73,
