@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { useEffect } from 'react';
 
 import MyToolCard from './components/toolCard/MyToolCard';
 import { useToolScrapMutation } from '@apis/tool';
@@ -13,8 +12,6 @@ const MyToolPage = () => {
   const { data: favoriteToolData } = useFavoriteToolQuery();
   const { mutateAsync: scrapMutate } = useToolScrapMutation(undefined, undefined, undefined, true);
   const { isToastOpen, handleModalOpen: handleToastOpen, toastMessage, handleMessageChange } = useToastOpen();
-
-  useEffect(() => {}, []);
 
   if (favoriteToolData) {
     return (

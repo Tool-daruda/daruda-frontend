@@ -1,6 +1,6 @@
 import type { AxiosResponse } from 'axios';
 
-import { InfoResponse, Info, BoardResponse, ToolList } from './user.model';
+import { InfoResponse, Info, BoardResponse, ToolList, FavoriteBoardResponse } from './user.model';
 import { get, patch } from '@apis/index';
 
 // 회원정보 조회
@@ -41,9 +41,9 @@ export const getBoardList = async (page?: number): Promise<BoardResponse | undef
 };
 
 // 관심 글 조회
-export const getFavoriteBoardList = async (page?: number): Promise<BoardResponse | null> => {
+export const getFavoriteBoardList = async (page?: number): Promise<FavoriteBoardResponse | null> => {
   try {
-    const response: AxiosResponse<BoardResponse> = await get(`user/scrap-boards?page=${page}`);
+    const response: AxiosResponse<FavoriteBoardResponse> = await get(`user/scrap-boards?page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error:', error);

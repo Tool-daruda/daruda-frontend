@@ -32,7 +32,7 @@ export const Date = styled.p`
 export const ButtonWrapper = styled.div`
   width: 7.3rem;
 
-  button {
+  .delete-button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,4 +51,21 @@ export const ButtonWrapper = styled.div`
       background: ${({ theme }) => theme.colors.orange2};
     }
   }
+`;
+
+export const BookmarkBtn = styled.button<{ $isBookmark: boolean }>`
+  ${({ $isBookmark, theme }) =>
+    $isBookmark
+      ? `
+    background-color: ${theme.colors.white1};
+    
+    svg  {
+      fill: ${theme.colors.iris1};
+    }
+    `
+      : `
+    svg {
+      fill: none;
+    }
+  `};
 `;

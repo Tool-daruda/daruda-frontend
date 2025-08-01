@@ -62,6 +62,7 @@ export const useFavoritePostQuery = (pageNo: number) => {
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
     enabled: !!userId,
+    refetchOnMount: 'always',
   });
 };
 
@@ -75,6 +76,7 @@ export const useFavoriteToolQuery = () => {
     staleTime: 1000 * 60 * 10,
     gcTime: 1000 * 60 * 60 * 24,
     enabled: !!userId,
+    refetchOnMount: 'always',
   });
 };
 

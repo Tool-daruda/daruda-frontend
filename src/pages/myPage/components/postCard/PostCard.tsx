@@ -1,8 +1,8 @@
-import { IcMypageBookmark32 } from '@assets/svgs';
-import Chip from '@components/chip/Chip';
 import { useNavigate } from 'react-router-dom';
 
 import * as S from './PostCard.styled';
+import { IcMypageBookmark32 } from '@assets/svgs';
+import Chip from '@components/chip/Chip';
 
 interface PostCardPropsType {
   isMine: boolean;
@@ -12,9 +12,10 @@ interface PostCardPropsType {
   toolLogo: string;
   toolName: string; // TODO: tool 이름 필드명 맞추기
   onClick: () => void;
+  isScraped: boolean;
 }
 
-const PostCard = ({ boardId, isMine, title, updatedAt, toolLogo, toolName, onClick }: PostCardPropsType) => {
+const PostCard = ({ boardId, isMine, title, updatedAt, toolLogo, toolName, onClick, isScraped }: PostCardPropsType) => {
   const navigate = useNavigate();
   return (
     <S.CardWrapper onClick={() => navigate(`/community/${boardId}`)}>
@@ -29,6 +30,7 @@ const PostCard = ({ boardId, isMine, title, updatedAt, toolLogo, toolName, onCli
       <S.ButtonWrapper>
         {isMine ? (
           <button
+            className="delete-button"
             onClick={(event) => {
               event.stopPropagation();
               onClick?.();
@@ -37,12 +39,15 @@ const PostCard = ({ boardId, isMine, title, updatedAt, toolLogo, toolName, onCli
             삭제
           </button>
         ) : (
-          <IcMypageBookmark32
+          <S.BookmarkBtn
             onClick={(event) => {
               event.stopPropagation();
               onClick?.();
             }}
-          />
+            $isBookmark={isScraped}
+          >
+            <IcMypageBookmark32 />
+          </S.BookmarkBtn>
         )}
       </S.ButtonWrapper>
     </S.CardWrapper>

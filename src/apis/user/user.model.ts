@@ -28,3 +28,9 @@ export interface BoardResponse {
 export interface ToolList {
   toolList: Tool[];
 }
+
+export interface FavoriteBoardResponse {
+  boardList: (Omit<Board, 'isScraped'> & { isScrapped: boolean })[];
+  userId: number;
+  pageInfo: PageInfo;
+}
