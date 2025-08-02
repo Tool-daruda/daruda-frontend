@@ -29,11 +29,35 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "다루다",
-        "url": "https://www.daruda.site",
-        "description": "대학생활에 필요한 툴을 다루다",
-        "inLanguage": "ko"
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "name": "다루다(daruda)",
+            "url": "https://www.daruda.site",
+            "description": "대학생활에 필요한 툴을 다루다",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://www.daruda.site/search?keyword={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          },
+          {
+            "@type": "Organization",
+            "name": "다루다(daruda)",
+            "url": "https://www.daruda.site",
+            "logo": "https://www.daruda.site/logo.svg",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "daruda241221@gmail.com",
+              "contactType": "고객센터",
+              "areaServed": "KR"
+            },
+            "sameAs": ["https://www.instagram.com/daruda.official/", "https://daruda241221.tistory.com/"]
+          }
+        ]
       }
     </script>
   </head>
