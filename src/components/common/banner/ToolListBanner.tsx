@@ -12,6 +12,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
   const { toolState, categoryData, handleCategoryClick, handleFreeCheck, setToolState, clearSelectedTool } =
     useToolBanner({
       onToolSelect,
+      forCommunity,
     });
   const { trackEvent } = useAnalytics();
 

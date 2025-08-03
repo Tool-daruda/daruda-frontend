@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useBlocker } from 'react-router-dom';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
 
-const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onToolSelect'>) => {
+const useToolListBanner = ({
+  onToolSelect,
+  forCommunity = false,
+}: Pick<ToolProp, 'originTool' | 'onToolSelect'> & { forCommunity: boolean }) => {
   const [toolState, setToolState] = useState<ToolSelectState>({
     selectedCategory: null,
     selectedTool: null,
@@ -19,8 +22,6 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     toolLogo: string;
     toolName: string;
   } | null;
-  const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
-
   const { data: categoryData } = useGetCategoriesQuery();
   const { data: toolListData } = useToolListQuery({
     category: toolState.selectedCategory || 'ALL',
@@ -29,21 +30,25 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    const toolToUse = state || storedTool || null;
-    if (!toolToUse) return;
+    if (forCommunity) {
+      const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
-    const toolInfo = {
-      toolId: toolToUse.toolId as number,
-      toolName: toolToUse.toolName,
-      toolLogo: toolToUse.toolLogo,
-    };
+      const toolToUse = state || storedTool || null;
+      if (!toolToUse) return;
 
-    setToolState({
-      noTopic: !toolToUse.toolId,
-      selectedTool: toolInfo,
-      selectedCategory: toolToUse.toolName ?? null,
-      tools: [toolInfo],
-    });
+      const toolInfo = {
+        toolId: toolToUse.toolId as number,
+        toolName: toolToUse.toolName,
+        toolLogo: toolToUse.toolLogo,
+      };
+
+      setToolState({
+        noTopic: !toolToUse.toolId,
+        selectedTool: toolInfo,
+        selectedCategory: toolToUse.toolName ?? null,
+        tools: [toolInfo],
+      });
+    }
   }, [location.pathname, state]);
 
   // toolListData 변경 시 toolState.tools 업데이트
@@ -57,6 +62,19 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       }));
     }
   }, [toolListData]);
+
+  // 커뮤니티 이탈 시 스토리지 초기화
+  const isCommunityRelatedPath = (pathname: string) => {
+    return pathname.startsWith('/community');
+  };
+  useBlocker(({ nextLocation }) => {
+    if (forCommunity) {
+      if (isCommunityRelatedPath(location.pathname) && !isCommunityRelatedPath(nextLocation.pathname)) {
+        sessionStorage.removeItem('originTool');
+      }
+    }
+    return false;
+  });
 
   // 카테고리 클릭 시
   const handleCategoryClick = (categoryName: string) => {
@@ -79,14 +97,20 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
     }));
 
     onToolSelect?.(null, isChecked);
-    sessionStorage.setItem(
-      'originTool',
-      JSON.stringify({
-        toolId: null,
-        toolName: null,
-        toolLogo: null,
-      }),
-    );
+    if (forCommunity) {
+      if (isChecked) {
+        sessionStorage.setItem(
+          'originTool',
+          JSON.stringify({
+            toolId: null,
+            toolName: '자유',
+            toolLogo: null,
+          }),
+        );
+      } else {
+        sessionStorage.removeItem('originTool');
+      }
+    }
     if (isChecked) trackEvent('Community_Click', { tool: '자유' });
   };
 
@@ -100,7 +124,9 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
       noTopic: false,
       selectedCategory: null,
     }));
-    sessionStorage.removeItem('originTool');
+    if (forCommunity) {
+      sessionStorage.removeItem('originTool');
+    }
     onToolSelect(null, false);
     navigate(location.pathname, { replace: true, state: null }); // 페이지 새로고침 없이 상태 초기화
   };
