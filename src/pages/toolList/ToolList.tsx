@@ -27,7 +27,7 @@ const ToolList = () => {
   const updateSearchParams = (key: 'category' | 'sort' | 'isFree', value: string) => {
     const newParams = new URLSearchParams(searchParams);
     newParams.set(key, value);
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   };
 
   const handleSortChage = (button: 'popular' | 'createdAt') => {
