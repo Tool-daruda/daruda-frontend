@@ -1,6 +1,6 @@
 import { useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useBlocker, useLocation, useNavigate } from 'react-router-dom';
 
 import * as S from './CommunityWrite.styled';
 import WritingBody from './components/writingBody/WritingBody';
@@ -38,6 +38,9 @@ const CommunityWrite = () => {
   const [isToastVisible, setIsToastVisible] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const { isOpen, handleModal } = useModal();
+  const [showExitModal, setShowExitModal] = useState(false);
+  const lastLocation = useRef<ReturnType<typeof useLocation> | null>(null);
+  const hasSubmittedRef = useRef(false);
   const queryClient = useQueryClient();
 
   const user = localStorage.getItem('user');
@@ -49,6 +52,32 @@ const CommunityWrite = () => {
     }
   }, [user]);
 
+  const blocker = useBlocker(() => {
+    if (hasSubmittedRef.current) return false;
+    else {
+      return title.length > 0 || body.length > 0 || images.length > 0;
+    }
+  });
+
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+      setShowExitModal(true);
+      lastLocation.current = blocker.location;
+    } else {
+      setShowExitModal(false);
+    }
+  }, [blocker.state, blocker.location]);
+
+  const handleExitConfirm = () => {
+    setShowExitModal(false);
+    blocker.proceed?.();
+  };
+
+  const handleExitCancel = () => {
+    setShowExitModal(false);
+    blocker.reset?.();
+  };
+
   const handlePostSubmit = async () => {
     if (isButtonDisabled) return;
 
@@ -58,6 +87,10 @@ const CommunityWrite = () => {
       await postBoard(formData);
 
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
+      hasSubmittedRef.current = true; // 즉시 반영
+      setShowExitModal(false);
+
+      blocker.proceed?.();
       navigate('/community');
       trackEvent('Post_Click', { tool: isFree ? '자유' : id_to_name[formData.toolId] });
       sessionStorage.removeItem('originTool');
@@ -110,6 +143,20 @@ const CommunityWrite = () => {
             primaryBtnContent: '로그인할게요',
             secondaryBtnContent: '나중에할게요',
             handleSecondClose: () => navigate('/login'),
+          }}
+        />
+        <AlterModal
+          modalTitle="화면을 벗어나시겠어요?"
+          isOpen={showExitModal}
+          handleClose={handleExitConfirm}
+          isSingleModal={false}
+          ImgPopupModal={ImgPopupl84}
+          modalContent="작성중인 화면을 벗어나면 지금까지 입력했던 정보가 사라집니다."
+          DoublebtnProps={{
+            isPrimaryRight: true,
+            primaryBtnContent: '마저 작성하기',
+            secondaryBtnContent: '화면 벗어나기',
+            handleSecondClose: handleExitCancel,
           }}
         />
       </S.WriteWrapper>
