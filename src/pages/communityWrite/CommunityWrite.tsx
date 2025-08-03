@@ -9,6 +9,7 @@ import WritingTitle from './components/writingTitle/WritingTitle';
 import useCommunityWrite from './hooks/UseCommunityWrite';
 import { createPostFormData } from './utils/FormDataUtils';
 import { postBoard } from '@apis/board';
+import { ImgPopupExit } from '@assets/svgs';
 import ImgPopupl84 from '@assets/svgs/ImgPopupLogout84';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
@@ -150,7 +151,7 @@ const CommunityWrite = () => {
           isOpen={showExitModal}
           handleClose={handleExitConfirm}
           isSingleModal={false}
-          ImgPopupModal={ImgPopupl84}
+          ImgPopupModal={ImgPopupExit}
           modalContent="작성중인 화면을 벗어나면 지금까지 입력했던 정보가 사라집니다."
           DoublebtnProps={{
             isPrimaryRight: true,
