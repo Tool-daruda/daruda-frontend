@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as S from './BreadCrumb.styled';
 import { IcArrowRightGray20 } from '@assets/svgs';
 import { CategorList } from '@components/header/category/types';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 interface BreadCrumbPropTypes {
   activeTopic: string;
@@ -14,13 +15,14 @@ const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const categories = queryClient.getQueryData<CategorList[]>(['category']);
+  const { trackEvent } = useAnalytics();
 
   const matchedCategory = categories?.find((category) => category.koreanName === activeTopic);
   const categoryName = matchedCategory ? matchedCategory.name : '';
 
   return (
     <S.BreadCrumbWrapper>
-      <S.BreadCrumbContainer>
+      <S.BreadCrumbContainer aria-label="툴 카테고리 메뉴">
         {/* 카테고리 버튼 */}
         <S.CategoryItem
           onClick={() => {
@@ -35,6 +37,7 @@ const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
         {activeTopic && (
           <S.CategoryItem
             onClick={() => {
+              trackEvent('Tool_Category_Click', { category: matchedCategory?.koreanName });
               navigate(`/toollist?category=${categoryName}`);
               window.scrollTo({ top: 0 });
             }}

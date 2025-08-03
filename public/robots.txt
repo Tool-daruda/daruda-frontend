@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /mypage/
+Disallow: /login/
+Allow: /
+
+Sitemap: https://daruda.site/sitemap.xml

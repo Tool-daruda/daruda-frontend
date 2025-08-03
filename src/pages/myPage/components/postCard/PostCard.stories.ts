@@ -23,6 +23,7 @@ export const MyPost: Story = {
     toolName: 'ChatGPT',
     boardId: 1,
     onClick: () => alert('클릭'),
+    isScraped: false,
   },
 };
 
@@ -35,5 +36,6 @@ export const FavoritePost: Story = {
     toolName: 'ChatGPT',
     onClick: () => alert('클릭'),
     boardId: 1,
+    isScraped: true,
   },
 };

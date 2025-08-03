@@ -40,7 +40,7 @@ const MyPostPage = () => {
     isSingleModal: false,
     modalContent: '삭제된 글은 다시 볼 수 없어요',
     DoublebtnProps: {
-      isPrimaryRight: true,
+      isPrimaryRight: false,
       primaryBtnContent: '한 번 더 생각할게요',
       secondaryBtnContent: '삭제하기',
       handleSecondClose: handleDeleteModal,
@@ -70,6 +70,7 @@ const MyPostPage = () => {
                     toolLogo={post.toolLogo}
                     toolName={post.toolName}
                     onClick={() => handleDelete(post.boardId)}
+                    isScraped={post.isScraped}
                   />
                 </>
               ))}

@@ -8,6 +8,7 @@ type PageInfo = {
 };
 
 export type Info = {
+  userId: number;
   nickname: string;
   positions: string;
 };
@@ -26,4 +27,10 @@ export interface BoardResponse {
 
 export interface ToolList {
   toolList: Tool[];
+}
+
+export interface FavoriteBoardResponse {
+  boardList: (Omit<Board, 'isScraped'> & { isScrapped: boolean })[];
+  userId: number;
+  pageInfo: PageInfo;
 }

@@ -14,6 +14,7 @@ import Toast from '@components/toast/Toast';
 import { NICKNAME_STATUS } from '@constants/nicknameCheck';
 import { useToastOpen } from '@hooks/index';
 import { extractUserId } from '@utils';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const MyInfoPage = () => {
   const { data } = useInfoQuery(!!extractUserId());
@@ -27,6 +28,7 @@ const MyInfoPage = () => {
   const [nicknameMessage, setNicknameMessage] = useState<string>('');
   const [isButtonDisable, setIsButtonDisable] = useState(true);
   const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
+  const { trackEvent } = useAnalytics();
 
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNickname(e.target.value);
@@ -124,6 +126,7 @@ const MyInfoPage = () => {
     isOpen: isOpenWithdrawModal,
     handleClose: () => {
       deleteMutate();
+      trackEvent('Sign_Out_Click');
       handleWithdrawModal();
     },
     ImgPopupModal: ImgPopupWithdrawal84,

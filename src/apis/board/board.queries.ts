@@ -1,11 +1,10 @@
-import { useMutation, useQueryClient, InfiniteData, useQuery, useInfiniteQuery } from '@tanstack/react-query';
+import { useMutation, useQueryClient, InfiniteData, useQuery, useInfiniteQuery, QueryKey } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
-import { GetPostListResponse, PostResponse, BoardListResponse } from './board.model';
+import { GetPostListResponse, PostResponse, FavoriteBoardListResponse } from './board.model';
 import { MYPAGE_QUERY_KEY, BOARD_QUERY_KEY } from '@constants/queryKey';
 import { PostFormData } from '@pages/communityWrite/types/PostType';
-import { extractUserId } from '@utils';
 
 // 커뮤니티 게시글 조회 hook
 export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
@@ -25,9 +24,12 @@ export const useBoardListQuery = (toolId: number | null, noTopic: boolean) =>
   });
 
 // 커뮤니티 게시글 북마크 hook
-export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: boolean, boardId?: number) => {
-  const userId = extractUserId();
-
+export const useBoardScrapMutation = (
+  pickedtool?: number | null,
+  noTopic?: boolean,
+  boardId?: number,
+  isMyPage = false,
+) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (boardId: number) => postBoardScrap(boardId),
@@ -64,26 +66,45 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
 
       queryClient.setQueryData(BOARD_QUERY_KEY.DETAIL(boardId.toString()), updatedDetail);
 
-      if (userId) {
+      if (isMyPage) {
         // 마이페이지 BoardList 캐시 낙관적 업데이트
-        const previousBoardList = queryClient.getQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST());
-        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(), (old: BoardListResponse) => {
-          if (!old) return old;
-          const updatedBoardList = old.boardList.filter((board) => board.boardId !== boardId);
-          const newBoardList = {
-            ...old,
-            boardList: updatedBoardList,
-          };
-          return newBoardList;
+        const previousBoardListMap = new Map<QueryKey, FavoriteBoardListResponse>();
+        const pageKeys = queryClient
+          .getQueryCache()
+          .findAll({
+            predicate: (query) =>
+              Array.isArray(query.queryKey) && query.queryKey[0] === MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(0)[0],
+          })
+          .map((q) => q.queryKey as QueryKey);
+
+        pageKeys.forEach((key) => {
+          const oldData = queryClient.getQueryData<FavoriteBoardListResponse>(key);
+          if (!oldData) return;
+
+          previousBoardListMap.set(key, oldData);
+          const updatedBoardList = oldData.boardList.map((board) =>
+            board.boardId === boardId ? { ...board, isScrapped: !board.isScrapped } : { ...board },
+          );
+          queryClient.setQueryData(key, {
+            ...oldData,
+            boardList: [...updatedBoardList],
+          });
         });
-        return { previousBoardList, previousCommuList, previousDetail };
+
+        return {
+          previousBoardListMap: Array.from(previousBoardListMap.entries()),
+          previousCommuList,
+          previousDetail,
+        };
       }
 
       return { previousCommuList, previousDetail };
     },
     onError: (_error, _id, context) => {
-      if (context?.previousBoardList) {
-        queryClient.setQueryData(MYPAGE_QUERY_KEY.MY_FAVORITE_POST_LIST(), context.previousBoardList);
+      if (context?.previousBoardListMap) {
+        context.previousBoardListMap.forEach(([key, value]) => {
+          queryClient.setQueryData(key, value);
+        });
       }
       if (context?.previousCommuList) {
         queryClient.setQueryData(
@@ -97,12 +118,14 @@ export const useBoardScrapMutation = (pickedtool?: number | null, noTopic?: bool
       // handleModalOpen();
     },
     onSettled: () => {
-      // 서버 동기화를 위해 캐시 무효화
-      queryClient.refetchQueries({
-        predicate: (query) => {
-          return Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList';
-        },
-      });
+      if (!isMyPage) {
+        // 서버 동기화를 위해 캐시 무효화
+        queryClient.refetchQueries({
+          predicate: (query) => {
+            return Array.isArray(query.queryKey) && query.queryKey[0] === 'myFavoritePostList';
+          },
+        });
+      }
     },
   });
 };

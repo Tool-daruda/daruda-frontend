@@ -24,8 +24,8 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
 
   const { data: categoryData } = useGetCategoriesQuery();
 
-  const handleCategoryClick = async (categoryName: string) => {
-    trackEvent('Tool_Category_Click', { Tool_Category: categoryName });
+  const handleCategoryClick = async (categoryName: string, categoryKoreanName: string) => {
+    trackEvent('Tool_Category_Click', { category: categoryKoreanName });
     onCategoryChange(categoryName);
     navigate(`/toollist?category=${categoryName}`);
   };
@@ -73,6 +73,7 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && keyword.trim()) {
+      trackEvent('Integrated_Search', { word: keyword.trim() });
       navigate(`/search?keyword=${encodeURIComponent(keyword.trim())}`);
     }
   };
@@ -104,7 +105,7 @@ const SearchBar = ({ isSticky, onCategoryChange, selectedCategory }: SearchBarPr
                 size="large"
                 active={category.name === selectedCategory}
                 onClick={() => {
-                  handleCategoryClick(category.name);
+                  handleCategoryClick(category.name, category.koreanName);
                 }}
               >
                 <Chip.RoundContainer>

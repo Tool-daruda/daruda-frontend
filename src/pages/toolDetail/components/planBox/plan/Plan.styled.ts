@@ -15,7 +15,7 @@ export const PlanBtn = styled.button<{ $isSelected: boolean }>`
   ${({ $isSelected, theme }) => ($isSelected ? theme.fonts.body_16_b_2 : theme.fonts.body_16_r)};
 `;
 
-export const PlanWrapper = styled.section`
+export const PlanWrapper = styled.ul`
   display: flex;
   gap: 1rem;
   justify-content: center;

@@ -1,4 +1,5 @@
 import * as S from './Toggle.styled';
+import { Tracking } from 'src/hoc/Tracking';
 
 interface ToggleProps {
   isOn: boolean;
@@ -7,12 +8,14 @@ interface ToggleProps {
 
 function Toggle({ isOn, onToggle }: ToggleProps) {
   return (
-    <S.ToggleWrapper>
-      무료 툴
-      <S.ToggleContainer isOn={isOn} onClick={onToggle}>
-        <S.ToggleCircle isOn={isOn} />
-      </S.ToggleContainer>
-    </S.ToggleWrapper>
+    <Tracking event="Toggle_Click" property={{ activation: !isOn }}>
+      <S.ToggleWrapper>
+        무료 툴
+        <S.ToggleContainer isOn={isOn} onClick={onToggle}>
+          <S.ToggleCircle isOn={isOn} />
+        </S.ToggleContainer>
+      </S.ToggleWrapper>
+    </Tracking>
   );
 }
 

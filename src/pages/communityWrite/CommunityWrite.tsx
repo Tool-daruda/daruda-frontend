@@ -12,11 +12,13 @@ import { postBoard } from '@apis/board';
 import ImgPopupl84 from '@assets/svgs/ImgPopupLogout84';
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
+import Meta from '@components/meta/Meta';
 import { AlterModal } from '@components/modal';
-import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { MYPAGE_QUERY_KEY } from '@constants/queryKey';
+import { id_to_name } from '@constants/slugMap';
 import { useModal } from '@pages/community/hooks';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const CommunityWrite = () => {
   const {
@@ -39,6 +41,7 @@ const CommunityWrite = () => {
   const queryClient = useQueryClient();
 
   const user = localStorage.getItem('user');
+  const { trackEvent } = useAnalytics();
 
   useEffect(() => {
     if (!user) {
@@ -56,6 +59,7 @@ const CommunityWrite = () => {
 
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
       navigate('/community');
+      trackEvent('Post_Click', { tool: isFree ? '자유' : id_to_name[formData.toolId] });
     } catch (error: unknown) {
       console.error('에러 발생:', error);
       setToastMessage('다시 시도해주세요.');
@@ -66,7 +70,7 @@ const CommunityWrite = () => {
 
   return (
     <>
-      <Title title="글쓰기" />
+      <Meta title="글쓰기" />
       <S.WriteWrapper>
         <S.WriteTitle>글쓰기</S.WriteTitle>
         <S.WriteContainer>

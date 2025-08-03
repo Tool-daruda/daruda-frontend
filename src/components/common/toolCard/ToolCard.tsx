@@ -6,6 +6,7 @@ import { Tool, useToolScrapMutation } from '@apis/tool';
 import Chip from '@components/chip/Chip';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
+import { toSlug } from '@utils';
 import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import { getLicenseBadgeContent } from '../../../pages/toolList/utils/ToolCard.utils';
@@ -24,8 +25,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria, tool }: ToolCardProps) =
 
   const navigate = useNavigate();
 
-  const navigateToDetail = (toolId: number) => {
-    navigate(`/toollist/${toolId}`);
+  const navigateToDetail = (toolName: string) => {
+    navigate(`/toollist/${toSlug(toolName)}`);
   };
 
   const isKorean = (text: string): boolean => /[가-힣]/.test(text);
@@ -65,8 +66,8 @@ const ToolCard = ({ selectedCategory, isFree, criteria, tool }: ToolCardProps) =
       <S.Card
         key={tool.toolId}
         onClick={() => {
-          trackEvent('Tool_Click', { Tool_Card: tool.toolName });
-          navigateToDetail(tool.toolId);
+          trackEvent('Tool_Click', { type: 'Tool_Card', tool: tool.toolName });
+          navigateToDetail(tool.toolName);
         }}
       >
         <S.CardFront bgColor={tool.bgColor}>

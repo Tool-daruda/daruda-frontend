@@ -18,7 +18,7 @@ const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(
     const { trackEvent } = useAnalytics();
 
     const handleImgFocus = () => {
-      trackEvent('Tool_Click', { Image: activeTool });
+      trackEvent('Tool_Click', { type: 'Image', tool: activeTool });
       setIsModalOpen(true);
     };
 
@@ -50,13 +50,13 @@ const ToolIntro = forwardRef<HTMLDivElement, ToolIntroPropTypes>(
 
     return (
       <div ref={ref}>
-        <S.ToolIntroWrapper>
+        <S.ToolIntroWrapper aria-labelledby={`about-${activeTool}-heading`}>
           <S.IntroImgBox>
             {toolImage ? <img src={toolImage[0]} alt={`${activeTool} 이미지`} /> : '툴 이미지'}
             <IcWatchWhite40 className="hover-icon" onClick={handleImgFocus} />
           </S.IntroImgBox>
           <S.ToolInfoBox>
-            <span>{getIntroductionText()}</span>
+            <span id={`about-${activeTool}-heading`}>{getIntroductionText()}</span>
             <pre>{description}</pre>
           </S.ToolInfoBox>
         </S.ToolIntroWrapper>

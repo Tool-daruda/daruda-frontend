@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ReferenceVideoWrapper = styled.div`
+export const ReferenceVideoWrapper = styled.section`
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
@@ -9,7 +9,7 @@ export const ReferenceVideoWrapper = styled.div`
 
   background-color: ${({ theme }) => theme.colors.white1};
 
-  h1 {
+  h2 {
     color: ${({ theme }) => theme.colors.black};
     text-align: center;
     ${({ theme }) => theme.fonts.body_24_b};

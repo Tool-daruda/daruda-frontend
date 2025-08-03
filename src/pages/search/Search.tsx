@@ -10,6 +10,8 @@ import Card from '@components/postCard/PostCard';
 import Spacing from '@components/spacing/Spacing';
 import ToolCard from '@components/toolCard/ToolCard';
 import TopBanner from '@pages/toolList/components/topBanner/TopBanner';
+import { Tracking } from 'src/hoc/Tracking';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const Search = () => {
   const [searchParams] = useSearchParams();
@@ -17,6 +19,7 @@ const Search = () => {
   const searchKeyword = searchParams.get('keyword') || '';
   const [isOpen, setIsOpen] = useState(false);
   const [opendedId, setOpenedId] = useState<number | null>(null); // 현재 열려있는 드롭다운의 ID 상태관리
+  const { trackEvent } = useAnalytics();
 
   const handleDropdownToggle = (id: number) => {
     setOpenedId((prev) => (prev === id ? null : id));
@@ -57,7 +60,9 @@ const Search = () => {
   if (toolData)
     return (
       <S.SearchWrapper>
-        <TopBanner />
+        <Tracking event="Banner_Click" property={{ referrer: 'search' }}>
+          <TopBanner />
+        </Tracking>
         <S.SearchBox>
           <S.SearchResult>
             <h1>{searchKeyword ? `"${searchKeyword}"에 대한 검색결과입니다.` : '검색어를 입력해주세요.'}</h1>
@@ -73,6 +78,7 @@ const Search = () => {
                         navigate('/community', {
                           state: { toolId: tool.toolId, toolLogo: tool.toolLogo, toolName: tool.toolName },
                         });
+                        trackEvent('Tool_Click', { type: 'Community', tool: tool.toolName });
                       }}
                     >
                       관련 글 모아보기

@@ -9,8 +9,8 @@ import { useDetailBoardQuery } from '@apis/board';
 import { useCommentListQuery } from '@apis/comment';
 import { IcCommentGray24, IcBookmark } from '@assets/svgs';
 import SquareButton from '@components/button/squareButton/SquareButton';
+import Meta from '@components/meta/Meta';
 import Card from '@components/postCard/PostCard';
-import Title from '@components/title/Title';
 import NotFound from '@pages/error/NotFound';
 import { handleScrollDown } from '@utils';
 
@@ -52,7 +52,7 @@ const CommunityDetail = () => {
 
   return (
     <>
-      <Title title={data?.title as string} />
+      <Meta title={data?.title as string} tool={data?.toolName} image={data?.toolLogo} description={data?.content} />
       <S.PageWrapper>
         <S.PageHeader>
           <h1>글 상세보기</h1>

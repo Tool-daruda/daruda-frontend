@@ -34,3 +34,7 @@ export interface FormContent {
   content: string;
   photoUrl: string | null;
 }
+
+export interface FavoriteBoardListResponse {
+  boardList: (Omit<PostResponse, 'isScraped'> & { isScrapped: boolean })[];
+}

@@ -1,42 +1,79 @@
 import mixpanel from 'mixpanel-browser';
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-export const eventNames = [
-  'Tool_Click',
-  'User',
-  'Tool_Category_Click',
-  'Integrated_Search_Enter',
-  'Banner_Click',
-  'Toggle_Click',
-  'Sorting_Click',
-  'Tool_Detail_Index_Click',
-  'Recommendation_Tool_Click',
-  'Community_Click',
-  'Post_Click',
-  'Signup_Click',
-  'Login_State',
-  'Signout_Click',
-] as const;
-type EventName = (typeof eventNames)[number];
+import { EventName } from '@constants/event';
 
 type AnalyticsContextProps = {
   trackEvent: <T extends Record<string, unknown>>(eventName: EventName, eventProperties?: T) => void;
+  trackPageView: () => void;
+  setUserProperty: (userId: string, properties: Record<string, unknown>) => void;
+  isReady: boolean;
 };
 
 const AnalyticsContext = createContext<AnalyticsContextProps | undefined>(undefined);
 
-const AnalyticsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AnalyticsProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isReady, setIsReady] = useState(false);
+  const isDev = import.meta.env.MODE === 'development';
+
   useEffect(() => {
+    if (isDev) {
+      setIsReady(true);
+      console.log('[TRACKING] 개발환경에서 init 완료');
+      return;
+    }
     mixpanel.init(import.meta.env.VITE_MIXPANEL_KEY, {
-      debug: import.meta.env.MODE === 'development',
+      debug: isDev,
+      loaded: () => setIsReady(true),
+      record_sessions_percent: 100,
+      record_heatmap_data: true,
+      track_pageview: 'url-with-path',
     });
   }, []);
 
   const trackEvent = <T extends Record<string, unknown>>(eventName: EventName, eventProperties?: T) => {
+    if (!isReady) {
+      console.warn('Mixpanel이 아직 준비되지 않았습니다');
+      return;
+    }
+    if (isDev) {
+      console.log('[TRACKING]', eventName, eventProperties);
+      return;
+    }
     mixpanel.track(eventName, eventProperties);
   };
 
-  return <AnalyticsContext.Provider value={{ trackEvent }}>{children}</AnalyticsContext.Provider>;
+  const trackPageView = useCallback(() => {
+    if (!isReady) {
+      console.warn('Mixpanel이 아직 준비되지 않았습니다 - trackPageView');
+      return;
+    }
+    if (isDev) {
+      console.log('[TRACKING] Page View');
+      return;
+    }
+    mixpanel.track_pageview();
+  }, [isReady, isDev]);
+
+  const setUserProperty = (userId: string, properties: Record<string, unknown>) => {
+    if (!isReady) {
+      console.warn('Mixpanel이 아직 준비되지 않았습니다');
+      return;
+    }
+    if (isDev) {
+      console.log('[USER PROPERTY]', properties);
+      return;
+    }
+
+    mixpanel.identify(userId);
+    mixpanel.people.set(properties);
+  };
+
+  return (
+    <AnalyticsContext.Provider value={{ trackEvent, trackPageView, setUserProperty, isReady }}>
+      {children}
+    </AnalyticsContext.Provider>
+  );
 };
 
 export const useAnalytics = () => {

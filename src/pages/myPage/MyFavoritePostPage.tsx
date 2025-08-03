@@ -12,13 +12,8 @@ import { useToastOpen } from '@hooks/index';
 const MyFavoritePostPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: favoritePostData } = useFavoritePostQuery(currentPage);
-  const { mutateAsync: scrapMutate } = useBoardScrapMutation();
-  const { isToastOpen, handleModalOpen: handleToastOpen } = useToastOpen();
-
-  const handleScrap = async (boardId: number) => {
-    await scrapMutate(boardId);
-    handleToastOpen();
-  };
+  const { mutateAsync: scrapMutate } = useBoardScrapMutation(undefined, undefined, undefined, true);
+  const { isToastOpen, handleModalOpen: handleToastOpen, toastMessage, handleMessageChange } = useToastOpen();
 
   if (favoritePostData) {
     return (
@@ -38,7 +33,12 @@ const MyFavoritePostPage = () => {
                       updatedAt={post.updatedAt}
                       toolLogo={post.toolLogo}
                       toolName={post.toolName}
-                      onClick={() => handleScrap(post.boardId)}
+                      isScraped={post.isScrapped}
+                      onClick={() => {
+                        scrapMutate(post.boardId);
+                        handleMessageChange(post.isScrapped ? '북마크가 취소되었어요' : '북마크가 추가되었어요');
+                        handleToastOpen();
+                      }}
                     />
                   </>
                 ))}
@@ -76,7 +76,7 @@ const MyFavoritePostPage = () => {
         </S.PostWrapper>
         {isToastOpen && (
           <Toast isVisible={isToastOpen} isWarning={false}>
-            북마크가 취소되었어요.
+            {toastMessage ?? '북마크가 취소되었어요'}
           </Toast>
         )}
       </>

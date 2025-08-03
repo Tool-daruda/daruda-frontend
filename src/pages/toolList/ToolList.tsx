@@ -7,8 +7,9 @@ import ToolTip from './components/toolTip/ToolTip';
 import TopBanner from './components/topBanner/TopBanner';
 import * as S from './ToolList.styled';
 import { Tooltip, IcChevron } from '@assets/svgs';
-import Title from '@components/title/Title';
+import Meta from '@components/meta/Meta';
 import { handleScrollUp } from '@utils';
+import { Tracking } from 'src/hoc/Tracking';
 
 import ToolCard from '../../components/common/toolCard/ToolCardList';
 
@@ -64,8 +65,10 @@ const ToolList = () => {
 
   return (
     <S.ToolListWrapper>
-      <Title title="다루다(daruda)" />
-      <TopBanner />
+      <Meta title="다루다(daruda)" />
+      <Tracking event="Banner_Click" property={{ referrer: 'tool' }}>
+        <TopBanner />
+      </Tracking>
       <SearchBar isSticky={isSticky} selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <S.ToolCardWrapper>
         <S.ToolCardTitle>
@@ -82,13 +85,17 @@ const ToolList = () => {
           </S.ToolCardTitleLeft>
           <S.ToolCardTitleRight>
             <Toggle isOn={isFree} onToggle={handleFreeFilter} />
-            <S.SortButton isActive={sort === 'popular'} onClick={() => handleSortChage('popular')}>
-              인기순
-            </S.SortButton>
+            <Tracking event="Sorting_Click" property={{ type: '인기순' }}>
+              <S.SortButton isActive={sort === 'popular'} onClick={() => handleSortChage('popular')}>
+                인기순
+              </S.SortButton>
+            </Tracking>
             |
-            <S.SortButton isActive={sort === 'createdAt'} onClick={() => handleSortChage('createdAt')}>
-              등록순
-            </S.SortButton>
+            <Tracking event="Sorting_Click" property={{ type: '등록순' }}>
+              <S.SortButton isActive={sort === 'createdAt'} onClick={() => handleSortChage('createdAt')}>
+                등록순
+              </S.SortButton>
+            </Tracking>
           </S.ToolCardTitleRight>
         </S.ToolCardTitle>
         <ToolCard

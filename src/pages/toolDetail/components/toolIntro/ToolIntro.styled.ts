@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const ToolIntroWrapper = styled.div`
+export const ToolIntroWrapper = styled.section`
   display: flex;
   gap: 3.2rem;
   width: 76.8rem;

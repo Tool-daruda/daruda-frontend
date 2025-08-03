@@ -9,9 +9,10 @@ import { useInfoQuery, useNicknameCheckMutation } from '@apis/user';
 import { ImgModalcheck } from '@assets/svgs';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import NameInput from '@components/input/nameInput/NameInput';
+import Meta from '@components/meta/Meta';
 import { AlterModal } from '@components/modal';
-import Title from '@components/title/Title';
 import { extractUserId } from '@utils';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const SignUp = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedAffiliation, setSelectedAffiliation] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   // user 로깅용 트리거
   const [userId, setUserId] = useState<number | null>(extractUserId());
@@ -123,6 +125,12 @@ const SignUp = () => {
       });
       if (res) setUserId(res.userId);
       setIsModalOpen(true); // 회원가입 성공 시 모달 열기
+      trackEvent('Sign_Up_Click', {
+        affiliation: selectedAffiliation,
+        time: new Date().toLocaleString('ko-KR', {
+          timeZone: 'Asia/Seoul',
+        }),
+      });
     } catch (error) {
       console.error('회원가입 실패:', error);
     } finally {
@@ -152,7 +160,7 @@ const SignUp = () => {
 
   return (
     <>
-      <Title title="회원가입" />
+      <Meta title="회원가입" />
       <S.SignUpWrapper>
         <S.Container>
           <S.LeftContainer>

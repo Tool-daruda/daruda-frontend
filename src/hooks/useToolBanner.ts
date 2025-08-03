@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useGetCategoriesQuery, useToolListQuery } from '@apis/tool';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 import { ToolSelectState, ToolProp } from 'src/types/ToolListBannerTypes';
 
 const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onToolSelect'>) => {
@@ -24,6 +25,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
   const { data: toolListData } = useToolListQuery({
     category: toolState.selectedCategory || 'ALL',
   });
+  const { trackEvent } = useAnalytics();
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
@@ -85,6 +87,7 @@ const useToolListBanner = ({ onToolSelect }: Pick<ToolProp, 'originTool' | 'onTo
         toolLogo: null,
       }),
     );
+    if (isChecked) trackEvent('Community_Click', { tool: '자유' });
   };
 
   const clearSelectedTool = (

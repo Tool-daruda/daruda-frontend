@@ -1,9 +1,9 @@
-import { IcPlayWhite40 } from '@assets/svgs';
 import { useState } from 'react';
 import ReactPlayer from 'react-player';
-import { useAnalytics } from 'src/hoc/useAnalytics';
 
 import * as S from './VideoCard.styled';
+import { IcPlayWhite40 } from '@assets/svgs';
+import { useAnalytics } from 'src/hoc/useAnalytics';
 
 const VideoCard = ({
   video,
@@ -44,7 +44,7 @@ const VideoCard = ({
           {!isPlay && (
             <IcPlayWhite40
               onClick={() => {
-                trackEvent('Tool_Click', { Video: toolName });
+                trackEvent('Tool_Click', { type: 'Video', tool: toolName });
                 setIsPlay(true);
               }}
             />

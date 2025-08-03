@@ -10,11 +10,12 @@ import { IcPlusWhite20, IcChevron, ImgPopupNonebookmarkScraptool } from '@assets
 import ToolListBanner from '@components/banner/ToolListBanner';
 import CircleButton from '@components/button/circleButton/CircleButton';
 import Loading from '@components/lottie/Loading';
+import Meta from '@components/meta/Meta';
 import Spacing from '@components/spacing/Spacing';
-import Title from '@components/title/Title';
 import Toast from '@components/toast/Toast';
 import { useToastOpen } from '@hooks/index';
 import { handleScrollUp } from '@utils';
+import { Tracking } from 'src/hoc/Tracking';
 
 import Card from '../../components/common/postCard/PostCard';
 
@@ -47,9 +48,11 @@ const Community = () => {
 
   return (
     <>
-      <Title title="커뮤니티" />
+      <Meta title="커뮤니티" />
       <S.CommunityWrapper>
-        <Banner />
+        <Tracking event="Banner_Click" property={{ referrer: 'community' }}>
+          <Banner />
+        </Tracking>
         <S.CommunityContainer>
           <ToolListBanner forCommunity onToolSelect={handleToolSelect} />
           <S.CardList>

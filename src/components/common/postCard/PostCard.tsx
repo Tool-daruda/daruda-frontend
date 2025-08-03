@@ -63,7 +63,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     mutate: srapMutate,
     isPending: isScrapPending,
   } = useBoardScrapMutation(pickedtool, noTopic, boardId); // 북마크 추가 / 삭제
-  const { mutate: DeleteMutate, isPending: isDeletePending } = useBoardDeleteMutation(boardId, pickedtool, noTopic); // 게시글 삭제
+  const { mutateAsync: deleteMutate } = useBoardDeleteMutation(boardId, pickedtool, noTopic); // 게시글 삭제
 
   const handleIdxRecord = (idx: number) => {
     setClickedIdx(idx);
@@ -102,14 +102,16 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
     }
   }, [isBookMarkSuccess, isScraped]);
 
-  const handleImgModalDel = () => {
-    DeleteMutate(boardId, {
-      onSuccess: () => {
-        handleModalClose();
-        handleToastOpen();
-        handleToastMsg('게시글이 삭제되었어요');
-      },
-    });
+  // TODO: 토스트 메세지를 컴포넌트가 아닌 최상위에서 호출하도록 리팩하기(카드 삭제 후 토스트를 호출하는 현재의 카드 컴포넌트가 언마운트되면서 토스트 메세지가 보이지 않음)
+  const handleImgModalDel = async () => {
+    try {
+      await deleteMutate(boardId);
+      handleModalClose();
+      handleToastOpen();
+      handleToastMsg('게시글이 삭제되었어요');
+    } catch {
+      handleToastMsg('게시글 삭제에 실패했어요');
+    }
   };
 
   return (
@@ -228,7 +230,7 @@ const Card = forwardRef<HTMLLIElement, CardDataProp>((props, ref) => {
           }}
         />
       )}
-      {!isScrapPending && !isDeletePending && isToastOpen && (
+      {!isScrapPending && isToastOpen && (
         <Toast isVisible={isToastOpen} isWarning={false}>
           {toastMessage}
         </Toast>

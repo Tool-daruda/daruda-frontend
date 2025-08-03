@@ -21,8 +21,8 @@ const CoreFeature = forwardRef<HTMLDivElement, CoreFeaturePropTypes>(({ toolId, 
 
   return (
     <div ref={ref} {...props}>
-      <S.CoreFeatureWrapper>
-        <h1>핵심 기능</h1>
+      <S.CoreFeatureWrapper aria-labelledby="features-heading">
+        <h2 id="features-heading">핵심 기능</h2>
         <S.CoreFeatureContainer>
           {toolCoreResList?.map((feature, index) => (
             <Toggle

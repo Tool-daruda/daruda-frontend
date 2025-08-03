@@ -23,16 +23,16 @@ export const Default: Story = {
     toolName: 'Perplexity',
     license: '부분 무료',
     keywords: ['AI', '음성', '내레이션'],
-    toolId: 1,
+    originTool: 'Notion',
   },
 };
 
 export const MultiLine: Story = {
   args: {
-    toolId: 32,
     toolName: 'Clova Dubbing',
     toolLogo: 'https://daruda.s3.ap-northeast-2.amazonaws.com/Clovadubbing.svg',
     license: '부분 무료',
     keywords: ['프레젠테이션', 'UI/UX', '스프레드시트'],
+    originTool: 'Notion',
   },
 };
