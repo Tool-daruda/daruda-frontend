@@ -7,9 +7,9 @@ const useCommunityWrite = () => {
   const [selectedTool, setSelectedTool] = useState<number | null>(null);
   const [isFree, setIsFree] = useState(false);
 
-  const handleToolSelect = (toolId: number | null) => {
+  const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setSelectedTool(toolId);
-    setIsFree(toolId === null);
+    setIsFree(noTopic);
   };
 
   const isButtonDisabled = title.trim() === '' || body.trim() === '' || (!isFree && selectedTool === null);

@@ -36,7 +36,7 @@ const CommunityModify = () => {
       setPost(postData);
       setTitle(postData.title);
       setBody(postData.content);
-      handleToolSelect(postData.toolId);
+      handleToolSelect(postData.toolId, postData.toolId === null);
       setExistingImageUrls(postData.images ?? []);
     }
   }, [postData]);
@@ -44,7 +44,7 @@ const CommunityModify = () => {
   const originTool = useMemo(() => {
     return post
       ? { toolId: post.toolId, toolName: post.toolName, toolLogo: post.toolLogo }
-      : { toolId: 0, toolName: '알 수 없음', toolLogo: '' }; // 기본값 설정
+      : { toolId: 0, toolName: '알 수 없음', toolLogo: '' };
   }, [post]);
 
   const { title, setTitle, body, setBody, selectedTool, isFree, handleToolSelect } = useCommunityModify(
@@ -69,11 +69,11 @@ const CommunityModify = () => {
 
   useEffect(() => {
     if (!post) return;
-    const isNull = title.trim() === '' || body.trim() === '';
+    const isNull = title.trim() === '' || body.trim() === '' || (!isFree && selectedTool === null);
     const isSame = title === post?.title && body === post.content && isImgSame && selectedTool === post.toolId;
 
     setIsButtonDisabled(isNull || isSame);
-  }, [title, body, selectedTool, isImgSame]);
+  }, [title, body, selectedTool, isImgSame, isFree]);
 
   const handleImageUpload = (newImages: File[]) => {
     setNewImageFiles((prev) => [...prev, ...newImages]);

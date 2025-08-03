@@ -30,7 +30,7 @@ const useToolListBanner = ({
 
   // originTool 있을 때 초기 세팅
   useEffect(() => {
-    if (forCommunity) {
+    if (forCommunity || state) {
       const storedTool = JSON.parse(sessionStorage.getItem('originTool') || 'null');
 
       const toolToUse = state || storedTool || null;
@@ -126,9 +126,9 @@ const useToolListBanner = ({
     }));
     if (forCommunity) {
       sessionStorage.removeItem('originTool');
+      navigate(location.pathname, { replace: true, state: null }); // 페이지 새로고침 없이 상태 초기화
     }
     onToolSelect(null, false);
-    navigate(location.pathname, { replace: true, state: null }); // 페이지 새로고침 없이 상태 초기화
   };
 
   return {

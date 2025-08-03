@@ -7,9 +7,9 @@ const useCommunityModify = (tool: number | null) => {
   const [selectedTool, setSelectedTool] = useState<number | null>(tool);
   const [isFree, setIsFree] = useState(false);
 
-  const handleToolSelect = (toolId: number | null) => {
+  const handleToolSelect = (toolId: number | null, noTopic: boolean) => {
     setSelectedTool(toolId);
-    setIsFree(toolId === null);
+    setIsFree(noTopic);
   };
 
   return {
