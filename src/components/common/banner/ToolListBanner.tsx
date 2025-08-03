@@ -71,15 +71,17 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
                           }));
                           trackEvent('Tool_Click', { type: 'Community', tool: tool.toolName });
                           onToolSelect(tool.toolId, false);
-                          sessionStorage.setItem(
-                            'originTool',
-                            JSON.stringify({
-                              toolId: tool.toolId,
-                              toolName: tool.toolName,
-                              toolLogo: tool.toolLogo,
-                            }),
-                          );
-                          navigate(location.pathname, { replace: true, state: null });
+                          if (forCommunity) {
+                            sessionStorage.setItem(
+                              'originTool',
+                              JSON.stringify({
+                                toolId: tool.toolId,
+                                toolName: tool.toolName,
+                                toolLogo: tool.toolLogo,
+                              }),
+                            );
+                            navigate(location.pathname, { replace: true, state: null });
+                          }
                         }}
                         isSelected={toolState.selectedTool?.toolId === tool.toolId}
                       >
