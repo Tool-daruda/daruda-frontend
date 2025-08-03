@@ -60,6 +60,7 @@ const CommunityWrite = () => {
       queryClient.invalidateQueries({ queryKey: MYPAGE_QUERY_KEY.MY_POST_LIST(1) });
       navigate('/community');
       trackEvent('Post_Click', { tool: isFree ? '자유' : id_to_name[formData.toolId] });
+      sessionStorage.removeItem('originTool');
     } catch (error: unknown) {
       console.error('에러 발생:', error);
       setToastMessage('다시 시도해주세요.');
