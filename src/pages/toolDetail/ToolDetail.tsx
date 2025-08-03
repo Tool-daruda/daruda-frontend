@@ -71,14 +71,20 @@ const ToolDetail = () => {
           item: 'https://www.daruda.site/',
         },
         {
-          '@type': 'ListItem',
-          position: 2,
-          name: data.category,
-          item: `https://www.daruda.site/toollist?category=${categoryName}`,
+          ...(categoryName
+            ? [
+                {
+                  '@type': 'ListItem',
+                  position: 2,
+                  name: data.category,
+                  item: `https://www.daruda.site/toollist?category=${categoryName}`,
+                },
+              ]
+            : []),
         },
         {
           '@type': 'ListItem',
-          position: 3,
+          position: categoryName ? 3 : 2,
           name: data.toolMainName,
           item: `https://www.daruda.site/toollist/${toolParam}`,
         },
