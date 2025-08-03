@@ -70,7 +70,7 @@ const CommunityModify = () => {
   useEffect(() => {
     if (!post) return;
     const isNull = title.trim() === '' || body.trim() === '' || (!isFree && selectedTool === null);
-    const isSame = title === post?.title && body === post.content && isImgSame && selectedTool === post.toolId;
+    const isSame = title === post?.title && body === post?.content && isImgSame && selectedTool === post?.toolId;
 
     setIsButtonDisabled(isNull || isSame);
   }, [title, body, selectedTool, isImgSame, isFree]);
