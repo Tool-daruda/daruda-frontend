@@ -74,11 +74,23 @@ const CommentCard = ({ comment, isDropdownOpen, onDropdownToggle, onDropdownClos
           </DropDown.ToggleBtn>
           <DropDown.Content>
             {isOwnPost ? (
-              <DropDown.Item status="danger" onClick={() => handleModalOpen('삭제')}>
+              <DropDown.Item
+                status="danger"
+                onClick={() => {
+                  handleModalOpen('삭제');
+                  onDropdownToggle();
+                }}
+              >
                 삭제하기
               </DropDown.Item>
             ) : (
-              <DropDown.Item status="danger" onClick={handleReport}>
+              <DropDown.Item
+                status="danger"
+                onClick={() => {
+                  handleReport();
+                  onDropdownToggle();
+                }}
+              >
                 신고하기
               </DropDown.Item>
             )}
@@ -123,7 +135,7 @@ const CommentCard = ({ comment, isDropdownOpen, onDropdownToggle, onDropdownClos
       {isImgModalOpen && comment.image && (
         <ImgDetail handleModalClose={handleImgModalClose} imgList={[comment.image]} index={0} />
       )}
-      {toastMessage !== '' && (
+      {isToastOpen && toastMessage !== '' && (
         <Toast isVisible={isToastOpen} isWarning={true}>
           {toastMessage}
         </Toast>
