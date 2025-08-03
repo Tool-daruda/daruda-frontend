@@ -178,8 +178,11 @@ const Auth = () => {
   }
 
   return (
-    <S.AuthSection aria-label="로그인/회원가입">
-      <S.StyledLink to="/login"> {HEADER_TEXTS.login}</S.StyledLink>
+    <S.AuthSection>
+      <SearchInput />
+      <S.StyledLink to="/login" aria-label="로그인/회원가입">
+        {HEADER_TEXTS.login}
+      </S.StyledLink>
     </S.AuthSection>
   );
 };
