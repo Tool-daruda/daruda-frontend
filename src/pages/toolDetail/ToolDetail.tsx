@@ -68,7 +68,7 @@ const ToolDetail = () => {
           '@type': 'ListItem',
           position: 1,
           name: '툴 목록',
-          item: 'https://www.daruda.site/',
+          item: 'https://www.daruda.site/toollist',
         },
         {
           ...(categoryName
@@ -91,6 +91,17 @@ const ToolDetail = () => {
       ],
     };
 
+    const productSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: data.toolMainName,
+      description: data.description,
+      image: data.toolLogo,
+      url: `https://www.daruda.site/toollist/${toolParam}`,
+      applicationCategory: data.category,
+      keywords: data.keywords?.join(','),
+    };
+
     return (
       <>
         <Meta
@@ -104,6 +115,7 @@ const ToolDetail = () => {
         />
         <Helmet>
           <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+          <script type="application/ld+json">{JSON.stringify(productSchema)}</script>
         </Helmet>
         <S.ToolDetailWrapper>
           <Spacing size="1.8" />
