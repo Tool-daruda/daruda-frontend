@@ -23,6 +23,13 @@ const CommunityModify = () => {
   const [existingImageUrls, setExistingImageUrls] = useState<string[]>([]);
   const [newImageFiles, setNewImageFiles] = useState<File[]>([]);
 
+  // state 없으면 접근 불가 (수정하기 버튼을 눌러야 접근 가능)
+  useEffect(() => {
+    if (!location.state?.post) {
+      navigate('/');
+    }
+  }, []);
+
   // 초기값 세팅
   useEffect(() => {
     if (postData) {
@@ -33,13 +40,6 @@ const CommunityModify = () => {
       setExistingImageUrls(postData.images ?? []);
     }
   }, [postData]);
-
-  // state 없으면 접근 불가 (수정하기 버튼을 눌러야 접근 가능)
-  useEffect(() => {
-    if (!location.state?.post) {
-      navigate('/');
-    }
-  }, []);
 
   const originTool = useMemo(() => {
     return post
