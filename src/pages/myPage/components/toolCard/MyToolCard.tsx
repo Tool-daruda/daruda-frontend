@@ -28,7 +28,6 @@ const MyToolCard = ({ toolLogo, toolNameMain, keyWordList, onClick, isScrapped }
       const lineHeight = 24;
 
       const lines = Math.round(el.clientHeight / lineHeight);
-      console.log(el.clientHeight, lines > 1);
       setLineCount(lines > 1 ? 2 : 1);
     };
 
