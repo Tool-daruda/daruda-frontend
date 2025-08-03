@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { SelectedToolChip, CategoryHeader } from './atom';
 import * as S from './ToolListBanner.styled';
@@ -18,6 +18,7 @@ const ToolListBanner = ({ forCommunity = false, onToolSelect = () => {} }: ToolP
     });
   const { trackEvent } = useAnalytics();
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <S.Container $forCommunity={forCommunity}>

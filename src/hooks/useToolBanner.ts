@@ -49,7 +49,7 @@ const useToolListBanner = ({
         tools: [toolInfo],
       });
     }
-  }, [location.pathname, state]);
+  }, [location.pathname, state, forCommunity]);
 
   // toolListData 변경 시 toolState.tools 업데이트
   useEffect(() => {
