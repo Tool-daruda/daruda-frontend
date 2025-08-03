@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigationType, useSearchParams } from 'react-router-dom';
 
 import SearchBar from './components/searchBar/SearchBar';
 import Toggle from './components/toggle/Toggle';
@@ -14,6 +14,7 @@ import { Tracking } from 'src/hoc/Tracking';
 import ToolCard from '../../components/common/toolCard/ToolCardList';
 
 const ToolList = () => {
+  const navigationType = useNavigationType();
   const [isHovered, setIsHovered] = useState(false); // 요금제 툴팁 감지용
   const [isSticky, setIsSticky] = useState(false); // 검색 + 카테고리바 감지용
   const [hasRestoredScroll] = useState(false); // 스크롤 복원 여부
@@ -62,6 +63,13 @@ const ToolList = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    if (navigationType === 'PUSH') {
+      // 새로 들어올 때에만 맨 위로 가기
+      window.scrollTo({ top: 0 });
+    }
+  }, [navigationType]);
 
   return (
     <S.ToolListWrapper>

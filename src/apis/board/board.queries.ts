@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient, InfiniteData, useQuery, useInfiniteQuery, QueryKey } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { getBoardList, delBoard, postBoardScrap, getDeatilBoard, patchBoard } from './board.api';
 import { GetPostListResponse, PostResponse, FavoriteBoardListResponse } from './board.model';
@@ -184,9 +185,13 @@ export const useBoardDeleteMutation = (boardId?: number, pickedtool?: number | n
 };
 
 // 커뮤니티 게시글 수정
-export const useBoardUpdateMutation = (options: { onSuccess: () => void }) => {
+export const useBoardUpdateMutation = () => {
+  const navigate = useNavigate();
+
   return useMutation({
     mutationFn: (req: { id: number | null; data: PostFormData }) => patchBoard(req),
-    onSuccess: options.onSuccess,
+    onSuccess: () => {
+      navigate('/community');
+    },
   });
 };

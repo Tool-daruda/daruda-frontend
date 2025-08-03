@@ -39,7 +39,6 @@ const BreadCrumb = ({ activeTopic, activeTool }: BreadCrumbPropTypes) => {
             onClick={() => {
               trackEvent('Tool_Category_Click', { category: matchedCategory?.koreanName });
               navigate(`/toollist?category=${categoryName}`);
-              window.scrollTo({ top: 0 });
             }}
           >
             <IcArrowRightGray20 />
