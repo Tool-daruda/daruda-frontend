@@ -70,18 +70,16 @@ const ToolDetail = () => {
           name: '툴 목록',
           item: 'https://www.daruda.site/toollist',
         },
-        {
-          ...(categoryName
-            ? [
-                {
-                  '@type': 'ListItem',
-                  position: 2,
-                  name: data.category,
-                  item: `https://www.daruda.site/toollist?category=${categoryName}`,
-                },
-              ]
-            : []),
-        },
+        ...(categoryName
+          ? [
+              {
+                '@type': 'ListItem',
+                position: 2,
+                name: data.category,
+                item: `https://www.daruda.site/toollist?category=${categoryName}`,
+              },
+            ]
+          : []),
         {
           '@type': 'ListItem',
           position: categoryName ? 3 : 2,
